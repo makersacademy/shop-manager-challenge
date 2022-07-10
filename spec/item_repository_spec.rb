@@ -44,4 +44,25 @@ describe ItemRepository do
         expect(item.price).to eq(12.14)
         expect(item.quantity).to eq(45)
     end
+
+    it "adds a new item to database table" do
+        repo = ItemRepository.new
+        
+        new_item = Item.new
+        new_item.id = 4
+        new_item.name = 'item4'
+        new_item.price = 54.287
+        new_item.quantity = 3
+        repo.create(new_item)
+
+        all_items = repo.all
+        expect(all_items.length).to eq(4)
+
+        expect(all_items).to include(
+            have_attributes(
+                id: new_item.id,
+                name: new_item.name,
+            )
+        )
+    end
 end
