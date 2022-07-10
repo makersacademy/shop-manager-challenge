@@ -52,13 +52,13 @@ Usually, the Model class name will be the capitalised table name (single instead
 
 # Model class
 # (in lib/student.rb)
-class Student
+class Order
 
 end
 
 # Repository class
 # (in lib/student_repository.rb)
-class StudentRepository
+class OrderRepository
 
 end
 ```
@@ -110,7 +110,7 @@ class ItemRepository
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, price, quantity FROM items;
+    # SELECT id, name, price, quantity FROM orders;
 
     # Returns an array of Item objects.
   end
@@ -132,36 +132,50 @@ These examples will later be encoded as RSpec tests.
 # EXAMPLES
 
 # 1
-# Get all students
+# Get all order
 
-repo = ItemRepository.new
+repo = OrderRepository.new
 
-items = repo.all
+orders = repo.all
 
-items[0].id => "1"
-items[0].name => "Strength Potion"
-items[0].price => 8.99
-items[0].quantity => 100
+orders[0].id => 1
+orders[0].customer_name => "Sally Smith"
+orders[0].order_date => 'July 4, 2022'
+orders[0].item_id => 1
 
-items[1].id => "2"
-items[1].name => "Med Kit"
-items[1].price => 25.50
-items[1].quantity => 43
+orders[1].id => "2"
+orders[1].customer_name => "Kevin Mack"
+orders[1].order_date => "July 2, 2022"
+orders[1].item_id => 2
 
 
 
 # 2
-# Get a single student
+# Creates a new order
 
-repo = StudentRepository.new
+repo = OrderRepository.new
+order = Order.new
+order.customer_name = "Chris Pine"
+order.order_date = "July 6, 2022"
+order.item_id = 2
+repo.create(order)
 
-student = repo.find(1)
+orders = repo.all
 
-student.id # =>  1
-student.name # =>  'David'
-student.cohort_name # =>  'April 2022'
+orders[0].id => 1
+orders[0].customer_name => "Sally Smith"
+orders[0].order_date => 'July 4, 2022'
+orders[0].item_id => 1
 
-# Add more examples for each method
+orders[1].id => 2
+orders[1].customer_name => "Kevin Mack"
+orders[1].order_date => "July 2, 2022"
+orders[1].item_id => 2
+
+orders[2].id => 3
+orders[2].customer_name => "Chris Pine"
+orders[2].order_date => "June 21, 2022"
+orders[2].item_id => 2
 
 
 ```
