@@ -7,8 +7,8 @@ class Application
   # takes four arguments:
   #  * The database name to call `DatabaseConnection.connect`
   #  * the Kernel object as `io` (so we can mock the IO in our tests)
-  #  * the AlbumRepository object (or a double of it)
-  #  * the ArtistRepository object (or a double of it)
+  #  * the OrderRepository object (or a double of it)
+  #  * the ItemRepository object (or a double of it)
   def initialize(shop_manager, io, order_repository, item_repository)
     DatabaseConnection.connect(shop_manager)
     @io = io
