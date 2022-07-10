@@ -95,7 +95,7 @@ class ItemRepository
   # One argument: the new item
   def create(new_item)
     # Executes the SQL query:
-    # INSERT INTO items (id, name, price, quantity FROM items) VALUES (4, 'item4', 54.287, 3);
+    # INSERT INTO items (id, name, price, quantity) VALUES ($1, $2, $3);
 
     # Returns nothing
   end

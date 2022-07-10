@@ -95,7 +95,7 @@ class OrderRepository
   # One argument: the new order
   def create(new_order)
     # Executes the SQL query:
-    # INSERT INTO orders (id, customer, date FROM orders) VALUES (4, 'name4', '2022-07-10');
+    # INSERT INTO orders (id, customer, dates, item_id) VALUES ($1, $2, $3, $4));
 
     # Returns nothing
   end
