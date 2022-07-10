@@ -12,8 +12,7 @@ class Application
 
   def run
     @io.puts("Welcome to the shop management program!")
-    @io.puts("What do you want to do?\n1 = list all shop items\n
-      2 = create a new item\n3 = list all orders\n4 = create a new order\n")
+    @io.puts("What do you want to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n")
     user_input = @io.gets
     case user_input 
       when "1\n"
