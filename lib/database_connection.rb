@@ -3,7 +3,7 @@ require 'pg'
 
 # This class is a thin "wrapper" around the
 # PG library. We'll use it in our project to interact
-# with the database using SQL.
+# with the databaseg using SQL.
 
 class DatabaseConnection
   # This method connects to PostgreSQL using the 
