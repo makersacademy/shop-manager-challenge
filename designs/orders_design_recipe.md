@@ -1,4 +1,4 @@
-# Items Model and Repository Classes Design Recipe
+# Orders Model and Repository Classes Design Recipe
 
 ## 1. Design and create the Table
 
