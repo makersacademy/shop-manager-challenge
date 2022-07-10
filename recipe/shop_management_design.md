@@ -79,7 +79,7 @@ Remember to **always** have the primary key `id` as a first column. Its type wil
 Table: items
 id: SERIAL
 name: text
-price: int
+price: money
 quantity: int
 
 Table: orders
@@ -100,9 +100,9 @@ The join table usually contains two columns, which are two foreign keys, each on
 The naming convention is `table1_table2`.
 
 ```
-Join table for tables: units and orders
-Join table name: units_orders
-Columns: unit_id, post_id
+Join table for tables: items and orders
+Join table name: items_orders
+Columns: item_id, order_id
 ```
 
 
@@ -112,23 +112,30 @@ Columns: unit_id, post_id
 
 -- file: seeds_shop_data.sql
 
--- Replace the table name, columm names and types.
-
--- Create the table without the foreign key first.
-CREATE TABLE artists (
+-- Create the first table.
+CREATE TABLE items (
   id SERIAL PRIMARY KEY,
-  name text,
+  name: text,
+  price: money,
+  quantity: int
 );
 
--- Then the table with the foreign key first.
-CREATE TABLE albums (
+-- Create the second table.
+CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
-  title text,
-  release_year int,
--- The foreign key name is always {other_table_singular}_id
-  artist_id int,
-  constraint fk_artist foreign key(artist_id) references artists(id)
+  customer: text,
+  date: date
 );
+
+-- Create the join table.
+CREATE TABLE items_orders (
+  item_id int,
+  order_id int,
+  constraint fk_item foreign key(item_id) references items(id),
+  constraint fk_order foreign key(order_id) references orders(id),
+  PRIMARY KEY (item_id, order_id)
+);
+
 
 
 ```
@@ -136,7 +143,7 @@ CREATE TABLE albums (
 ## 5. Create the tables.
 
 ```bash
-psql -h 127.0.0.1 database_name < albums_table.sql
+psql -h 127.0.0.1 shop_database < seeds_shop_data.sql
 ```
 
 ```
@@ -148,25 +155,80 @@ Your tests will depend on data stored in PostgreSQL to run.
 If seed data is provided (or you already created it), you can skip this step.
 
 ```sql
--- EXAMPLE
--- (file: spec/seeds_{table_name}.sql)
+-- (file: spec/seeds_shop_data.sql)
 
 -- Write your SQL seed here. 
 
--- First, you'd need to truncate the table - this is so our table is emptied between each test run,
--- so we can start with a fresh state.
--- (RESTART IDENTITY resets the primary key)
+-- TRUNCATE TABLE items RESTART IDENTITY CASCADE; 
 
-TRUNCATE TABLE students RESTART IDENTITY; -- replace with your own table name.
+DROP TABLE IF EXISTS "public"."items" CASCADE;
+-- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
--- Below this line there should only be `INSERT` statements.
--- Replace these statements with your own seed data.
+-- Sequence and defined type
+-- CREATE SEQUENCE IF NOT EXISTS orders_id_seq;
 
-INSERT INTO students (name, cohort_name) VALUES ('David', 'April 2022');
-INSERT INTO students (name, cohort_name) VALUES ('Anna', 'May 2022');
+-- Table Definition
+CREATE TABLE items (
+  id SERIAL PRIMARY KEY,
+  name text,
+  price money,
+  quantity int
+);
+
+-- TRUNCATE TABLE orders RESTART IDENTITY CASCADE; 
+-- Sequence and defined type
+
+DROP TABLE IF EXISTS "public"."orders" CASCADE;
+-- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- CREATE SEQUENCE IF NOT EXISTS orders_id_seq;
+
+-- Table Definition
+CREATE TABLE orders (
+  id SERIAL PRIMARY KEY,
+  customer text,
+  date date
+);
+
+-- TRUNCATE TABLE items_orders RESTART IDENTITY; 
+
+DROP TABLE IF EXISTS "public"."items_orders" CASCADE;
+-- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
+-- Create the join table.
+CREATE TABLE items_orders (
+  item_id int,
+  order_id int,
+  constraint fk_item foreign key(item_id) references items(id),
+  constraint fk_order foreign key(order_id) references orders(id),
+  PRIMARY KEY (item_id, order_id)
+);
+
+INSERT INTO items (name, price, quantity) VALUES
+('milk', 1, 35),
+('cheese', 3.50, 55),
+('bread', 2.75, 10),
+('6 eggs', 2.33, 28),
+('orange juice', 1.30, 20);
+
+INSERT INTO orders (customer, date) VALUES
+('Anna', '2022-06-21'),
+('John', '2022-06-23'),
+('Rachel', '2022-07-01');
+
+INSERT INTO items_orders (item_id , order_id) VALUES
+( 1, 1),
+( 1, 2),
+( 1, 3),
+( 2, 1),
+( 3, 2),
+( 3, 3),
+( 4, 2),
+( 4, 3),
+( 5, 1),
+( 5, 2),
+( 5, 3);
 ```
-
-Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
 
 ```bash
 psql -h 127.0.0.1 your_database_name < seeds_{table_name}.sql
