@@ -35,7 +35,7 @@ I want to be able to create a new order.
 ```
 Nouns:
 
-shop manager, stock, items, price, stock, quantity, orders, customer name, order date
+items, price, stock, quantity, orders, customer name, order date
 ```
 
 ## 2. Infer the Table Name and Columns
