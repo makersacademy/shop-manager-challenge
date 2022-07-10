@@ -1,32 +1,57 @@
+require_relative './item'
+
 class ItemRepository
 
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, item, price, quantity FROM items;
-    items = []
-    #loops through results and push them into array.
-
-    # Returns an array of items objects.
+    #id, item, price, quantity
+      sql = 'SELECT * FROM items;' 
+      result_set = DatabaseConnection.exec_params(sql, [])
+      items = []
+      result_set.each do |record|
+          item = Item.new
+          item.id = record['id']
+          item.item = record['item']
+          item.price = record['price']
+          item.quantity = record['quantity']
+          items << item
+      end
+      return items
   end
+  
 
   # Gets a single record by its ID
   # One argument: the id (number)
-  def find(id)
-    # Executes the SQL query:
-    # SELECT id, item, price, quantity FROM items; WHERE id = $1;
+  # def find(id)
+  #   # Executes the SQL query:
+  #   sql = 'SELECT id, item, price, quantity FROM items WHERE id = $1;'
+  #   params = [id]
+  #   result_set = DatabaseConnection.exec_params(sql, params)
+  #   items = []
 
-    # Returns a single Item object.
-  end
+  #   result_set.each do |record|
+  #     item = Item.new
+  #     item.id = record['id'].to_i
+  #     item.item = record['item']
+  #     item.price = record['price']
+  #     item.quantity = record['quantity']
+  #     items << item
+  #   end
+  #   return items
+  #   # Returns a single Item object.
+  # end
 
   # Add more methods below for each operation you'd like to implement.
 
-   def create(new_item)
+  def create(item)
    # Executes the SQL query:
     # INSERT INTO items  (id, item, price, quantity) VALUES ($1, $2, $3);
-
-    # Returns nil.
+    sql = 'INSERT INTO items (item, price, quantity) VALUES ($1, $2, $3);'
+    params = [item.item, item.price, item.quantity]
+    DatabaseConnection.exec_params(sql, params)
+    
   end
 
   # def update(student)
