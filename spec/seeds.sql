@@ -30,7 +30,6 @@ CREATE TABLE orders (
 );
 
 INSERT INTO orders ("id", "customer", "date", "item_id") VALUES
-(1, 'name1', '2022-07-9', 1),
-(2, 'name2', '2022-07-10', 2),
-(3, 'name3', '2022-07-11', 3);
-
+(1, 'name1', '2022-07-8', 1),
+(2, 'name2', '2022-07-9', 2),
+(3, 'name3', '2022-07-10', 3);
