@@ -11,8 +11,7 @@ describe ItemRepository do
       reset_items_table
     end 
   
-    it "Get all items" do
-
+    it "returns all items" do
         repo = ItemRepository.new
         
         items = repo.all
@@ -33,5 +32,16 @@ describe ItemRepository do
         expect(items[2].name).to eq('item3')
         expect(items[2].price).to eq(384.38)
         expect(items[2].quantity).to eq(27)
+    end
+
+    it "returns a single item" do
+        repo = ItemRepository.new
+        
+        item = repo.find(2)
+        
+        expect(item.id).to eq(2)
+        expect(item.name).to eq('item2')
+        expect(item.price).to eq(12.14)
+        expect(item.quantity).to eq(45)
     end
 end
