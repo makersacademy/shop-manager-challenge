@@ -32,4 +32,15 @@ describe OrderRepository do
         expect(orders[2].date).to eq('2022-07-10')
         expect(orders[2].item_id).to eq(3)
     end
+
+    it 'returns 1 Order object' do
+        repo = OrderRepository.new
+
+        order = repo.find(3)
+
+        expect(order.id).to eq(3)
+        expect(order.customer).to eq('name3')
+        expect(order.date).to eq('2022-07-10')
+        expect(order.item_id).to eq(3)
+    end
 end
