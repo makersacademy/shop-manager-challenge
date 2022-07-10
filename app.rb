@@ -17,22 +17,18 @@ class Application
   end
 
   def all_items
-    num = 1
     @io.puts "Here's a list of all shop items:
     "
     @item_repository.all.each do |item|
-      @io.puts "##{num} - Name: #{item.name} - Unite price: £#{item.price} - Quantity: #{item.quantity}"
-      num += 1
+      @io.puts "##{item.id} - Name: #{item.name} - Unite price: £#{item.price} - Quantity: #{item.quantity}"
     end 
   end
 
   def all_orders
-    num = 1
     @io.puts "Here's a list of all orders:
     "
     @order_repository.all.each do |order|
-      @io.puts "##{num} - Customer: #{order.customer} - Order date: #{order.date} - Item id: #{order.item_id}"
-      num += 1
+      @io.puts "##{order.id} - Customer: #{order.customer} - Order date: #{order.date} - Item id: #{order.item_id}"
     end
   end
 
@@ -84,20 +80,15 @@ class Application
     case answer
       when "1"
         all_items
-
       when "2"
         create_item
         @io.puts "Your item was successfully added!"
-
         all_items
-
       when "3"
         all_orders
-
       when "4"
         create_order
         @io.puts "Your order was successfully added!"
-
         all_orders
     end
     # "Runs" the terminal application
