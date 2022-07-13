@@ -5,13 +5,13 @@ DROP TABLE IF EXISTS "public"."items" CASCADE;
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
 -- Sequence and defined type
--- CREATE SEQUENCE IF NOT EXISTS orders_id_seq;
+CREATE SEQUENCE IF NOT EXISTS orders_id_seq;
 
 -- Table Definition
 CREATE TABLE items (
   id SERIAL PRIMARY KEY,
   name text,
-  price money,
+  unit_price money,
   quantity int
 );
 
@@ -21,7 +21,7 @@ CREATE TABLE items (
 DROP TABLE IF EXISTS "public"."orders" CASCADE;
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
 
--- CREATE SEQUENCE IF NOT EXISTS orders_id_seq;
+CREATE SEQUENCE IF NOT EXISTS orders_id_seq;
 
 -- Table Definition
 CREATE TABLE orders (
@@ -44,7 +44,7 @@ CREATE TABLE items_orders (
   PRIMARY KEY (item_id, order_id)
 );
 
-INSERT INTO items (name, price, quantity) VALUES
+INSERT INTO items (name, unit_price, quantity) VALUES
 ('milk', 1, 35),
 ('cheese', 3.50, 55),
 ('bread', 2.75, 10),

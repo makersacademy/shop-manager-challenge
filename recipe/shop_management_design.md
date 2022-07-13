@@ -1,152 +1,11 @@
 # {{SHOP MANAGEMENT}} Model and Repository Classes Design Recipe
 
-# Two Tables Design Recipe Template
 
-## 1. Extract nouns from the user stories or specification
+## 1. Design and create the Table
 
-```
-As a shop manager
-So I can know which items I have in stock
-I want to keep a list of my shop items with their name and unit price.
+If the table is already created in the database, you can skip this step.
 
-As a shop manager
-So I can know which items I have in stock
-I want to know which quantity (a number) I have for each item.
-
-As a shop manager
-So I can manage items
-I want to be able to create a new item.
-
-As a shop manager
-So I can know which orders were made
-I want to keep a list of orders with their customer name.
-
-As a shop manager
-So I can know which orders were made
-I want to assign each order to their corresponding item.
-
-As a shop manager
-So I can know which orders were made
-I want to know on which date an order was placed. 
-
-As a shop manager
-So I can manage orders
-I want to be able to create a new order.
-```
-
-```
-Nouns:
-
-shop items, items' names, items' unit price, items' quantity (number)
-
-methods: list, create
-
-orders (list), orders customer names, orders date
-
-methods: list, create
-
-assign each order to their corresponding item.
-```
-
-## 2. Infer the Table Name and Columns
-
-Put the different nouns in this table. Replace the example with your own nouns.
-
-| Record                | Properties                 |
-| --------------------- | ---------------------------|
-| item                  | name, price, quantity | 
-| order                 | customer, date             |
-
-1. Name of the first table (always plural): `item` 
-
-    Column names: `name`, `price`, `quantity`
-
-2. Name of the second table (always plural): `orders` 
-
-    Column names: `customer`, `date`
-
-## 3. Decide the column types.
-
-[Here's a full documentation of PostgreSQL data types](https://www.postgresql.org/docs/current/datatype.html).
-
-Most of the time, you'll need either `text`, `int`, `bigint`, `numeric`, or `boolean`. If you're in doubt, do some research or ask your peers.
-
-Remember to **always** have the primary key `id` as a first column. Its type will always be `SERIAL`.
-
-```
-# EXAMPLE:
-
-Table: items
-id: SERIAL
-name: text
-price: money
-quantity: int
-
-Table: orders
-id: SERIAL
-customer: text
-date: date
-```
-
-## 4. Decide on The Tables Relationship
-
-1. Can one [TABLE ONE] have many [TABLE TWO]? Yes
-2. Can one [TABLE TWO] have many [TABLE ONE]? Yes
-
-## 5. Design the Join Table
-
-The join table usually contains two columns, which are two foreign keys, each one linking to a record in the two other tables.
-
-The naming convention is `table1_table2`.
-
-```
-Join table for tables: items and orders
-Join table name: items_orders
-Columns: item_id, order_id
-```
-
-
-## 4. Write the SQL.
-
-```sql
-
--- file: seeds_shop_data.sql
-
--- Create the first table.
-CREATE TABLE items (
-  id SERIAL PRIMARY KEY,
-  name: text,
-  price: money,
-  quantity: int
-);
-
--- Create the second table.
-CREATE TABLE orders (
-  id SERIAL PRIMARY KEY,
-  customer: text,
-  date: date
-);
-
--- Create the join table.
-CREATE TABLE items_orders (
-  item_id int,
-  order_id int,
-  constraint fk_item foreign key(item_id) references items(id),
-  constraint fk_order foreign key(order_id) references orders(id),
-  PRIMARY KEY (item_id, order_id)
-);
-
-
-
-```
-
-## 5. Create the tables.
-
-```bash
-psql -h 127.0.0.1 shop_database < seeds_shop_data.sql
-```
-
-```
+Otherwise, [follow this recipe to design and create the SQL schema for your table](./single_table_design_recipe_template.md).
 
 ## 2. Create Test SQL seeds
 
@@ -154,102 +13,31 @@ Your tests will depend on data stored in PostgreSQL to run.
 
 If seed data is provided (or you already created it), you can skip this step.
 
-```sql
--- (file: spec/seeds_shop_data.sql)
-
--- Write your SQL seed here. 
-
--- TRUNCATE TABLE items RESTART IDENTITY CASCADE; 
-
-DROP TABLE IF EXISTS "public"."items" CASCADE;
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Sequence and defined type
--- CREATE SEQUENCE IF NOT EXISTS orders_id_seq;
-
--- Table Definition
-CREATE TABLE items (
-  id SERIAL PRIMARY KEY,
-  name text,
-  price money,
-  quantity int
-);
-
--- TRUNCATE TABLE orders RESTART IDENTITY CASCADE; 
--- Sequence and defined type
-
-DROP TABLE IF EXISTS "public"."orders" CASCADE;
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- CREATE SEQUENCE IF NOT EXISTS orders_id_seq;
-
--- Table Definition
-CREATE TABLE orders (
-  id SERIAL PRIMARY KEY,
-  customer text,
-  date date
-);
-
--- TRUNCATE TABLE items_orders RESTART IDENTITY; 
-
-DROP TABLE IF EXISTS "public"."items_orders" CASCADE;
--- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
-
--- Create the join table.
-CREATE TABLE items_orders (
-  item_id int,
-  order_id int,
-  constraint fk_item foreign key(item_id) references items(id),
-  constraint fk_order foreign key(order_id) references orders(id),
-  PRIMARY KEY (item_id, order_id)
-);
-
-INSERT INTO items (name, price, quantity) VALUES
-('milk', 1, 35),
-('cheese', 3.50, 55),
-('bread', 2.75, 10),
-('6 eggs', 2.33, 28),
-('orange juice', 1.30, 20);
-
-INSERT INTO orders (customer, date) VALUES
-('Anna', '2022-06-21'),
-('John', '2022-06-23'),
-('Rachel', '2022-07-01');
-
-INSERT INTO items_orders (item_id , order_id) VALUES
-( 1, 1),
-( 1, 2),
-( 1, 3),
-( 2, 1),
-( 3, 2),
-( 3, 3),
-( 4, 2),
-( 4, 3),
-( 5, 1),
-( 5, 2),
-( 5, 3);
-```
-
-```bash
-psql -h 127.0.0.1 your_database_name < seeds_{table_name}.sql
-```
-
 ## 3. Define the class names
 
-Usually, the Model class name will be the capitalised table name (single instead of plural). The same name is then suffixed by `Repository` for the Repository class name.
-
 ```ruby
-# EXAMPLE
-# Table name: students
+# Table name: items
 
 # Model class
-# (in lib/student.rb)
-class Student
+# (in lib/item.rb)
+class Item
 end
 
 # Repository class
-# (in lib/student_repository.rb)
-class StudentRepository
+# (in lib/item_repository.rb)
+class ItemRepository
+end
+
+# Table name: orders
+
+# Model class
+# (in lib/order.rb)
+class Order
+end
+
+# Repository class
+# (in lib/order_repository.rb)
+class OrderRepository
 end
 ```
 
@@ -258,28 +46,23 @@ end
 Define the attributes of your Model class. You can usually map the table columns to the attributes of the class, including primary and foreign keys.
 
 ```ruby
-# EXAMPLE
-# Table name: students
+
+# Table name: items
 
 # Model class
-# (in lib/student.rb)
-
-class Student
-
-  # Replace the attributes by your own columns.
-  attr_accessor :id, :name, :cohort_name
+# (in lib/item.rb)
+class Item
+  attr_accessor :id, :name, :unit_price, :quantity
 end
 
-# The keyword attr_accessor is a special Ruby feature
-# which allows us to set and get attributes on an object,
-# here's an example:
-#
-# student = Student.new
-# student.name = 'Jo'
-# student.name
-```
+# Table name: orders
 
-*You may choose to test-drive this class, but unless it contains any more logic than the example above, it is probably not needed.*
+# Model class
+# (in lib/order.rb)
+class Order
+  attr_accessor :id, :customer, :date
+end
+```
 
 ## 5. Define the Repository Class interface
 
@@ -288,41 +71,119 @@ Your Repository class will need to implement methods for each "read" or "write" 
 Using comments, define the method signatures (arguments and return value) and what they do - write up the SQL queries that will be used by each method.
 
 ```ruby
-# EXAMPLE
-# Table name: students
+# Table name: items
 
 # Repository class
-# (in lib/student_repository.rb)
-
-class StudentRepository
+# (in lib/item_repository.rb)
+class ItemRepository
 
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students;
-
-    # Returns an array of Student objects.
+    # SELECT id, name, unit_price, quantity FROM items;
+    # Returns an array of Item objects.
   end
 
   # Gets a single record by its ID
   # One argument: the id (number)
   def find(id)
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students WHERE id = $1;
-
-    # Returns a single Student object.
+    # SELECT id, name, unit_price, quantity FROM items WHERE id = $1;
+    # Returns a single Item object.
   end
 
-  # Add more methods below for each operation you'd like to implement.
+   def find_with_orders(id)
+    # Executes the SQL query:
+    # SELECT items.id,
+          #         items.name,
+          #         items.unit_price,
+          #         items.quantity,
+          #         orders.id AS order_id,
+          #         orders.customer,
+          #         orders.date
+          # FROM items
+          # JOIN items_orders ON items_orders.item_id = items.id
+          # JOIN orders ON items_orders.order_id = orders.id
+          # WHERE items.id = $1;
+    # Returns a single Item object with accociated orders.
+  end
 
-  # def create(student)
+  def create(item)
+    # Executes the SQL query:
+    # INSERT into items (name, unit_price, quantity) VALUES ($1, $2, $3);
+    # Returns nothing
+  end
+
+  # def delete(id)
+  #   # Executes the SQL query:
+  #   # DELETE from items WHERE id = $1;
+  #   # Returns nothing
   # end
 
-  # def update(student)
+  # def update(item)  
+  #   # Executes the SQL query:
+  #   # UPDATE items SET name = $1, unit_price = $2, quantity = $3 WHERE id = $4;
+  #   # Returns nothing
+  # end
+end
+
+# Table name: orders
+
+# Repository class
+# (in lib/order_repository.rb)
+class OrderRepository
+
+  # Selecting all records
+  # No arguments
+  def all
+    # Executes the SQL query:
+    # SELECT id, customer, date FROM orders;
+    # Returns an array of Order objects.
+  end
+
+  # Gets a single record by its ID
+  # One argument: the id (number)
+  def find(id)
+    # Executes the SQL query:
+    # SELECT id, customer, date FROM orders WHERE id = $1;
+    # Returns a single Order object.
+  end
+
+  def find_with_items(id)
+    # Executes the SQL query:
+    # SELECT id, name, unit_price, quantity FROM items WHERE id = $1;
+    # SELECT orders.id,
+    #               orders.customer,
+    #               orders.date,
+    #               items.name AS item,
+    #               items.unit_price,
+    #               items.quantity
+    #       FROM orders
+    #       JOIN items_orders ON items_orders.order_id = orders.id
+    #       JOIN items ON items_orders.item_id = items.id
+    #       WHERE orders.id = $1;
+    # Returns a single Order object with accociated items.
+  end
+
+  def create(order)
+    # Executes the SQL query:
+    # INSERT into orders (customer, date) VALUES ($1, $2);
+    # Returns nothing
+  end
+
+  # def delete(id)
+  #   # Executes the SQL query:
+  #   # DELETE from orders WHERE id = $1;
+  #   # Returns nothing
   # end
 
-  # def delete(student)
+  # def update(id, attr, value)  
+  #   # Executes the SQL query:
+  #   # attr is Order's attribute to update
+  #   # value is a value provided 
+  #   # UPDATE orders SET attr = $1 WHERE id = $2;
+  #   # Returns nothing
   # end
 end
 ```
@@ -334,37 +195,123 @@ Write Ruby code that defines the expected behaviour of the Repository class, fol
 These examples will later be encoded as RSpec tests.
 
 ```ruby
-# EXAMPLES
-
 # 1
-# Get all students
+# Get all items
 
-repo = StudentRepository.new
+repo = ItemRepository.new
 
-students = repo.all
+stock = repo.all
 
-students.length # =>  2
+stock.length # =>  5
 
-students[0].id # =>  1
-students[0].name # =>  'David'
-students[0].cohort_name # =>  'April 2022'
+stock[0].id # =>  1
+stock[0].name # =>  'milk'
+stock[0].unit_price # =>  "$1.00"
+stock[0].quantity # =>  35
 
-students[1].id # =>  2
-students[1].name # =>  'Anna'
-students[1].cohort_name # =>  'May 2022'
+stock[3].id # =>  4
+stock[3].name # =>  '6 eggs'
+stock[3].unit_price # =>  "$2.33"
+stock[3].quantity # =>  28
+
 
 # 2
-# Get a single student
+# Get a single item
 
-repo = StudentRepository.new
+repo = ItemRepository.new
 
-student = repo.find(1)
+item = repo.find(1)
 
-student.id # =>  1
-student.name # =>  'David'
-student.cohort_name # =>  'April 2022'
+item.id # =>  1
+item.name # =>  'milk'
+item.unit_price # =>  "$1.00"
+item.quantity # =>  35
 
-# Add more examples for each method
+# 3
+# Create an Item object
+
+repo = ItemRepository.new
+new_item = Item.new
+new_item.name = 'minced beef'
+new_item.unit_price = 3.99
+new_item.quantity = 15
+repo.create(new_item)
+stock = repo.all
+stock.length # => 6
+stock #=> to have attributes 'minced beef', "$3.99", 15
+
+# 4
+# when looking for an Item with orders data by item's ID
+#returns an Item with associated orders
+
+repo = ItemRepository.new
+item = repo.find_with_orders(1)
+item.name # => 'milk'
+item.orders.length # => 3
+end
+
+# 5
+#returns nil if the Item with given index does not exist
+repo = ItemRepository.new
+item = repo.find_with_orders(199)
+item # => ni
+
+# 1
+# Get all orders
+
+repo = OrderRepository.new
+
+orders = repo.all
+
+orders.length # =>  3
+
+orders[0].id # =>  1
+orders[0].customer # =>  'Anna'
+orders[0].date # =>  '2022-06-21'
+
+orders[1].id # =>  2
+orders[1].customer # =>  'John'
+orders[1].date # =>  '2022-06-23'
+
+
+# 2
+# Get a single order
+
+repo = OrderRepository.new
+
+order = repo.find(3)
+
+order.id # =>  3
+order.customer # =>  'Rachel'
+order.date # =>  '2022-07-01'
+
+# 3 
+# Adds new order
+
+repo = OrderRepository.new
+new_order = Order.new
+new_order.customer = 'Alice'
+new_order.date = '2022-07-09'
+repo.create(new_order)
+orders = repo.all
+orders.length # => 4
+orders # => to have attributes 'Alice', '2022-07-09'
+
+# 4
+# when looking for an Order with items data by order's ID
+# returns an order with associated items
+
+repo = OrderRepository.new
+order = repo.find_with_items(1)
+order.customer # => 'Anna'
+order.items.length # => 3
+end
+
+# 5
+#returns nil if the order with given index does not exist
+repo = OrderRepository.new
+order = repo.find_with_items(199)
+order # => nil
 ```
 
 Encode this example as a test.
@@ -376,19 +323,33 @@ Running the SQL code present in the seed file will empty the table and re-insert
 This is so you get a fresh table contents every time you run the test suite.
 
 ```ruby
-# EXAMPLE
+# file: spec/item_repository_spec.rb
 
-# file: spec/student_repository_spec.rb
-
-def reset_students_table
-  seed_sql = File.read('spec/seeds_students.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'students' })
+def reset_items_table
+  seed_sql = File.read('spec/seeds_shop_data.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'items' })
   connection.exec(seed_sql)
 end
 
-describe StudentRepository do
+describe ItemRepository do
   before(:each) do 
-    reset_students_table
+    reset_items_table
+  end
+
+  # (your tests will go here).
+end
+
+# file: spec/order_repository_spec.rb
+
+def reset_orders_table
+  seed_sql = File.read('spec/seeds_shop_data.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_database_test' })
+  connection.exec(seed_sql)
+end
+
+describe OrderRepository do
+  before(:each) do 
+    reset_orders_table
   end
 
   # (your tests will go here).
