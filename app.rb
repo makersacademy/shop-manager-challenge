@@ -68,10 +68,10 @@ class Application
     order = Order.new
     order.customer = params[0]
     order.date = params[1]
-    select_items
+    selected_items = select_items
     @order_repository.create(order)
     order_id = @order_repository.all[-1].id
-    select_items.map do |item_id|
+    selected_items.map do |item_id|
       sql = 'INSERT INTO items_orders VALUES ($1, $2);'
       params = [item_id, order_id]
       DatabaseConnection.exec_params(sql, params)
