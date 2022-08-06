@@ -67,7 +67,7 @@ Remember to **always** have the primary key `id` as a first column. Its type wil
 Table: items 
 id: SERIAL
 item_name: text
-prince: int
+price: int
 quantity: int
 
 Table: orders
