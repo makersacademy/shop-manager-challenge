@@ -5,32 +5,47 @@ _Copy this recipe template to design and create two related database tables from
 ## 1. Extract nouns from the user stories or specification
 
 ```
-As a social network user,
-So I can have my information registered,
-I'd like to have a user account with my email address.
+As a shop manager
+So I can know which items I have in stock
+I want to keep a list of my shop items with their name and unit price.
 
-As a social network user,
-So I can have my information registered,
-I'd like to have a user account with my username.
+As a shop manager
+So I can know which items I have in stock
+I want to know which quantity (a number) I have for each item.
 
-As a social network user,
-So I can write on my timeline,
-I'd like to create posts associated with my user account.
+As a shop manager
+So I can manage items
+I want to be able to create a new item.
 
-As a social network user,
-So I can write on my timeline,
-I'd like each of my posts to have a title and a content.
+As a shop manager
+So I can know which orders were made
+I want to keep a list of orders with their customer name.
 
-As a social network user,
-So I can know who reads my posts,
-I'd like each of my posts to have a number of views.
+As a shop manager
+So I can know which orders were made
+I want to assign each order to their corresponding item.
+
+As a shop manager
+So I can know which orders were made
+I want to know on which date an order was placed. 
+
+As a shop manager
+So I can manage orders
+I want to be able to create a new order.
 ```
 
 ```
 Nouns:
 
-user accounts, email address, username
-posts, title, content, number of view => associated with user account
+list of shop items, name, unit price, quantity
+list of orders, customer name, order item, order date
+
+Methods:
+List all shop items
+Create a new shop item
+List of all orders
+Create a new order
+
 ```
 
 ## 2. Infer the Table Name and Columns
@@ -39,16 +54,16 @@ Put the different nouns in this table. Replace the example with your own nouns.
 
 | Record                | Properties          |
 | --------------------- | ------------------  |
-| accounts              | email_address, username
-| posts                 | title, content, views
+| items                 | name, unit_price, quantity, order_id
+| orders                | customer_name, date
 
-1. Name of the first table (always plural): `accounts` 
+1. Name of the first table (always plural): `items` 
 
-    Column names: `email_address`, `username`
+    Column names: `name`, `unit_price`, `quantity`
 
-2. Name of the second table (always plural): `posts` 
+2. Name of the second table (always plural): `orders` 
 
-    Column names: `title`, `content`, `views`
+    Column names: `customer_name`, `date`, `item_id`
 
 ## 3. Decide the column types.
 
@@ -61,17 +76,17 @@ Remember to **always** have the primary key `id` as a first column. Its type wil
 ```
 # EXAMPLE:
 
-Table: accounts
+Table: items
 id: SERIAL
-email_address: text
-username: text
+name: text
+unit_price: numeric
+quanitity: int
+order_id: int
 
-
-Table: posts
+Table: orders
 id: SERIAL
-title: text
-content: text
-views: int
+customer_name: text
+date: date
 ```
 
 ## 4. Decide on The Tables Relationship
@@ -94,14 +109,14 @@ Replace the relevant bits in this example with your own:
 ```
 # EXAMPLE
 
-1. Can one accounts have many posts? YES
-2. Can one posts have many accounts? NO
+1. Can one item have many orders? NO
+2. Can one order have many items? YES
 
 -> Therefore,
--> An account HAS MANY posts
--> An post BELONGS TO an account
+-> An order HAS MANY items
+-> An item BELONGS TO an order
 
--> Therefore, the foreign key is on the posts table.
+-> Therefore, the foreign key is on the items table.
 ```
 
 *If you can answer YES to the two questions, you'll probably have to implement a Many-to-Many relationship, which is more complex and needs a third table (called a join table).*
@@ -109,22 +124,22 @@ Replace the relevant bits in this example with your own:
 ## 4. Write the SQL.
 
 ```sql
-CREATE TABLE accounts (
+CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
-  email_address text,
-  username text
+  customer_name text,
+  date date
 );
 
 -- Then the table with the foreign key first.
-CREATE TABLE posts (
+CREATE TABLE items (
   id SERIAL PRIMARY KEY,
-  title text,
-  content text,
-  views int,
+  name text,
+  unit_price numeric,
+  quantity int,
 -- The foreign key name is always {other_table_singular}_id
-  account_id int,
-  constraint fk_account_1 foreign key(account_id)
-    references accounts(id)
+  order_id int,
+  constraint fk_order_1 foreign key(order_id)
+    references orders(id)
     on delete cascade
 );
 

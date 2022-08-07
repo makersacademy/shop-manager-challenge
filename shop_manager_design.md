@@ -13,15 +13,15 @@ Otherwise, [follow this recipe to design and create the SQL schema for your tabl
 ```
 # Refer to tables_design.md
 
-Table: accounts
+Table: orders
 
 Columns:
-id | email_address | username
+id | customer | date
 
-Table: posts
+Table: items
 
 Columns:
-id | title | content | views | account_id
+id | name | unit_price | quantity | order_id
 ```
 
 ## 2. Create Test SQL seeds
@@ -31,19 +31,15 @@ Your tests will depend on data stored in PostgreSQL to run.
 If seed data is provided (or you already created it), you can skip this step.
 
 ```sql
--- (file: spec/seeds_accounts.sql)
+-- (file: spec/seeds.sql)
 
-TRUNCATE TABLE accounts, posts RESTART IDENTITY;
+TRUNCATE TABLE orders, items RESTART IDENTITY;
 
-INSERT INTO accounts (email_address, username) VALUES ('naomi_schlosser@hotmail.com', 'nschlosser');
-INSERT INTO accounts (email_address, username) VALUES ('anne_zorro@gmail.com', 'azorro');
+INSERT INTO orders (customer, date) VALUES ('Hana Holmens', '2022-07-10');
+INSERT INTO orders (customer, date) VALUES ('Alfred Jones', '2022-08-15');
 
--- (file: spec/seeds_posts.sql)
-
-TRUNCATE TABLE posts RESTART IDENTITY;
-
-INSERT INTO posts (title, content, views, account_id) VALUES ('FAKE TITLE1', 'FAKE CONTENT1', 50, 1);
-INSERT INTO posts (title, content, views, account_id) VALUES ('FAKE TITLE2', 'FAKE CONTENT2', 100, 1);
+INSERT INTO items (name, unit_price, quantity, order_id) VALUES ('Ray chair', '499', '20', '1');
+INSERT INTO items (name, unit_price, quantity, order_id) VALUES ('Mags sofa', '5800', '45', '2');
 ```
 
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
@@ -57,28 +53,28 @@ psql -h 127.0.0.1 your_database_name < seeds_{table_name}.sql
 Usually, the Model class name will be the capitalised table name (single instead of plural). The same name is then suffixed by `Repository` for the Repository class name.
 
 ```ruby
-# Table name: accounts
+# Table name: orders
 
 # Model class
-# (in lib/account.rb)
-class Account
+# (in lib/order.rb)
+class Order
 end
 
 # Repository class
-# (in lib/account_repository.rb)
-class AccountRepository
+# (in lib/order_repository.rb)
+class OrderRepository
 end
 
-# Table name: posts
+# Table name: item
 
 # Model class
-# (in lib/post.rb)
-class Post
+# (in lib/item.rb)
+class Item
 end
 
 # Repository class
-# (in lib/post_repository.rb)
-class PostRepository
+# (in lib/item_repository.rb)
+class ItemRepository
 end
 ```
 
@@ -87,22 +83,22 @@ end
 Define the attributes of your Model class. You can usually map the table columns to the attributes of the class, including primary and foreign keys.
 
 ```ruby
-# Table name: accounts
+# Table name: orders
 
 # Model class
-# (in lib/accounts.rb)
+# (in lib/order.rb)
 
-class Account
-  attr_accessor :id, :email_address, :username
+class Orders
+  attr_accessor :id, :customer, :date
 end
 
-# Table name: accounts
+# Table name: items
 
 # Model class
-# (in lib/accounts.rb)
+# (in lib/item.rb)
 
-class Post
-  attr_accessor :id, :title, :content, :views, :account_id
+class Items
+  attr_accessor :id, :name, :unit_price, :quantity, :order_id
 end
 ```
 
@@ -115,103 +111,53 @@ Your Repository class will need to implement methods for each "read" or "write" 
 Using comments, define the method signatures (arguments and return value) and what they do - write up the SQL queries that will be used by each method.
 
 ```ruby
-# Table name: accounts
+# Table name: orders
 
 # Repository class
-# (in lib/account_repository.rb)
+# (in lib/order_repository.rb)
 
-class AccountRepository
+class OrderRepository
 
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT * FROM accounts;
+    # SELECT * FROM orders;
 *
-    # Returns an array of Account objects.
+    # Returns an array of Order objects.
   end
 
-  # Gets a single record by its ID
-  # One argument: the id (number)
-  def find(id)
+  # Ceates a new order
+  # One argument: an Order object
+  def create(order)
     # Executes the SQL query:
-    # SELECT * FROM accounts WHERE id = $1;
-
-    # Returns a single Account object.
-  end
-
-  # Ceates a new account
-  # One argument: an Account object
-  def create(account)
-    # Executes the SQL query:
-    # INSERT INTO accounts (email_address, username) VALUES ($1, $2);
-
-    # Returns nothing
-  end
-
-  # Deletes a single record by its ID
-  # One argument: the id (number)
-  def delete(id)
-    # Executes the SQL query:
-    # DELETE FROM accounts WHERE id = $1;
-
-    # Returns nothing
-  end
-
-  def update(account)
-    # Executes the SQL query:
-    # UPDATE accounts SET email_address = $1, username = $2 WHERE id = $3;
+    # INSERT INTO orders (customer, date) VALUES ($1, $2);
 
     # Returns nothing
   end
 end
 
-# Table name: posts
+# Table name: items
 
 # Repository class
-# (in lib/post_repository.rb)
+# (in lib/item_repository.rb)
 
-class PostRepository
+class ItemRepository
 
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT * FROM posts;
+    # SELECT * FROM items;
 *
-    # Returns an array of Post objects.
+    # Returns an array of Item objects.
   end
 
-  # Gets a single record by its ID
-  # One argument: the id (number)
-  def find(id)
+  # Ceates a new item
+  # One argument: an Item object
+  def create(item)
     # Executes the SQL query:
-    # SELECT * FROM posts WHERE id = $1;
-
-    # Returns a single Post object.
-  end
-
-  # Ceates a new post
-  # One argument: an Post object
-  def create(post)
-    # Executes the SQL query:
-    # INSERT INTO posts (title, content, views, account_id) VALUES ($1, $2, $3, $4);
-
-    # Returns nothing
-  end
-
-  # Deletes a single record by its ID
-  # One argument: the id (number)
-  def delete(id)
-    # Executes the SQL query:
-    # DELETE FROM posts WHERE id = $1;
-
-    # Returns nothing
-  end
-
-  def update(post)
-    # Executes the SQL query:
-    # UPDATE posts SET title = $1, content = $2, views = $3, account_id = $4 WHERE id = $5;
+    # INSERT INTO items (name, unit_price, quantity, order_id) VALUES ($1, $2, $3, $4);
 
     # Returns nothing
   end
@@ -225,173 +171,69 @@ Write Ruby code that defines the expected behaviour of the Repository class, fol
 These examples will later be encoded as RSpec tests.
 
 ```ruby
-# AccountRepository
+# OrderRepository
 # 1
-# Get all accounts
+# Get all orders
 
-repo = AccountRepository.new
+repo = OrderRepository.new
 
-accounts = repo.all
+orders = repo.all
 
-accounts.length # =>  2
-
-accounts[0].id # =>  '1'
-accounts[0].email_address # =>  'naomi_schlosser@hotmail.com'
-accounts[0].username # =>  'nschlosser'
-
-accounts[1].id # =>  '2'
-accounts[1].email_address # =>  'anne_zorro@gmail.com'
-accounts[1].username # =>  'azorro'
+orders.length # => 2
+orders[0].id # => '1'
+orders[0].customer # => 'Hana Holmens'
+orders[0].date # => '2022-07-10'
 
 # 2
-# Get a single account
+# Create a new order
 
-repo = AccountRepository.new
+repo = OrderRepository.new
 
-account = repo.find(1)
+order = Order.new
+order.customer # => 'Mike Anderson'
+order.date # => '2022.06.23'
 
-account.id # =>  '1'
-account.email_address # =>  'naomi_schlosser@hotmail.com'
-account.username # =>  'nschlosser'
+repo.create(order)
 
-# 3
-# Create a new account
+all_orders = repo.all
+all_orders.last.id # => '3'
+all_orders.last.customer # => 'Mike Anderson'
+all_orders.last.date # => '2022.06.23'
 
-repo = AccountRepository.new
-
-account = Account.new
-account.email_address = 'hello123@yahoo.com'
-account.username = 'hello123'
-
-repo.create(account)
-
-all_accounts = repo.all
-
-all_accounts.length # => 3
-
-all_accounts.last.id # =>  '3'
-all_accounts.last.email_address # => 'hello123@yahoo.com'
-all_accounts.last.username # => 'hello123'
-
-# 4
-# Delete an account
-
-repo = AccountRepository.new
-
-repo.delete(1)
-
-all_accounts = repo.all
-
-all_accounts.length # => 1
-
-all_accounts.first.id # => '2'
-all_accounts.first.email_address # => 'anne_zorro@gmail.com'
-all_accounts.first.username # => 'azorro'
-
-# 5
-# Update an account
-
-repo = AccountRepository.new
-
-id_to_update = 1
-
-account = repo.find(id_to_update)
-account.email_address = 'test@hotmail.com'
-
-repo.update(account)
-
-updated_account = repo.find(id_to_update)
-updated_account.email_address # => 'test@hotmail.com'
-
-# PostRepository
+# ItemRepository
 # 1
-# Get all posts
+# Get all items
 
-repo = PostRepository.new
+repo = ItemRepository.new
 
-posts = repo.all
+items = repo.all
 
-posts.length # =>  2
-
-posts[0].id # => '1'
-posts[0].title # => 'FAKE TITLE1'
-posts[0].content # => 'FAKE CONTENT1'
-posts[0].views # => '50'
-posts[0].account_id # => '1'
-
-posts[1].id # => '2'
-posts[1].title # => 'FAKE TITLE2'
-posts[1].content # => 'FAKE CONTENT2'
-posts[1].views # => '100'
-posts[1].account_id # => '1'
+items.length # => 2
+items[0].id # => '1'
+items[0].name # => 'Ray chair'
+items[0].unit_price # => '499'
+items[0].quantity # => '20'
+items[0].order_id # => '1'
 
 # 2
-# Get a single post
+# Create a new item
 
-repo = PostRepository.new
+repo = ItemRepository.new
 
-post = repo.find(1)
+item = Item.new
+item.name # => 'Kofi coffee table'
+item.unit_price # => '455'
+item.quantity # => '80'
+item.order_id # => '2'
 
-posts.id # => '1'
-posts.title # => 'FAKE TITLE1'
-posts.content # => 'FAKE CONTENT1'
-posts.views # => '50'
-posts.account_id # => '1'
+repo.create(item)
 
-# 3
-# Create a new post
-
-repo = PostRepository.new
-
-post = Post.new
-post.title = 'FAKE TITLE3'
-post.content = 'FAKE CONTENT3'
-post.views = 25
-post.account_id = 2
-
-repo.create(post)
-
-all_posts = repo.all
-
-all_posts.length # => 3
-
-all_posts.last.id # => '3'
-all_posts.last.title # => 'FAKE TITLE3'
-all_posts.last.content # => 'FAKE CONTENT3'
-all_posts.last.views # => 25
-all_posts.last.account_id # => 2
-
-#4
-# Delete a post
-
-repo = PostRepository.new
-
-repo.delete(1)
-
-all_posts = repo.all
-
-all_posts.length # => 1
-
-all_posts.first.id # => '2'
-all_posts.first.title # => 'FAKE TITLE2'
-all_posts.first.content # => 'FAKE CONTENT2'
-all_posts.first.views # => '100'
-all_posts.first.account_id # => '1'
-
-# 5
-# Update a post
-
-repo = PostRepository.new
-
-id_to_update = 1
-
-post = repo.find(id_to_update)
-post.title = 'test'
-
-repo.update(post)
-
-updated_post = repo.find(id_to_update)
-updated_post.title # => 'test'
+all_items = repo.all
+all_items.last.id # => '3'
+all_items.last.name # => 'Kofi coffee table'
+all_items.last.unit_price # => '455'
+all_items.last.quantity # => '80'
+all_items.last.order_id # => '2'
 ```
 
 Encode this example as a test.
@@ -403,33 +245,33 @@ Running the SQL code present in the seed file will empty the table and re-insert
 This is so you get a fresh table contents every time you run the test suite.
 
 ```ruby
-# file: spec/account_repository_spec.rb
+# file: spec/order_repository_spec.rb
 
-def reset_accounts_table
-  seed_sql = File.read('spec/seeds_accounts.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'social_network_test' })
+def reset_orders_table
+  seed_sql = File.read('spec/seeds.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
   connection.exec(seed_sql)
 end
 
-RSpec.describe AccountRepository do
+RSpec.describe OrderRepository do
   before(:each) do 
-    reset_accounts_table
+    reset_order_table
   end
 
   # (your tests will go here).
 end
 
-# file: spec/post_repository_spec.rb
+# file: spec/item_repository_spec.rb
 
-def reset_posts_table
-  seed_sql = File.read('spec/seeds_posts.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'social_network_test' })
+def reset_items_table
+  seed_sql = File.read('spec/seeds.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'social_shop_manager_test' })
   connection.exec(seed_sql)
 end
 
-RSpec.describe PostRepository do
+RSpec.describe ItemRepository do
   before(:each) do 
-    reset_posts_table
+    reset_items_table
   end
 
   # (your tests will go here).
