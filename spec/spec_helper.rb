@@ -2,12 +2,7 @@ require 'database_connection'
 
 # Make sure this connects to your test database
 # (its name should end with '_test')
-DatabaseConnection.connect('recipes_directory_test')
-require 'database_connection'
-
-# Make sure this connects to your test database
-# (its name should end with '_test')
-DatabaseConnection.connect('recipes_directory_test')
+DatabaseConnection.connect('shop_manager')
 require 'simplecov'
 require 'simplecov-console'
 

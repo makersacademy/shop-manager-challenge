@@ -101,7 +101,7 @@ class ItemRepository
 end
 ```
 
-## 6. Write Test Examples
+## 6. Test Examples
 
 ```ruby
 
