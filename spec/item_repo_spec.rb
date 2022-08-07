@@ -11,5 +11,21 @@ describe ItemRepository do
     reset_tables
   end
 
-  # (tests will go here).
+  it "gets all items" do
+    repo = ItemRepository.new
+    items = repo.all
+    
+    expect(items.length).to eq 5
+    
+    expect(items[0].id).to eq '1'
+    expect(items[0].name).to eq 'Hoover'
+    expect(items[0].unit_price).to eq '100'
+    expect(items[0].qty).to eq'20'
+    
+    expect(items[1].id).to eq '2'
+    expect(items[1].name).to eq 'Washing Machine'
+    expect(items[1].unit_price).to eq '400'
+    expect(items[1].qty).to eq'30'  
+  end
+
 end

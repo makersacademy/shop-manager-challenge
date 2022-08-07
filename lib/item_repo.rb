@@ -1,13 +1,11 @@
 require_relative 'item'
+require_relative 'database_connection'
 
 class ItemRepository
-  # Selecting all records
-  # No arguments
   def all
-    # Executes the SQL query:
-    # SELECT * FROM items;
-
-    # Returns an array of Item objects.
+    sql = 'SELECT * FROM items;'
+    result = DatabaseConnection.exec_params(sql, [])
+    result.map { |record| make_item(record) }
   end
 
   # Create an item
@@ -30,5 +28,16 @@ class ItemRepository
     
     # params = [item.id, item.name, item.unit_price, item.qty]
     # Returns nothing
+  end
+
+  private
+
+  def make_item(record)
+    item = Item.new
+    item.id = record['id']
+    item.name = record['name']
+    item.unit_price = record['unit_price']
+    item.qty = record['qty']
+    item
   end
 end
