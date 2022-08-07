@@ -92,8 +92,9 @@ class OrderRepository
   # Takes id of order to update and Order object as arguments
   def update(id, order)
     # Executes the SQL query:
-    # UPDATE orders WHERE id = $3
+    # UPDATE orders 
     # SET (customer_name, date_placed) = ($1, $2)
+    # WHERE id = $3
 
     # params = [order.customer_name, order.date_placed, id]
     # Returns nothing
@@ -110,7 +111,7 @@ end
 repo = OrderRepository.new
 orders = repo.all
 
-orders.length # =>  5
+orders.length # =>  2
 
 orders[0].id # =>  1
 orders[0].customer_name # =>  'Frank'

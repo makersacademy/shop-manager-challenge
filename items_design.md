@@ -92,9 +92,10 @@ class ItemRepository
   # Takes id of item to update and Item object as arguments
   def update(id, item)
     # Executes the SQL query:
-    # UPDATE items WHERE id = $4
+    # UPDATE items
     # SET (name, unit_price, qty) = ($1, $2, $3)
-
+    # WHERE id = $4
+    
     # params = [item.name, item.unit_price, item.qty, id]
     # Returns nothing
   end

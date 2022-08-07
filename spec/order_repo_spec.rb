@@ -11,5 +11,61 @@ describe OrderRepository do
     reset_tables
   end
 
-  # (tests will go here).
+  it "gets all orders" do
+    repo = OrderRepository.new
+    orders = repo.all
+    
+    expect(orders.length).to eq 2
+    
+    expect(orders[0].id).to eq '1'
+    expect(orders[0].customer_name).to eq 'Frank'
+    expect(orders[0].date_placed).to eq '04-Jan-2021'
+    
+    expect(orders[1].id).to eq '2'
+    expect(orders[1].customer_name).to eq 'Benny'
+    expect(orders[1].date_placed).to eq '05-Aug-2022'  
+  end
+
+  it "creates an order" do
+    repo = OrderRepository.new
+
+    order = Order.new
+    order.customer_name = 'Mary'
+    order.date_placed = '07-Aug-2022'
+    
+    
+    repo.create(order)
+    orders = repo.all
+    
+    expect(orders.length).to eq 3
+    
+    expect(orders[0].id).to eq '1'
+    expect(orders[0].customer_name).to eq  'Frank'
+    expect(orders[0].date_placed).to eq  '04-Jan-2021'
+    
+    expect(orders[2].id).to eq '3'
+    expect(orders[2].customer_name).to eq  'Mary'
+    expect(orders[2].date_placed).to eq  '07-Aug-2022'  
+  end
+
+  it "updates an order" do
+    repo = OrderRepository.new
+
+    order = Order.new
+    order.customer_name = 'Frank'
+    order.date_placed = '06-Aug-2022'
+    
+    repo.update(1, order)
+    orders = repo.all.sort_by { |order| order.id.to_i }
+    
+    expect(orders.length).to eq 2
+    
+    expect(orders[0].id).to eq '1'
+    expect(orders[0].customer_name).to eq  'Frank'
+    expect(orders[0].date_placed).to eq  '06-Aug-2022'
+    
+    expect(orders[1].id).to eq '2'
+    expect(orders[1].customer_name).to eq  'Benny'
+    expect(orders[1].date_placed).to eq  '05-Aug-2022'
+  end
 end
