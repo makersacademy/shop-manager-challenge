@@ -1,4 +1,4 @@
-require_relative '../app.rb'
+require_relative '../app'
 
 def reset_tables
   seed_sql = File.read('spec/seeds_items_orders.sql')
@@ -13,7 +13,7 @@ def run_app(io)
       ItemRepository.new,
       OrderRepository.new
     )  
-    app.run
+  app.run
 end
 
 describe Application do

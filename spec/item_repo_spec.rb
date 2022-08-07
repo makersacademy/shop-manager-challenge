@@ -20,12 +20,12 @@ describe ItemRepository do
     expect(items[0].id).to eq '1'
     expect(items[0].name).to eq 'Hoover'
     expect(items[0].unit_price).to eq '100'
-    expect(items[0].qty).to eq'20'
+    expect(items[0].qty).to eq '20'
     
     expect(items[1].id).to eq '2'
     expect(items[1].name).to eq 'Washing Machine'
     expect(items[1].unit_price).to eq '400'
-    expect(items[1].qty).to eq'30'  
+    expect(items[1].qty).to eq '30'  
   end
 
   it "finds an item" do
@@ -37,7 +37,6 @@ describe ItemRepository do
     expect(item.unit_price).to eq '279'
     expect(item.qty).to eq '44'  
   end
-
 
   it "creates an item" do
     repo = ItemRepository.new
@@ -53,13 +52,13 @@ describe ItemRepository do
     expect(items.length).to eq 6
     
     expect(items[0].id).to eq '1'
-    expect(items[0].name).to eq  'Hoover'
-    expect(items[0].unit_price).to eq  '100'
+    expect(items[0].name).to eq 'Hoover'
+    expect(items[0].unit_price).to eq '100'
     expect(items[0].qty).to eq '20'
     
     expect(items[5].id).to eq '6'
-    expect(items[5].name).to eq  'Dishwasher'
-    expect(items[5].unit_price).to eq  '429'
+    expect(items[5].name).to eq 'Dishwasher'
+    expect(items[5].unit_price).to eq '429'
     expect(items[5].qty).to eq '7'  
   end
 
@@ -77,13 +76,13 @@ describe ItemRepository do
     expect(items.length).to eq 5
     
     expect(items[0].id).to eq '1'
-    expect(items[0].name).to eq  'Hoover'
-    expect(items[0].unit_price).to eq  '149'
+    expect(items[0].name).to eq 'Hoover'
+    expect(items[0].unit_price).to eq '149'
     expect(items[0].qty).to eq '15'
     
     expect(items[1].id).to eq '2'
-    expect(items[1].name).to eq  'Washing Machine'
-    expect(items[1].unit_price).to eq  '400'
+    expect(items[1].name).to eq 'Washing Machine'
+    expect(items[1].unit_price).to eq '400'
     expect(items[1].qty).to eq '30'
   end
 

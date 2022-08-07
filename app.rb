@@ -5,7 +5,7 @@ require_relative 'lib/item'
 
 class Application
   def initialize(db_name, io, item_repo, order_repo)
-    DatabaseConnection.connect('shop_manager')
+    DatabaseConnection.connect(db_name)
     @io = io
     @item_repo = item_repo
     @order_repo = order_repo
@@ -19,6 +19,12 @@ class Application
     end
   end
 
+  def proceed(item)
+    @io.puts "\n Create item: <#{item.name} - #{item.unit_price} - #{item.qty}>? [Y/n]"
+    proceed = @io.gets.chomp
+    @item_repo.create(item) if proceed.downcase == "y"
+  end
+
   def new_item
     item = Item.new
     @io.puts "\nEnter item name:"
@@ -27,11 +33,9 @@ class Application
     item.unit_price = @io.gets.chomp
     @io.puts "\nEnter stock quantity:"
     item.qty = @io.gets.chomp
-    @io.puts "\n Create item: <#{item.name} - #{item.unit_price} - #{item.qty}>? [Y/n]"
-    proceed = @io.gets.chomp
-    @item_repo.create(item) if proceed.downcase == "y"
+    proceed(item)
   end
-
+  
   def all_orders
     ord = "\nHere's a list of all orders:\n\n"
     orders = @order_repo.all.sort_by { |order| order.id.to_i }
@@ -45,28 +49,28 @@ class Application
     @io.puts ord
   end
 
-  def make_item
+  def prompt_user
     @io.puts "\nEnter <item name>, <qty> to add to order"
     @io.puts "Type 'Y' when done"
-    user = @io.gets.chomp
+    @io.gets.chomp
+  end
+
+  def make_item
+    user = prompt_user()
     return false if user.downcase == "y"
     new_item = Item.new
     new_item.name = user.split(",")[0].strip
     new_item.qty = user.split(",")[1].strip
 
     # ***horrific***
-    @item_repo.all.each do |item|
-      new_item.id = item.id if item.name == new_item.name
-    end
+    @item_repo.all.each { |item| new_item.id = item.id if item.name == new_item.name }
 
     new_item  
   end
 
   def order_summary(order)
     @io.puts "\nOrder summary:"
-    order.items.each do |item|
-      @io.puts "* #{item.name} - qty: #{item.qty}"
-    end
+    order.items.each { |item| @io.puts "* #{item.name} - qty: #{item.qty}" }
     @io.puts "\nProceed? [Y/n]"
     @io.gets.chomp
   end
@@ -112,15 +116,10 @@ class Application
 
   def run 
     user = run_menu
-    if user == "1"
-      all_items
-    elsif user == "2"
-      new_item
-    elsif user == "3"
-      all_orders
-    elsif user == "4"
-      new_order
-    end
+    all_items() if user == "1"
+    new_item() if user == "2"
+    all_orders() if user == "3"
+    new_order() if user == "4"
   end
 end
 

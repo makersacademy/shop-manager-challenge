@@ -4,7 +4,7 @@ require_relative 'database_connection'
 class OrderRepository
   def all
     sql = 'SELECT * FROM orders;'
-    result = DatabaseConnection.exec_params(sql ,[])
+    result = DatabaseConnection.exec_params(sql, [])
     result.map { |record| make_order(record) }
   end
 
@@ -36,17 +36,7 @@ class OrderRepository
     item_repo = ItemRepository.new   
     order_repo = OrderRepository.new
     this_order = order_repo.all[-1]
-    order.items.each do |item|
-
-      sql = 'INSERT INTO items_orders (item_id, order_id, item_qty)
-        VALUES ($1, $2, $3);'
-      params = [item.id, this_order.id, item.qty]
-      DatabaseConnection.exec_params(sql, params)
-
-      stock_item = item_repo.find_item(item.id)
-      stock_item.qty = stock_item.qty.to_i - item.qty.to_i
-      item_repo.update(stock_item.id, stock_item)
-    end
+    order.items.each { |item| transact(item, this_order, item_repo) }
     return
   end
 
@@ -80,4 +70,16 @@ class OrderRepository
     item.qty = record['item_qty']
     item
   end
+
+  def transact(item, this_order, item_repo)
+    sql = 'INSERT INTO items_orders (item_id, order_id, item_qty)
+      VALUES ($1, $2, $3);'
+    params = [item.id, this_order.id, item.qty]
+    DatabaseConnection.exec_params(sql, params)
+
+    stock_item = item_repo.find_item(item.id)
+    stock_item.qty = stock_item.qty.to_i - item.qty.to_i
+    item_repo.update(stock_item.id, stock_item)
+  end
+
 end
