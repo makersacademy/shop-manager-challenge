@@ -33,14 +33,21 @@ class OrdersRepository
       return order
   end
 
-  # Add more methods below for each operation you'd like to implement.
+  def create(order)
+    sql = 'INSERT INTO orders (customer_name, order_date, item_id) VALUES($1, $2, $3);'
+    params = [order.customer_name, order.order_date, order.item_id]
+    result_set = DatabaseConnection.exec_params(sql, params)
+  end
 
-  # def create(student)
-  # end
+ def update(order)
+    sql = 'UPDATE orders SET customer_name = $1, order_date = $2, item_id = $3 WHERE id = $4;'
+    params = [order.customer_name, order.order_date, order.item_id, order.id]
+    result_set = DatabaseConnection.exec_params(sql, params)
+  end
 
-  # def update(student)
-  # end
-
-  # def delete(student)
-  # end
+ def delete(order)
+    sql = 'DELETE FROM orders WHERE id = $1;'
+    params = [order.id]
+    DatabaseConnection.exec_params(sql, params)
+ end
 end

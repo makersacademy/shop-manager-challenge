@@ -31,14 +31,21 @@ class ItemsRepository
       return item
   end
 
-  # Add more methods below for each operation you'd like to implement.
+  def create(item)
+    sql = 'INSERT INTO items (item_name, price, quantity) VALUES($1, $2, $3);'
+    params = [item.item_name, item.price, item.quantity]
+    result_set = DatabaseConnection.exec_params(sql, params)
+  end
 
-  # def create(student)
-  # end
+  def update(item)
+    sql = 'UPDATE items SET item_name = $1, price = $2, quantity = $3 WHERE id = $4;'
+    params = [item.item_name, item.price, item.quantity, item.id]
+    result_set = DatabaseConnection.exec_params(sql, params)
+  end
 
-  # def update(student)
-  # end
-
-  # def delete(student)
-  # end
+  def delete(item)
+    sql = 'DELETE FROM items WHERE id = $1;'
+    params = [item.id]
+    DatabaseConnection.exec_params(sql, params)
+  end
 end

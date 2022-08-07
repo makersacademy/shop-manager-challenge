@@ -86,34 +86,22 @@ Using comments, define the method signatures (arguments and return value) and wh
 
 class itemsRepository
 
-  # Selecting all records
-  # No arguments
   def all
-    # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students;
 
-    # Returns an array of Student objects.
   end
 
-  # Gets a single record by its ID
-  # One argument: the id (number)
   def find(id)
-    # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students WHERE id = $1;
-
-    # Returns a single Student object.
+    
   end
 
-  # Add more methods below for each operation you'd like to implement.
+  def create(item)
+  end
 
-  # def create(student)
-  # end
+  def update(item)
+  end
 
-  # def update(student)
-  # end
-
-  # def delete(student)
-  # end
+  def delete(item)
+  end
 end
 ```
 
@@ -129,7 +117,7 @@ These examples will later be encoded as RSpec tests.
 # 1
 # Get all itemss
 
-repo = itemsRepository.new
+repo = ItemsRepository.new
 
 items = repo.all
 
@@ -146,9 +134,9 @@ items[1].price # =>  330
 items[1].quantity #=> 5
 
 # 2
-# Get a single order
+# Get a single item
 
-repo = itemsRepository.new
+repo = ItemsRepository.new
 
 items = repo.find(1)
 
@@ -157,7 +145,50 @@ items.item_name # =>  'David'
 items.price # =>  "23"
 items.quantity # =>  "3"
 
-# Add more examples for each method
+# 3
+# create a single order 
+repo = ItemsRepository.new
+item = Item.new
+item.id # => "??"
+item.item_name # =>  'rings_new'
+item.price # =>  34
+item.quantity # =>  6
+
+repo.create(item)
+items = repo.all
+
+
+items[2].id # => "3"
+items[2].item_name # =>  'rings_new'
+items[2].price # =>  34
+items[2].quantity # =>  6
+
+#4
+# update an item
+repo = ItemsRepository.new
+item = repo.find(1)
+
+item.item_name # =>  'rubies_new'
+repo.update(item)
+
+items = repo.all
+
+
+items[2].id # => "1"
+items[2].item_name # =>  'rubies_new'
+items[2].price # => 800
+items[2].quantity # => 19
+
+#5
+# delete an item
+repo = ItemsRepository.new
+item = repo.find(1)
+
+repo.delete(item)
+
+items = repo.all
+items.length #=> 1
+
 ```
 
 Encode this example as a test.
