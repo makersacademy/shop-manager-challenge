@@ -88,6 +88,26 @@ class OrderRepository
     # Returns nothing
   end
 
+  # Fetch an order
+  # Takes order id as an argument
+  def find_order(id)
+    # sql = 'SELECT * FROM orders
+    #     WHERE id = $1'
+    # returns order object
+  end
+
+  # Fetch an order with items
+  # Takes order id as an argument
+  def order_with_items(id)
+    # sql = 'SELECT items.id, items.name, items.unit_price, items_orders.item_qty
+    #   FROM items
+    #     JOIN items_orders ON items_orders.item_id = items.id
+    #     JOIN orders ON items_orders.order_id = orders.id
+    #     WHERE orders.id = $1;'
+
+    # returns an order object with items
+  end
+
   # Update an order
   # Takes id of order to update and Order object as arguments
   def update(id, order)
@@ -120,6 +140,32 @@ orders[0].date_placed # =>  '04-Jan-2021'
 orders[1].id # =>  2
 orders[1].customer_name # =>  'Benny'
 orders[1].date_placed # =>  '05-Aug-2022'
+
+#1.1 Find an order
+
+repo = OrderRepository.new
+order = repo.find_order(1)[0]
+
+order.id # => '1'
+order.customer_name # =>  'Frank'
+order.date_placed # =>  '04-Jan-2021'
+
+#1.2 Find an order with items
+
+repo = OrderRepository.new
+order = repo.order_with_items(1)
+
+order.id # => '1'
+order.customer_name # =>  'Frank'
+order.date_placed # =>  '04-Jan-2021'
+
+order.items[0].name # => 'Hoover'
+order.items[0].unit_price # => '100'
+order.items[0].qty # => '2'
+
+order.items[1].name # => 'Washing Machine'
+order.items[1].unit_price # => '400'
+order.items[1].qty # => '1'
 
 #2 Create an order
 

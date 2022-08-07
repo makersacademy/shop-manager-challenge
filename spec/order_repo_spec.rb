@@ -26,6 +26,32 @@ describe OrderRepository do
     expect(orders[1].date_placed).to eq '05-Aug-2022'  
   end
 
+  it "finds an order" do
+    repo = OrderRepository.new
+    order = repo.find_order(1)
+    
+    expect(order.id).to eq '1'
+    expect(order.customer_name).to eq 'Frank'
+    expect(order.date_placed).to eq '04-Jan-2021'  
+  end
+
+  it "finds an order with items" do
+    repo = OrderRepository.new
+    order = repo.order_with_items(1)
+    
+    expect(order.id).to eq '1'
+    expect(order.customer_name).to eq 'Frank'
+    expect(order.date_placed).to eq '04-Jan-2021'
+    
+    expect(order.items[0].name).to eq 'Hoover'
+    expect(order.items[0].unit_price).to eq '100'
+    expect(order.items[0].qty).to eq '2'
+    
+    expect(order.items[1].name).to eq 'Washing Machine'
+    expect(order.items[1].unit_price).to eq '400'
+    expect(order.items[1].qty).to eq '1'
+  end
+
   it "creates an order" do
     repo = OrderRepository.new
 
