@@ -20,9 +20,21 @@ class Application
 
     if user == "1"
       @io.puts "\nHere's a list of all shop items:\n\n"
-      @item_repo.all.each do |item|
+      items = @item_repo.all.sort_by { |item| item.id.to_i }
+      items.each do |item|
         @io.puts "##{item.id} - #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.qty}"
       end
+    elsif user =="3"
+      ord = "\nHere's a list of all orders\n\n"
+      orders = @order_repo.all.sort_by { |order| order.id.to_i }
+      orders.each do |order|
+        ord += "  ##{order.id} - Customer: #{order.customer_name} - Placed: #{order.date_placed}\n"
+        full_order = @order_repo.order_with_items(order.id)
+        full_order.items.each do |item|
+          ord += "    * #{item.name} - Unit price: #{item.unit_price} - qty: #{item.qty}\n"
+        end
+      end
+      @io.puts ord
     end
   end
 end
