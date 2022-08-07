@@ -8,6 +8,7 @@ class OrderRepository
     result.map { |record| make_order(record) }
   end
 
+  # this method not needed in current implementation
   def find_order(id)
     sql = 'SELECT * FROM orders
       WHERE id = $1'
@@ -32,9 +33,24 @@ class OrderRepository
       VALUES ($1, $2);'
     params = [order.customer_name, order.date_placed]
     DatabaseConnection.exec_params(sql, params)
+    item_repo = ItemRepository.new   
+    order_repo = OrderRepository.new
+    this_order = order_repo.all[-1]
+    order.items.each do |item|
+
+      sql = 'INSERT INTO items_orders (item_id, order_id, item_qty)
+        VALUES ($1, $2, $3);'
+      params = [item.id, this_order.id, item.qty]
+      DatabaseConnection.exec_params(sql, params)
+
+      stock_item = item_repo.find_item(item.id)
+      stock_item.qty = stock_item.qty.to_i - item.qty.to_i
+      item_repo.update(stock_item.id, stock_item)
+    end
     return
   end
 
+  # this method not needed in current implementation
   def update(id, order)
     sql = 'UPDATE orders
       SET (customer_name, date_placed) = ($1, $2) 

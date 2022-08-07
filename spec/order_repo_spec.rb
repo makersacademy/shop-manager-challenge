@@ -53,16 +53,22 @@ describe OrderRepository do
   end
 
   it "creates an order" do
-    repo = OrderRepository.new
-
+    order_repo = OrderRepository.new
+    item_repo = ItemRepository.new
+    
     order = Order.new
     order.customer_name = 'Mary'
     order.date_placed = '07-Aug-2022'
+    item = item_repo.find_item(4)
+    item.qty = 1
+    order.items << item
+    item = item_repo.find_item(5)
+    item.qty = 2
+    order.items << item
+
+    order_repo.create(order)
     
-    
-    repo.create(order)
-    orders = repo.all
-    
+    orders = order_repo.all
     expect(orders.length).to eq 3
     
     expect(orders[0].id).to eq '1'
@@ -71,7 +77,14 @@ describe OrderRepository do
     
     expect(orders[2].id).to eq '3'
     expect(orders[2].customer_name).to eq  'Mary'
-    expect(orders[2].date_placed).to eq  '07-Aug-2022'  
+    expect(orders[2].date_placed).to eq  '07-Aug-2022'
+    
+    mary_order = order_repo.order_with_items(3)
+    expect(mary_order.items[-1].name).to eq 'Fridge'
+    expect(mary_order.items[-1].unit_price).to eq '199'
+    expect(mary_order.items[-1].qty).to eq '2'
+    
+    expect(item_repo.find_item(4).qty).to eq '43'
   end
 
   it "updates an order" do

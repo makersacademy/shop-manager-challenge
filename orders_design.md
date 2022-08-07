@@ -78,13 +78,16 @@ class OrderRepository
   end
 
   # Create an order
-  # Takes an Order object as an argument
-  def create(order)
+  # Takes an Order object and a list of items as arguments
+  def create(order, items)
     # Executes the SQL query:
     # INSERT INTO orders (customer_name, date_placed)
     # VALUES ($1, $2);
-
     # params = [order.customer_name, order.date_placed]
+    # Then for each item in list of items
+      # INSERT INTO items_orders (item_id, order_id, item_qty)
+      # VALUES ($1, $2, $3)
+    # decrements stock of item
     # Returns nothing
   end
 
@@ -144,7 +147,7 @@ orders[1].date_placed # =>  '05-Aug-2022'
 #1.1 Find an order
 
 repo = OrderRepository.new
-order = repo.find_order(1)[0]
+order = repo.find_order(1)
 
 order.id # => '1'
 order.customer_name # =>  'Frank'
@@ -169,16 +172,18 @@ order.items[1].qty # => '1'
 
 #2 Create an order
 
-repo = OrderRepository.new
+order_repo = OrderRepository.new
+item_repo = ItemRepository.new
 
 order = Order.new
 order.customer_name = 'Mary'
 order.date_placed = '07-Aug-2022'
+item = item_repo.find_item(4)
+item.qty = 1
+order.items << item
+order_repo.create(order)
 
-
-repo.create(order)
-orders = repo.all
-
+orders = order_repo.all
 orders.length # => 3
 
 orders[0].id # =>  1
@@ -188,6 +193,13 @@ orders[0].date_placed # =>  '04-Jan-2021'
 orders[2].id # =>  3
 orders[2].customer_name # =>  'Mary'
 orders[2].date_placed # =>  '07-Aug-2022'
+
+mary_order = order_repo.order_with_items(3)
+mary_order.items[0].name # => 'Washing Machine'
+mary_order.items[0].unit_price # => '400'
+mary_order.items[0].qty # => '1'
+
+item_repo.find_item(4).qty # => '43'
 
 #3 Update an order
 

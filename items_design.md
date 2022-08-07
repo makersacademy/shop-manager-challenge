@@ -77,6 +77,14 @@ class ItemRepository
     # Returns an array of Item objects.
   end
 
+  # Fetch an item
+  # Takes item id as an argument
+  def find_item(id)
+    # sql = 'SELECT * FROM items
+    #     WHERE id = $1'
+    # returns item object
+  end
+
   # Create an item
   # Takes an Item object as an argument
   def create(item)
@@ -122,6 +130,16 @@ items[1].id # =>  2
 items[1].name # =>  'Washing Machine'
 items[1].unit_price # =>  '400'
 items[1].qty # => '30'
+
+#1.1 Find an item
+
+repo = ItemRepository.new
+item = repo.find_item(4)
+
+item.id # => '4'
+item.name # =>  'Tumble Dryer'
+item.unit_price # =>  '279'
+item.qty # => '44'
 
 #2 Create an item
 

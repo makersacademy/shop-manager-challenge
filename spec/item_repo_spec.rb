@@ -28,6 +28,17 @@ describe ItemRepository do
     expect(items[1].qty).to eq'30'  
   end
 
+  it "finds an item" do
+    repo = ItemRepository.new
+    item = repo.find_item(4)
+    
+    expect(item.id).to eq '4'
+    expect(item.name).to eq 'Tumble Dryer'
+    expect(item.unit_price).to eq '279'
+    expect(item.qty).to eq '44'  
+  end
+
+
   it "creates an item" do
     repo = ItemRepository.new
 
