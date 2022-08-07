@@ -119,4 +119,29 @@ describe Application do
     cooker = item_repo.find_item(3)
     expect(cooker.qty).to eq '11'
   end
+
+  it "cancels an order" do
+    str = "What do you want to do?\n"
+    str += "  1 = list all shop items\n  2 = create a new item\n"
+    str += "  3 = list all orders\n  4 = create a new order\n"
+
+    io = double :fake
+    expect(io).to receive(:puts).with(str)
+    expect(io).to receive(:gets).and_return("4")    
+    expect(io).to receive(:puts).with("\nWho is ordering?")
+    expect(io).to receive(:gets).and_return("Bill")    
+    expect(io).to receive(:puts).with("\nEnter <item name>, <qty> to add to order")
+    expect(io).to receive(:puts).with("Type 'Y' when done")
+    expect(io).to receive(:gets).and_return("Y")
+    expect(io).to receive(:puts).with("\nOrder summary:")
+    expect(io).to receive(:puts).with("\nProceed? [Y/n]")
+    expect(io).to receive(:gets).and_return("n")
+    expect(io).to receive(:puts).with("\nOrder cancelled!")
+
+    run_app(io)
+
+    order_repo = OrderRepository.new
+    orders = order_repo.all
+    expect(orders.length).to eq 2
+  end
 end
