@@ -88,7 +88,7 @@ Define the attributes of your Model class. You can usually map the table columns
 # Model class
 # (in lib/order.rb)
 
-class Orders
+class Order
   attr_accessor :id, :customer, :date
 end
 
@@ -97,7 +97,7 @@ end
 # Model class
 # (in lib/item.rb)
 
-class Items
+class Item
   attr_accessor :id, :name, :unit_price, :quantity, :order_id
 end
 ```
@@ -190,15 +190,15 @@ orders[0].date # => '2022-07-10'
 repo = OrderRepository.new
 
 order = Order.new
-order.customer # => 'Mike Anderson'
-order.date # => '2022.06.23'
+order.customer = 'Mike Anderson'
+order.date = '2022-06-23'
 
 repo.create(order)
 
 all_orders = repo.all
 all_orders.last.id # => '3'
 all_orders.last.customer # => 'Mike Anderson'
-all_orders.last.date # => '2022.06.23'
+all_orders.last.date # => '2022-06-23'
 
 # ItemRepository
 # 1
@@ -221,10 +221,10 @@ items[0].order_id # => '1'
 repo = ItemRepository.new
 
 item = Item.new
-item.name # => 'Kofi coffee table'
-item.unit_price # => '455'
-item.quantity # => '80'
-item.order_id # => '2'
+item.name = 'Kofi coffee table'
+item.unit_price = '455'
+item.quantity = '80'
+item.order_id = '2'
 
 repo.create(item)
 
@@ -255,7 +255,7 @@ end
 
 RSpec.describe OrderRepository do
   before(:each) do 
-    reset_order_table
+    reset_orders_table
   end
 
   # (your tests will go here).
