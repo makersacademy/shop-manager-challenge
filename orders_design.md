@@ -1,4 +1,4 @@
-# {{items}} Model and Repository Classes Design Recipe
+# {{orders}} Model and Repository Classes Design Recipe
 
 ## 1. Design and create the Table
 
@@ -33,69 +33,69 @@ psql -h 127.0.0.1 shop_manager < spec/seeds_items_orders.sql
 ## 3. Define the class names
 
 ```ruby
-# Table name: items
+# Table name: orders
 
 # Model class
-# (in lib/item.rb)
-class Item
+# (in lib/order.rb)
+class Order
 end
 
 # Repository class
-# (in lib/item_repo.rb)
-class ItemRepository
+# (in lib/order_repo.rb)
+class OrderRepository
 end
 ```
 
 ## 4. Implement the Model class
 
 ```ruby
-# Table name: items
+# Table name: orders
 
 # Model class
-# (in lib/item.rb)
+# (in lib/order.rb)
 
-class Item
-  attr_accessor :id, :name, :unit_price, :qty
+class Order
+  attr_accessor :id, :customer_name, :date_placed
 end
 ```
 
 ## 5. Define the Repository Class interface
 
 ```ruby
-# Table name: items
+# Table name: orders
 
 # Repository class
-# (in lib/item_repo.rb)
+# (in lib/order_repo.rb)
 
-class ItemRepository
+class OrderRepository
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT * FROM items;
+    # SELECT * FROM orders;
 
-    # Returns an array of Item objects.
+    # Returns an array of Order objects.
   end
 
-  # Create an item
-  # Takes an Item object as an argument
-  def create(item)
+  # Create an order
+  # Takes an Order object as an argument
+  def create(order)
     # Executes the SQL query:
-    # INSERT INTO items (name, unit_price, qty)
-    # VALUES ($1, $2, $3);
+    # INSERT INTO orders (customer_name, date_placed)
+    # VALUES ($1, $2);
 
-    # params = [item.name, item.unit_price, item.qty]
+    # params = [order.customer_name, order.date_placed]
     # Returns nothing
   end
 
-  # Update an item
-  # Takes id of item to update and Item object as arguments
-  def update(id, item)
+  # Update an order
+  # Takes id of order to update and Order object as arguments
+  def update(id, order)
     # Executes the SQL query:
-    # UPDATE items WHERE id = $4
-    # SET (name, unit_price, qty) = ($1, $2, $3)
+    # UPDATE orders WHERE id = $3
+    # SET (customer_name, date_placed) = ($1, $2)
 
-    # params = [item.name, item.unit_price, item.qty, id]
+    # params = [order.customer_name, order.date_placed, id]
     # Returns nothing
   end
 end
@@ -105,77 +105,70 @@ end
 
 ```ruby
 
-#1 Get all items
+#1 Get all orders
 
-repo = ItemRepository.new
-items = repo.all
+repo = OrderRepository.new
+orders = repo.all
 
-items.length # =>  5
+orders.length # =>  5
 
-items[0].id # =>  1
-items[0].name # =>  'Hoover'
-items[0].unit_price # =>  '100'
-items[0].qty # => '20'
+orders[0].id # =>  1
+orders[0].customer_name # =>  'Frank'
+orders[0].date_placed # =>  '04-Jan-2021'
 
-items[1].id # =>  2
-items[1].name # =>  'Washing Machine'
-items[1].unit_price # =>  '400'
-items[1].qty # => '30'
+orders[1].id # =>  2
+orders[1].customer_name # =>  'Benny'
+orders[1].date_placed # =>  '05-Aug-2022'
 
-#2 Create an item
+#2 Create an order
 
-repo = ItemRepository.new
+repo = OrderRepository.new
 
-item = Item.new
-item.name = 'Dishwasher'
-item.unit_price = '429'
-item.qty = '7'
+order = Order.new
+order.customer_name = 'Mary'
+order.date_placed = '07-Aug-2022'
 
-repo.create(item)
-items = repo.all
 
-items.length # => 6
+repo.create(order)
+orders = repo.all
 
-items[0].id # =>  1
-items[0].name # =>  'Hoover'
-items[0].unit_price # =>  '100'
-items[0].qty # => '20'
+orders.length # => 3
 
-items[5].id # =>  6
-items[5].name # =>  'Dishwasher'
-items[5].unit_price # =>  '429'
-items[5].qty # => '7'
+orders[0].id # =>  1
+orders[0].customer_name # =>  'Frank'
+orders[0].date_placed # =>  '04-Jan-2021'
 
-#3 Update an item
+orders[2].id # =>  3
+orders[2].customer_name # =>  'Mary'
+orders[2].date_placed # =>  '07-Aug-2022'
 
-repo = ItemRepository.new
+#3 Update an order
 
-item = Item.new
-item.name = 'Hoover'
-item.unit_price = '149'
-item.qty = '15'
+repo = OrderRepository.new
 
-repo.update(1, item)
-items = repo.all.sort_by { |item| item.id.to_i }
+order = Order.new
+order.customer_name = 'Frank'
+order.date_placed = '06-Aug-2022'
 
-items.length # => 5
+repo.update(1, order)
+orders = repo.all.sort_by { |order| order.id.to_i }
 
-items[0].id # =>  1
-items[0].name # =>  'Hoover'
-items[0].unit_price # =>  '149'
-items[0].qty # => '15'
+orders.length # => 2
 
-items[1].id # =>  2
-items[1].name # =>  'Washing Machine'
-items[1].unit_price # =>  '400'
-items[1].qty # => '30'
+orders[0].id # =>  1
+orders[0].customer_name # =>  'Frank'
+orders[0].date_placed # =>  '06-Aug-2022'
+
+orders[1].id # =>  2
+orders[1].customer_name # =>  'Benny'
+orders[1].date_placed # =>  '05-Aug-2022'
 ```
 
 ## 7. Reload the SQL seeds before each test run
 
 ```ruby
 
-# file: spec/item_repo_spec.rb
+# file: spec/order_repo_spec.rb
 
 def reset_tables
   seed_sql = File.read('spec/seeds_items_orders.sql')
@@ -183,7 +176,7 @@ def reset_tables
   connection.exec(seed_sql)
 end
 
-describe ItemRepository do
+describe OrderRepository do
   before(:each) do 
     reset_tables
   end
