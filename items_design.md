@@ -81,10 +81,10 @@ class ItemRepository
   # Takes an Item object as an argument
   def create(item)
     # Executes the SQL query:
-    # INSERT INTO items (id, name, unit_price, qty)
-    # VALUES ($1, $2, $3, $4);
+    # INSERT INTO items (name, unit_price, qty)
+    # VALUES ($1, $2, $3);
 
-    # params = [item.id, item.name, item.unit_price, item.qty]
+    # params = [item.name, item.unit_price, item.qty]
     # Returns nothing
   end
 
@@ -132,6 +132,7 @@ item.unit_price = '429'
 item.qty = '7'
 
 repo.create(item)
+items = repo.all
 
 items.length # => 6
 
