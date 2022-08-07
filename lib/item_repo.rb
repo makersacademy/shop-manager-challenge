@@ -11,21 +11,18 @@ class ItemRepository
   def create(item)
     sql = 'INSERT INTO items (name, unit_price, qty)
       VALUES ($1, $2, $3);'
-
     params = [item.name, item.unit_price, item.qty]
     DatabaseConnection.exec_params(sql, params)
     return
   end
 
-  # Update an item
-  # Takes an Item object as an argument
-  def update(item)
-    # Executes the SQL query:
-    # UPDATE items SET (id, name, unit_price, qty)
-    # VALUES ($1, $2, $3, $4)
-    
-    # params = [item.id, item.name, item.unit_price, item.qty]
-    # Returns nothing
+  def update(id, item)
+    sql = 'UPDATE items
+      SET (name, unit_price, qty) = ($1, $2, $3)
+      WHERE id = $4;'
+    params = [item.name, item.unit_price, item.qty, id]
+    DatabaseConnection.exec_params(sql, params)
+    return
   end
 
   private

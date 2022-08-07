@@ -89,13 +89,13 @@ class ItemRepository
   end
 
   # Update an item
-  # Takes an Item object as an argument
-  def update(item)
+  # Takes id of item to update and Item object as arguments
+  def update(id, item)
     # Executes the SQL query:
-    # UPDATE items SET (id, name, unit_price, qty)
-    # VALUES ($1, $2, $3, $4)
+    # UPDATE items WHERE id = $4
+    # SET (name, unit_price, qty) = ($1, $2, $3)
 
-    # params = [item.id, item.name, item.unit_price, item.qty]
+    # params = [item.name, item.unit_price, item.qty, id]
     # Returns nothing
   end
 end
@@ -156,6 +156,7 @@ item.unit_price = '149'
 item.qty = '15'
 
 repo.update(item)
+items = repo.all.sort_by { |item| item.id.to_i }
 
 items.length # => 5
 

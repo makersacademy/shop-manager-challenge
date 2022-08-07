@@ -52,4 +52,28 @@ describe ItemRepository do
     expect(items[5].qty).to eq '7'  
   end
 
+  it "updates an item" do
+    repo = ItemRepository.new
+
+    item = Item.new
+    item.name = 'Hoover'
+    item.unit_price = '149'
+    item.qty = '15'
+    
+    repo.update(1, item)
+    items = repo.all.sort_by { |item| item.id.to_i }
+    
+    expect(items.length).to eq 5
+    
+    expect(items[0].id).to eq '1'
+    expect(items[0].name).to eq  'Hoover'
+    expect(items[0].unit_price).to eq  '149'
+    expect(items[0].qty).to eq '15'
+    
+    expect(items[1].id).to eq '2'
+    expect(items[1].name).to eq  'Washing Machine'
+    expect(items[1].unit_price).to eq  '400'
+    expect(items[1].qty).to eq '30'
+  end
+
 end
