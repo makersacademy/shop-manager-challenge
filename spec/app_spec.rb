@@ -83,4 +83,40 @@ describe Application do
 
     run_app(io)
   end
+
+  it "creates an order" do
+    str = "What do you want to do?\n"
+    str += "  1 = list all shop items\n  2 = create a new item\n"
+    str += "  3 = list all orders\n  4 = create a new order\n"
+
+    io = double :fake
+    expect(io).to receive(:puts).with(str)
+    expect(io).to receive(:gets).and_return("4")    
+    expect(io).to receive(:puts).with("\nWho is ordering?")
+    expect(io).to receive(:gets).and_return("Wendy")    
+    expect(io).to receive(:puts).with("\nEnter <item name>, <qty> to add to order")
+    expect(io).to receive(:puts).with("Type 'Y' when done")
+    expect(io).to receive(:gets).and_return("Cooker, 1")
+    expect(io).to receive(:puts).with("Add <Cooker - 1> to order? [Y/n]")
+    expect(io).to receive(:gets).and_return("Y")
+    expect(io).to receive(:puts).with("\nEnter <item name>, <qty> to add to order")
+    expect(io).to receive(:puts).with("Type 'Y' when done")
+    expect(io).to receive(:gets).and_return("Y")
+    expect(io).to receive(:puts).with("\nOrder summary:")
+    expect(io).to receive(:puts).with("* Cooker - qty: 1")
+    expect(io).to receive(:puts).with("\nProceed? [Y/n]")
+    expect(io).to receive(:gets).and_return("Y")
+    expect(io).to receive(:puts).with("\nOrder placed!")
+
+    run_app(io)
+
+    order_repo = OrderRepository.new
+    new_order = order_repo.all[-1]
+    with_items = order_repo.order_with_items(new_order.id)
+    expect(new_order.customer_name).to eq 'Wendy'
+    expect(with_items.items[0].name).to eq 'Cooker'
+    item_repo = ItemRepository.new
+    cooker = item_repo.find_item(3)
+    expect(cooker.qty).to eq '11'
+  end
 end

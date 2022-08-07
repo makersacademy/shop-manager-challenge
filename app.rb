@@ -49,6 +49,42 @@ class Application
         end
       end
       @io.puts ord
+
+    elsif user == "4"
+      order = Order.new
+      @io.puts "\nWho is ordering?"
+      order.customer_name = @io.gets.chomp
+      order.date_placed = Time.now.strftime("%d-%b-%y")
+      while true
+        @io.puts "\nEnter <item name>, <qty> to add to order"
+        @io.puts "Type 'Y' when done"
+        user = @io.gets.chomp
+        break if user.downcase == "y"
+        new_item = Item.new
+        new_item.name = user.split(",")[0].strip
+        new_item.qty = user.split(",")[1].strip
+  
+        #horrific
+        @item_repo.all.each do |item|
+          new_item.id = item.id if item.name == new_item.name
+        end
+
+        @io.puts "Add <#{new_item.name} - #{new_item.qty}> to order? [Y/n]"
+        user = @io.gets.chomp
+        order.items << new_item if user.downcase == "y"
+      end
+      @io.puts "\nOrder summary:"
+      order.items.each do |item|
+        @io.puts "* #{item.name} - qty: #{item.qty}"
+      end
+      @io.puts "\nProceed? [Y/n]"
+      user = @io.gets.chomp
+      if user.downcase == "y"
+        @order_repo.create(order) 
+        @io.puts "\nOrder placed!"
+      else
+        @io.puts "\nOrder cancelled!"
+      end
     end
   end
 end
