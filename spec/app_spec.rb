@@ -38,22 +38,49 @@ describe Application do
     run_app(io)
   end
 
+  it "creates a new item" do
+    str = "What do you want to do?\n"
+    str += "  1 = list all shop items\n  2 = create a new item\n"
+    str += "  3 = list all orders\n  4 = create a new order\n"
+    io = double :fake
+    expect(io).to receive(:puts).with(str)
+    expect(io).to receive(:gets).and_return("2")
+    expect(io).to receive(:puts).with("\nEnter item name:")
+    expect(io).to receive(:gets).and_return("Freezer")
+    expect(io).to receive(:puts).with("\nEnter unit price:")
+    expect(io).to receive(:gets).and_return("289")
+    expect(io).to receive(:puts).with("\nEnter stock quantity:")
+    expect(io).to receive(:gets).and_return("150")
+    expect(io).to receive(:puts).with("\n Create item: <Freezer - 289 - 150>? [Y/n]")
+    expect(io).to receive(:gets).and_return("Y")
+
+    run_app(io)
+
+    repo = ItemRepository.new
+    new_item = repo.all[-1]
+    expect(new_item.name).to eq 'Freezer'
+    expect(new_item.unit_price).to eq '289'
+    expect(new_item.qty).to eq '150'
+  end
+
   it "lists all orders" do
     str = "What do you want to do?\n"
-      str += "  1 = list all shop items\n  2 = create a new item\n"
-      str += "  3 = list all orders\n  4 = create a new order\n"
-      io = double :fake
-      expect(io).to receive(:puts).with(str)
-      expect(io).to receive(:gets).and_return("3")
-      ord = "\nHere's a list of all orders\n\n"
-      ord += "  #1 - Customer: Frank - Placed: 04-Jan-2021\n"
-      ord += "    * Hoover - Unit price: 100 - qty: 2\n"
-      ord += "    * Washing Machine - Unit price: 400 - qty: 1\n"
-      ord += "  #2 - Customer: Benny - Placed: 05-Aug-2022\n"
-      ord += "    * Hoover - Unit price: 100 - qty: 1\n"
-      ord += "    * Cooker - Unit price: 389 - qty: 3\n"
-      expect(io).to receive(:puts).with(ord)  
-  
-      run_app(io)
+    str += "  1 = list all shop items\n  2 = create a new item\n"
+    str += "  3 = list all orders\n  4 = create a new order\n"
+
+    ord = "\nHere's a list of all orders:\n\n"
+    ord += "  #1 - Customer: Frank - Placed: 04-Jan-2021\n"
+    ord += "    * Hoover - Unit price: 100 - qty: 2\n"
+    ord += "    * Washing Machine - Unit price: 400 - qty: 1\n"
+    ord += "  #2 - Customer: Benny - Placed: 05-Aug-2022\n"
+    ord += "    * Hoover - Unit price: 100 - qty: 1\n"
+    ord += "    * Cooker - Unit price: 389 - qty: 3\n"
+
+    io = double :fake
+    expect(io).to receive(:puts).with(str)
+    expect(io).to receive(:gets).and_return("3")    
+    expect(io).to receive(:puts).with(ord)  
+
+    run_app(io)
   end
 end
