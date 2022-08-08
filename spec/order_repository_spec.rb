@@ -11,7 +11,7 @@ RSpec.describe OrderRepository do
     reset_orders_table
   end
 
-  it 'returns all order' do
+  it 'returns all orders' do
     repo = OrderRepository.new
 
     orders = repo.all
