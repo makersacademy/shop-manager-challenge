@@ -2,13 +2,13 @@ require_relative '../app'
 
 def reset_tables
   seed_sql = File.read('spec/seeds_items_orders.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager' })
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
   connection.exec(seed_sql)
 end
 
 def run_app(io)
   app = Application.new(
-      'shop_manager',
+      'shop_manager_test',
       io,
       ItemRepository.new,
       OrderRepository.new

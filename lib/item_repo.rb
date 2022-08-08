@@ -15,6 +15,14 @@ class ItemRepository
     result.map { |record| make_item(record) }[0]
   end    
 
+  # ***need to test!***
+  def find_by_name(name)
+    sql = 'SELECT * FROM items
+      WHERE name = $1'
+    result = DatabaseConnection.exec_params(sql, [name])
+    result.map { |record| make_item(record) }[0]
+  end    
+
   def create(item)
     sql = 'INSERT INTO items (name, unit_price, qty)
       VALUES ($1, $2, $3);'

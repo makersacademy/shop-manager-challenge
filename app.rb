@@ -19,20 +19,23 @@ class Application
     end
   end
 
+  def ask_respond(text, text_2 = nil)
+    @io.puts text
+    @io.puts text_2 if text_2 != nil
+    @io.gets.chomp
+  end
+
   def proceed(item)
-    @io.puts "\n Create item: <#{item.name} - #{item.unit_price} - #{item.qty}>? [Y/n]"
-    proceed = @io.gets.chomp
+    str = "\n Create item: <#{item.name} - #{item.unit_price} - #{item.qty}>? [Y/n]"
+    proceed = ask_respond(str)
     @item_repo.create(item) if proceed.downcase == "y"
   end
 
   def new_item
     item = Item.new
-    @io.puts "\nEnter item name:"
-    item.name = @io.gets.chomp
-    @io.puts "\nEnter unit price:"
-    item.unit_price = @io.gets.chomp
-    @io.puts "\nEnter stock quantity:"
-    item.qty = @io.gets.chomp
+    item.name = ask_respond("\nEnter item name:")
+    item.unit_price = ask_respond("\nEnter unit price:")
+    item.qty = ask_respond("\nEnter stock quantity:")
     proceed(item)
   end
   
@@ -49,30 +52,22 @@ class Application
     @io.puts ord
   end
 
-  def prompt_user
-    @io.puts "\nEnter <item name>, <qty> to add to order"
-    @io.puts "Type 'Y' when done"
-    @io.gets.chomp
-  end
-
   def make_item
-    user = prompt_user()
+    user = ask_respond("\nEnter <item name>, <qty> to add to order", "Type 'Y' when done")
     return false if user.downcase == "y"
+
+    # ***problem here if user enters nothing!***
     new_item = Item.new
     new_item.name = user.split(",")[0].strip
     new_item.qty = user.split(",")[1].strip
-
-    # ***horrific***
-    @item_repo.all.each { |item| new_item.id = item.id if item.name == new_item.name }
-
+    new_item.id = @item_repo.find_by_name(new_item.name).id
     new_item  
   end
 
   def order_summary(order)
     @io.puts "\nOrder summary:"
     order.items.each { |item| @io.puts "* #{item.name} - qty: #{item.qty}" }
-    @io.puts "\nProceed? [Y/n]"
-    @io.gets.chomp
+    ask_respond("\nProceed? [Y/n]")
   end
 
   def place_order(order, proceed)
@@ -86,8 +81,7 @@ class Application
 
   def create_order
     order = Order.new
-    @io.puts "\nWho is ordering?"
-    order.customer_name = @io.gets.chomp
+    order.customer_name = ask_respond("\nWho is ordering?")
     order.date_placed = Time.now.strftime("%d-%b-%y")
     order
   end
@@ -98,8 +92,7 @@ class Application
       new_item = make_item()
       break if new_item == false
 
-      @io.puts "Add <#{new_item.name} - #{new_item.qty}> to order? [Y/n]"
-      user = @io.gets.chomp
+      user = ask_respond("Add <#{new_item.name} - #{new_item.qty}> to order? [Y/n]")
       order.items << new_item if user.downcase == "y"
     end
     basket = order_summary(order)
@@ -110,8 +103,7 @@ class Application
     str = "What do you want to do?\n"
     str += "  1 = list all shop items\n  2 = create a new item\n"
     str += "  3 = list all orders\n  4 = create a new order\n"
-    @io.puts str
-    @io.gets.chomp
+    ask_respond(str)
   end
 
   def run 
