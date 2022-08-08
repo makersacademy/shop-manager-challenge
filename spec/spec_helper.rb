@@ -1,8 +1,3 @@
-require 'database_connection'
-
-# Make sure this connects to your test database
-# (its name should end with '_test')
-DatabaseConnection.connect('social_network_test')
 require 'simplecov'
 require 'simplecov-console'
 
@@ -20,3 +15,9 @@ RSpec.configure do |config|
     puts "[33mTry it now! Just run: rubocop[0m"
   end
 end
+
+require 'database_connection'
+
+# Make sure this connects to your test database
+# (its name should end with '_test')
+DatabaseConnection.connect('shop_manager_test')
