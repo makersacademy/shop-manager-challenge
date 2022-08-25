@@ -46,7 +46,27 @@ RSpec.describe OrderRepository do
             expect(repo.all.last.customer_name).to eq 'Patrick'
             expect(repo.all.last.order_date).to eq '2022-08-25'
         end
+        it 'joins a new object to items in the items_orders table' do
+            repo = OrderRepository.new
 
+            order = Order.new
+            order.customer_name = 'Patrick'
+            order.order_date = '2022-08-25'
+            order.items_to_buy = [1,2,3]
+          
+            repo.create(order)
+        end
+    describe '#find_items_by_order_id' do
+        it 'Finds 3 items matching order_id 1' do
+            repo = OrderRepository.new
+            items = repo.find_items_by_order_id(1)
+            
+            expect(items.length).to eq 3
+            
+            expect(items[0].item_name).to eq 'Smart Watch'
+            expect(items[0].item_price).to eq 250.0
+        end
+    end
     end
 end
 

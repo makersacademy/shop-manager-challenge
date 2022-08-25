@@ -219,6 +219,8 @@ These examples will later be encoded as RSpec tests.
     found_item.item_price # => 250.0
     found_item.item_quantity # => 60
 
+  
+
 # Add more examples for each method
 ```
 

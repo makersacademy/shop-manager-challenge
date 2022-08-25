@@ -61,6 +61,4 @@ RSpec.describe ItemRepository do
             expect(found_item.item_quantity).to eq 60
         end
     end
-
-
 end

@@ -175,6 +175,19 @@ class OrderRepository
       # sql = 'INSERT INTO items_orders (item_id, order_id) VALUES ($1, $2)
   # end
 
+  def find_items_by_order_id(id)
+    #order_id as an argument
+    #executes SQL query:
+    #'SELECT items.id, items.name
+      # FROM items 
+      #   JOIN items_orders ON items_orders.item_id = items.id
+      #   JOIN orders ON items_orders.order_id = orders.id
+      #   WHERE orders.id = $1;'
+
+    # returns array of items matching the order_id
+  end
+
+
   # def update(order)
   # end
 
@@ -237,23 +250,16 @@ orders[1].order_date# =>  '2022-04-25'
   repo.all.last.customer_name # => 'Patrick'
   repo.all.last.order_date # => '2022-08-25'
 
+#4
+# Find_items_by_order_id
 
-# def create(order)
-    #1 Add order to orders table with customer name and order date
-      #customer_name = gets.chomp
-      #order_date = Time.now --> format to the YYYY-MM-DD format
-      #create(customer_name, order_date, [array of item_ids])
-      # sql = 'INSERT INTO orders (customer_name, order_date) VALUES ($1, $2)
-    #2 Look up the item_ids from the items table for each ordered item.
-      #order.items_to_buy iterate through each do |record| ...
-    #3 Add order number with matched items to the items_orders table
+  repo = OrderRepository.new
+  items = repo.find_items_by_order_id(1)
+  
+  expect(items.length).to eq 3
 
-      # sql = SELECT order.id FROM orders WHERE order.customer_name = $1
-      # params = [order.customer_name]
-
-      # params = [record, all.last]
-      # sql = 'INSERT INTO items_orders (item_id, order_id) VALUES ($1, $2)
-  # end
+  expect(items.first.item_name).to eq 'Smart Watch'
+  expect(items.first.item_price).to eq 250.0
 
 # Add more examples for each method
 ```
