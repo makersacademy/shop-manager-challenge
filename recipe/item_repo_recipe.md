@@ -151,6 +151,16 @@ class ItemRepository
     # INSERT INTO items (item_name, item_price, item_quantity) VALUES ($1, $2, $3)
     # Returns nil
   end
+
+    # Gets a single record by its ID
+  # One argument: the item_name (string)
+  def find_by_item_name(item_name)
+    # Executes the SQL query:
+    # SELECT * FROM orders WHERE id = $1;
+
+    # Returns a single order object.
+  end
+
 end
 ```
 
@@ -197,6 +207,18 @@ These examples will later be encoded as RSpec tests.
     all_items.last.item_name # => 'Crisps'
     all_items.last.item_price # => '0.99'
     all_items.last.item_quantity # => '999'
+
+# 3
+# find_by_item_name
+    repo = ItemRepository.new
+
+    found_item = repo.find('Smart Watch')
+
+    found_item.id # => 1
+    found_item.item_name # => 'Smart Watch'
+    found_item.item_price # => 250.0
+    found_item.item_quantity # => 60
+
 # Add more examples for each method
 ```
 

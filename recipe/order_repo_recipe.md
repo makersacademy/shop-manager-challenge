@@ -138,13 +138,11 @@ Using comments, define the method signatures (arguments and return value) and wh
 # Repository class
 # (in lib/order_repository.rb)
 
-class orderRepository
+class OrderRepository
 
-  # Selecting all records
-  # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM orders;
+    # SELECT * FROM orders;
 
     # Returns an array of order objects.
   end

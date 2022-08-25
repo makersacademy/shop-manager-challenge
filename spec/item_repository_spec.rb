@@ -49,5 +49,18 @@ RSpec.describe ItemRepository do
         end
     end
 
+    describe '#find_by_item_name' do
+        it '' do
+            repo = ItemRepository.new
+
+            found_item = repo.find('Smart Watch')
+
+            found_item.id # => 1
+            found_item.item_name # => 'Smart Watch'
+            found_item.item_price # => 250.0
+            found_item.item_quantity # => 60
+        end
+    end
+
 
 end
