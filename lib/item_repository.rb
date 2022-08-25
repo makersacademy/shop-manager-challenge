@@ -22,6 +22,13 @@ class ItemRepository
         return nil
     end
 
+    def find_by_item_name(item_name)
+        sql = 'SELECT * FROM items WHERE item_name = $1'
+        params = [item_name]
+        item = DatabaseConnection.exec_params(sql, params).first
+        return create_item_object(item)
+    end
+
     private
 
     def create_item_object(record)

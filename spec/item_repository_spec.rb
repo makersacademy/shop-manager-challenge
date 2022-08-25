@@ -50,15 +50,15 @@ RSpec.describe ItemRepository do
     end
 
     describe '#find_by_item_name' do
-        it '' do
+        it 'Finds smart watch from items table and returns item object' do
             repo = ItemRepository.new
 
-            found_item = repo.find('Smart Watch')
+            found_item = repo.find_by_item_name('Smart Watch')
 
-            found_item.id # => 1
-            found_item.item_name # => 'Smart Watch'
-            found_item.item_price # => 250.0
-            found_item.item_quantity # => 60
+            expect(found_item.id).to eq 1
+            expect(found_item.item_name).to eq 'Smart Watch'
+            expect(found_item.item_price).to eq 250.0
+            expect(found_item.item_quantity).to eq 60
         end
     end
 

@@ -149,7 +149,7 @@ class OrderRepository
 
   # Gets a single record by its ID
   # One argument: the id (number)
-  def find(id)
+  def find_item_by_order_id(id)
     # Executes the SQL query:
     # SELECT id, name, cohort_name FROM orders WHERE id = $1;
 
@@ -159,6 +159,20 @@ class OrderRepository
   # Add more methods below for each operation you'd like to implement.
 
   # def create(order)
+    #1 Add order to orders table with customer name and order date
+      #customer_name = gets.chomp
+      #order_date = Time.now --> format to the YYYY-MM-DD format
+      #create(customer_name, order_date, [array of item_ids])
+      # sql = 'INSERT INTO orders (customer_name, order_date) VALUES ($1, $2)
+    #2 Look up the item_ids from the items table for each ordered item.
+      #order.items_to_buy iterate through each do |record| ...
+    #3 Add order number with matched items to the items_orders table
+
+      # sql = SELECT order.id FROM orders WHERE order.customer_name = $1
+      # params = [order.customer_name]
+
+      # params = [record, all.last]
+      # sql = 'INSERT INTO items_orders (item_id, order_id) VALUES ($1, $2)
   # end
 
   # def update(order)
@@ -179,32 +193,67 @@ These examples will later be encoded as RSpec tests.
 # EXAMPLES
 
 # 1
-# Get all students
+# Get all orders
 
-repo = StudentRepository.new
+repo = OrderRepository.new
 
-students = repo.all
+orders = repo.all
 
-students.length # =>  2
+orders.length # =>  2
 
-students[0].id # =>  1
-students[0].name # =>  'David'
-students[0].cohort_name # =>  'April 2022'
+orders[0].id # =>  1
+orders[0].customer_name # =>  'Jimothy'
+orders[0].order_date# =>  '2022-05-07'
 
-students[1].id # =>  2
-students[1].name # =>  'Anna'
-students[1].cohort_name # =>  'May 2022'
+orders[1].id # =>  2
+orders[1].name # =>  'Nick'
+orders[1].order_date# =>  '2022-04-25'
 
 # 2
-# Get a single student
+# # Get a single order
 
-repo = StudentRepository.new
+# repo = OrderRepository.new
 
-student = repo.find(1)
+# order = repo.find(1)
 
-student.id # =>  1
-student.name # =>  'David'
-student.cohort_name # =>  'April 2022'
+# order.id # =>  1
+# order.name # =>  'David'
+# order.order_date# =>  'April 2022'
+
+# 3
+# Create an order
+ 
+  repo = OrderRepository.new
+
+  order = Order.new
+  order.customer_name = 'Patrick'
+  order.order_date = '2022-08-25'
+  order.items_to_buy = [1,2,3]
+
+  repo.create(order)
+
+  repo.all.length # => 3
+
+  repo.all.last.customer_name # => 'Patrick'
+  repo.all.last.order_date # => '2022-08-25'
+
+
+# def create(order)
+    #1 Add order to orders table with customer name and order date
+      #customer_name = gets.chomp
+      #order_date = Time.now --> format to the YYYY-MM-DD format
+      #create(customer_name, order_date, [array of item_ids])
+      # sql = 'INSERT INTO orders (customer_name, order_date) VALUES ($1, $2)
+    #2 Look up the item_ids from the items table for each ordered item.
+      #order.items_to_buy iterate through each do |record| ...
+    #3 Add order number with matched items to the items_orders table
+
+      # sql = SELECT order.id FROM orders WHERE order.customer_name = $1
+      # params = [order.customer_name]
+
+      # params = [record, all.last]
+      # sql = 'INSERT INTO items_orders (item_id, order_id) VALUES ($1, $2)
+  # end
 
 # Add more examples for each method
 ```
