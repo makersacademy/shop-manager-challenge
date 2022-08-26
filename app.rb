@@ -23,7 +23,7 @@ class Application
   fail "Invalid Input" unless valid?(selection)
     if selection == 1
       @io.puts "Here is the list of all items:"
-      @item_repository.all.map do |item|
+      @item_repository.all.each do |item|
       puts "#{item.id}. #{item.name} - #{item.unit_price} - #{item.quantity}"
       end
     elsif selection == 2
@@ -58,13 +58,6 @@ class Application
 
 end
 
-
 if __FILE__ == $0
-  app = Application.new(
-    'shop_manager_test',
-    Kernel,
-    ItemRepository.new,
-    OrderRepository.new
-  )
-  app.run
+  Application.new('orders_test', Kernel, ItemRepository.new, OrderRepository.new).run
 end

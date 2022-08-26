@@ -65,4 +65,50 @@ describe Application do
     app = Application.new('orders_test', io, item_repo, order_repo)
     expect { app.run }.to raise_error "Invalid Input"
   end
+
+  it "creates a new item record" do
+    io = double :io
+    order_repo = double :order_repository
+    item_repo = double :item_repository, create: nil
+    item = double :item
+    expect(io).to receive(:puts).with("Welcome to the Shop Manager Program").ordered
+    expect(io).to receive(:puts).with("What do you want to do?").ordered
+    expect(io).to receive(:puts).with("1. List all shop items").ordered
+    expect(io).to receive(:puts).with("2. Create a new item").ordered
+    expect(io).to receive(:puts).with("3. List all orders").ordered
+    expect(io).to receive(:puts).with("4. Create a new order").ordered
+    expect(io).to receive(:gets).and_return("2")
+    expect(io).to receive(:puts).with("What is the item name").ordered
+    expect(io).to receive(:gets).and_return('Ice')
+    expect(io).to receive(:puts).with("What is the unit price for Ice").ordered
+    expect(io).to receive(:gets).and_return('10')
+    expect(io).to receive(:puts).with("What is the quantity for Ice").ordered
+    expect(io).to receive(:gets).and_return('1')
+    expect(io).to receive(:puts).with("Ice item has been created").ordered
+    app = Application.new('orders_test', io, item_repo, order_repo)
+    app.run
+  end
+
+
+  it "creates a new order record" do
+    io = double :io
+    order_repo = double :order_repository, create: nil
+    item_repo = double :item_repository
+    item = double :item
+    order = double :order
+    expect(io).to receive(:puts).with("Welcome to the Shop Manager Program").ordered
+    expect(io).to receive(:puts).with("What do you want to do?").ordered
+    expect(io).to receive(:puts).with("1. List all shop items").ordered
+    expect(io).to receive(:puts).with("2. Create a new item").ordered
+    expect(io).to receive(:puts).with("3. List all orders").ordered
+    expect(io).to receive(:puts).with("4. Create a new order").ordered
+    expect(io).to receive(:gets).and_return("4")
+    expect(io).to receive(:puts).with("What is the customer name").ordered
+    expect(io).to receive(:gets).and_return("Jake")
+    expect(io).to receive(:puts).with("What is the date of this order").ordered
+    expect(io).to receive(:gets).and_return("2022-05-12")
+    expect(io).to receive(:puts).with("Order for Jake has been created").ordered
+    app = Application.new('orders_test', io, item_repo, order_repo)
+    app.run
+  end
 end
