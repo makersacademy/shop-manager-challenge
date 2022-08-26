@@ -12,14 +12,6 @@ class Application
     def run
         @io.puts "Welcome to the Shop Managing Software v17.34 by Nick Incorporated\n\n\n -----Please follow the instructions laid out below to manage your shop-----"
         user_input_choice
-        #Starts the terminal interaction with the customer
-        # order = Order.new
-        # order.customer_name = customer_name
-        # order.order_date = Time.now --> formatted
-        # order.items_to_buy = [1,2,3,4]
-    
-        # orderrepo = OrderRepository.new
-        # orderrepo.create(order)
     end
 
     private
