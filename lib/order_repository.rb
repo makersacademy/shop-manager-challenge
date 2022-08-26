@@ -34,16 +34,35 @@ class OrderRepository
         return items
     end
 
-    def find_id_by_customer_name(customer_name)
-        sql = 'SELECT orders.id FROM orders WHERE orders.customer_name = $1;'
+    def find_items_by_customer_name(customer_name)
+        sql = 'SELECT items.id, items.item_name, items.item_price, items.item_quantity
+                FROM items 
+                    JOIN items_orders ON items_orders.item_id = items.id
+                    JOIN orders ON items_orders.order_id = orders.id
+                    WHERE orders.customer_name = $1;'
         params = [customer_name]
-        cust_id = DatabaseConnection.exec_params(sql, params)[0]['order_id']
-        
+        result = DatabaseConnection.exec_params(sql, params)
+
+        items = []
+
+        result.each do |record|
+            items << create_item_object(record)
+        end
+
+        return items
+    end
+
+    def find_id_by_customer_name(customer_name)
+        sql = 'SELECT * FROM orders WHERE orders.customer_name = $1;'
+        params = [customer_name]
+        cust = DatabaseConnection.exec_params(sql, params)
+        cust_id = cust.first['id'].to_i
         return cust_id
     end
   
     def create(order)
-        add_order_to_orders(order)
+
+        add_order_to_orders(order) if !all.any?{|record| record.customer_name == order.customer_name}
         join_order_to_items(order)
         return nil
     end
@@ -76,10 +95,10 @@ class OrderRepository
 
     def join_order_to_items(order)
         cust_id = find_id_by_customer_name(order.customer_name)
-
         order.items_to_buy.each do |record| 
             params = [record, cust_id]
             sql = 'INSERT INTO items_orders (item_id, order_id) VALUES ($1, $2);'
+            DatabaseConnection.exec_params(sql, params)
         end
         return nil
     end

@@ -44,6 +44,10 @@ Get user input for either:
 
 class Application
 
+    def initialize (database_name, item_repository, object_repository, io=Kernel )
+    
+    end
+
     def run
         #Starts the terminal interaction with the customer
     end
@@ -51,6 +55,11 @@ class Application
     private
 
     def print_item_list
+
+        # all.map do |story|
+        #     "#{id} - #{item_name}"
+        # end
+        
         #prints item list with format "#{id} - #{item_name}
     end
 
@@ -76,3 +85,20 @@ class Application
 end
 
  ```
+
+# Test Cases
+```ruby
+# 1
+# print_item_list
+
+    app = Application.new(shop_manager_test, ItemRepository.new, OrderRepository.new, io)
+    result = app.send(:print_item_list)
+    expect(result).to eq "1 - Smart Watch: £250.00\n2 - USB C to USB adapter: £8.99\n3 - Wireless Earbuds: £24.64\n4 - Shower Head and Hose: £16.99"
+
+# 2
+# print_order_list
+    app = Application.new(shop_manager_test, ItemRepository.new, OrderRepository.new, io)
+    result = app.send(:print_order_list)
+    expect(result).to eq "1 - Jimothy on date: 2022-05-07\n    Smart Watch\n    USB C to USB adapter\n    Wireless Earbuds\n2 - Nick on date: 2022-04-25\n    Shower Head and Hose\n    USB C to USB adapter"
+    
+```
