@@ -1,0 +1,5 @@
+require 'application'
+require 'item_repository'
+require 'order_repository'
+require 'item'
+require 'order'
