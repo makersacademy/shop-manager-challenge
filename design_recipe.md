@@ -70,7 +70,7 @@ class Item
 end
 
 class Order
-  attr_accessor :id, :customer_name, :date_placed
+  attr_accessor :id, :customer_name, :date_placed, :items
 end
 
 ```
@@ -79,96 +79,55 @@ end
 
 ```ruby
 
-class UserRepository
+class ItemRepository
 
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, email FROM post;
+    # SELECT id, name, unit_price, quantity FROM items;
 
-    # Returns an array of User objects.
+    # Returns an array of Item objects.
   end
-
-  # Gets a single record by its ID
-  # One argument: the id (number)
-  def find(id)
-    # Executes the SQL query:
-    # SELECT id, name, email FROM post WHERE id = $1;
-
-    # Returns a single User object.
-  end
-
 
   # Creates a new record
-  def create(user)
+  def create(item)
     # Executes the SQL query:
-    # INSERT INTO post (name, email) VALUES ($1, $2);
-
-    # returns nil
-  end
-
-  # Deletes a record
-  def delete(id)
-    # Executes the SQL query:
-    # DELETE FROM post WHERE id = $1;
+    # INSERT INTO items (name, unit_price, quantity) VALUES ($1, $2, $3);
 
     # returns nil
   end  
-  
-  # Updates a record given
-  def update(user)
-    # Executes the SQL query:
-    # UPDATE post SET name = $1, email = $2 WHERE id = $3;
 
-    # returns nil
-  end
 end
 
 
 
-class PostRepository
+class OrderRepository
+
+  # need to have the items that were ordered also accessed with the all method
+
+  # need to have a way to add items for the create method
 
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, title, content, number_of_views, user_id FROM posts;
+    # SELECT orders.id, orders.customer_name, orders.date_placed, items.name AS item_name, items.unit_price AS item_price FROM orders JOIN items_orders ON orders.id = items_orders.order_id JOIN items ON items.id = items_orders.item_id;
 
-    # Returns an array of Post objects.
-  end
-
-  # Gets a single record by its ID
-  # One argument: the id (number)
-  def find(id)
-    # Executes the SQL query:
-    # SELECT id, title, content, number_of_views, user_id FROM posts WHERE id = $1;
-
-    # Returns a single Post object.
+    # Returns an array of Order objects inlcuding a list of the Item objects
   end
 
   # Creates a new record
-  def create(post)
+  def create(order)
     # Executes the SQL query:
-    # INSERT INTO posts (title, content, number_of_views, user_id) VALUES ($1, $2, $3, $4);
+    # INSERT INTO orders (customer_name, date_placed) VALUES ($1, $2);
+
+    # And for each item in the order.items array, execute this:
+    # INSERT INTO items_orders (item_id, order_id) VALUES ($1, $2)
 
     # returns nil
   end
 
-  # Deletes a record
-  def delete(id)
-    # Executes the SQL query:
-    # DELETE FROM posts WHERE id = $1;
-
-    # returns nil
-  end  
-  
-  # Updates a record given
-  def update(post)
-    # Executes the SQL query:
-    # UPDATE posts SET title = $1, content = $2, number_of_views = $3, user_id = $4 WHERE id = $5
-
-    # returns nil
   end
 end
 ```
@@ -181,153 +140,114 @@ These examples will later be encoded as RSpec tests.
 
 ```ruby
 
-# USER REPOSITORY TESTS
+# ITEM REPOSITORY TESTS
 # 1
-# Get all post
+# Get all items
 
-repo = UserRepository.new
+repo = ItemRepository.new
 
-post = repo.all
+items = repo.all
 
-post.length # =>  2
+items.length # =>  6
 
-post[0].id # =>  1
-post[0].name # =>  'David'
-post[0].email # =>  'david@makers.com'
-
-post[1].id # =>  2
-post[1].name # =>  'Anna'
-post[1].email # =>  'anna@makers.com'
-
-# 2
-# Get a single user
-
-repo = UserRepository.new
-
-user = repo.find(1)
-
-user.id # =>  1
-user.name # =>  'David'
-user.email # =>  'david@makers.com'
-
-# 3
-# Create a single user
-
-repo = UserRepository.new
-
-user = User.new
-user.name = 'Jane'
-user.email = 'jane@makers.com'
-
-repo.create(user)
-
-repo.all.last.name # => 'Jane'
-repo.all.last.email # => 'jane@makers.com'
-
-# 4
-# Delete a single user
-
-repo = UserRepository.new
-
-repo.delete(1)
-
-repo.all.length #=> 1
-repo.all.first.id # => '2'
-repo.all.first.name # => 'Anna'
-repo.all.first.email # => 'anna@makers.com'
-
-# 5
-# Update a single user
-
-repo = UserRepository.new
-
-user = repo.find(1)
-user.email = 'david@gmail.com'
-repo.update(user)
-
-updated_user = repo.find(1)
-updated_user.email # => 'david@gmail.com'
-
-
-
-# POST REPOSITORY TESTS
-# 1
-# Get all post
-
-repo = PostRepository.new
-
-posts = repo.all
-
-posts.length # =>  2
-
-posts[0].id # =>  1
-posts[0].title # =>  'First Day'
-posts[0].content # =>  'Today was a great day.'
-posts[0].number_of_views # => '132'
-posts[0].user_id # => '1'
-
-posts[1].id # =>  2
-posts[1].title # =>  'Learning SQL'
-posts[1].content # =>  'I have learned so much.'
-posts[1].number_of_views # => '472'
-posts[1].user_id # => '2'
+items[0].id # =>  '1'
+items[0].name # =>  'White Desk Lamp'
+items[0].unit_price # =>  '18'
+items[0].quantity # => '12'
+items[0].id # =>  '2'
+items[0].name # =>  'Mahogani Dining Table'
+items[0].unit_price # =>  '235'
+items[0].quantity # => '5'
+items[0].id # =>  '3'
+items[0].name # =>  'Oak Bookshelf'
+items[0].unit_price # =>  '80'
+items[0].quantity # => '15'
+items[0].id # =>  '4'
+items[0].name # =>  'Oriental Rug'
+items[0].unit_price # =>  '139'
+items[0].quantity # => '21'
+items[0].id # =>  '5'
+items[0].name # =>  'Aloe Vera Houseplant'
+items[0].unit_price # =>  '12'
+items[0].quantity # => '150'
+items[0].id # =>  '6'
+items[0].name # =>  'Leather Sofa'
+items[0].unit_price # =>  '1699'
+items[0].quantity # => '2'
 
 
 # 2
-# Get a single post
+# Create a new item
 
-repo = PostRepository.new
+repo = ItemRepository.new
 
-post = repo.find(1)
+item = Item.new
+item.name = 'Luxury Armchair'
+item.unit_price = 240
+item.quantity = 7
 
-post.id # =>  1
-post.title # =>  'First Day'
-post.content # =>  'Today was a great day.'
-post.number_of_views # => '132'
-post.user_id # => '1'
+repo.create(item)
 
-# 3
-# Create a single post
-
-repo = PostRepository.new
-
-post = Post.new
-post.title = 'Golden square'
-post.content = 'OOD and TDD'
-post.number_of_views = 245
-post.user_id = 2
-
-repo.create(post)
-
-repo.all.last.title # => 'Golden square'
-repo.all.last.content # => 'OOD and TDD'
-
-# 4
-# Delete a single post
-
-repo = PostRepository.new
-
-repo.delete(1)
-
-repo.all.length #=> 1
-repo.all.first.id # => '2'
-repo.all.first.title # => 'Learning SQL'
-repo.all.first.content # => 'I have learned so much.'
-
-# 5
-# Update a single post
-
-repo = PostRepository.new
-
-post = repo.find(1)
-post.content = 'Today was HARD!'
-repo.update(post)
-
-updated_post = repo.find(1)
-updated_post.content # => 'Today was HARD!'
+repo.all.last.name # => 'Luxury Armchair'
+repo.all.last.unit_price # => '240'
+repo.all.last.quantity # => '7'
 
 
-# Add more examples for each method
+
+# ORDER REPOSITORY TESTS
+# 1
+# Get all orders
+
+repo = OrderRepository.new
+
+orders = repo.all
+
+orders.length # =>  3
+
+orders[0].id # =>  1
+orders[0].customer_name # =>  'John Treat'
+orders[0].date_placed # => '2022-08-12'
+orders[0].items[0].name # => 'Oak Bookshelf'
+orders[0].items[1].name # => 'Oriental Rug'
+orders[0].items[2].name # => 'Leather Sofa'
+
+orders[1].id # =>  2
+orders[1].customer_name # =>  'Amelia Macfarlane'
+orders[1].date_placed # => '2022-08-14'
+orders[1].items[0].name # => 'White Desklamp'
+
+orders[2].id # =>  3
+orders[2].customer_name # =>  'Eleanor Borgate'
+orders[2].date_placed # => '2022-09-02'
+orders[2].items[0].name # => 'White Desk Lamp'
+orders[2].items[1].name # => 'Oak Bookshelf'
+orders[2].items[2].name # => 'Aloe Vera Houseplant'
+
+# 2
+# Create a new order
+
+repo = OrderRepository.new
+
+item1 = Item.new
+item1.name = 'Leather Sofa'
+item2 = Item.new
+item2.name = 'Oriental Rug'
+
+order = Order.new
+order.customer_name = 'Bella Cruxiante'
+order.date_placed = '2022-09-09'
+order.items << item1
+order.items << item2
+
+repo.create(order)
+
+created_order = repo.all.last
+created_order.customer_name # => 'Bella Cruxiante'
+created_order.date_placed # => '2022-09-09'
+created_order.items[0].name # => 'Leather Sofa'
+created_order.items[1].name # => 'Oriental Rug'
+
+
 ```
 
 Encode this example as a test.
