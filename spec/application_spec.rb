@@ -59,20 +59,42 @@ RSpec.describe Application do
   end
 
   describe "#create_new_order" do
-  it "creates a new shop order" do      
-    io = double :io
-    item_repository = ItemRepository.new
-    order_repository = OrderRepository.new
-    app = Application.new('shop_manager_test', io, item_repository, order_repository)
-    expect(io).to receive(:puts).with("Enter customer name:")
-    expect(io).to receive(:gets).and_return("Chandler")
-    expect(io).to receive(:puts).with("Enter item name:")
-    expect(io).to receive(:gets).and_return("Item 1")
-    expect(io).to receive(:puts).with("Enter order date:")
-    expect(io).to receive(:gets).and_return("2022-05-13")
-    expect(io).to receive(:puts).with("Order created.")
-    app.create_new_order
+    it "creates a new shop order" do      
+      io = double :io
+      item_repository = ItemRepository.new
+      order_repository = OrderRepository.new
+      app = Application.new('shop_manager_test', io, item_repository, order_repository)
+      expect(io).to receive(:puts).with("Enter customer name:")
+      expect(io).to receive(:gets).and_return("Chandler")
+      expect(io).to receive(:puts).with("Enter item name:")
+      expect(io).to receive(:gets).and_return("Item 1")
+      expect(io).to receive(:puts).with("Enter order date:")
+      expect(io).to receive(:gets).and_return("2022-05-13")
+      expect(io).to receive(:puts).with("Order created.")
+      app.create_new_order
+    end
   end
-end
+
+  describe "#run" do
+    context "when menu 1 is chosen" do
+      it "prints all shop items" do
+        io = double :io
+        item_repository = ItemRepository.new
+        order_repository = OrderRepository.new
+        app = Application.new('shop_manager_test', io, item_repository, order_repository)
+        expect(io).to receive(:puts).with("Welcome to the Makers (August 2022 Cohort) shop manager!")
+        expect(io).to receive(:puts).with("What would you like to do?")
+        expect(io).to receive(:puts).with("1 - List all shop items")
+        expect(io).to receive(:puts).with("2 - Create a new item")
+        expect(io).to receive(:puts).with("3 - List all orders")
+        expect(io).to receive(:puts).with("4 - Create a new order")
+        expect(io).to receive(:puts).with("Enter your choice:")
+        expect(io).to receive(:gets).and_return("1")
+        expect(io).to receive(:puts).with("#1 - Item 1 - Price: 1 - Stock quantiy: 5")
+        expect(io).to receive(:puts).with("#2 - Item 2 - Price: 2 - Stock quantiy: 10")
+        app.run
+      end
+    end
+  end
 
 end

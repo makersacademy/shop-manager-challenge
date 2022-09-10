@@ -22,7 +22,7 @@ class Application
 
   def create_new_item
     item = Item.new
-
+    
     @io.puts "Enter item name:"
     item.name = @io.gets.chomp
     @io.puts "Enter item price:"
@@ -53,6 +53,27 @@ class Application
 
     @order_repository.create_order(order)
     @io.puts "Order created."    
+  end
+
+  def run
+    @io.puts "Welcome to the Makers (August 2022 Cohort) shop manager!"
+    @io.puts "What would you like to do?"
+    @io.puts "1 - List all shop items"
+    @io.puts "2 - Create a new item"
+    @io.puts "3 - List all orders"
+    @io.puts "4 - Create a new order"
+
+    @io.puts "Enter your choice:"    
+    input = @io.gets.chomp        
+    if input == "1"
+      print_all_items
+    elsif input == "2"
+      create_new_item
+    elsif input == "3"
+      print_all_orders
+    elsif input == "4"
+      create_new_order
+    end
   end
 
 end
