@@ -29,4 +29,14 @@ RSpec.describe OrderRepository do
     expect(orders.count).to eq 4
     expect(orders.last.customer).to eq 'Xinrui'
   end
+
+  it "find order with items" do
+    repo = OrderRepository.new
+    order = repo.find_with_items(2)
+    binding.irb
+    expect(order[0]).to eq "Chris"
+    expect(order[1]).to eq "2021-09-23"
+    expect(order.last[0]).to eq "microSD"
+    expect(order.last[1]).to eq "cradle"
+  end
 end

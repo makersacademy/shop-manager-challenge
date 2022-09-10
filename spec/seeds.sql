@@ -24,3 +24,9 @@ INSERT INTO items_orders (item_id, order_id) VALUES
   (1, 3),
   (4, 3),
   (5, 3);
+
+-- SELECT orders.customer, orders.date, items.name
+--   FROM orders
+--     JOIN items_orders ON items_orders.order_id = orders.id
+--     JOIN items ON items.id = items_orders.item_id
+--   WHERE orders.id = $1;

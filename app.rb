@@ -13,7 +13,7 @@ class Application
   def run
     @io.puts "Welcome to the shop management program!"
     while true do
-      @io.puts "What do you want to do?\n  1 = list all shop items\n  2 = create a new item\n  3 = list all orders\n  4 = create a new order\n  exit"
+      @io.puts "What do you want to do?\n  1 = list all shop items\n  2 = create a new item\n  3 = list all orders\n  4 = create a new order\n  5 = find order with items\n  exit"
       input = @io.gets.to_i
       case input
       when 1
@@ -39,10 +39,15 @@ class Application
         order.customer = @io.gets.chomp
         order.date = @io.gets.chomp
         @order_repository.create(order)
+      when 5
+        @io.puts "Which order (id) do you want to find with items?"
+        id = @io.gets.to_i
+        order = @order_repository.find_with_items(id)
+        @io.puts "Customer: #{order[0]} has ordered #{order.last} on #{order[1]}."
       when 0
         break
       else
-        @io.puts "Please enter a number from 1 to 4"
+        @io.puts "Please enter a number from 1 to 5"
       end
     end
     
