@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-ruby '3.0.2'
+ruby '3.0.0'
 
 group :test do
   gem 'rspec'
@@ -13,3 +13,5 @@ group :development, :test do
 end
 
 gem "pg", "~> 1.3"
+
+gem "dotenv", "~> 2.8"

@@ -5,15 +5,14 @@ require 'item_repository'
 require 'order_repository'
 require 'item'
 require 'order'
+require 'dotenv/load'
 
-#connection passed into app as mock in tests and real in app.rb
-#put host & db_name as ENV variables
-database_connection = DatabaseConnection.connect({host: 'ENV VAR', dbname: 'ENV VAR'})
+DatabaseConnection.connect
 
 app = Application.new(
-  item_repository: OrderRepository.new(database_connection: database_connection),
-  order_repository: ItemRepository.new(database_connection: database_connection),
+  item_repository: ItemRepository.new,
+  order_repository: OrderRepository.new,
   io: Kernel
 )
 
-
+app.run

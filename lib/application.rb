@@ -1,28 +1,18 @@
 class Application
-  def initialize(database_connection:, io:, order_repository:, item_repository:)
+  def initialize(io:, order_repository:, item_repository:)
     @io = io
     @order_repository = order_repository
-    @item_repository = ItemRepository.new(database_connection: @database_connection)
+    @item_repository = item_repository
   end
 
   def run
     @io.puts 'Welcome to the shop management program!'
-    loop do
-      menu
-      input = @io.gets.chomp
-      case input
-      when '1' 
-        print_all_items
-      when '2'
-        add_item
-      when '3'
-        print_all_orders
-      when '4'
-        add_order
-      when '5'
-        return
-      end
-    end
+    menu
+    input = @io.gets.chomp
+    print_all_items if input == '1'
+    add_item if input == '2'
+    print_all_orders if input == '3'
+    add_order if input == '4'
   end
 
   private
@@ -33,14 +23,15 @@ class Application
     @io.puts '2 - create a new item'
     @io.puts '3 - list all orders'
     @io.puts '4 - create a new order'
-    @io.puts '5 - exit'
   end
 
   def print_all_orders
     @io.puts 'Here is a list of all orders'
-    orders = @order_repository.all_with_items
+    orders = @order_repository.all_with_item
     orders.each do |order|
+      @io.puts('Order:')
       @io.puts "#{order.id} - Customer: #{order.customer} - Date: #{order.date}"
+      @io.puts('Item:')
       print_item(order.item)
     end
   end
@@ -60,17 +51,27 @@ class Application
   def add_order 
     customer = prompt "Customer name:"
     date = prompt "Order date:"
-    item = propmt "Item id:"
-    order = Order.new()
+    item_id = prompt "Item ID:"
+    order = Order.new(
+      customer: customer,
+      date: date
+    )
+    order.item_id = item_id
     @order_repository.create(order)
+    @io.puts('Order created.')
   end
 
   def add_item
     name = prompt "Item name:"
     price = prompt "Unit price:"
-    stock = propmt "Quantity in stock:"
-    item = Item.new()
+    stock = prompt "Stock:"
+    item = Item.new(
+      name: name,
+      price: price,
+      stock: stock
+    )
     @item_repository.create(item)
+    @io.puts 'Item created.'
   end
 
   def prompt(message)

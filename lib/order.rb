@@ -3,5 +3,5 @@ class Order
     @customer = customer
     @date = date
   end
-  attr_accessor :customer, :date, :id, :item
+  attr_accessor :customer, :date, :item_id, :item, :id
 end
