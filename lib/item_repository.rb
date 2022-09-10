@@ -28,6 +28,8 @@ class ItemRepository
     sql = "INSERT INTO items (name, price, stock_qty) VALUES ($1, $2, $3);"
     sql_params = [item.name, item.price, item.stock_qty]
     result_set = DatabaseConnection.exec_params(sql, sql_params)
-  end 
+  end
+
+  
 
 end

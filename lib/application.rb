@@ -11,4 +11,18 @@ class Application
     @order_repository = order_repository
   end
 
+  def print_all_items
+    result = @item_repository.all_items
+    result.each do |item|
+      @io.puts "##{item.id} - #{item.name} - Price: #{item.price} - Stock quantiy: #{item.stock_qty}"
+    end
+  end
+
+
+  def print_all_albums
+    result = @album_repository.all
+    result.each do |album|
+      @io.puts "#{album.id} - #{album.title}"
+    end
+  end
 end
