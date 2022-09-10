@@ -29,4 +29,24 @@ describe ItemRepository do
         expect(item[1].order_id).to eq '2'
 
     end
+
+    it 'creates a new item' do
+        repo = ItemRepository.new
+
+        item = Item.new
+        item.stock = '7'
+        item.name = 'Bread'
+        item.price = '2'
+        item.order_id = '2'
+
+        repo.create(item)
+
+        all_items = repo.all
+
+        last_item = all_items.last
+        expect(last_item.stock).to eq '7'
+        expect(last_item.name).to eq 'Bread'
+        expect(last_item.price).to eq '2'
+        expect(last_item.order_id).to eq '2'
+    end
 end
