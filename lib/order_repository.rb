@@ -2,24 +2,23 @@ require_relative 'order'
 
 class OrderRepository
   def all
-    sql = 'SELECT * FROM items'
+    sql = 'SELECT * FROM orders'
     result = DatabaseConnection.exec_params(sql, [])
     
-    items = []
+    orders = []
     result.each do |record|
-      item = Item.new
-      item.id = record['id'].to_i
-      item.name = record['name']
-      item.unit_price = record['unit_price'].to_i
-      item.quantity = record['quantity'].to_i
-      items << item
+      order = Order.new
+      order.id = record['id'].to_i
+      order.customer = record['customer']
+      order.date = record['date']
+      orders << order
     end
-    return items
+    return orders
   end
 
-  def create(item)
-    sql = 'INSERT INTO items (name, unit_price, quantity) VALUES ($1, $2, $3)'
-    params = [item.name, item.unit_price, item.quantity]
+  def create(order)
+    sql = 'INSERT INTO orders (customer, date) VALUES ($1, $2)'
+    params = [order.customer, order.date]
     result = DatabaseConnection.exec_params(sql, params)
     return nil
   end

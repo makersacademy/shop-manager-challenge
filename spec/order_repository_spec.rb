@@ -11,24 +11,22 @@ RSpec.describe OrderRepository do
     reset_table
   end
 
-  it "returns an array of all shop items" do
-    repo = ItemRepository.new
-    items = repo.all
-    expect(items.count).to eq 5
-    expect(items[0].name).to eq 'voile'
-    expect(items[0].unit_price).to eq 13
-    expect(items[0].quantity).to eq 260
+  it "returns an array of all orders" do
+    repo = OrderRepository.new
+    orders = repo.all
+    expect(orders.count).to eq 3
+    expect(orders[0].customer).to eq 'Yichao'
+    expect(orders[0].date).to eq '2022-08-22'
   end
 
-  it "creates a shop item" do
-    repo = ItemRepository.new
-    new_item = Item.new
-    new_item.name = 'coffee pods'
-    new_item.unit_price = '5'
-    new_item.quantity = '10'
-    repo.create(new_item)
-    items = repo.all
-    expect(items.count).to eq 6
-    expect(items.last.name).to eq 'coffee pods'
+  it "creates a order" do
+    repo = OrderRepository.new
+    new_order = Order.new
+    new_order.customer = 'Xinrui'
+    new_order.date = '2022-09-10'
+    repo.create(new_order)
+    orders = repo.all
+    expect(orders.count).to eq 4
+    expect(orders.last.customer).to eq 'Xinrui'
   end
 end
