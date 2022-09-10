@@ -20,7 +20,6 @@ class Application
     end
   end
 
-
   def create_new_item
     item = Item.new
 
@@ -32,8 +31,16 @@ class Application
     item.stock_qty = @io.gets.chomp
 
     @item_repository.create_item(item)
-    @io.puts "Item created."
-
-    
+    @io.puts "Item created."    
   end
+
+  def print_all_orders
+    result = @order_repository.all_orders
+    result.each do |order|
+      @io.puts "##{order.id} - Customer: #{order.customer} - Item: #{order.item} - Order date: #{order.date}"
+    end
+  end
+
+
+
 end

@@ -44,6 +44,20 @@ RSpec.describe Application do
     end
   end
 
+  describe "#print_all_orders" do
+    it "prints all shop orders" do      
+      io = double :io
+      item_repository = ItemRepository.new
+      order_repository = OrderRepository.new
+      app = Application.new('shop_manager_test', io, item_repository, order_repository)
+      expect(io).to receive(:puts).with("#1 - Customer: Wendy - Item: Item 1 - Order date: 2022-01-13")
+      expect(io).to receive(:puts).with("#2 - Customer: Jovi - Item: Item 2 - Order date: 2022-02-13")
+      expect(io).to receive(:puts).with("#3 - Customer: Bob - Item: Item 1 - Order date: 2022-03-13")
+      expect(io).to receive(:puts).with("#4 - Customer: Dave - Item: Item 2 - Order date: 2022-04-13")
+      app.print_all_orders
+    end
+  end
+
 # describe "#print_all_items" do
 #   it "prints items " do      
 #     io = double :io
