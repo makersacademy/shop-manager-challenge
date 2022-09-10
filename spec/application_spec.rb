@@ -76,7 +76,7 @@ RSpec.describe Application do
   end
 
   describe "#run" do
-    context "when menu 1 is chosen" do
+    context "when option 1 is chosen" do
       it "prints all shop items" do
         io = double :io
         item_repository = ItemRepository.new
@@ -92,6 +92,31 @@ RSpec.describe Application do
         expect(io).to receive(:gets).and_return("1")
         expect(io).to receive(:puts).with("#1 - Item 1 - Price: 1 - Stock quantiy: 5")
         expect(io).to receive(:puts).with("#2 - Item 2 - Price: 2 - Stock quantiy: 10")
+        app.run
+      end
+    end
+
+    context "when option 2 is chosen" do
+      it "takes user input and creates a new shop item" do
+        io = double :io
+        item_repository = ItemRepository.new
+        order_repository = OrderRepository.new
+        app = Application.new('shop_manager_test', io, item_repository, order_repository)
+        expect(io).to receive(:puts).with("Welcome to the Makers (August 2022 Cohort) shop manager!")
+        expect(io).to receive(:puts).with("What would you like to do?")
+        expect(io).to receive(:puts).with("1 - List all shop items")
+        expect(io).to receive(:puts).with("2 - Create a new item")
+        expect(io).to receive(:puts).with("3 - List all orders")
+        expect(io).to receive(:puts).with("4 - Create a new order")
+        expect(io).to receive(:puts).with("Enter your choice:")
+        expect(io).to receive(:gets).and_return("2")
+        expect(io).to receive(:puts).with("Enter item name:")
+        expect(io).to receive(:gets).and_return("Item 3")
+        expect(io).to receive(:puts).with("Enter item price:")
+        expect(io).to receive(:gets).and_return("3")
+        expect(io).to receive(:puts).with("Enter item stock quantity:")
+        expect(io).to receive(:gets).and_return("15")
+        expect(io).to receive(:puts).with("Item created.")
         app.run
       end
     end
