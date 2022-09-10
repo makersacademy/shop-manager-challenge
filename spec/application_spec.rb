@@ -142,6 +142,31 @@ RSpec.describe Application do
         app.run
       end
     end
+
+    context "when option 4 is chosen" do
+      it "takes user input and creates a new order" do
+        io = double :io
+        item_repository = ItemRepository.new
+        order_repository = OrderRepository.new
+        app = Application.new('shop_manager_test', io, item_repository, order_repository)
+        expect(io).to receive(:puts).with("Welcome to the Makers (August 2022 Cohort) shop manager!")
+        expect(io).to receive(:puts).with("What would you like to do?")
+        expect(io).to receive(:puts).with("1 - List all shop items")
+        expect(io).to receive(:puts).with("2 - Create a new item")
+        expect(io).to receive(:puts).with("3 - List all orders")
+        expect(io).to receive(:puts).with("4 - Create a new order")
+        expect(io).to receive(:puts).with("Enter your choice:")
+        expect(io).to receive(:gets).and_return("4")
+        expect(io).to receive(:puts).with("Enter customer name:")
+        expect(io).to receive(:gets).and_return("Chandler")
+        expect(io).to receive(:puts).with("Enter item name:")
+        expect(io).to receive(:gets).and_return("Item 1")
+        expect(io).to receive(:puts).with("Enter order date:")
+        expect(io).to receive(:gets).and_return("2022-05-13")
+        expect(io).to receive(:puts).with("Order created.")
+        app.run
+      end
+    end
   end
 
 end
