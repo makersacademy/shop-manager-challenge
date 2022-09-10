@@ -1,5 +1,4 @@
-require_relative 'item'
-require_relative 'order'
+require 'item_repository'
 
 RSpec.describe ItemRepository do
   def reset_table
@@ -12,5 +11,12 @@ RSpec.describe ItemRepository do
     reset_table
   end
 
-  
+  it "returns an array of all shop items" do
+    repo = ItemRepository.new
+    items = repo.all
+    expect(items.count).to eq 5
+    expect(items[0].name).to eq 'voile'
+    expect(items[0].unit_price).to eq 13
+    expect(items[0].quantity).to eq 260
+  end
 end
