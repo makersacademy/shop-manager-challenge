@@ -47,7 +47,7 @@ customer: name
 | Record (Table)        | Properties                  |
 | --------------------- | --------------------------- |
 | items                 | name, price, stock_qty      |
-| orders                | customer, item_id, date     |
+| orders                | customer, item, date     |
 
 1. Table 1 name: `items` 
 
@@ -55,7 +55,7 @@ customer: name
 
 2. Table 2 name: `orders` 
 
-    Column names: `customer`, `item_id`, `date`
+    Column names: `customer`, `item`, `date`
 
 ## 3. Decide the column types.
 
@@ -71,7 +71,7 @@ stock_qty: int
 Table: orders
 id: SERIAL
 customer: text
-item_id: int
+item: text
 date: date
 ```
 
@@ -104,7 +104,7 @@ CREATE TABLE items (
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
   customer text,
-  item_id int,
+  item text,
   date date
 );
 
