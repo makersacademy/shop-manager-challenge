@@ -41,6 +41,18 @@ class Application
     end
   end
 
+  def create_new_order
+    order = Order.new
 
+    @io.puts "Enter customer name:"
+    order.customer = @io.gets.chomp
+    @io.puts "Enter item name:"
+    order.item = @io.gets.chomp
+    @io.puts "Enter order date:"
+    order.date = @io.gets.chomp
+
+    @order_repository.create_order(order)
+    @io.puts "Order created."    
+  end
 
 end
