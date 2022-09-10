@@ -1,4 +1,6 @@
+require_relative './item'
 require_relative './item_repository'
+require_relative './order'
 require_relative './order_repository'
 require_relative './database_connection'
 
@@ -19,10 +21,19 @@ class Application
   end
 
 
-  def print_all_albums
-    result = @album_repository.all
-    result.each do |album|
-      @io.puts "#{album.id} - #{album.title}"
-    end
+  def create_new_item
+    item = Item.new
+
+    @io.puts "Enter item name:"
+    item.name = @io.gets.chomp
+    @io.puts "Enter item price:"
+    item.price = @io.gets.chomp
+    @io.puts "Enter item stock quantity:"
+    item.stock_qty = @io.gets.chomp
+
+    @item_repository.create_item(item)
+    @io.puts "Item created."
+
+    
   end
 end

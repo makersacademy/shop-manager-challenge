@@ -18,4 +18,4 @@ require 'database_connection'
 #   end
 # end
 
-DatabaseConnection.connect('shop_manager')
+DatabaseConnection.connect('shop_manager_test')

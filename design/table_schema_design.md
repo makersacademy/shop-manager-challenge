@@ -121,5 +121,5 @@ CREATE TABLE items_orders (
 ## 5. Create the tables.
 
 ```bash
-psql -h 127.0.0.1 shop_manager < items_orders.sql
+psql -h 127.0.0.1 shop_manager_test < items_orders.sql
 ```
