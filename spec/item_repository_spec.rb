@@ -24,8 +24,8 @@ RSpec.describe ItemRepository do
     repo = ItemRepository.new
     new_item = Item.new
     new_item.name = 'coffee pods'
-    new_item.unit_price = '5'
-    new_item.quantity = '10'
+    new_item.unit_price = 5
+    new_item.quantity = 10
     repo.create(new_item)
     items = repo.all
     expect(items.count).to eq 6
