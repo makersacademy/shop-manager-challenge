@@ -11,7 +11,7 @@ Solo project at the end of Week 3 at Makers
 
 ## Process:
 
-### Extraction of schema data from the user stories:
+## Extraction of schema data from the user stories:
 
 ```
 As a shop manager
@@ -57,7 +57,7 @@ drecrease on order), checking about sufficient inventory on order, etc.
 corresponding 'item'". This means one to many relationship, rather than many to
 many which would make more sense if one order could have many items.
 
-### Creating database schema and writing the sql
+## Creating database schema and writing the sql
 ```sql
 -- two tables, one-to-many connection of item to orders items pk will be in
 -- orders table as fk (item_id)
@@ -99,19 +99,62 @@ INSERT INTO orders (customer_name, order_date, item_id)
   VALUES ('Jane Doe', '2022-08-24', 1);
 ```
 ```bash
-createdb blog_2
-createdb blog_2_test
+createdb shop_manager
+createdb shop_manager_test
 psql -h localhost shop_manager < seeds_shop_manager.sql
 psql -h localhost shop_manager_test < seeds_shop_manager.sql
 ```
-### Design of model and model repository classes (done in respective files)
+## Design of model and model repository classes (done in respective files)
 
+Completed in item_repository.rb and order_repository.rb.
 
+## Design tests for repository classes
 
+```ruby
+# 1 - item_repository#all returns a list of all items as Item objects
+item_repo = ItemRepository.new
+items = item_repo.all
+items.length # => 2
+items.first.name # => "Super Shark Vacuum Cleaner"
+items.first.unit_price # => 99
+items.first.stock_quantity # => 30
+items.last.name # => "Makerspresso Coffee Machine"
+items.last.unit_price # => 69
+items.last.stock_quantity # => 15
 
-<br/><br/><br/><br/>
-Original md file:
+# 2 - item_repository#create(item) creates an item record from Item object
+item_repo = ItemRepository.new
+item = Item.new
+item.name = "Super Smart Genius Toaster"
+item.unit_price = 79.0
+item.stock_quantity = 10
+item_repo.create(item)
+latest_item = item_repo.all.last
+items.name # => "Super Smart Genius Toaster"
+items.unit_price # => 79
+items.stock_quantity # => 10
+```
+## Test driving the repository classes and the application class, notes
+
+The code is now functional and with tests, but could be refactored a lot. There
+is no input validation.
+
+The application covers the specifications even though it isn't very usable. I'm
+familiar with most things necessary, although a small part of the code is used
+without much understanding (PG connection structure). Test driving worked ok.
+Deviations from the recipe were useful for designing tests which had similar
+structure, as they were easier and faster to change in _spec file code.
+
+Things that need improvement or checking for feedback:
+
+* the implementation of #all_with_item for order repository seems off
+* only 98.85% test coverage - can't test Kernel and db connect raise error
+* not sure about the approach to integration testing of each input/output
+* need to see how the model class should change with extra repo class methods
+
 <br/><br/>
+Original md file:
+<br/>
 
 Shop Manager Project
 =================
