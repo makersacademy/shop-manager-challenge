@@ -1,4 +1,5 @@
 class ItemRepository
+  
   def all
     sql = "SELECT * FROM items;"
     item_list = []
@@ -37,6 +38,26 @@ class ItemRepository
       item.orders << order
     end
     item
+  end
+
+  def find_with_order(order)
+    sql = "SELECT *
+           FROM items
+           JOIN items_orders ON items.id = items_orders.item_id
+           JOIN orders ON items_orders.order_id = orders.id
+           WHERE orders.order_date = $1;"
+    params = [order]
+    item_list = []
+    result = DatabaseConnection.exec_params(sql, params)
+    result.each do |row|
+      item = Item.new
+      item.id = row['id']
+      item.name = row['name']
+      item.price = row['price'].to_f
+      item.quantity = row['quantity'].to_i
+      item_list << item
+    end
+    item_list
   end
 
 end

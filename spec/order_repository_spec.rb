@@ -11,6 +11,7 @@ describe OrderRepository do
   before(:each) do
     reset_table
   end
+  
   it "should return all orders" do
     shop = OrderRepository.new
     order_list = shop.all
@@ -31,10 +32,11 @@ describe OrderRepository do
     expect(order.order_date).to eq "2022-01-01"
     expect(order.items.length).to eq 3
   end
-  it "should return an orders containing a specified item" do
+  it "should return orders containing a specified item" do
     shop = OrderRepository.new
     order = shop.find_with_item("Bread")
     expect(order.length).to eq 1
     expect(order.first.customer_name).to eq "Thomas Mannion"
   end
+
 end

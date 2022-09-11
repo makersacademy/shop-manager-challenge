@@ -11,6 +11,7 @@ describe ItemRepository do
   before(:each) do
     reset_table
   end
+  
   it "should return all items" do
     shop = ItemRepository.new
     item_list = shop.all
@@ -31,4 +32,11 @@ describe ItemRepository do
     expect(item.quantity).to eq 10
     expect(item.orders.length).to eq 1
   end
+  it "should return all items containing a specified order date" do
+    shop = ItemRepository.new
+    item = shop.find_with_order("2022-01-01")
+    expect(item.length).to eq 3
+    expect(item.first.name).to eq "Bread"
+  end
+
 end
