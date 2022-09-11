@@ -1,3 +1,5 @@
+require 'order'
+
 class OrderRepository
 
   def all
@@ -60,5 +62,5 @@ class OrderRepository
     end
     order_list
   end
-  
+
 end

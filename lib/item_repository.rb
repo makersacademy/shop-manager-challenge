@@ -1,5 +1,7 @@
+require 'item'
+
 class ItemRepository
-  
+
   def all
     sql = "SELECT * FROM items;"
     item_list = []
