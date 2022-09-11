@@ -23,4 +23,12 @@ describe ItemRepository do
     expect(shop.all.length).to eq 11
     expect(shop.all.last.name).to eq "test"
   end
+  it "should return an item by id" do
+    shop = ItemRepository.new
+    item = shop.find(1)
+    expect(item.name).to eq "Bread"
+    expect(item.price).to eq 1.50
+    expect(item.quantity).to eq 10
+    expect(item.orders.length).to eq 1
+  end
 end
