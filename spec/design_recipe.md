@@ -119,7 +119,7 @@ Columns: post_id, tag_id
 CREATE TABLE items (
   id SERIAL PRIMARY KEY,
   name text,
-  price flaot,
+  price float,
   quantity int,
 );
 
