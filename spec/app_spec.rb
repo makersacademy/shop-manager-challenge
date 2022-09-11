@@ -18,8 +18,6 @@ describe Application do
     expect(io).to receive(:puts).with("2 = create a new item")
     expect(io).to receive(:puts).with("3 = list all orders")
     expect(io).to receive(:puts).with("4 = create a new order")
-    # expect(io).to receive(:gets).and_return("1")
-
     app.ask_user
   end
   it "should return all items" do
