@@ -2,6 +2,7 @@ require 'pg'
 
 # env vars used for database connection credentials
 # due to pg gem compatibility issue when run on Linux OS
+
 class DatabaseConnection 
   def self.connect(database_name)
     user = ENV['PGUSER1'].to_s
