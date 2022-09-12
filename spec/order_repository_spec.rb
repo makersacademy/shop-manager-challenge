@@ -36,12 +36,26 @@ describe OrderRepository do
     order_new = Order.new
     order_new.customer = 'Chris'
     order_new.date = '2022, 08, 27'
-    order_new.items = ['2']
 
     repo.create(order_new)
 
     repo_updated = repo.all
 
+    expect(repo_updated.length).to eq 3
+    expect(repo_updated[2].customer).to eq 'Chris'
+    expect(repo_updated[2].date).to eq '2022-08-27'
+  end
+
+  it 'links an order with items' do
+    repo = OrderRepository.new
+
+    order_new = Order.new
+    order_new.customer = 'Chris'
+    order_new.date = '2022, 08, 27'
+    items = '1, 2'
+    repo.create(order_new)
+    repo.link_order_items(items)
+    repo_updated = repo.all
     expect(repo_updated.length).to eq 3
     expect(repo_updated[2].customer).to eq 'Chris'
     expect(repo_updated[2].date).to eq '2022-08-27'

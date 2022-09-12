@@ -99,6 +99,8 @@ describe Application do
     expect(io).to receive(:gets).and_return("Maria")
     expect(io).to receive(:puts).with("Please enter the date of the order:")
     expect(io).to receive(:gets).and_return("2022-08-23")
+    expect(io).to receive(:puts).with("Which items are ordered (please enter ids separated by a comma?")
+    expect(io).to receive(:gets).and_return("1")
     app = Application.new('book_store_solo_test', io, ItemRepository.new, OrderRepository.new)
     app.run
   end 

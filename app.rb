@@ -39,6 +39,7 @@ class Application
       list_orders
     when "4"
       create_order
+      link_order_items
     else
       @io.puts "I don't know what you meant, please try again"
     end
@@ -76,6 +77,12 @@ class Application
     @io.puts "Please enter the date of the order:"
     order.date = @io.gets.chomp
     @order_repository.create(order)
+  end
+
+  def link_order_items
+    @io.puts "Which items are ordered (please enter ids separated by a comma?"
+    items = @io.gets.chomp
+    @order_repository.link_order_items(items)
   end
 end
 
