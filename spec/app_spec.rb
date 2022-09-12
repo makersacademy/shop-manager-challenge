@@ -2,7 +2,17 @@ require_relative "../app"
 require "item_repository"
 require "order_repository"
 
+# def reset_orders_table
+#   seed_sql = File.read('spec/seeds.sql')
+#   connection = PG.connect({ host: '127.0.0.1', dbname: 'items_orders_test' })
+#   connection.exec(seed_sql)
+# end
+
 describe Application do
+  before(:each) do 
+    reset_orders_table
+  end
+  
   it "prints the menu and a list of the items" do
     io = double(:io)
     expect(io).to receive(:puts).with("Welcome to the shop management app!").ordered
@@ -22,7 +32,7 @@ describe Application do
     expect(io).to receive(:puts).with("6 - Leather Sofa, unit price: £1699.00, quantity available: 2").ordered
 
     app = Application.new(
-      'items_orders',
+      'items_orders_test',
       io,
       ItemRepository.new,
       OrderRepository.new
@@ -91,12 +101,12 @@ describe Application do
     expect(io).to receive(:print).with("Oak Bookshelf").ordered
     expect(io).to receive(:print).with("\n").ordered
 
-    expect(io).to receive(:print).with("4 - Customer: Richard Karow, Date placed: 2022-09-11, Items ordered: ").ordered
-    expect(io).to receive(:print).with("Oak Bookshelf").ordered
-    expect(io).to receive(:print).with("\n").ordered
+    # expect(io).to receive(:print).with("4 - Customer: Richard Karow, Date placed: 2022-09-11, Items ordered: ").ordered
+    # expect(io).to receive(:print).with("Oak Bookshelf").ordered
+    # expect(io).to receive(:print).with("\n").ordered
 
     app = Application.new(
-      'items_orders',
+      'items_orders_test',
       io,
       ItemRepository.new,
       OrderRepository.new
