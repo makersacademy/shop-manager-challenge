@@ -40,8 +40,8 @@ class Application
     when "4"
       create_order
       link_order_items
-    else
-      @io.puts "I don't know what you meant, please try again"
+    # else
+    #   @io.puts "I don't know what you meant, please try again"
     end
   end
 
