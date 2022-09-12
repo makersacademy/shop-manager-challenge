@@ -13,44 +13,18 @@ RSpec.describe OrderRepository do
     before(:each) do 
         reset_orders_table
       end
+      
   it "constructs" do
-    io = double(:io)
-    repo = OrderRepository.new(io)
+    repo = OrderRepository.new
     result = repo.all
     expect(result.length).to eq 11
   end
 
   it "creates a new order" do
-    io = double(:io)
-    
-    expect(io).to receive(:puts).with("What is the customer name?")
-    expect(io).to receive(:gets).and_return("James Leafblower")
-    expect(io).to receive(:puts).with("What is the item id?")
-    expect(io).to receive(:gets).and_return("2")
-    expect(io).to receive(:puts).with("Order created and quantity updated")
-    
-
-    repo = OrderRepository.new(io)
-    repo.create
-    result = repo.all
-    expect(result.length).to eq 12
-    expect(result[5].customer_name).to eq 'Djembe Djones'
-  end
-
-  it "creates a new order" do
-    io = double(:io)
-    
-    expect(io).to receive(:puts).with("What is the customer name?")
-    expect(io).to receive(:gets).and_return('beanbag')
-    expect(io).to receive(:puts).with("What is the item id?")
-    expect(io).to receive(:gets).and_return("1")
-    expect(io).to receive(:puts).with("Order created and quantity updated")
-    
-
-    repo = OrderRepository.new(io)
-    repo.create
-    result = repo.all
-    expect(result.length).to eq 12
-    expect(result[11].customer_name).to eq 'Harponius Leafblower'
+    repo = OrderRepository.new
+    repo.create("Jason Boylan", ["1", "3", "5"])
+    orders = repo.all
+    expect(orders.length).to eq 14
+    expect(orders[11].name).to eq 'shark vacuum'
   end
 end

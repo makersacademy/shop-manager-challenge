@@ -1,10 +1,6 @@
 require '../lib/item'
 
 class ItemRepository
-  def initialize(io)
-    @io = io
-  end
-
   def all
     query = 'SELECT * FROM items;'
     result = DatabaseConnection.exec_params(query, [])
@@ -20,15 +16,10 @@ class ItemRepository
     return items
   end
 
-  def create
-    @io.puts "What is the item name?"
-    name = @io.gets.chomp
-    @io.puts "What is the unit price?"
-    unit_price = @io.gets.chomp.to_i
-    @io.puts "How many in stock?"
-    quantity = @io.gets.chomp.to_i
-    query = 'INSERT INTO items (name, unit_price, quantity) VALUES($1, $2, $3);'
-    params = [name, unit_price, quantity]
+  def create(name, unit_price, quantity)
+    query = 'INSERT INTO items (id, name, unit_price, quantity) VALUES($1, $2, $3, $4);'
+    id = self.all.length + 1
+    params = [id, name, unit_price, quantity]
     DatabaseConnection.exec_params(query, params)
   end
 end

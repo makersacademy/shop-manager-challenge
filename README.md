@@ -92,3 +92,9 @@ SimpleCov.start
 ```
 
 You can see your test coverage when you run your tests. If you want this in a graphical form, uncomment the `HTMLFormatter` line and see what happens!
+
+items (id, name, unit_price, quantity)
+item rpository - create, all, quantity
+
+order (id, customer_name,date)
+order repo - create, all
