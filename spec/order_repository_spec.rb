@@ -14,17 +14,21 @@ RSpec.describe OrderRepository do
         reset_orders_table
       end
       
-  it "constructs" do
+  it 'shows all orders' do
     repo = OrderRepository.new
-    result = repo.all
-    expect(result.length).to eq 11
+    expect(repo.all.length).to eq 11
   end
 
-  it "creates a new order" do
+  it 'creates an order' do
     repo = OrderRepository.new
-    repo.create("Jason Boylan", ["1", "3", "5"])
-    orders = repo.all
-    expect(orders.length).to eq 14
-    expect(orders[11].name).to eq 'shark vacuum'
+    repo.create_order("Mike Williams", [1, 3, 4])
+    expect(repo.all.length).to eq 12
+  end
+
+  it 'creates a new order' do
+    repo = OrderRepository.new
+    repo.create_order("Me Will", [1, 4])
+    expect(repo.all.length).to eq 12
+    expect(repo.all[11].customer_name).to eq 'Me Will'
   end
 end

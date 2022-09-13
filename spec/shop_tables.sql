@@ -26,11 +26,10 @@ CREATE SEQUENCE IF NOT EXISTS items_id_seq;
 
 -- Table Definition
 CREATE TABLE "public"."items" (
-    "id" SERIAL,
+    "id" int,
     "name" text,
     "unit_price" int,
-    "quantity" int,
-    PRIMARY KEY ("id")
+    "quantity" int
 );
 
 DROP TABLE IF EXISTS "public"."items_orders";
@@ -50,10 +49,9 @@ CREATE SEQUENCE IF NOT EXISTS orders_id_seq;
 
 -- Table Definition
 CREATE TABLE "public"."orders" (
-    "id" SERIAL,
+    "id" int,
     "customer_name" text,
-    "date" date,
-    PRIMARY KEY ("id")
+    "order_date" date
 );
 
 INSERT INTO "public"."items" ("id", "name", "unit_price", "quantity") VALUES

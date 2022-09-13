@@ -16,26 +16,24 @@ INSERT INTO orders (id, customer_name, order_date) VALUES(8, 'Fan Bang', '2022-0
 INSERT INTO orders (id, customer_name, order_date) VALUES(9, 'Princess Michael Of Kunt', '2022-12-01');
 INSERT INTO orders (id, customer_name, order_date) VALUES(10, 'Tim Bifter', '2022-12-12');
 INSERT INTO orders (id, customer_name, order_date) VALUES(11, 'Hodja Hauses', '2022-03-10');
-INSERT INTO items_orders (item_id, order_id) VALUES
-(1, 1),
-(2, 1),
-(3, 1),
-(4, 2),
-(5, 2),
-(1, 3),
-(1, 4),
-(3, 4),
-(3, 5),
-(4, 5),
-(5, 6),
-(4, 6),
-(3, 6),
-(2, 7),
-(4, 7),
-(4, 8),
-(1, 9),
-(1, 10),
-(3, 10),
-(5, 10),
-(5, 11);
-
+INSERT INTO items_orders (item_id, order_id) VALUES(1, 1);
+INSERT INTO items_orders (item_id, order_id) VALUES(2, 1);
+INSERT INTO items_orders (item_id, order_id) VALUES(3, 1);
+INSERT INTO items_orders (item_id, order_id) VALUES(4, 2);
+INSERT INTO items_orders (item_id, order_id) VALUES(5, 2);
+INSERT INTO items_orders (item_id, order_id) VALUES(1, 3);
+INSERT INTO items_orders (item_id, order_id) VALUES(1, 4);
+INSERT INTO items_orders (item_id, order_id) VALUES(3, 4);
+INSERT INTO items_orders (item_id, order_id) VALUES(3, 5);
+INSERT INTO items_orders (item_id, order_id) VALUES(4, 5);
+INSERT INTO items_orders (item_id, order_id) VALUES(5, 6);
+INSERT INTO items_orders (item_id, order_id) VALUES(4, 6);
+INSERT INTO items_orders (item_id, order_id) VALUES(3, 6);
+INSERT INTO items_orders (item_id, order_id) VALUES(2, 7);
+INSERT INTO items_orders (item_id, order_id) VALUES(4, 7);
+INSERT INTO items_orders (item_id, order_id) VALUES(4, 8);
+INSERT INTO items_orders (item_id, order_id) VALUES(1, 9);
+INSERT INTO items_orders (item_id, order_id) VALUES(1, 10);
+INSERT INTO items_orders (item_id, order_id) VALUES(3, 10);
+INSERT INTO items_orders (item_id, order_id) VALUES(5, 10);
+INSERT INTO items_orders (item_id, order_id) VALUES(5, 11);

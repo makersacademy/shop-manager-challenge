@@ -2,65 +2,63 @@ require '../lib/order'
 require '../lib/item'
 
 class OrderRepository
+
+
   def all
     query = 'SELECT * FROM orders;'
     result = DatabaseConnection.exec_params(query, [])
     orders = []
     result.each do |order|
-        new_order = Order.new
-        new_order.id = order['id']
-        new_order.order_date = order['order_date']
-        new_order.customer_name = order['customer_name']
-        orders << new_order
-    end
-    return orders
+      new_order = Order.new
+      new_order.id = order['id']
+      new_order.customer_name = order['customer_name']
+      new_order.order_date = order['order_date']
+      orders << new_order
+      end
+    orders
   end
 
-  def create(customer_name, items)
-    items = items.map(&:to_i)
+  def create_order(name, items)
+    items.each do |item_id|
+      create_links(new_id, item_id)
+      update_stock(item_id)
+    end
+    query = 'INSERT INTO orders (id, customer_name, order_date) VALUES($1, $2, $3);'
+    params = [new_id, name, new_date]
+    DatabaseConnection.exec_params(query, params)
+  end
+
+  def new_id
+    self.all.length + 1
+  end
+
+  def new_date
     time = Time.new
-    now = time.strftime("%Y-%m-%d")
-    num = self.all.length
-    id = num += 1
-    new_order = Order.new
-    new_order.customer_name = customer_name
-    new_order.order_date = now
-    new_order.id = id
-    items.each do |item|
-      new_item = Item.new
-      new_item.id = item
-      new_item.name = item_name(item)
-      new_item.unit_price = item_price(item)
-      new_item.quantity = item_quantity(item)
-      query = 'UPDATE items SET quantity $2 WHERE id = $3;'
-      params = [(new_item.quantity - 1), new_item.id]
-      DatabaseConnection.exec_params(query, params)
-      query = 'INSERT INTO items_orders (item_id, order_id) VALUES($4, $5);'
-      params = [new_item.id, new_order.id]
-      DatabaseConnection.exec_params(query, params)
-      new_order.items << new_item
-    end
-    puts "Order created and item quantities updated"
+    p time
+    p time.strftime('%Y/%m/%d')
+    return time.strftime('%Y/%m/%d')
   end
 
-  def item_name(num)
-    query = 'SELECT name FROM items WHERE id = $1;'
-    params = [num]
-    result = DatabaseConnection.exec_params(query, params)
-    result['name']
+  def create_links(id, item_id)
+    query = 'INSERT INTO items_orders (item_id, order_id) VALUES($1, $2);'
+    params = [item_id, new_id]
+    DatabaseConnection.exec_params(query, params)
   end
 
-  def item_price(num)
-    query = 'SELECT unit_price FROM items WHERE id = $1;'
-    params = [num]
-    result = DatabaseConnection.exec_params(query, params)
-    result['price']
-  end
-
-  def item_quantity(num)
+  def update_stock(item_id)
     query = 'SELECT quantity FROM items WHERE id = $1;'
-    params = [num]
+    params = [item_id]
     result = DatabaseConnection.exec_params(query, params)
-    result['quantity']
+    current_stock = (result[0]['quantity'].to_i) - 1
+    query = 'UPDATE items SET quantity = $1 WHERE id = $2;'
+    params = [current_stock, item_id]
+    DatabaseConnection.exec_params(query, params)
   end
+
+  def view_orders
+    self.all.each do |order|
+      puts("*#{order.id} - #{order.customer_name}: #{order.order_date}*")
+    end
+  end
+
 end
