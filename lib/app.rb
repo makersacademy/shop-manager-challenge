@@ -6,9 +6,6 @@ require '../lib/item'
 
 DatabaseConnection.connect('shop_manager_library')
 
-
-
-
 class UserInterface
   def initialize(io, orders, items)
     @io = io
@@ -16,7 +13,6 @@ class UserInterface
     @items = items
     @quantities = []
   end
-
 
   def prompt(message)
     @io.puts(message)
@@ -52,8 +48,6 @@ class UserInterface
     return result
   end
       
-
-
   def item_selector
     items_array = []
     loop do
@@ -74,7 +68,6 @@ class UserInterface
     end
     return items_array
   end
-
 
   def create_order
     name = prompt "What is your name?"
@@ -98,7 +91,6 @@ class UserInterface
     @items.view_items
   end
 
-
   def interactive_menu
     loop do
       @io.puts "What would you like to do?\n1. View Orders\n2. Create Order\n3. View Items\n4. Create Item\n9. Exit"
@@ -119,7 +111,6 @@ class UserInterface
       end
     end
   end
-
 end
 
 orders = OrderRepository.new

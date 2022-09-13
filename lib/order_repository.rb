@@ -2,8 +2,6 @@ require '../lib/order'
 require '../lib/item'
 
 class OrderRepository
-
-
   def all
     query = 'SELECT * FROM orders;'
     result = DatabaseConnection.exec_params(query, [])
@@ -34,8 +32,6 @@ class OrderRepository
 
   def new_date
     time = Time.new
-    p time
-    p time.strftime('%Y/%m/%d')
     return time.strftime('%Y/%m/%d')
   end
 
@@ -60,5 +56,4 @@ class OrderRepository
       puts("*#{order.id} - #{order.customer_name}: #{order.order_date}*")
     end
   end
-
 end
