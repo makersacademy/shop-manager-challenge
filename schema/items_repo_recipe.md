@@ -1,24 +1,9 @@
-# {{TABLE NAME}} Model and Repository Classes Design Recipe
+# Items Table Model and Repository Classes Design Recipe
 
 _Copy this recipe template to design and implement Model and Repository classes for a database table._
 
 ## 1. Design and create the Table
-
-If the table is already created in the database, you can skip this step.
-
-Otherwise, [follow this recipe to design and create the SQL schema for your table](./single_table_design_recipe_template.md).
-
-*In this template, we'll use an example table `students`*
-
-```
-# EXAMPLE
-
-Table: students
-
-Columns:
-id | name | cohort_name
-```
-
+Already done
 ## 2. Create Test SQL seeds
 
 Your tests will depend on data stored in PostgreSQL to run.
@@ -27,7 +12,7 @@ If seed data is provided (or you already created it), you can skip this step.
 
 ```sql
 -- EXAMPLE
--- (file: spec/seeds_{table_name}.sql)
+-- (file: spec/seeds_{items_name}.sql)
 
 -- Write your SQL seed here. 
 
@@ -35,13 +20,13 @@ If seed data is provided (or you already created it), you can skip this step.
 -- so we can start with a fresh state.
 -- (RESTART IDENTITY resets the primary key)
 
-TRUNCATE TABLE students RESTART IDENTITY; -- replace with your own table name.
+TRUNCATE TABLE items RESTART IDENTITY CASCADE; -- replace with your own table name.
 
 -- Below this line there should only be `INSERT` statements.
 -- Replace these statements with your own seed data.
 
-INSERT INTO students (name, cohort_name) VALUES ('David', 'April 2022');
-INSERT INTO students (name, cohort_name) VALUES ('Anna', 'May 2022');
+INSERT INTO items (name, price, quantity) VALUES ('Scrabble', 14, 100);
+INSERT INTO items (name, price, quantity) VALUES ('Catan', 20, 25);
 ```
 
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
@@ -56,16 +41,16 @@ Usually, the Model class name will be the capitalised table name (single instead
 
 ```ruby
 # EXAMPLE
-# Table name: students
+# Table name: items
 
 # Model class
-# (in lib/student.rb)
-class Student
+# (in lib/item.rb)
+class Item
 end
 
 # Repository class
 # (in lib/student_repository.rb)
-class StudentRepository
+class ItemRepository
 end
 ```
 
@@ -75,15 +60,15 @@ Define the attributes of your Model class. You can usually map the table columns
 
 ```ruby
 # EXAMPLE
-# Table name: students
+# Table name: items
 
 # Model class
-# (in lib/student.rb)
+# (in lib/item.rb)
 
-class Student
+class Item
 
   # Replace the attributes by your own columns.
-  attr_accessor :id, :name, :cohort_name
+  attr_accessor :id, :name, :price, :quality
 end
 
 # The keyword attr_accessor is a special Ruby feature
@@ -105,10 +90,10 @@ Using comments, define the method signatures (arguments and return value) and wh
 
 ```ruby
 # EXAMPLE
-# Table name: students
+# Table name: items
 
 # Repository class
-# (in lib/student_repository.rb)
+# (in lib/item_repository.rb)
 
 class StudentRepository
 
@@ -116,30 +101,19 @@ class StudentRepository
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students;
+    # SELECT id, name, price, quantity FROM items;
 
-    # Returns an array of Student objects.
+    # Returns an array of Item objects.
   end
 
-  # Gets a single record by its ID
-  # One argument: the id (number)
-  def find(id)
-    # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students WHERE id = $1;
-
-    # Returns a single Student object.
+  # inserts a new record
+  # takes an item object in argument
+  def create(item)
+    #Executes the SQL query:
+    # INSERT INTO items (name, price, quantity), VALUES ($1, $2, $3)
+    # returns nil
   end
 
-  # Add more methods below for each operation you'd like to implement.
-
-  # def create(student)
-  # end
-
-  # def update(student)
-  # end
-
-  # def delete(student)
-  # end
 end
 ```
 
@@ -153,34 +127,43 @@ These examples will later be encoded as RSpec tests.
 # EXAMPLES
 
 # 1
-# Get all students
+# Get all items
 
-repo = StudentRepository.new
+repo = ItemRepository.new
 
-students = repo.all
+items = repo.all
 
-students.length # =>  2
+items.length # =>  2
 
-students[0].id # =>  1
-students[0].name # =>  'David'
-students[0].cohort_name # =>  'April 2022'
+items.first.id # =>  1
+items.first.name # =>  'Scrabble'
+items.first.price # =>  '14'
+items.first.quantity # =>  '100'
 
-students[1].id # =>  2
-students[1].name # =>  'Anna'
-students[1].cohort_name # =>  'May 2022'
+items[1].id # =>  2
+items[1].name # =>  'Catan'
+items[1].price # =>  '20'
+items[1].quantity # =>  '25'
 
 # 2
-# Get a single student
+# Add a new item
 
-repo = StudentRepository.new
+repo = ItemRepository.new
+item = Item.new
 
-student = repo.find(1)
+item.name # =>  'Codenames'
+items.price # =>  '10'
+items.quantity # =>  '60'
 
-student.id # =>  1
-student.name # =>  'David'
-student.cohort_name # =>  'April 2022'
+repo.create(item) # =>
 
-# Add more examples for each method
+all_items = repo.all
+last_item = all_items.last
+last_item.name #=> 'Trompe le Monde'
+last_item.price # =>  '10'
+last_item.quantity # =>  '60'
+last_item.item_id #=> 1
+
 ```
 
 Encode this example as a test.
