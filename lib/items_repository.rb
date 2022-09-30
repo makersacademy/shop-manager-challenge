@@ -1,11 +1,6 @@
 require_relative './items'
 
 class ItemRepository
-  # def initialize
-  #   @items = []
-  #   @item = Item.new
-  # end
-
   def all
     items = []
     sql = 'SELECT id, name, price, quantity FROM items;'
