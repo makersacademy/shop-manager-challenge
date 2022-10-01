@@ -1,6 +1,6 @@
 require 'simplecov'
 require 'simplecov-console'
-require 'database_connection'
+require_relative '../lib/database_connection'
 DatabaseConnection.connect('items_orders_test')
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([

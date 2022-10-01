@@ -13,14 +13,14 @@ describe OrderRepository do
 
   it "returns all order record" do
     repository = OrderRepository.new
-    all_orders = repository.all
+    all_orders = repository.all_order
   
-    (all_orders.first.customer_name).to eq ('Tinky-Winky')
-    (all_orders.first.date_ordered).to eq ('2022-09-28')
-    (all_orders.first.items.name).to eq ('Tower Air Fryer')
+    expect(all_orders.first.customer_name).to eq ('Tinky-Winky')
+    expect(all_orders.first.date_ordered).to eq ('2022-09-28')
+    expect(all_orders.first.item_name).to eq ('Tower Air Fryer')
   end
 
-  xit "creates an order record" do
+  it "creates an order record" do
     repository = OrderRepository.new
 
     order = Order.new
@@ -28,14 +28,15 @@ describe OrderRepository do
     order.date_ordered = '2022-09-30'
     order.items_orders.item_id = 1
     order.items_orders.order_id = 3
+    
     repository.create(order) 
   
     all_orders = repository.all
     expect(all_items).to include(
       have_attributes(
-        customer_name: 'Olaf'
-        date_ordered: '2022-09-30'
-        items_name: 'Tower Air Fryer'
+        customer_name: 'Olaf',
+        date_ordered: '2022-09-30',
+        item_name: 'Tower Air Fryer'
       )
     ) 
   end
