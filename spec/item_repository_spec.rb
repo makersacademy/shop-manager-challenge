@@ -22,7 +22,7 @@ describe ItemRepository do
     expect(all_items.first.quantity).to eq (10)
   end
 
-  xit "creates an item record" do
+  it "creates an item record" do
     repository = ItemRepository.new
     item = Item.new
     item.name = 'Nescafe capsule coffee machine'
@@ -31,10 +31,10 @@ describe ItemRepository do
   
     repository.create(item)
   
-    all_items = repository.all
-    expect(all_itmes).to include(
+    all_items = repository.all_item
+    expect(all_items).to include(
       have_attributes(
-        name: 'Nescate capsule coffee machine',
+        name: 'Nescafe capsule coffee machine',
         unit_price: 78,
         quantity: 3
       )

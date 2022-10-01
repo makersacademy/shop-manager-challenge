@@ -12,12 +12,12 @@ class ItemRepository
     return all_item
   end
   
-  # Insert a new item record
-  # Take an Item object in argument
   def create(item)
-    # Executes the SQL query: INSERT INTO items (name, unit_price, quantity) VALUES ($1, $2, $3);
+    sql = 'INSERT INTO items (name, unit_price, quantity) VALUES ($1, $2, $3);'
+    sql_params = [item.name, item.unit_price, item.quantity]
 
-    # return nothing
+    DatabaseConnection.exec_params(sql, sql_params)
+
   end
 
   private 
@@ -29,5 +29,5 @@ class ItemRepository
     item.unit_price = record['unit_price'].to_i
     item.quantity = record['quantity'].to_i
     return item
-  end
+  end 
 end 
