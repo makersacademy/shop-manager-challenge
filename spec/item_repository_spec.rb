@@ -29,7 +29,7 @@ describe ItemRepository do
     item.unit_price = 78
     item.quantity = 3
   
-    repository.create(item)
+    repository.create_item(item)
   
     all_items = repository.all_item
     expect(all_items).to include(

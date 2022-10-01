@@ -22,22 +22,26 @@ describe OrderRepository do
 
   it "creates an order record" do
     repository = OrderRepository.new
-
     order = Order.new
-    order.customer_name = 'Olaf'
-    order.date_ordered = '2022-09-30'
-    order.items_orders.item_id = 1
-    order.items_orders.order_id = 3
+    order.customer_name = 'Luca'
+    order.date_ordered = '2022-10-01'
     
-    repository.create(order) 
-  
-    all_orders = repository.all
-    expect(all_items).to include(
+    repository.create_order(order)
+
+    item_order = ItemOrder.new
+    item_order.item_id = 1
+    item_order.order_id = 3
+
+    repository.add_item_order_id(item_order)
+
+    all_orders = repository.all_order
+    expect(all_orders).to include(
       have_attributes(
-        customer_name: 'Olaf',
-        date_ordered: '2022-09-30',
+        customer_name: 'Luca',
+        date_ordered: '2022-10-01',
         item_name: 'Tower Air Fryer'
       )
-    ) 
+    )
+    
   end
 end
