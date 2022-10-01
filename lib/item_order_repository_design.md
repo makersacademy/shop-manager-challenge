@@ -112,7 +112,7 @@ end
   all_items = repository.all_item
   
   all_items.length # => 2
-  all_items.first.name # => 'Tower Air Fryer', 55, 10
+  all_items.first.name # => 'Tower Air Fryer'
   all_items.first.unit_price # => 55
   all_items.first.quantity # => 10
 
@@ -163,9 +163,9 @@ Encode this example as a test.
 ```ruby
 # EXAMPLE
 
-# file: spec/cohort_repository_spec.rb
+# file: spec/item_repository_spec.rb
 
-describe PostRepository do
+describe ItemRepository do
   def reset_items_table
     seed_sql = File.read('spec/seeds_items.sql')
     connection = PG.connect({ host: '127.0.0.1', dbname: 'items_orders_test' })
