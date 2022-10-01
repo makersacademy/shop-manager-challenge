@@ -57,5 +57,20 @@ RSpec.describe ItemRepository do
   end
 
   describe "#create_order" do
+    it "adds a new order" do
+        repo = ItemRepository.new
+        order = Order.new
+        order.customer_name = "Olivia"
+        order.date = "2022-10-01"
+        order.item_id = "4"
+
+        repo.add_order(order)
+        last_order = repo.last
+
+        expect(repo.length).to eq 4
+        expect(last_order.customer_name).to eq "Olivia"
+        expect(last_order.date).to eq "2022-10-01"
+        expect(last_order.item_id).to eq "4"
+    end
   end
 end
