@@ -1,7 +1,7 @@
 require "item"
 
 class ItemRepository
-  def all
+  def all_items
     items = []
     sql = "SELECT id, name, unit_price, quantity FROM items;"
     result_set = DatabaseConnection.exec_params(sql, [])
@@ -16,5 +16,8 @@ class ItemRepository
      items << item
     end
     return items
+  end
+
+  def create_item
   end
 end
