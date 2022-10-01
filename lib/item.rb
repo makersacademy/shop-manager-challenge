@@ -1,9 +1,9 @@
 require "order"
 
 class Item
-    attr_accessor :id, :name, :unit_price, :quantity, :orders
+  attr_accessor :id, :name, :unit_price, :quantity, :orders
 
-    def initialize
-        @orders = []
-    end
+  def initialize
+    @orders = []
+  end
 end

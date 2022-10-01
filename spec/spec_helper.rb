@@ -4,7 +4,7 @@ require 'database_connection'
 
 # Make sure this connects to your test database
 # (its name should end with '_test')
-DatabaseConnection.connect('recipes_directory')
+DatabaseConnection.connect('shop_manager')
 #
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
   SimpleCov::Formatter::Console,
