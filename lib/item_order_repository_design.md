@@ -37,7 +37,7 @@ INSERT INTO items_orders (item_id, order_id) VALUES(2, 2);
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
 
 ```bash
-psql -h 127.0.0.1 blog_2_test < seeds_cohorts.sql
+psql -h 127.0.0.1 items_orders_test < seeds_items.sql
 ```
 
 ## 3. Implement the Model class
@@ -78,6 +78,8 @@ class ItemRepository
   end
 end 
 
+# Table name: orders
+# Model class in lib/order_repository.rb
 class OrderRepository
   # Select all shop orders
   def all_order
