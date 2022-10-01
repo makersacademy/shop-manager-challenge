@@ -34,8 +34,8 @@ describe ItemRepository do
     all_items = repository.all
     expect(all_itmes).to include(
       have_attributes(
-        name: 'Nescate capsule coffee machine'
-        unit_price: 78
+        name: 'Nescate capsule coffee machine',
+        unit_price: 78,
         quantity: 3
       )
     )
