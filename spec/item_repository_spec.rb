@@ -15,10 +15,12 @@ RSpec.describe ItemRepository do
     it "outputs a list of items with their unit price and quantity" do
       repo = ItemRepository.new
       items = repo.all_items
+      first_item = items.first
+
       expect(items.length).to eq 5
-      expect(items.first.name).to eq "Royal Canin kitten food"
-      expect(items.first.unit_price).to eq "5"
-      expect(items.first.quantity).to eq "20"
+      expect(first_item.name).to eq "Royal Canin kitten food"
+      expect(first_item.unit_price).to eq "5"
+      expect(first_item.quantity).to eq "20"
       end
     end
 
@@ -43,6 +45,13 @@ RSpec.describe ItemRepository do
   end
 
   describe "#all_orders" do
+    repo = ItemRepository.new
+    orders = repo.all_orders
+    last_order = orders.last
+    expect(orders.length).to eq 4
+    expect(last_order.customer_name).to eq "Hannah"
+    expect(last_order.date).to eq "2022-10-01"
+    expect(last_order.item_id).to eq "5"
   end
 
   describe "#create_order" do
