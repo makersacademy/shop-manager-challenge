@@ -1,4 +1,4 @@
-require 'order_repository'
+require_relative '../lib/order_repository'
 
 describe OrderRepository do
   def reset_orders_table
@@ -42,6 +42,5 @@ describe OrderRepository do
         item_name: 'Tower Air Fryer'
       )
     )
-    
   end
 end

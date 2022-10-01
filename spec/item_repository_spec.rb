@@ -1,5 +1,5 @@
-require 'item_repository'
-require 'database_connection'
+require_relative '../lib/item_repository'
+require_relative '../lib/database_connection'
 
 describe ItemRepository do
   def reset_items_table

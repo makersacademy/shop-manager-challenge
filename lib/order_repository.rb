@@ -1,6 +1,6 @@
-require 'order'
-require 'item'
-require 'item_order'
+require_relative './order'
+require_relative './item'
+require_relative './item_order'
 
 class OrderRepository
   def all_order
@@ -21,7 +21,6 @@ class OrderRepository
     return orders
   end
   
-
   def create_order(order)
     sql = 'INSERT INTO orders (customer_name, date_ordered) VALUES ($1, $2);'
     sql_params = [order.customer_name, order.date_ordered]
