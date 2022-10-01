@@ -7,11 +7,8 @@ RSpec.describe ItemRepository do
     connection.exec(seed_sql)
   end
   
-  describe ItemRepository do
-    before(:each) do 
+  before(:each) do 
       reset_orders_table
-    end
-
   end
 
   it 'shows all items' do

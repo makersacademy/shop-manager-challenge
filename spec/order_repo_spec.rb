@@ -7,41 +7,37 @@ RSpec.describe OrderRepository do
     connection.exec(seed_sql)
   end
   
-  describe OrderRepository do
-    before(:each) do 
+  before(:each) do 
       reset_orders_table
-    end
-
   end
 
-    it "shows all orders" do
+  it "shows all orders" do
+    repo = OrderRepository.new
+    orders = repo.all
+    expect(orders[0].id).to eq '1'
+    expect(orders[0].customer_name).to eq 'Joe'
+    expect(orders[0].date).to eq 'sept'
+  end
+
+  it "shows all orders" do
+    repo = OrderRepository.new
+    orders = repo.all
+    expect(orders[1].id).to eq '2'
+    expect(orders[1].customer_name).to eq 'Dave'
+    expect(orders[1].date).to eq 'oct'
+  end
+
+  it "creates a new order" do
       repo = OrderRepository.new
+      order = Order.new
+      order.customer_name = 'Jim' 
+      order.date = 'aug' 
+
+      repo.create(order)
+
       orders = repo.all
-      expect(orders[0].id).to eq '1'
-      expect(orders[0].customer_name).to eq 'Joe'
-      expect(orders[0].date).to eq 'sept'
-    end
-
-    it "shows all orders" do
-      repo = OrderRepository.new
-      orders = repo.all
-      expect(orders[1].id).to eq '2'
-      expect(orders[1].customer_name).to eq 'Dave'
-      expect(orders[1].date).to eq 'oct'
-    end
-
-    # Don't think the reset seeds is working
-    xit "creates a new order" do
-        repo = OrderRepository.new
-        order = Order.new
-        order.customer_name = 'Jim' 
-        order.date = 'aug' 
-
-        repo.create(order)
-
-        orders = repo.all
-        expect(orders.length).to eq 3
-        expect(orders[2].customer_name).to eq 'Jim' 
-        expect(orders[2].date).to eq 'aug' 
-    end
+      expect(orders.length).to eq 3
+      expect(orders[2].customer_name).to eq 'Jim' 
+      expect(orders[2].date).to eq 'aug' 
+  end
 end

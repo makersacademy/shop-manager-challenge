@@ -1,0 +1,2 @@
+-- I made a repo class design recipe, that I used to create the tests and classes, I'm sure I saved it in the directory above this, but when I came back to it today I cannot find it. 
+I also had to reinstall rspec this morning as it said command not recognised when I ran in, is there something about this file/challenge that is deleting stuff?
