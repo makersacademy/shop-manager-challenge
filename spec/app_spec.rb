@@ -32,9 +32,9 @@ describe Application do
     data_connection = double :database_connection
     item_repository = double :item_repository
     order_repository = double :order_repository
-    order_1 = double :order_1, id: 1, customer_name: 'Sophie', date: '2022-08-05 12:00:00', item_id: 1
-    order_2 = double :order_2, id: 2, customer_name: 'Mabon', date: '2022-08-04 11:00:00', item_id: 2
-    order_3 = double :order_3, id: 3, customer_name: 'Twm', date: '2022-08-03 15:00:00', item_id: 3
+    order_1 = double :order_1, id: 1, customer_name: 'Aamir', date: '2022-08-05 12:00:00', item_id: 1
+    order_2 = double :order_2, id: 2, customer_name: 'Khan', date: '2022-08-04 11:00:00', item_id: 2
+    order_3 = double :order_3, id: 3, customer_name: 'Ak', date: '2022-08-03 15:00:00', item_id: 3
     expect(io).to receive(:puts).with("Welcome to the shop management program!").ordered
     expect(io).to receive(:puts).with("\nWhat do you want to do?\n 1 = List all shop items\n 2 = Create a new item\n 3 = List all orders\n 4 = Create a new order\n").ordered
     expect(io).to receive(:gets).and_return("3")

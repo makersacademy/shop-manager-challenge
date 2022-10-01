@@ -30,13 +30,13 @@ describe ItemRepository do
 
   it "Creates a new shop item" do
     repository = ItemRepository.new
-    item = double :item, name: 'Milk', unit_price: '$1.50', quantity: 20
+    item = double :item, name: 'Bread', unit_price: '$1.50', quantity: 20
 
     repository.create(item)
 
     all_items = repository.all
     last_item = all_items.last
-    expect(last_item.name).to eq 'Milk'
+    expect(last_item.name).to eq 'Bread'
     expect(last_item.unit_price).to eq '$1.50'
     expect(last_item.quantity).to eq 20
   end
