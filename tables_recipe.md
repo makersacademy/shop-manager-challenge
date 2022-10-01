@@ -74,32 +74,21 @@ customer_name: text
 date: date
 item_id: int
 
-4. Design the Many-to-Many relationship
-Make sure you can answer YES to these two questions:
+4. Decide on The Tables Relationship
+Most of the time, you'll be using a one-to-many relationship, and will need a foreign key on one of the two tables.
 
-Can one [TABLE ONE] have many [TABLE TWO]? (Yes)
-Can one [TABLE TWO] have many [TABLE ONE]? (Yes)
+To decide on which one, answer these two questions:
 
-# EXAMPLE
+Can one [item] have many [orders]? (Yes)
+Can one [order] have many [items]? (No)
+You'll then be able to say that:
 
-1. Can one tag have many posts? YES
-2. Can one post have many tags? YES
-If you would answer "No" to one of these questions, you'll probably have to implement a One-to-Many relationship, which is simpler. Use the relevant design recipe in that case.
-
-5. Design the Join Table
-The join table usually contains two columns, which are two foreign keys, each one linking to a record in the two other tables.
-
-The naming convention is table1_table2.
-
-# EXAMPLE
-
-Join table for tables: items and orders
-Join table name: items_orders
-Columns: item_id, order_id
+[A] has many [B]
+And on the other side, [B] belongs to [A]
+In that case, the foreign key is in the table [B] (orders)
 
 4. Write the SQL.
 -- EXAMPLE
--- file: items_orders.sql
 
 -- Replace the table name, columm names and types.
 
@@ -114,21 +103,18 @@ CREATE TABLE items (
   quantity int
 );
 
--- Create the second table.
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
   customer_name text,
   date date
+-- The foreign key name is always {other_table_singular}_id
+  item_id int,
+  constraint fk_item foreign key(item_id)
+    references items(id)
+    on delete cascade
 );
 
--- Create the join table.
-CREATE TABLE items_orders (
-  item_id int,
-  order_id int,
-  constraint fk_item foreign key(item_id) references items(id) on delete cascade,
-  constraint fk_order foreign key(order_id) references orders(id) on delete cascade,
-  PRIMARY KEY (item_id, order_id)
-);
+
 
 5. Create the tables.
 psql -h 127.0.0.1 shop_manager < items_orders.sql
