@@ -1,5 +1,5 @@
 require "item_repository"
-
+require "item"
 
 def reset_items_table
   seed_sql = File.read('spec/seeds.sql')
@@ -21,13 +21,16 @@ RSpec.describe ItemRepository do
       expect(first_item.name).to eq "Royal Canin kitten food"
       expect(first_item.unit_price).to eq "5"
       expect(first_item.quantity).to eq "20"
+      end
     end
-  end
 
   describe "#create_item" do
     it "creates a new item" do
       repo = ItemRepository.new
-      new_item = double :new_item, name: "Butter", unit_price: "5", quantity: "12", orders: []
+      new_item = Item.new
+      new_item.name = "Butter"
+      new_item.unit_price = "5"
+      new_item.quantity = "12"
       
       repo.create_item(new_item)
 
@@ -56,7 +59,10 @@ RSpec.describe ItemRepository do
   describe "#create_order" do
     it "adds a new order" do
         repo = ItemRepository.new
-        new_order = double :new_order, customer_name: "Olivia", date: "2022-10-01", item_id: "4"
+        new_order = Order.new
+        new_order.customer_name = "Olivia"
+        new_order.date = "2022-10-01"
+        new_order.item_id = "4"
 
         repo.create_order(new_order)
         all_orders = repo.all_orders
