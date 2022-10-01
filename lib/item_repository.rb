@@ -18,6 +18,10 @@ class ItemRepository
     return items
   end
 
-  def create_item
+  def create_item(new_item)
+    sql = "INSERT INTO items (name, unit_price, quantity) VALUES ($1, $2, $3);"
+    sql_params = [new_item.name, new_item.unit_price, new_item.quantity]
+    
+    DatabaseConnection.exec_params(sql, sql_params)
   end
 end

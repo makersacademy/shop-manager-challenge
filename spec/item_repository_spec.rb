@@ -27,12 +27,12 @@ RSpec.describe ItemRepository do
       repo = ItemRepository.new
       new_item = Item.new
       new_item.name = "Butter"
-      new_item.unit_price = "2"
+      new_item.unit_price = "5"
       new_item.quantity = "12"
       
-      repo.create(new_item)
+      repo.create_item(new_item)
 
-      all_items = repo.all
+      all_items = repo.all_items
       last_item = all_items.last
 
       expect(all_items.length).to eq 6
