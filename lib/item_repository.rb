@@ -24,4 +24,21 @@ class ItemRepository
     
     DatabaseConnection.exec_params(sql, sql_params)
   end
+
+  def all_orders
+    orders = []
+    sql = "SELECT id, customer_name, date, item_id FROM orders;"
+    result_set = DatabaseConnection.exec_params(sql, [])
+
+    result_set.each do |each_order|
+      order = Order.new
+      order.id = each_order["id"]
+      order.customer_name = each_order["customer_name"]
+      order.date = each_order["date"]
+      order.item_id = each_order["item_id"]
+
+      orders << order
+    end
+    return orders
+  end
 end

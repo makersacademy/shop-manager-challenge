@@ -45,13 +45,15 @@ RSpec.describe ItemRepository do
   end
 
   describe "#all_orders" do
-    repo = ItemRepository.new
-    orders = repo.all_orders
-    last_order = orders.last
-    expect(orders.length).to eq 4
-    expect(last_order.customer_name).to eq "Hannah"
-    expect(last_order.date).to eq "2022-10-01"
-    expect(last_order.item_id).to eq "5"
+    it "outputs a list of all orders" do
+      repo = ItemRepository.new
+      orders = repo.all_orders
+      last_order = orders.last
+      expect(orders.length).to eq 3
+      expect(last_order.customer_name).to eq "Hannah"
+      expect(last_order.date).to eq "2022-10-01"
+      expect(last_order.item_id).to eq "5"
+    end
   end
 
   describe "#create_order" do
