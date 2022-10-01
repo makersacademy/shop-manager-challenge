@@ -6,15 +6,7 @@ class ItemRepository
     sql = 'SELECT id, name, price, quantity FROM items;'
     result_set = DatabaseConnection.exec_params(sql, [])
     result_set.each do |record|
-
-      item = Item.new
-
-      item.id = record['id']
-      item.name = record['name']
-      item.price = record['price']
-      item.quantity = record['quantity']
-
-      items << item
+      items << record_to_item_object(record)
     end
     return items
   end
@@ -25,5 +17,18 @@ class ItemRepository
     result_set = DatabaseConnection.exec_params(sql, sql_params)
     
     return nil
+  end
+
+  private
+
+  def record_to_item_object(record)
+    item = Item.new
+
+    item.id = record['id']
+    item.name = record['name']
+    item.price = record['price']
+    item.quantity = record['quantity']
+
+    item
   end
 end

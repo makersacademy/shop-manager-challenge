@@ -40,18 +40,18 @@ describe OrderRepository do
   context "Adding new orders" do
     it "Adds a new order to the end of the table" do
 
-    repo = OrderRepository.new
-    order = Order.new
+      repo = OrderRepository.new
+      order = Order.new
 
-    order.customer_name =  'Ada'
-    order.date = '2022-10-10'
+      order.customer_name = 'Ada'
+      order.date = '2022-10-10'
 
-    repo.create(order) # =>
-    all_orders = repo.all
-    last_order = all_orders.last
+      repo.create(order) # =>
+      all_orders = repo.all
+      last_order = all_orders.last
 
-    expect(last_order.customer_name).to eq 'Ada'
-    expect(last_order.date).to eq '2022-10-10'
+      expect(last_order.customer_name).to eq 'Ada'
+      expect(last_order.date).to eq '2022-10-10'
     end
   end
 end

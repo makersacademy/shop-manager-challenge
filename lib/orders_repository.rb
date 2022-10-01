@@ -1,4 +1,4 @@
-require 'orders'
+require_relative 'orders'
 
 class OrderRepository
   def all
@@ -6,13 +6,9 @@ class OrderRepository
     sql = 'SELECT id, customer_name, date FROM orders;'
     result_set = DatabaseConnection.exec_params(sql, [])
     result_set.each do |record|
-      order = Order.new
-      order.id = record['id']
-      order.customer_name = record['customer_name']
-      order.date = record['date']
-      orders << order
+      orders << record_to_order_object(record)
     end
-    return orders
+    orders
   end
 
   def create(order)
@@ -20,7 +16,18 @@ class OrderRepository
     sql_params = [order.customer_name, order.date]
     result_set = DatabaseConnection.exec_params(sql, sql_params)
     
-    return nil
+    nil
   end
 
+  private
+  
+  def record_to_order_object(record)
+    order = Order.new
+
+    order.id = record['id']
+    order.customer_name = record['customer_name']
+    order.date = record['date']
+
+    order
+  end
 end
