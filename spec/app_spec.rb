@@ -11,7 +11,7 @@ describe Application do
     reset_app_table
   end
 
-  it "return a list of all shop items formatted" do
+  it "return a list of all shop items in a specific format" do
     io = double :io
     data_connection = double :database_connection
     item_repository = double :item_repository
