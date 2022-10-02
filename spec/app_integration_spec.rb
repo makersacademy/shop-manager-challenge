@@ -34,7 +34,7 @@ RSpec.describe Application do
     expect(items[3].order_id).to eq '1'
   end
 
-  it 'tests create(new_order) method and call sub class' do
+  it 'tests create(order) method and call sub class' do
     io = double :io
     expect(io).to receive(:puts).with 'Please enter customer_name for new order'
     expect(io).to receive(:gets).and_return 'Bob'
