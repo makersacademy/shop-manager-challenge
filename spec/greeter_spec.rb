@@ -1,9 +1,14 @@
 RSpec.describe Greeter do
   it "greets the user" do
     io = double :io
-    expect(io).to receive(:puts).with("What is your name?")
-    expect(io).to receive(:gets).and_return("Kay")
-    expect(io).to receive(:puts).with("Hello, Kay!")
+    expect(io).to receive(:puts).with("Welcome to the shop management program!
+
+      What function would you like to do?
+  
+        1 = list all shop items
+        2 = create a new item
+        3 = list all orders
+        4 = create a new order")
 
     greeter = Greeter.new(io)
     greeter.greet

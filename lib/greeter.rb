@@ -3,6 +3,8 @@ class Greeter
     @io = io
   end
 
+  
+
   def greet
     @io.puts "Welcome to the shop management program!
 
