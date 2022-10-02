@@ -42,6 +42,14 @@ class Application
       item.unit_price = item_price.chomp
       item.quantity = item_quantity.chomp
       repo.create_item(item)
+
+    when "3\n"
+      @io.puts"Here is a list of all orders:"
+      repo = ItemRepository.new
+      orders_list = repo.all_orders
+      orders_list.each do |order|
+        @io.puts "#{order.id} Customer name: #{order.customer_name} - Date: #{order.date}"
+      end
     end
   end
 end
