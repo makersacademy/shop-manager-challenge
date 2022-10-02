@@ -26,6 +26,8 @@ class Application
       self.create_item
     when "3\n"
       self.list_all_orders 
+    when "4\n"
+      self.create_order
     end 
   end
 
@@ -61,6 +63,22 @@ class Application
     orders_list.each do |order|
       @io.puts "#{order.id} Customer name: #{order.customer_name} - Date: #{order.date} - Item id: #{order.item_id}"
     end
+  end
+
+  def create_order
+    @io.puts "Please, enter the customer name for the order:"
+    order_customer_name = @io.gets
+    @io.puts "Please, enter the date for this order:"
+    order_date = @io.gets
+    @io.puts "Please, enter the item id for this order:"
+    item_id = @io.gets
+    @io.puts "Your order has been created successfully."
+    repo = ItemRepository.new
+    order = Order.new
+    order.customer_name = order_customer_name.chomp
+    order.date = order_date.chomp
+    order.item_id = item_id.chomp
+    repo.create_order(order)
   end
 end
 

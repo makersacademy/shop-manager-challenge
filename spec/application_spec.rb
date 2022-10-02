@@ -79,7 +79,7 @@ RSpec.describe Application do
         @io = double :io
 
         allow(@io).to receive(:puts)
-        expect(@io).to receive(:gets).and_return("3\n").ordered
+        expect(@io).to receive(:gets).and_return("4\n").ordered
         expect(@io).to receive(:puts).with("Please, enter the customer name for the order:").ordered
         expect(@io).to receive(:gets).and_return("Raven").ordered
         expect(@io).to receive(:puts).with("Please, enter the date for this order:").ordered
