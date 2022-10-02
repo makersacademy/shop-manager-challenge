@@ -1,4 +1,4 @@
-require_relative "../lib/item_repository"
+require_relative "item_repository"
 
 class Application
   def initialize(io)
@@ -13,24 +13,25 @@ class Application
     @io.puts "  2 = create a new item"
     @io.puts "  3 = list all orders"
     @io.puts "  4 = create a new order"
-    choice = @io.gets#.chomp
+    choice = @io.gets
     
-    # case choice
-    # when 1
-    #   puts "Here's a list of all shop items:"
-    #   repo = ItemRepository.new
-    #   items_list = repo.all_items
+    case choice
+    when "1"
+      @io.puts "Here's a list of all shop items:"
+      repo = ItemRepository.new
+      items_list = repo.all_items
+      items_list.each do |item|
+        @io.puts "#{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
+      end
+    end
+    
     # when 2
 
     # when 3
 
     # when 4
-
-      
-
-  #  1 Super Shark Vacuum Cleaner - Unit price: 99 - Quantity: 30
-  #  2 Makerspresso Coffee Machine - Unit price: 69 - Quantity: 15
- 
   end
 end
 
+app = Application.new(Kernel)
+app.run

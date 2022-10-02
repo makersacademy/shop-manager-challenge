@@ -1,6 +1,7 @@
 require "item"
 
 class ItemRepository
+  
   def all_items
     items = []
     sql = "SELECT id, name, unit_price, quantity FROM items;"

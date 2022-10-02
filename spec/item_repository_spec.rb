@@ -13,7 +13,8 @@ RSpec.describe ItemRepository do
 
   describe "#all_items" do
     it "outputs a list of items with their unit price and quantity" do
-      repo = ItemRepository.new
+      io = double :io
+      repo = ItemRepository.new(io)
       items = repo.all_items
       first_item = items.first
 
@@ -26,7 +27,8 @@ RSpec.describe ItemRepository do
 
   describe "#create_item" do
     it "creates a new item" do
-      repo = ItemRepository.new
+      io = double :io
+      repo = ItemRepository.new(io)
       new_item = double :new_item, name: "Butter", unit_price: "5", quantity: "12", orders: []
       
       repo.create_item(new_item)
@@ -43,7 +45,8 @@ RSpec.describe ItemRepository do
 
   describe "#all_orders" do
     it "outputs a list of all orders" do
-      repo = ItemRepository.new
+      io = double :io
+      repo = ItemRepository.new(io)
       orders = repo.all_orders
       last_order = orders.last
       expect(orders.length).to eq 3
@@ -55,17 +58,18 @@ RSpec.describe ItemRepository do
 
   describe "#create_order" do
     it "adds a new order" do
-        repo = ItemRepository.new
-        new_order = double :new_order, customer_name: "Olivia", date: "2022-10-01", item_id: "4"
+      io = double :io
+      repo = ItemRepository.new(io)
+      new_order = double :new_order, customer_name: "Olivia", date: "2022-10-01", item_id: "4"
 
-        repo.create_order(new_order)
-        all_orders = repo.all_orders
-        last_order = all_orders.last
+      repo.create_order(new_order)
+      all_orders = repo.all_orders
+      last_order = all_orders.last
 
-        expect(all_orders.length).to eq 4
-        expect(last_order.customer_name).to eq "Olivia"
-        expect(last_order.date).to eq "2022-10-01"
-        expect(last_order.item_id).to eq "4"
+      expect(all_orders.length).to eq 4
+      expect(last_order.customer_name).to eq "Olivia"
+      expect(last_order.date).to eq "2022-10-01"
+      expect(last_order.item_id).to eq "4"
     end
   end
 end

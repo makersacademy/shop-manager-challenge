@@ -13,7 +13,8 @@ RSpec.describe ItemRepository do
 
   describe "#all_items" do
     it "outputs a list of items with their unit price and quantity" do
-      repo = ItemRepository.new
+      io = double :io
+      repo = ItemRepository.new(io)
       items = repo.all_items
       first_item = items.first
 
@@ -26,7 +27,8 @@ RSpec.describe ItemRepository do
 
   describe "#create_item" do
     it "creates a new item" do
-      repo = ItemRepository.new
+      io = double :io
+      repo = ItemRepository.new(io)
       new_item = Item.new
       new_item.name = "Butter"
       new_item.unit_price = "5"
@@ -46,7 +48,8 @@ RSpec.describe ItemRepository do
 
   describe "#all_orders" do
     it "outputs a list of all orders" do
-      repo = ItemRepository.new
+      io = double :io
+      repo = ItemRepository.new(io)
       orders = repo.all_orders
       last_order = orders.last
       expect(orders.length).to eq 3
@@ -58,7 +61,8 @@ RSpec.describe ItemRepository do
 
   describe "#create_order" do
     it "adds a new order" do
-        repo = ItemRepository.new
+        io = double :io
+        repo = ItemRepository.new(io)
         new_order = Order.new
         new_order.customer_name = "Olivia"
         new_order.date = "2022-10-01"
