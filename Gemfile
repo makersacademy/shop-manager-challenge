@@ -12,4 +12,4 @@ group :development, :test do
   gem 'rubocop', '1.20'
 end
 
-gem "pg", "~> 1.3"
+gem "pg", "~> 1.4"
