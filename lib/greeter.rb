@@ -14,16 +14,16 @@ class Greeter
       4 = create a new order"
 
     name = @io.gets.chomp
-
-    if name = 1
+      # while name != 1, 2, 3 ,4
+    if name == 1
       @io.puts ItemRepository.all
-    elsif name = 2
+    elsif name == 2
       @io.puts ItemRepository.create
-    elsif name = 3
+    elsif name == 3
       @io.puts OrderRepository.all
-    elsif name = 4
+    elsif name == 4
       @io.puts OrderRepository.create
-    else @io.puts "Sorry, please pick one of the above options"
+    else @io.puts "Sorry, please pick one of the above options!"
     end
 
   end

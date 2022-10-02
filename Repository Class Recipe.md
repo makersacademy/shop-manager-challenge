@@ -185,9 +185,9 @@ items[0].quantity # => '13'
 
 # Create a new order
 
-repo = OrderRepository.new
+repo = OrderRepository.create
 
-orders = repo.all
+orders = repo.create
 orders.length # => 3
 orders.first.id # => '1'
 orders[0].customer_name # => 'Joe Bloggs'
@@ -198,9 +198,9 @@ orders[0].order_date # => '2011-10-02'
 
 # Create a new item
 
-repo = ItemRepository.new
+repo = ItemRepository.create
 
-items = repo.all
+items = repo.create
 items.length # => 3
 items[0].id # => '1'
 items[0].item_name # => 'MacBook'
