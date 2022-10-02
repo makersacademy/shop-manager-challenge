@@ -1,8 +1,12 @@
-require_relative "item_repository"
+require_relative "../lib/item_repository.rb"
+require_relative "../lib/database_connection.rb"
+# require_relative "../lib/item.rb"
+# require_relative "../lib/order.rb"
 
 class Application
   def initialize(io)
     @io = io
+    DatabaseConnection.connect('shop_manager')
   end
 
   def run
@@ -14,22 +18,31 @@ class Application
     @io.puts "  3 = list all orders"
     @io.puts "  4 = create a new order"
     choice = @io.gets
-    
+
     case choice
-    when "1"
+    when "1\n"
       @io.puts "Here's a list of all shop items:"
       repo = ItemRepository.new
       items_list = repo.all_items
       items_list.each do |item|
         @io.puts "#{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
       end
-    end
     
-    # when 2
-
-    # when 3
-
-    # when 4
+    when "2\n"
+      @io.puts "Please, enter the name of the item you would like to create:"
+      item_name = @io.gets
+      @io.puts "Please, enter the unit price for this item:"
+      item_price = @io.gets
+      @io.puts "Please, enter the quantity for this item:"
+      item_quantity = @io.gets
+      @io.puts "Your item has been created successfully."
+      repo = ItemRepository.new
+      item = Item.new
+      item.name = item_name.chomp
+      item.unit_price = item_price.chomp
+      item.quantity = item_quantity.chomp
+      repo.create_item(item)
+    end
   end
 end
 

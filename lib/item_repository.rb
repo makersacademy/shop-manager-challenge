@@ -1,7 +1,8 @@
-require "item"
+require_relative "../lib/item.rb"
+require_relative "../lib/order.rb"
 
 class ItemRepository
-  
+
   def all_items
     items = []
     sql = "SELECT id, name, unit_price, quantity FROM items;"
