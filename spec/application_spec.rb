@@ -68,8 +68,25 @@ RSpec.describe Application do
         allow(@io).to receive(:puts)
         expect(@io).to receive(:gets).and_return("3\n").ordered
         expect(@io).to receive(:puts).with("Here is a list of all orders:").ordered
-        expect(@io).to receive(:puts).with("1 Customer name: Alice - Date: 2022-09-15")
+        expect(@io).to receive(:puts).with("1 Customer name: Alice - Date: 2022-09-15 - Item id: 1")
         allow(@io).to receive(:puts)
+
+        app = Application.new(@io)
+        app.run
+    end
+
+    it "creates a new order" do
+        @io = double :io
+
+        allow(@io).to receive(:puts)
+        expect(@io).to receive(:gets).and_return("3\n").ordered
+        expect(@io).to receive(:puts).with("Please, enter the customer name for the order:").ordered
+        expect(@io).to receive(:gets).and_return("Raven").ordered
+        expect(@io).to receive(:puts).with("Please, enter the date for this order:").ordered
+        expect(@io).to receive(:gets).and_return("2022-10-03").ordered
+        expect(@io).to receive(:puts).with("Please, enter the item id for this order:").ordered
+        expect(@io).to receive(:gets).and_return("3").ordered
+        expect(@io).to receive(:puts).with("Your order has been created successfully.").ordered
 
         app = Application.new(@io)
         app.run

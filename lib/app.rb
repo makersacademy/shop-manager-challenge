@@ -21,35 +21,45 @@ class Application
 
     case choice
     when "1\n"
-      @io.puts "Here's a list of all shop items:"
-      repo = ItemRepository.new
-      items_list = repo.all_items
-      items_list.each do |item|
-        @io.puts "#{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
-      end
-    
+      self.list_all_items
     when "2\n"
-      @io.puts "Please, enter the name of the item you would like to create:"
-      item_name = @io.gets
-      @io.puts "Please, enter the unit price for this item:"
-      item_price = @io.gets
-      @io.puts "Please, enter the quantity for this item:"
-      item_quantity = @io.gets
-      @io.puts "Your item has been created successfully."
-      repo = ItemRepository.new
-      item = Item.new
-      item.name = item_name.chomp
-      item.unit_price = item_price.chomp
-      item.quantity = item_quantity.chomp
-      repo.create_item(item)
-
+      self.create_item
     when "3\n"
-      @io.puts"Here is a list of all orders:"
-      repo = ItemRepository.new
-      orders_list = repo.all_orders
-      orders_list.each do |order|
-        @io.puts "#{order.id} Customer name: #{order.customer_name} - Date: #{order.date}"
-      end
+      self.list_all_orders 
+    end 
+  end
+
+  def list_all_items
+    @io.puts "Here's a list of all shop items:"
+    repo = ItemRepository.new
+    items_list = repo.all_items
+    items_list.each do |item|
+      @io.puts "#{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
+    end
+  end
+    
+  def create_item
+    @io.puts "Please, enter the name of the item you would like to create:"
+    item_name = @io.gets
+    @io.puts "Please, enter the unit price for this item:"
+    item_price = @io.gets
+    @io.puts "Please, enter the quantity for this item:"
+    item_quantity = @io.gets
+    @io.puts "Your item has been created successfully."
+    repo = ItemRepository.new
+    item = Item.new
+    item.name = item_name.chomp
+    item.unit_price = item_price.chomp
+    item.quantity = item_quantity.chomp
+    repo.create_item(item)
+  end
+  
+  def list_all_orders
+    @io.puts"Here is a list of all orders:"
+    repo = ItemRepository.new
+    orders_list = repo.all_orders
+    orders_list.each do |order|
+      @io.puts "#{order.id} Customer name: #{order.customer_name} - Date: #{order.date} - Item id: #{order.item_id}"
     end
   end
 end
