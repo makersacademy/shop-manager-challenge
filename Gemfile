@@ -13,3 +13,5 @@ group :development, :test do
 end
 
 gem "pg", "~> 1.3"
+
+gem "dotenv", "~> 2.8"
