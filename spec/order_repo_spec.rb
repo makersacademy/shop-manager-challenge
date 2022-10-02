@@ -1,4 +1,4 @@
-require_relative "../lib/order_repo.rb"
+require_relative '../lib/order_repo'
 
 RSpec.describe OrderRepository do
   def reset_orders_table
@@ -8,7 +8,7 @@ RSpec.describe OrderRepository do
   end
   
   before(:each) do 
-      reset_orders_table
+    reset_orders_table
   end
 
   it "shows all orders" do
@@ -28,16 +28,16 @@ RSpec.describe OrderRepository do
   end
 
   it "creates a new order" do
-      repo = OrderRepository.new
-      order = Order.new
-      order.customer_name = 'Jim' 
-      order.date = 'aug' 
+    repo = OrderRepository.new
+    order = Order.new
+    order.customer_name = 'Jim' 
+    order.date = 'aug' 
 
-      repo.create(order)
+    repo.create(order)
 
-      orders = repo.all
-      expect(orders.length).to eq 3
-      expect(orders[2].customer_name).to eq 'Jim' 
-      expect(orders[2].date).to eq 'aug' 
+    orders = repo.all
+    expect(orders.length).to eq 3
+    expect(orders[2].customer_name).to eq 'Jim' 
+    expect(orders[2].date).to eq 'aug' 
   end
 end

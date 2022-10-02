@@ -78,7 +78,6 @@ RSpec.describe Application do
     run_app.run
   end
 
-
   it 'tests create(item) method' do
     io = double :io
     expect(io).to receive(:puts).with 'Please enter name of new item'

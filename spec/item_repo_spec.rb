@@ -1,4 +1,4 @@
-require_relative "../lib/item_repo.rb"
+require_relative '../lib/item_repo'
 
 RSpec.describe ItemRepository do
   def reset_orders_table
@@ -8,7 +8,7 @@ RSpec.describe ItemRepository do
   end
   
   before(:each) do 
-      reset_orders_table
+    reset_orders_table
   end
 
   it 'shows all items' do
@@ -56,7 +56,7 @@ RSpec.describe ItemRepository do
     expect(items[3].item_name).to eq 'chips' 
     expect(items[3].price).to eq '2' 
     expect(items[3].quantity).to eq '4' 
-    expect(items[3].order_id).to eq  '2'
+    expect(items[3].order_id).to eq '2'
   end
 
 end

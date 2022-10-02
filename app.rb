@@ -4,7 +4,6 @@ require_relative 'lib/database_connection'
 require_relative './lib/item_repo'
 require_relative './lib/order_repo'
 
-
 class Application
   # The Application class initializer
   # takes four arguments:
@@ -114,7 +113,3 @@ class Application
   end
 
 end
-
-# run_app = Application.new('shop_manager_test', 'lib/item_repository', 'lib/order_repository')
-# run_app.run
-# run_app.run
