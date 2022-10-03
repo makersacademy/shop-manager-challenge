@@ -15,3 +15,6 @@ RSpec.configure do |config|
     puts "\e[33mTry it now! Just run: rubocop\e[0m"
   end
 end
+
+require "database_connection"
+DatabaseConnection.connect('shop_test')
