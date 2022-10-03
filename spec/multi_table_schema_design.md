@@ -106,15 +106,16 @@ If you can answer YES to the two questions, you'll probably have to implement a 
 -- Create the table without the foreign key first.
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
-  order int,
+  order_no int,
   customer_name text,
-  order_date date);
+  order_date date
+  );
 
 -- Then the table with the foreign key first.
 CREATE TABLE items (
   id SERIAL,
   item text,
-  price(£) int,
+  price_£ int,
   quantity int);
 
 -- The foreign key name is always {other_table_singular}_id
