@@ -11,7 +11,7 @@ Challenge:
 
 Please start by [forking this repo](https://github.com/makersacademy/shop-manager-challenge/fork), then clone your fork to your local machine. Work into that directory.
 
-We are going to write a small terminal program allowing the user to manage a shop database containing some items and orders.
+We are going to write a small terminal program allowing the user to manage a shop database containing some items and orders. Woohoo!
 
 User stories:
 -------
