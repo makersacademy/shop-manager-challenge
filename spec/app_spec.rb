@@ -8,31 +8,16 @@ RSpec.describe Application do
     @io = io
   end
 
-  def reset_items_table
-    seed_sql = File.read('spec/seeds_items.sql')
-    connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager' })
-    connection.exec(seed_sql)
-  end
-
-  def reset_orders_table
-    seed_sql = File.read('spec/seeds_orders.sql')
-    connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager' })
-    connection.exec(seed_sql)
-  end
-
   before(:each) do 
-    reset_items_table
-    reset_orders_table
+    reset_tables('spec/seeds_items.sql')
+    reset_tables('spec/seeds_orders.sql')
   end 
 
   describe "#welome_choices"
   context "text on initialisation" do
     it "puts list of actions a user can perform" do
-      items_repository = double :item_repository
-      orders_repository = double :order_repository
       @io = double :io
-      database_name = 'shop_manager'
-      app = Application.new(database_name, @io, items_repository, orders_repository)
+      app = Application.new('shop_manager', @io, ItemRepository.new, OrderRepository.new)
       welcome
       options
       app.print_welcome
@@ -43,93 +28,96 @@ RSpec.describe Application do
   describe "user selection" do
     context "select 1" do
       it "returns a list of shop items" do
-        items_repository = ItemRepository.new
-        orders_repository = double :order_repository
         @io = double :io
-        database_name = 'shop_manager'
-        app = Application.new(database_name, @io, items_repository, orders_repository)
+        app = Application.new('shop_manager', @io, ItemRepository.new, OrderRepository.new)
         welcome
         options
-        expect(@io).to receive(:gets).and_return("1")
-        expect(@io).to receive(:puts).with("Here's a list of all shop items: \n")
-        expect(@io).to receive(:puts).with("#1 Scrabble - Unit price: £14 - Quantity: 100")
-        expect(@io).to receive(:puts).with("#2 Catan - Unit price: £20 - Quantity: 25")
+        gets("1")
+        puts("Here's a list of all shop items: \n")
+        puts("#1 Scrabble - Unit price: £14 - Quantity: 100")
+        puts("#2 Catan - Unit price: £20 - Quantity: 25")
         app.run
       end
     end
 
     context "select 3" do
       it "returns a list of orders" do
-        items_repository = ItemRepository.new
-        orders_repository = OrderRepository.new
         @io = double :io
-        database_name = 'shop_manager'
-        app = Application.new(database_name, @io, items_repository, orders_repository)
+        app = Application.new('shop_manager', @io, ItemRepository.new, OrderRepository.new)
         welcome
         options
-        expect(@io).to receive(:gets).and_return("3")
-        expect(@io).to receive(:puts).with("Here's a list of all orders: \n")
-        expect(@io).to receive(:puts).with("#1 Order name: Stephen - Order date: 2022-09-29")
-        expect(@io).to receive(:puts).with("#2 Order name: Alan - Order date: 2022-10-01")
+        gets("3")
+        puts("Here's a list of all orders: \n")
+        puts("#1 Order name: Stephen - Order date: 2022-09-29")
+        puts("#2 Order name: Alan - Order date: 2022-10-01")
         app.run
       end
     end
 
     context "select 2" do
       it "allows user to create new list item" do
-        items_repository = ItemRepository.new
-        orders_repository = OrderRepository.new
         @io = double :io
-        database_name = 'shop_manager'
-        app = Application.new(database_name, @io, items_repository, orders_repository)
+        app = Application.new('shop_manager', @io, ItemRepository.new, OrderRepository.new)
         welcome
         options
-        expect(@io).to receive(:gets).and_return("2")
-        expect(@io).to receive(:puts).with("Please enter an item name")
-        expect(@io).to receive(:gets).and_return("Chess")
-        expect(@io).to receive(:puts).with("Please enter the item's price")
-        expect(@io).to receive(:gets).and_return("5")
-        expect(@io).to receive(:puts).with("Please enter a quantity of items")
-        expect(@io).to receive(:gets).and_return("300")
-        expect(@io).to receive(:puts).with("\nNew item added: ")
-        expect(@io).to receive(:puts).with("Chess - Unit price: £5 - Quantity: 300")
+        gets("2")
+        puts("Please enter an item name")
+        gets("Chess")
+        puts("Please enter the item's price")
+        gets("5")
+        puts("Please enter a quantity of items")
+        gets("300")
+        puts("\nNew item added: ")
+        puts("Chess - Unit price: £5 - Quantity: 300")
         app.run
       end
     end
 
     context "select 4" do
       it "allows user to create a new order" do
-        items_repository = ItemRepository.new
-        orders_repository = OrderRepository.new
         @io = double :io
-        database_name = 'shop_manager'
-        app = Application.new(database_name, @io, items_repository, orders_repository)
+        app = Application.new('shop_manager', @io, ItemRepository.new, OrderRepository.new)
         welcome
         options
-        expect(@io).to receive(:gets).and_return("4")
-        expect(@io).to receive(:puts).with("Please enter the customer's name")
-        expect(@io).to receive(:gets).and_return("Margaret")
-        expect(@io).to receive(:puts).with("Please enter the order date (YYYY-MM-DD)")
-        expect(@io).to receive(:gets).and_return("2022-12-25")
-        expect(@io).to receive(:puts).with("\nNew item added: ")
-        expect(@io).to receive(:puts).with("Customer name: Margaret - Date: 2022-12-25")
+        gets("4")
+        puts("Please enter the customer's name")
+        gets("Margaret")
+        puts("Please enter the order date (YYYY-MM-DD)")
+        gets("2022-12-25")
+        puts("\nNew order added: ")
+        puts("New order: Customer name: Margaret - Date: 2022-12-25")
+        app.run
       end
     end
   end
       
   private
 
+  def reset_tables(table_name)
+    seed_sql = File.read(table_name)
+    connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager' })
+    connection.exec(seed_sql)
+  end
+
   def welcome
-    expect(@io).to receive(:puts).with("\nWelcome to the Game-azon management program!")
+    puts("\nWelcome to the Game-azon management program!")
   end
 
   def options
-    expect(@io).to receive(:puts).with("\nWhat do you want to do?")
-    expect(@io).to receive(:puts).with("1 = list all shop items")
-    expect(@io).to receive(:puts).with("2 = create a new item")
-    expect(@io).to receive(:puts).with("3 = list all orders")
-    expect(@io).to receive(:puts).with("4 = create a new order")
-    expect(@io).to receive(:puts).with("9 = exit app\n\n")
-    expect(@io).to receive(:puts).with("Enter:")
+    puts("\nWhat do you want to do?")
+    puts("1 = list all shop items")
+    puts("2 = create a new item")
+    puts("3 = list all orders")
+    puts("4 = create a new order")
+    puts("9 = exit app\n\n")
+    puts("Enter:")
+  end
+
+  def puts(string)
+    expect(@io).to receive(:puts).with(string)
+  end
+
+  def gets(string)
+    expect(@io).to receive(:gets).and_return(string)
   end
 end

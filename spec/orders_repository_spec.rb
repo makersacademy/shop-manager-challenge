@@ -18,7 +18,7 @@ describe OrderRepository do
 
       orders = repo.all
 
-      expect(orders.length).to eq 2
+      expect(orders.length).to eq 3
 
       expect(orders.first.id).to eq '1'
       expect(orders.first.customer_name).to eq 'Stephen'
@@ -30,7 +30,7 @@ describe OrderRepository do
 
       orders = repo.all
 
-      expect(orders.length).to eq 2
+      expect(orders.length).to eq 3
       expect(orders[1].id).to eq '2'
       expect(orders[1].customer_name).to eq 'Alan'
       expect(orders[1].date).to eq '2022-10-01'

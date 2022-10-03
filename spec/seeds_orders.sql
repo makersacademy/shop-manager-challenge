@@ -7,5 +7,5 @@ TRUNCATE TABLE orders RESTART IDENTITY CASCADE;
 INSERT INTO items (name, price, quantity) VALUES ('Scrabble', 14, 100);
 INSERT INTO items (name, price, quantity) VALUES ('Catan', 20, 25);
 
-INSERT INTO orders (customer_name, date) VALUES ('Stephen', '09-29-2022');
-INSERT INTO orders (customer_name, date) VALUES ('Alan','10-01-2022');
+INSERT INTO orders (customer_name, date) VALUES ('Stephen', '29-Sep-2022');
+INSERT INTO orders (customer_name, date) VALUES ('Alan','01-Oct-2022');

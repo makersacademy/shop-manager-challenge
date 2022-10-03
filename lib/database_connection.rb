@@ -2,8 +2,8 @@ require 'pg'
 
 class DatabaseConnection
 
-  def self.connect(shop_manager)
-    @connection = PG.connect({ host: '127.0.0.1', dbname: shop_manager })
+  def self.connect(shop_manager_full)
+    @connection = PG.connect({ host: '127.0.0.1', dbname: shop_manager_full })
   end
   
   def self.exec_params(query, params)

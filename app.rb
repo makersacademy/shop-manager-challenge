@@ -3,8 +3,8 @@ require_relative 'lib/items_repository'
 require_relative 'lib/orders_repository'
 
 class Application
-  def initialize(database_name, io, items_repository, orders_repository)
-    DatabaseConnection.connect(database_name)
+  def initialize(shop_manager, io, items_repository, orders_repository)
+    DatabaseConnection.connect(shop_manager)
     @io = io
     @items_repository = items_repository
     @orders_repository = orders_repository
@@ -30,6 +30,7 @@ class Application
     @io.puts "Enter:"
   end
 
+## need to add loop in when I can get RSpec to not crash
   # def interactive_options
   #   loop do
   #     print_options
@@ -47,12 +48,14 @@ class Application
       list_orders
     when "4"
       create_order
-    # when "9"
-    #   exit
-    # else
-    #     puts "I don't know what you meant, try again"
     end
   end
+
+    # to be added above
+      # when "9"
+    #   exit    <---- once loop is in, this will be added too
+      # else
+    #   puts "I don't know what you meant, try again"
 
   def list_items
     @io.puts "Here's a list of all shop items: \n"
@@ -70,6 +73,12 @@ class Application
     quantity = @io.gets.chomp
     @io.puts "\nNew item added: "
     @io.puts "#{name} - Unit price: £#{price} - Quantity: #{quantity}"
+     # Not 100% below works, would like more time to test
+    item = Item.new
+    item.name = name
+    item.price = price
+    item.quantity = quantity
+    @items_repository.create(item)
   end
 
   def list_orders
@@ -84,14 +93,19 @@ class Application
     customer_name = @io.gets.chomp
     @io.puts "Please enter the order date (YYYY-MM-DD)"
     date = @io.gets.chomp
-    @io.puts "\nNew item added: "
-    @io.puts "Customer name: #{customer_name} - Date: #{date}"
+    @io.puts "\nNew order added: "
+    @io.puts "New order: Customer name: #{customer_name} - Date: #{date}"
+    # Not 100% below works, would like more time to test
+    order = Order.new
+    order.customer_name = customer_name
+    order.date = date
+    @orders_repository.create(order)
   end
 end
 
 if __FILE__ == $0
   app = Application.new(
-    'shop_manager',
+    'shop_manager_full',
     Kernel,
     ItemRepository.new,
     OrderRepository.new
