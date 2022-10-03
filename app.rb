@@ -35,7 +35,6 @@ class Application
     case user_input
     when "1"
       print_all_items
-      p @item_repository.all
     when "2"
       create_new_item
     when "3"
