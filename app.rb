@@ -1,8 +1,8 @@
-require_relative "./lib/database_connection.rb"
-require_relative "./lib/item_repository.rb"
-require_relative "./lib/order_repository.rb"
-require_relative "./lib/item.rb"
-require_relative "./lib/order.rb"
+require_relative "./lib/database_connection"
+require_relative "./lib/item_repository"
+require_relative "./lib/order_repository"
+require_relative "./lib/item"
+require_relative "./lib/order"
 require 'date'
 require 'colorize'
 
@@ -61,9 +61,9 @@ class Application
     @io.puts "ITEMS IN STOCK:".colorize(:blue)
     @io.puts "\n"
     items = @item_repository.all
-    items.each { |record|
+    items.each do |record|
       @io.puts "##{record.id} #{record.name} - Unit price: #{record.price} - Quantity: #{record.quantity}"
-    }
+    end
   end
 
   def create_item
@@ -80,14 +80,14 @@ class Application
     @io.puts "CURRENT ORDERS:".colorize(:blue)
     @io.puts "\n"
     
-    get_id_list.each { |order_id|
+    get_id_list.each do |order_id|
       order = @order_repository.find_by_order(order_id)
       @io.puts "##{order.id} #{order.customer_name} - Order date: #{order.order_date} - Items:"
-      order.items.each { |item|
+      order.items.each do |item|
         @io.puts "- ##{item.id} #{item.name} - Price: #{item.price}"
-      }
+      end
       @io.puts "\n"
-    }
+    end
   end
 
   def create_order
@@ -121,9 +121,9 @@ class Application
 
   def get_id_list
     id_list = []
-    @order_repository.all.each { |record| 
+    @order_repository.all.each do |record| 
       id_list << record.id
-    }
+    end
     id_list
   end
 
@@ -163,9 +163,9 @@ class Application
 
   def get_linked_item
     id_list = []
-    @item_repository.all.each { |record|
+    @item_repository.all.each do |record|
       id_list << record.id
-    }
+    end
 
     @io.puts "Enter item ordered:"
     item = @io.gets.chomp
@@ -182,6 +182,7 @@ class Application
     date = Date.today 
     date.strftime "%Y-%m-%d"
   end
+  
 end
 
 if __FILE__ == $0

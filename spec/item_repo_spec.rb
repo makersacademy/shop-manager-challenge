@@ -1,4 +1,4 @@
-require_relative "../lib/item_repository.rb"
+require_relative "../lib/item_repository"
 
 def reset_tables
   seed_sql = File.read('spec/orders_items_seeds.sql')

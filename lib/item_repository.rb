@@ -1,6 +1,6 @@
-require_relative "../lib/database_connection.rb"
-require_relative "../lib/item.rb"
-require_relative "../lib/order.rb"
+require_relative "../lib/database_connection"
+require_relative "../lib/item"
+require_relative "../lib/order"
 
 class ItemRepository
   def all
@@ -10,9 +10,9 @@ class ItemRepository
     
     items = []
 
-    result.each {|record|
+    result.each do |record|
       items << object_to_item(record)
-    }
+    end
     
     items
   end
@@ -49,4 +49,5 @@ class ItemRepository
 
     item
   end
+
 end

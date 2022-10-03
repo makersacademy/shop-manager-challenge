@@ -1,6 +1,6 @@
-require_relative "../lib/database_connection.rb"
-require_relative "../lib/order.rb"
-require_relative "../lib/item.rb"
+require_relative "../lib/database_connection"
+require_relative "../lib/order"
+require_relative "../lib/item"
 
 class OrderRepository
 
@@ -11,9 +11,9 @@ class OrderRepository
 
     orders = []
 
-    result.each { |record| 
+    result.each do |record| 
       orders << object_to_order(record)
-    }
+    end
 
     orders
   end
@@ -34,9 +34,9 @@ class OrderRepository
 
     order = object_to_order(result[0])
 
-    result.each { |record|
-      order.items  << object_to_item(record)
-    }
+    result.each do |record|
+      order.items << object_to_item(record)
+    end
 
     order
   end
