@@ -224,13 +224,7 @@ Encode this example as a test.
 
 ## 7. Reload the SQL seeds before each test run
 
-Running the SQL code present in the seed file will empty the table and re-insert the seed data.
-
-This is so you get a fresh table contents every time you run the test suite.
-
 ```ruby
-# EXAMPLE
-
 # file: spec/student_repository_spec.rb
 
 def reset_students_table
