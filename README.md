@@ -1,4 +1,16 @@
-Shop Manager Project
+# Shop Manager Project
+
+<div align="left">
+  <img alt="GitHub top language" src="https://img.shields.io/github/languages/top/EvSivtsova/bank_tech_test">
+</div>
+<div>
+  <img src="https://img.shields.io/badge/postgres-%23316192.svg?style=for-the-badge&logo=postgresql&logoColor=white"/> 
+  <img src="https://img.shields.io/badge/RSpec-blue?style=for-the-badge&logo=Rspec&logoColor=white" alt="Rspec"/>
+  <img src="https://img.shields.io/badge/Test_coverage:_99.27-blue?style=for-the-badge&logo=Rspec&logoColor=white" alt="Rspec"/>
+</div><br>
+
+This is Makers' Academy challenge with the following requirements:
+
 =================
 
 * Feel free to use Google, your notes, books, etc. but work on your own
@@ -66,29 +78,79 @@ Here's a list of all shop items:
  (...)
 ```
 
-Technical Approach:
+Technical Approach (by Makers):
 -----
 
 In this unit, you integrated a database by using the `PG` gem, and test-driving and building Repository classes. You can continue to use this approach when building this challenge.
 
 [You'll also need to mock IO](https://github.com/makersacademy/golden-square/blob/main/mocking_bites/05_unit_testing_terminal_io_bite.md) in your integration or unit tests, since the program will ask for user input.
 
-Notes on test coverage
-----------------------
+## TechBit
 
-Please ensure you have the following **AT THE TOP** of your spec_helper.rb in order to have test coverage stats generated
-on your pull request:
+Technologies used: 
+* Ruby(3.0.0)
+* RVM
+* Rspec(Testing)
+* Rubocop(Linter)
+* Simplecov(Test Coverage)
 
-```ruby
-require 'simplecov'
-require 'simplecov-console'
+To install the project clone the repository and run `bundle install` to install the dependencies within bankTechTest folder:
 
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-  SimpleCov::Formatter::Console,
-  # Want a nice code coverage website? Uncomment this next line!
-  # SimpleCov::Formatter::HTMLFormatter
-])
-SimpleCov.start
+```
+git clone https://github.com/EvSivtsova/shop-manager-challenge.git
+cd shop-manager-challenge
+bundle install
+```
+You will need to create a database to run the app:
+
+```
+createdb shop_database
 ```
 
-You can see your test coverage when you run your tests. If you want this in a graphical form, uncomment the `HTMLFormatter` line and see what happens!
+You can either use data seeds to play with the program:
+
+```
+psql -h 127.0.0.1 shop_database < spec/seeds_shop_data.sql
+```
+
+or run the following command to create data tables without populating them:
+
+```
+psql -h 127.0.0.1 shop_database < lib/shop_database.sql
+```
+
+To run the program:
+
+```
+ruby app.rb
+```
+
+To run the tests:
+
+```
+createdb shop_database_test
+psql -h 127.0.0.1 shop_database_tests < spec/seeds_shop_data.sql
+rspec
+```
+
+## Code design
+
+There are two model and two repository classes: 
+1. Item and Item Repository class - allows to create and manage stock items.
+2. Order and Order Repository classes - allow to create and manage customer orders.
+
+These classes are integrated in the App class, which:
+* lists all shop items and orders
+* allows to create new items and orders
+* prints order details to the console
+* show orders and stock for a particular item
+
+The program has a command line interface.
+
+<img src="https://github.com/EvSivtsova/shop-manager-challenge/blob/main/outputs/List%20all%20shop%20items.png" width='500'>
+
+Please view outputs for every option [here](https://github.com/EvSivtsova/shop-manager-challenge/tree/main/outputs)
+
+
+Test coverage: 99.27% <br>
+<img src='https://github.com/EvSivtsova/shop-manager-challenge/blob/main/outputs/shop-manager-challenge-coverage.png' width='300'>
