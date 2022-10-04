@@ -44,13 +44,13 @@ class Application
   def ask_instructions
     @user_choice = nil
     until (@user_choice == 1 || @user_choice == 2 || @user_choice == 3 || @user_choice == 4 || @user_choice == 5 || @user_choice == 6)
-      @io.puts "What woulds you like to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n5 = view order details\n6 = view shop item balance"
+      @io.puts "What would you like to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n5 = view order details\n6 = view shop item balance"
       @user_choice = @io.gets.to_i
     end 
   end
   
   def list_items
-    @io.puts "Here's a list of all shop items:"
+    @io.puts "Here's the list of all shop items:"
     @item_repository.all.map do |item|
       @io.puts "##{item.id} #{item.name} - unit price: #{item.unit_price} - quantity: #{item.quantity}"
     end
@@ -68,7 +68,7 @@ class Application
   end
 
   def list_orders
-    @io.puts "Here's a list of all orders:"
+    @io.puts "Here's the list of all orders:"
     @order_repository.all.map do |order|
       @io.puts "Order ##{order.id} - Customer: #{order.customer} - Date: #{order.date}"
     end

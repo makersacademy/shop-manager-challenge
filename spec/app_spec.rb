@@ -18,9 +18,9 @@ describe Application do
       item_repository = ItemRepository.new
       order_repository = OrderRepository.new
       expect(io).to receive(:puts).with("Welcome to the shop management program!\n\n").ordered
-      expect(io).to receive(:puts).with("What woulds you like to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n5 = view order details\n6 = view shop item balance").ordered
+      expect(io).to receive(:puts).with("What would you like to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n5 = view order details\n6 = view shop item balance").ordered
       expect(io).to receive(:gets).and_return("1").ordered
-      expect(io).to receive(:puts).with("Here's a list of all shop items:").ordered
+      expect(io).to receive(:puts).with("Here's the list of all shop items:").ordered
       expect(io).to receive(:puts).with("#1 milk - unit price: $1.00 - quantity: 35").ordered
       expect(io).to receive(:puts).with("#2 cheese - unit price: $3.50 - quantity: 55").ordered
       expect(io).to receive(:puts).with("#3 bread - unit price: $2.75 - quantity: 10").ordered
@@ -40,7 +40,7 @@ describe Application do
       item_repository = ItemRepository.new
       order_repository = OrderRepository.new
       expect(io).to receive(:puts).with("Welcome to the shop management program!\n\n").ordered
-      expect(io).to receive(:puts).with("What woulds you like to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n5 = view order details\n6 = view shop item balance").ordered
+      expect(io).to receive(:puts).with("What would you like to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n5 = view order details\n6 = view shop item balance").ordered
       expect(io).to receive(:gets).and_return("2").ordered
       expect(io).to receive(:puts).with("Please add item name, item price (1.00) and quantity available, separating them with commas:").ordered
       expect(io).to receive(:gets).and_return("orange,2.00,5").ordered
@@ -59,9 +59,9 @@ describe Application do
       item_repository = ItemRepository.new
       order_repository = OrderRepository.new
       expect(io).to receive(:puts).with("Welcome to the shop management program!\n\n").ordered
-      expect(io).to receive(:puts).with("What woulds you like to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n5 = view order details\n6 = view shop item balance").ordered
+      expect(io).to receive(:puts).with("What would you like to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n5 = view order details\n6 = view shop item balance").ordered
       expect(io).to receive(:gets).and_return("3").ordered
-      expect(io).to receive(:puts).with("Here's a list of all orders:").ordered
+      expect(io).to receive(:puts).with("Here's the list of all orders:").ordered
       expect(io).to receive(:puts).with("Order #1 - Customer: Anna - Date: 2022-06-21").ordered
       expect(io).to receive(:puts).with("Order #2 - Customer: John - Date: 2022-06-23").ordered
       expect(io).to receive(:puts).with("Order #3 - Customer: Rachel - Date: 2022-07-01").ordered
@@ -79,7 +79,7 @@ describe Application do
       item_repository = ItemRepository.new
       order_repository = OrderRepository.new
       expect(io).to receive(:puts).with("Welcome to the shop management program!\n\n").ordered
-      expect(io).to receive(:puts).with("What woulds you like to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n5 = view order details\n6 = view shop item balance").ordered
+      expect(io).to receive(:puts).with("What would you like to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n5 = view order details\n6 = view shop item balance").ordered
       expect(io).to receive(:gets).and_return("4").ordered
       expect(io).to receive(:puts).with("Please add client name and the date of the order (YYYY-MM-DD), separating them with a comma").ordered
       expect(io).to receive(:gets).and_return("Anna,2022-07-12").ordered
@@ -105,7 +105,7 @@ describe Application do
       item_repository = ItemRepository.new
       order_repository = OrderRepository.new
       expect(io).to receive(:puts).with("Welcome to the shop management program!\n\n").ordered
-      expect(io).to receive(:puts).with("What woulds you like to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n5 = view order details\n6 = view shop item balance").ordered
+      expect(io).to receive(:puts).with("What would you like to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n5 = view order details\n6 = view shop item balance").ordered
       expect(io).to receive(:gets).and_return("5").ordered
       expect(io).to receive(:puts).with("What is the order ID number?").ordered
       expect(io).to receive(:gets).and_return("1").ordered
@@ -128,7 +128,7 @@ describe Application do
       item_repository = ItemRepository.new
       order_repository = OrderRepository.new
       expect(io).to receive(:puts).with("Welcome to the shop management program!\n\n").ordered
-      expect(io).to receive(:puts).with("What woulds you like to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n5 = view order details\n6 = view shop item balance").ordered
+      expect(io).to receive(:puts).with("What would you like to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n5 = view order details\n6 = view shop item balance").ordered
       expect(io).to receive(:gets).and_return("6").ordered
       expect(io).to receive(:puts).with("What is the item ID number?").ordered
       expect(io).to receive(:gets).and_return("1").ordered
