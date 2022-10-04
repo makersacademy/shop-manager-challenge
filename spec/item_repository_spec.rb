@@ -6,7 +6,6 @@ def reset_items_table
   connection.exec(seed_sql)
 end
 
-
 describe ItemRepository do
   before(:each) do 
     reset_items_table

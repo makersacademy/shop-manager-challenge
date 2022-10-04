@@ -1,7 +1,5 @@
 require_relative './item'
-require_relative './order'
 require_relative './order_repository'
-
 
 class ItemRepository
 
@@ -20,7 +18,7 @@ class ItemRepository
     sql = 'SELECT id, name, unit_price, quantity FROM items WHERE id = $1;'
     params = [id]
     result_set = DatabaseConnection.exec_params(sql, params)
-    return nil if result_set.to_a.length == 0
+    return nil if result_set.to_a.length.zero?
     record = result_set[0]
     item = from_record_to_item(record)
     return item
@@ -40,12 +38,11 @@ class ItemRepository
           WHERE items.id = $1;'
     params = [id]
     result = DatabaseConnection.exec_params(sql, params)
-    return nil if result.to_a.length == 0
+    return nil if result.to_a.length.zero?
     record = result[0]
     item = from_record_to_item(record)
     result.each do |record|
-      order = from_record_to_order(record)
-      item.orders << order
+      item.orders << from_record_to_order(record)
     end
     return item
   end

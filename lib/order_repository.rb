@@ -1,7 +1,5 @@
 require_relative './order'
-require_relative './item'
 require_relative './item_repository'
-
 
 class OrderRepository
   def all
@@ -15,12 +13,11 @@ class OrderRepository
     return orders
   end
 
-
   def find(id)
     sql = 'SELECT id, customer, date FROM orders WHERE id = $1;'
     params = [id]
     result_set = DatabaseConnection.exec_params(sql, params)
-    return nil if result_set.to_a.length == 0
+    return nil if result_set.to_a.length.zero?
     record = result_set[0]
     order = from_record_to_order(record)
     return order
@@ -40,7 +37,7 @@ class OrderRepository
           WHERE orders.id = $1;'
     params = [id]
     result = DatabaseConnection.exec_params(sql, params)
-    return nil if result.to_a.length == 0
+    return nil if result.to_a.length.zero?
     record = result[0]
     order = from_record_to_order(record)
     result.map do |record|
