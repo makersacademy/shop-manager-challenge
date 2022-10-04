@@ -13,30 +13,42 @@ class Application
 
   def run
     @io.puts "Welcome to the shop management program!\n\n"
-    user_choice = nil
-    until (user_choice == 1 || user_choice == 2 || user_choice == 3 || user_choice == 4 || user_choice == 5 || user_choice == 6)
-      @io.puts "What do you want to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n5 = view order details\n6 - view shop item balance"
-      p user_choice = @io.gets.to_i
-    end 
-    case user_choice
-    when 1
-      list_items
-    when 2
-      create_item
-    when 3
-      list_orders
-    when 4
-      create_order_with_items
-    when 5
-      view_order_details 
-    when 6
-      view_item_with_orders
+    ask_instructions
+    while true
+      case @user_choice 
+      when 1
+        list_items
+      when 2
+        create_item
+      when 3
+        list_orders
+      when 4
+        create_order_with_items
+      when 5
+        view_order_details 
+      when 6
+        view_item_with_orders
+      end
+      @io.puts "Would you like to do anything else? (y/n)"
+      @user_choice = @io.gets.chomp
+      if @user_choice == 'y'
+        ask_instructions
+      elsif @user_choice == 'n'
+        break
+      end
     end
-  
   end
 
   private 
 
+  def ask_instructions
+    @user_choice = nil
+    until (@user_choice == 1 || @user_choice == 2 || @user_choice == 3 || @user_choice == 4 || @user_choice == 5 || @user_choice == 6)
+      @io.puts "What woulds you like to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n5 = view order details\n6 = view shop item balance"
+      @user_choice = @io.gets.to_i
+    end 
+  end
+  
   def list_items
     @io.puts "Here's a list of all shop items:"
     @item_repository.all.map do |item|
@@ -61,33 +73,7 @@ class Application
       @io.puts "Order ##{order.id} - Customer: #{order.customer} - Date: #{order.date}"
     end
   end 
-
-  def create_order_with_items
-    @io.puts "Please add client name and the date of the order (YYYY-MM-DD), separating them with a comma"
-    params = @io.gets.split(",")
-    order = Order.new
-    order.customer = params[0]
-    order.date = params[1]
-    selected_items = select_items
-    @order_repository.create(order)
-    order_id = @order_repository.all[-1].id
-    selected_items.map do |item_id|
-      sql = 'INSERT INTO items_orders VALUES ($1, $2);'
-      params = [item_id, order_id]
-      DatabaseConnection.exec_params(sql, params)
-    end   
-    @io.puts "Order ##{order_id} for #{order.customer} has been created on #{order.date}"
-  end
-
-  def select_items
-    @io.puts "Please list the items you would like to add to your order, separating them with commas:"
-    @item_repository.all.map do |item|
-      @io.puts "##{item.id} #{item.name} - unit price: #{item.unit_price}"
-    end 
-    selected_items = @io.gets.chomp.split(",").map(&:to_i)
-    return selected_items
-  end
-    
+  
   def view_order_details 
     @io.puts "What is the order ID number?"
     id = @io.gets
@@ -98,7 +84,7 @@ class Application
       @io.puts "##{item.id} #{item.name} - unit price: #{item.unit_price} - quantity available: #{item.quantity}"
     end
   end
-
+  
   def view_item_with_orders
     @io.puts "What is the item ID number?"
     id = @io.gets
@@ -109,8 +95,38 @@ class Application
       @io.puts "#{order.customer} = order ##{order.id} - date: #{order.date}"
     end
   end
-end
 
+  # "create order with items" consists of three methods: creating order, selecting items and adding items to the order
+
+  def create_order_with_items
+    @io.puts "Please add client name and the date of the order (YYYY-MM-DD), separating them with a comma"
+    params = @io.gets.split(",")
+    order = Order.new
+    order.customer = params[0]
+    order.date = params[1]
+    @order_repository.create(order)
+    @order_id = @order_repository.all[-1].id
+    add_items_to_order
+    @io.puts "Order ##{@order_id} for #{order.customer} has been created on #{order.date}"
+  end
+  
+  def add_items_to_order
+    select_items.map do |item_id|
+      sql = 'INSERT INTO items_orders VALUES ($1, $2);'
+      params = [item_id, @order_id]
+      DatabaseConnection.exec_params(sql, params)
+    end
+  end
+
+  def select_items
+    @io.puts "Please list the items you would like to add to your order, separating them with commas:"
+    @item_repository.all.map do |item|
+      @io.puts "##{item.id} #{item.name} - unit price: #{item.unit_price}"
+    end 
+    selected_items = @io.gets.chomp.split(",").map(&:to_i)
+    return selected_items
+  end
+end
 
 # If we run this file using `ruby app.rb`,
 # run the app.
