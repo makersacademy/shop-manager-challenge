@@ -6,27 +6,27 @@ def reset_orders_table
   connection.exec(seed_sql)
 end
 
-Rspec.describe OrderRepository do
+RSpec.describe OrderRepository do
   before(:each) do
     reset_orders_table
   end
 
   context "all orders" do
-    xit "returns all orders" do
+    it "returns all orders" do
       repo = OrderRepository.new
 
       orders = repo.all
 
       expect(orders.length).to eq 4
 
-      expect(orders[0].id).to eq 1
+      expect(orders[0].id).to eq "1"
       expect(orders[0].customer_name).to eq 'Harry Styles'
       expect(orders[0].order_date).to eq '2022-03-10'
     end
   end
 
   context "find a singular order" do
-    xit "returns first order" do
+    it "returns first order" do
       repo = OrderRepository.new
 
       order = repo.find(1)
@@ -37,7 +37,7 @@ Rspec.describe OrderRepository do
   end
 
   context "add an order" do
-    xit "adds an order" do
+    it "adds an order" do
       repo = OrderRepository.new
 
       order = Order.new
@@ -54,10 +54,10 @@ Rspec.describe OrderRepository do
   end
 
   context "find orders by item" do
-    xit 'returns orders that include the item' do
+    it 'returns orders that include the item' do
       repo = OrderRepository.new
 
-      item = repo.find_by_item(5)
+      item = repo.find_by_item('cheese')
       orders = item.orders
 
       expect(orders.length).to eq 3

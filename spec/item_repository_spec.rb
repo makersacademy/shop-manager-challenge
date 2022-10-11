@@ -6,7 +6,7 @@ def reset_items_table
   connection.exec(seed_sql)
 end
 
-Rspec.describe ItemRepository do
+RSpec.describe ItemRepository do
   before(:each) do
     reset_items_table
   end
@@ -18,7 +18,7 @@ Rspec.describe ItemRepository do
       items = repo.all
 
       expect(items.length).to eq 7
-      expect(items[0].id).to eq 1
+      expect(items[0].id).to eq "1"
       expect(items[0].name).to eq 'blueberries'
       expect(items[0].unit_price).to eq '4'
       expect(items[0].quantity).to eq '30'
@@ -26,7 +26,7 @@ Rspec.describe ItemRepository do
   end
 
   context "find a singular item" do
-    xit "returns the first item" do
+    it "returns the first item" do
       repo = ItemRepository.new
 
       item = repo.find(1)
@@ -38,7 +38,7 @@ Rspec.describe ItemRepository do
   end
 
   context "add an item" do
-    xit "adds strawberries item" do
+    it "adds strawberries item" do
       repo = ItemRepository.new
 
       item = Item.new
@@ -56,7 +56,7 @@ Rspec.describe ItemRepository do
   end
 
   context "delete an item" do
-    xit "deletes first item" do
+    it "deletes first item" do
       repo = ItemRepository.new
 
       id = 1
@@ -70,7 +70,7 @@ Rspec.describe ItemRepository do
   end
 
   context "update an item's quantity" do
-    xit "updates first item quanity to 20" do
+    it "updates first item quanity to 20" do
       repo = ItemRepository.new
 
       item = repo.find(1)
@@ -86,10 +86,10 @@ Rspec.describe ItemRepository do
   end
 
   context "find item by order" do
-    xit "finds all the items in an order" do
+    it "finds all the items in an order" do
       repo = ItemRepository.new
 
-      order = repo.find_by_order(1)
+      order = repo.find_by_order('Harry Styles')
       items = order.items
 
       expect(items.length).to eq 4
