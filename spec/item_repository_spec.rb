@@ -40,4 +40,37 @@ RSpec.describe ItemRepository do
     expect(last_item.name).to eq('Brush') 
     expect(last_item.id).to eq("5") 
   end
+
+  it 'returns the first item' do
+    repo = ItemRepository.new
+
+    item = repo.find(1)
+
+    expect(item.id).to eq("1") 
+    expect(item.name).to eq('TV') 
+    expect(item.quantity).to eq('10') 
+  end
+  it 'returns the second item' do
+    repo = ItemRepository.new
+
+    item = repo.find(2)
+
+    expect(item.id).to eq("2") 
+    expect(item.name).to eq('Microwave') 
+    expect(item.unit_price).to eq('80') 
+    expect(item.quantity).to eq('50') 
+  end
+  it "updates the quantity of the item" do
+    repo = ItemRepository.new
+    item = repo.find(1)
+
+    item.quantity = (item.quantity.to_i - 1)
+
+    repo.update(item)
+
+    updated_item = repo.find(1)
+
+    expect(updated_item.name).to eq('TV') 
+    expect(updated_item.quantity).to eq ('9') 
+  end
 end

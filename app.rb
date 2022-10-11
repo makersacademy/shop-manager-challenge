@@ -1,3 +1,5 @@
+#would be good to update each item when an order is placed to reduce the quanitity 
+
 require_relative 'lib/database_connection'
 require_relative 'lib/item_repository.rb'
 require_relative 'lib/order_repository.rb'
@@ -80,7 +82,11 @@ class Application
       item = @io.gets.chomp
       if all_items_ids.include?(item)
         new_order.item_id = "#{item}"
-        @io.puts "Thank you for sumbitting a new item"
+        @io.puts "Thank you for sumbitting a new order"
+        repo = ItemRepository.new
+        updating_item = repo.find(item)
+        updating_item.quantity = (updating_item.quantity.to_i - 1)
+        repo.update(updating_item)
         break
       else
         @io.puts "Sorry the ID is not recognised, please re-enter the product ID"
@@ -109,7 +115,6 @@ class Application
       elsif user_input[8..9].join.to_i < 1 || user_input[8..9].join.to_i > 31
         @io.puts "That date does not exist, please ensure the date is between the 1st and 31st"
       else
-        p user_input
         new_order.date_order_placed = "#{user_input.join}"
         break
       end
