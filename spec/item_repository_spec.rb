@@ -29,8 +29,9 @@ RSpec.describe ItemRepository do
     it "returns the first item" do
       repo = ItemRepository.new
 
-      item = repo.find(1)
+      item = repo.find('blueberries')
 
+      expect(item.id).to eq '1'
       expect(item.name).to eq 'blueberries'
       expect(item.unit_price).to eq '4'
       expect(item.quantity).to eq '30'
@@ -73,13 +74,13 @@ RSpec.describe ItemRepository do
     it "updates first item quanity to 20" do
       repo = ItemRepository.new
 
-      item = repo.find(1)
+      item = repo.find('blueberries')
 
       item.quantity = "20"
 
       repo.update_quantity(item)
 
-      updated_item = repo.find(1)
+      updated_item = repo.find('blueberries')
 
       expect(updated_item.quantity).to eq "20"
     end

@@ -21,9 +21,9 @@ class ItemRepository
     items
   end
 
-  def find(id)
-    sql = 'SELECT * FROM items WHERE id = $1;'
-    sql_params = [id]
+  def find(name)
+    sql = 'SELECT * FROM items WHERE name = $1;'
+    sql_params = [name]
 
     result_set = DatabaseConnection.exec_params(sql, sql_params)
     record = result_set[0]

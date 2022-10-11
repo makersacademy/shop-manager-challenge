@@ -16,10 +16,11 @@ class Application
     show "What do you want to do?"
     show "  1. List all shop items"
     show "  2. Create a new item"
-    show "  3. List all orders"
-    show "  4. Create a new order"
-    show "  5. Find a customers full order by customers name"
-    show "  6. Find all orders including a specific item"
+    show "  3. Restock item"
+    show "  4. List all orders"
+    show "  5. Create a new order"
+    show "  6. Find a customers full order by customers name"
+    show "  7. Find all orders including a specific item"
     choice = prompt "Enter your choice: "
     if choice == "1"
       show "All Items in stock: "
@@ -29,6 +30,14 @@ class Application
       show "Item successfully added!"
       show "All Items in stock: "
       list_items
+    elsif choice == "4"
+      show "All Orders: "
+      list_orders
+    elsif choice == "5"
+      add_order
+      show "Order successfully added!"
+      show "All Orders: "
+      list_orders
     end
   end
 
@@ -59,6 +68,26 @@ class Application
     item.unit_price = unit_price
     item.quantity = quantity
     @item_repository.create(item)
+  end
+
+  def list_orders
+    orders = @order_repository.all
+    orders.each_with_index do |order, i|
+      show "  Order ##{i+1} - Customer Name: #{order.customer_name} - Order Date: #{order.order_date}"
+    end
+  end
+
+  def add_order
+    show "Add an order: "
+    customer_name = prompt "Enter the customers name: "
+    order = Order.new
+    order.customer_name = customer_name
+    order.order_date = Time.new.to_s.split(" ")[0]
+    @order_repository.create(order)
+    show "Here are items we have in stock: "
+    list_items
+    item = prompt "What item would you like to add: "
+
   end
 end
 
