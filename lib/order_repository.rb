@@ -20,9 +20,9 @@ class OrderRepository
     orders
   end
 
-  def find(id)
-    sql = 'SELECT * FROM orders WHERE id = $1;'
-    sql_params = [id]
+  def find(customer_name)
+    sql = 'SELECT * FROM orders WHERE customer_name = $1;'
+    sql_params = [customer_name]
 
     result_set = DatabaseConnection.exec_params(sql, sql_params)
     record = result_set[0]

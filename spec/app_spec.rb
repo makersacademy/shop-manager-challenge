@@ -10,7 +10,8 @@ RSpec.describe Application do
       items = [item, item2, item3]
       item_repository = double :item_repository, all: items
       order_repository = double :order_repository
-      app = Application.new('shop_manager_test', io, item_repository, order_repository)
+      items_orders_repository = double :items_orders_repository
+      app = Application.new('shop_manager_test', io, item_repository, order_repository, items_orders_repository)
       expect(io).to receive(:puts).with("Welcome to the shop management program!")
       expect(io).to receive(:puts).with("What do you want to do?")
       expect(io).to receive(:puts).with("  1. List all shop items")
@@ -40,7 +41,8 @@ RSpec.describe Application do
       items = [item1, item2, item3, item]
       item_repository = double :item_repository, all: items
       order_repository = double :order_repository
-      app = Application.new('shop_manager_test', io, item_repository, order_repository)
+      items_orders_repository = double :items_orders_repository
+      app = Application.new('shop_manager_test', io, item_repository, order_repository, items_orders_repository)
       expect(io).to receive(:puts).with("Welcome to the shop management program!")
       expect(io).to receive(:puts).with("What do you want to do?")
       expect(io).to receive(:puts).with("  1. List all shop items")
@@ -81,7 +83,8 @@ RSpec.describe Application do
       orders = [order, order2, order3]
       item_repository = double :item_repository
       order_repository = double :order_repository, all: orders
-      app = Application.new('shop_manager_test', io, item_repository, order_repository)
+      items_orders_repository = double :items_orders_repository
+      app = Application.new('shop_manager_test', io, item_repository, order_repository, items_orders_repository)
       expect(io).to receive(:puts).with("Welcome to the shop management program!")
       expect(io).to receive(:puts).with("What do you want to do?")
       expect(io).to receive(:puts).with("  1. List all shop items")
@@ -102,19 +105,21 @@ RSpec.describe Application do
   end
 
   context "adds an order" do
-    xit "prints all orders in a list with the added order" do
+    it "prints all orders in a list with the added order" do
       io = double :io
-      item = double :item, name: "blueberries", unit_price: "4", quantity: "30"
-      item2 = double :item, name: "raspberries", unit_price: "5", quantity: "20"
+      items_orders = double :items_orders
+      item = double :item, name: "blueberries", unit_price: "4", quantity: "30", id: 1
+      item2 = double :item, name: "raspberries", unit_price: "5", quantity: "20", id: 2
       items = [item, item2]
-      order1 = double :order, customer_name: "Harry Styles", order_date: "2022-03-10"
-      order2 = double :order, customer_name: "Taylor Swift", order_date: "2022-04-14"
-      order3 = double :order, customer_name: "Billie Eillish", order_date: "2022-05-21"
-      order = double :order, customer_name: "Lizzie McAlpine", order_date: "2022-10-08"
+      order1 = double :order, customer_name: "Harry Styles", order_date: "2022-03-10", id: 1
+      order2 = double :order, customer_name: "Taylor Swift", order_date: "2022-04-14", id: 2
+      order3 = double :order, customer_name: "Billie Eillish", order_date: "2022-05-21", id: 3
+      order = double :order, customer_name: "Lizzie McAlpine", order_date: "2022-10-08", id: 4
       orders = [order1, order2, order3, order]
       item_repository = double :item_repository, all: items
       order_repository = double :order_repository, all: orders
-      app = Application.new('shop_manager_test', io, item_repository, order_repository)
+      items_orders_repository = double :items_orders_repository
+      app = Application.new('shop_manager_test', io, item_repository, order_repository, items_orders_repository)
       expect(io).to receive(:puts).with("Welcome to the shop management program!")
       expect(io).to receive(:puts).with("What do you want to do?")
       expect(io).to receive(:puts).with("  1. List all shop items")
@@ -129,14 +134,23 @@ RSpec.describe Application do
       expect(io).to receive(:puts).with("Add an order: ")
       expect(io).to receive(:puts).with("Enter the customers name: ")
       expect(io).to receive(:gets).and_return("Lizzie McAlpine\n")
-      allow(order).to receive(:customer_name).with("Lizzie McAlpine")
-      allow(order).to receive(:order_date).with(instance_of(Time))
+      allow(order).to receive(:customer_name).and_return("Lizzie McAlpine")
+      allow(order).to receive(:order_date).and_return("2022-10-08")
       expect(order_repository).to receive(:create).with(instance_of(Order))
+      expect(order_repository).to receive(:find).with("Lizzie McAlpine").and_return(order)
       expect(io).to receive(:puts).with("Here are items we have in stock: ")
       expect(io).to receive(:puts).with("  #1 Blueberries - Unit Price: £4 - Quantity: 30")
       expect(io).to receive(:puts).with("  #2 Raspberries - Unit Price: £5 - Quantity: 20")
       expect(io).to receive(:puts).with("What item would you like to add: ")
       expect(io).to receive(:gets).and_return("blueberries\n")
+      expect(item_repository).to receive(:find).with("blueberries").and_return(item)
+      allow(items_orders).to receive(:item_id).with("1")
+      allow(item).to receive(:id)
+      allow(items_orders).to receive(:order_id).with("3")
+      allow(order).to receive(:id)
+      allow(items_orders_repository).to receive(:create).with(instance_of(ItemsOrders))
+      expect(item).to receive(:quantity=).with("29")
+      allow(item_repository).to receive(:update_quantity).with(item)
       expect(io).to receive(:puts).with("Would you like to add anything else? [Yes/No]")
       expect(io).to receive(:gets).and_return("No\n")
       expect(io).to receive(:puts).with("Order successfully added!")

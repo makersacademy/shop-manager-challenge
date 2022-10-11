@@ -2,13 +2,16 @@ require_relative './lib/item_repository'
 require_relative './lib/item'
 require_relative './lib/order_repository'
 require_relative './lib/order'
+require_relative './lib/items_orders_repository'
+require_relative './lib/items_orders'
 
 class Application
-  def initialize(database_name, io, item_repository, order_repository)
+  def initialize(database_name, io, item_repository, order_repository, items_orders_repository)
     DatabaseConnection.connect(database_name)
     @io = io
     @item_repository = item_repository
     @order_repository = order_repository
+    @items_orders_repository = items_orders_repository
   end
 
   def run
@@ -84,10 +87,36 @@ class Application
     order.customer_name = customer_name
     order.order_date = Time.new.to_s.split(" ")[0]
     @order_repository.create(order)
+    new_order = @order_repository.find(customer_name)
     show "Here are items we have in stock: "
     list_items
-    item = prompt "What item would you like to add: "
+    item_name = prompt "What item would you like to add: "
+    add_item_to_order(item_name, new_order)
+    ans = prompt "Would you like to add anything else? [Yes/No]"
+    while ans == "Yes" || ans == "yes"
+      new_item_name = prompt "What item would you like to add: "
+      add_item_to_order(new_item_name, new_order)
+      ans = prompt "Would you like to add anything else? [Yes/No]"
+    end
+  end
 
+  def add_item_to_order(item_name, order)
+    item = @item_repository.find(item_name)
+    items_orders = ItemsOrders.new
+    items_orders.item_id = item.id
+    items_orders.order_id = order.id
+    @items_orders_repository.create(items_orders)
+    item_quantity_change(item)
+  end
+
+  def item_quantity_change(item)
+    if item.quantity == "1"
+      @item_repository.delete(item.id)
+    else
+      new_quantity = (item.quantity.to_i - 1).to_s
+      item.quantity = new_quantity
+      @item_repository.update_quantity(item)
+    end
   end
 end
 
@@ -100,7 +129,8 @@ if __FILE__ == $0
     'shop_manager',
     Kernel,
     ItemRepository.new,
-    OrderRepository.new
+    OrderRepository.new,
+    ItemsOrdersRepository.new
   )
   app.run
 end

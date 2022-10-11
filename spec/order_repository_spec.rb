@@ -29,7 +29,7 @@ RSpec.describe OrderRepository do
     it "returns first order" do
       repo = OrderRepository.new
 
-      order = repo.find(1)
+      order = repo.find('Harry Styles')
 
       expect(order.customer_name).to eq 'Harry Styles'
       expect(order.order_date).to eq '2022-03-10'

@@ -45,8 +45,8 @@ class ItemRepository
   end
 
   def update_quantity(item)
-    sql = 'UPDATE items SET quantity = $1;'
-    sql_params  = [item.quantity]
+    sql = 'UPDATE items SET quantity = $1 WHERE id = $2;'
+    sql_params  = [item.quantity, item.id]
 
     DatabaseConnection.exec_params(sql, sql_params)
   end
