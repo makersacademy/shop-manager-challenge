@@ -12,7 +12,7 @@ INSERT INTO items (name, unit_price, quantity) VALUES ('bananas', '3', '20');
 
 INSERT INTO orders (customer_name, order_date) VALUES ('Harry Styles', '2022-03-10');
 INSERT INTO orders (customer_name, order_date) VALUES ('Taylor Swift', '2022-04-14');
-INSERT INTO orders (customer_name, order_date) VALUES ('Billie Ellish', '2022-05-21');
+INSERT INTO orders (customer_name, order_date) VALUES ('Billie Eillish', '2022-05-21');
 INSERT INTO orders (customer_name, order_date) VALUES ('Madison Beer', '2022-05-23');
 
 INSERT INTO items_orders (item_id, order_id) VALUES (1, 1);
