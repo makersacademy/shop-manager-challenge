@@ -204,7 +204,7 @@ RSpec.describe Application do
   end
 
   context "full order by name" do
-    it "returns the order and all items in the order" do
+    it "shows the order and all items in the order" do
       io = double :io
       items_orders = double :items_orders, item_id: 1, order_id: 1
       items_orders2 = double :items_orders2, item_id: 2, order_id: 1
@@ -235,6 +235,46 @@ RSpec.describe Application do
       expect(io).to receive(:puts).with("     #1 - Blueberries")
       expect(io).to receive(:puts).with("     #2 - Raspberries")
       expect(io).to receive(:puts).with("          Total Price: £9")
+      app.run
+    end
+  end
+
+  context "all orders including a specific item" do
+    it "shows the item and all orders including that item" do
+      io = double :io
+      items_orders = double :items_orders, item_id: 1, order_id: 1
+      items_orders2 = double :items_orders2, item_id: 1, order_id: 2
+      items_orders3 = double :items_orders3, item_id: 1, order_id: 3
+      items_orders4 = double :items_orders4, item_id: 1, order_id: 4
+      order1 = double :order, customer_name: "Harry Styles", order_date: "2022-03-10", id: 1
+      order2 = double :order, customer_name: "Taylor Swift", order_date: "2022-04-14", id: 2
+      order3 = double :order, customer_name: "Billie Eillish", order_date: "2022-05-21", id: 3
+      order = double :order, customer_name: "Lizzie McAlpine", order_date: "2022-10-08", id: 4
+      orders = [order1, order2, order3, order]
+      item = double :item, name: "blueberries", unit_price: "4", quantity: "30", id: 1, orders: orders
+      item_repository = double :item_repository
+      order_repository = double :order_repository
+      items_orders_repository = double :items_orders_repository
+      app = Application.new('shop_manager_test', io, item_repository, order_repository, items_orders_repository)
+      expect(io).to receive(:puts).with("Welcome to the shop management program!")
+      expect(io).to receive(:puts).with("What do you want to do?")
+      expect(io).to receive(:puts).with("  1. List all shop items")
+      expect(io).to receive(:puts).with("  2. Create a new item")
+      expect(io).to receive(:puts).with("  3. Restock item")
+      expect(io).to receive(:puts).with("  4. List all orders")
+      expect(io).to receive(:puts).with("  5. Create a new order")
+      expect(io).to receive(:puts).with("  6. Find a customers full order by customers name")
+      expect(io).to receive(:puts).with("  7. Find all orders including a specific item")
+      expect(io).to receive(:puts).with("Enter your choice: ")
+      expect(io).to receive(:gets).and_return("7\n")
+      expect(io).to receive(:puts).with("Enter the item you wish to filter the orders by: ")
+      expect(io).to receive(:gets).and_return("blueberries\n")
+      allow(order_repository).to receive(:find_by_item).with("blueberries").and_return(item)
+      expect(io).to receive(:puts).with("Order's including Blueberries")
+      expect(io).to receive(:puts).with("  Order #1 - Customer Name: Harry Styles - Order Date: 2022-03-10")
+      expect(io).to receive(:puts).with("  Order #2 - Customer Name: Taylor Swift - Order Date: 2022-04-14")
+      expect(io).to receive(:puts).with("  Order #3 - Customer Name: Billie Eillish - Order Date: 2022-05-21")
+      expect(io).to receive(:puts).with("  Order #4 - Customer Name: Lizzie McAlpine - Order Date: 2022-10-08")
       app.run
     end
   end

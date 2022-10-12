@@ -48,6 +48,8 @@ class Application
       list_orders
     elsif choice == "6"
       find_order
+    elsif choice == "7"
+      find_item
     end
   end
 
@@ -137,7 +139,6 @@ class Application
   def find_order
     customer_name = prompt "Enter the customer name of the order you wish to find: "
     order = @item_repository.find_by_order(customer_name)
-    # order = @order_repository.find(customer_name)
     show "Your order: "
     show "  Order - Customer Name: #{order.customer_name} - Order Date: #{order.order_date}"
     price = 0
@@ -146,6 +147,15 @@ class Application
       price += item.unit_price.to_i
     end
     show "          Total Price: £#{price}"
+  end
+
+  def find_item
+    name = prompt "Enter the item you wish to filter the orders by: "
+    item = @order_repository.find_by_item(name)
+    show "Order's including #{name.capitalize}"
+    item.orders.each_with_index do |order, i|
+      show "  Order ##{i+1} - Customer Name: #{order.customer_name} - Order Date: #{order.order_date}"
+    end
   end
 end
 
