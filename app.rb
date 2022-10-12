@@ -33,6 +33,11 @@ class Application
       show "Item successfully added!"
       show "All Items in stock: "
       list_items
+    elsif choice == "3"
+      restock_item
+      show "Item successfully updated!"
+      show "All Items in stock: "
+      list_items
     elsif choice == "4"
       show "All Orders: "
       list_orders
@@ -41,6 +46,8 @@ class Application
       show "Order successfully added!"
       show "All Orders: "
       list_orders
+    elsif choice == "6"
+      find_order
     end
   end
 
@@ -117,6 +124,28 @@ class Application
       item.quantity = new_quantity
       @item_repository.update_quantity(item)
     end
+  end
+
+  def restock_item
+    item_name = prompt "Enter the name of the item you wish to restock: "
+    new_quantity = prompt "Enter the new quantity of the item: "
+    item = @item_repository.find(item_name)
+    item.quantity = new_quantity
+    @item_repository.update_quantity(item)
+  end
+
+  def find_order
+    customer_name = prompt "Enter the customer name of the order you wish to find: "
+    order = @item_repository.find_by_order(customer_name)
+    # order = @order_repository.find(customer_name)
+    show "Your order: "
+    show "  Order - Customer Name: #{order.customer_name} - Order Date: #{order.order_date}"
+    price = 0
+    order.items.each_with_index do |item, i|
+      show "     ##{i+1} - #{item.name.capitalize}"
+      price += item.unit_price.to_i
+    end
+    show "          Total Price: £#{price}"
   end
 end
 
