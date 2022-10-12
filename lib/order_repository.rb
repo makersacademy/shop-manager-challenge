@@ -1,6 +1,6 @@
-require_relative '../lib/order.rb'
-require_relative '../lib/item.rb'
-require_relative '../lib/database_connection.rb'
+require_relative '../lib/order'
+require_relative '../lib/item'
+require_relative '../lib/database_connection'
 
 class OrderRepository
   def all
@@ -11,9 +11,7 @@ class OrderRepository
 
     result_set.each do |record|
       order = Order.new
-      order.id = record['id']
-      order.customer_name = record['customer_name']
-      order.order_date = record['order_date']
+      set_order(record, order)
       orders << order
     end
 
@@ -28,9 +26,7 @@ class OrderRepository
     record = result_set[0]
 
     order = Order.new
-    order.id = record['id']
-    order.customer_name = record['customer_name']
-    order.order_date = record['order_date']
+    set_order(record, order)
 
     order
   end
@@ -59,20 +55,28 @@ class OrderRepository
 
     item = Item.new
 
-    item.id = result_set.first['id']
-    item.name = result_set.first['name']
-    item.unit_price = result_set.first['unit_price']
-    item.quantity = result_set.first['quantity']
+    set_item(item, result_set)
 
     result_set.each do |record|
       order = Order.new
-      order.id = record['id']
-      order.customer_name = record['customer_name']
-      order.order_date = record['order_date']
+      set_order(record, order)
 
       item.orders << order
     end
 
     item
+  end
+
+  def set_order(record, order)
+    order.id = record['id']
+    order.customer_name = record['customer_name']
+    order.order_date = record['order_date']
+  end
+
+  def set_item(item, result_set)
+    item.id = result_set.first['id']
+    item.name = result_set.first['name']
+    item.unit_price = result_set.first['unit_price']
+    item.quantity = result_set.first['quantity']
   end
 end

@@ -1,6 +1,6 @@
-require_relative '../lib/item.rb'
-require_relative '../lib/order.rb'
-require_relative '../lib/database_connection.rb'
+require_relative '../lib/item'
+require_relative '../lib/order'
+require_relative '../lib/database_connection'
 
 class ItemRepository
   def all
@@ -11,10 +11,8 @@ class ItemRepository
 
     result_set.each do |record|
       item = Item.new
-      item.id = record['id']
-      item.name = record['name']
-      item.unit_price = record['unit_price']
-      item.quantity = record['quantity']
+      set_item(record, item)
+
       items << item
     end
 
@@ -29,10 +27,7 @@ class ItemRepository
     record = result_set[0]
 
     item = Item.new
-    item.id = record['id']
-    item.name = record['name']
-    item.unit_price = record['unit_price']
-    item.quantity = record['quantity']
+    set_item(record, item)
 
     item
   end
@@ -46,7 +41,7 @@ class ItemRepository
 
   def update_quantity(item)
     sql = 'UPDATE items SET quantity = $1 WHERE id = $2;'
-    sql_params  = [item.quantity, item.id]
+    sql_params = [item.quantity, item.id]
 
     DatabaseConnection.exec_params(sql, sql_params)
   end
@@ -75,20 +70,30 @@ class ItemRepository
 
     order = Order.new
 
-    order.id = result_set.first['order_id']
-    order.customer_name = result_set.first['customer_name']
-    order.order_date = result_set.first['order_date']
+    set_order(order, result_set)
 
     result_set.each do |record|
       item = Item.new
-      item.id = record['id']
-      item.name = record['name']
-      item.unit_price = record['unit_price']
-      item.quantity = record['quantity']
+      set_item(record, item)
 
       order.items << item
     end
 
     order
+  end
+
+  private
+
+  def set_item(record, item)
+    item.id = record['id']
+    item.name = record['name']
+    item.unit_price = record['unit_price']
+    item.quantity = record['quantity']
+  end
+
+  def set_order(order, result_set)
+    order.id = result_set.first['order_id']
+    order.customer_name = result_set.first['customer_name']
+    order.order_date = result_set.first['order_date']
   end
 end

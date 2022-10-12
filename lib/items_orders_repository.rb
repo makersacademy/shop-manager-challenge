@@ -1,7 +1,7 @@
-require_relative '../lib/item.rb'
-require_relative '../lib/order.rb'
-require_relative '../lib/items_orders.rb'
-require_relative '../lib/database_connection.rb'
+require_relative '../lib/item'
+require_relative '../lib/order'
+require_relative '../lib/items_orders'
+require_relative '../lib/database_connection'
 
 class ItemsOrdersRepository
   def create(items_orders)
