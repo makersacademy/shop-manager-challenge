@@ -23,18 +23,18 @@ RSpec.describe OrderRepository do
     expect(orders.first.order_date).to eq('August')
   end
 
-  xit "#create - creates new Order object" do
-        order = Order.new
-        order.customer = 'Roy'
-        order.order_date = 'July'
+  it "#create - creates new Order object" do
+    order = Order.new
+    order.customer = 'Roy'
+    order.order_date = 'July'
 
-        repo = OrderRepository.new
-        repo.create(order)
+    repo = OrderRepository.new
+    repo.create(order)
 
-        orders = repo.all
+    orders = repo.all
 
-        last_order = orders.last
-        expect(last_order.customer).to eq('Roy')
-        expect(last_order.order_date).to eq('July')
+    last_order = orders.last
+    expect(last_order.customer).to eq('Roy')
+    expect(last_order.order_date).to eq('July')
   end
 end

@@ -24,7 +24,7 @@ RSpec.describe ItemRepository do
     expect(items.first.quantity).to eq('10')
   end
 
-  xit "#create - creates new Item object" do
+  it "#create - creates new Item object" do
     item = Item.new
     item.name = 'Tippex'
     item.price = '£3'

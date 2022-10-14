@@ -28,12 +28,12 @@ class Application
     case input
     when '1'
       all_items
-    # when '2'
-    #   create_item
+    when '2'
+      create_item
     when '3'
       all_orders
-    # when '4'
-    #   create_order
+    when '4'
+      create_order
     end
   end
 
@@ -46,6 +46,21 @@ class Application
     end
   end
 
+  def create_item
+    @io.puts('Please enter the item name:')
+    item_name = @io.gets
+    @io.puts('Please enter the item price:')
+    item_price = @io.gets
+    @io.puts('What quantity do we have?:')
+    item_quantity = @io.gets
+    item = Item.new
+    item.name = item_name
+    item.price = item_price
+    item.quantity = item_quantity
+    @item_repository.create(item)
+    @io.puts('New item created and added to database.')
+  end
+
   def all_orders
     @io.puts('Here is a list of all shop orders:')
     all_orders = @order_repository.all
@@ -56,11 +71,23 @@ class Application
   end
 end
 
+def create_order
+  @io.puts('Please enter the customer name:')
+  order_customer = @io.gets
+  @io.puts('Please enter the order date:')
+  order_date = @io.gets
+  order = Order.new
+  order.customer = order_customer
+  order.order_date = order_date
+  @order_repository.create(order)
+  @io.puts('New order created and added to database.')
+end
+
 if __FILE__ == $0
-    app = Application.new(
-      Kernel,
-      ItemRepository.new,
-      OrderRepository.new
-    )
-    app.run
-  end
+  app = Application.new(
+    Kernel,
+    ItemRepository.new,
+    OrderRepository.new
+  )
+  app.run
+end

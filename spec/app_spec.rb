@@ -32,7 +32,7 @@ RSpec.describe Application do
     app.run
   end
 
-  xit "creates a new Item object" do
+  it "creates a new Item object" do
     expect(@io).to receive(:puts).with("Welcome to the shop managment program!").ordered
     expect(@io).to receive(:puts).with("").ordered
     expect(@io).to receive(:puts).with("1 = list all shop items").ordered
@@ -48,6 +48,7 @@ RSpec.describe Application do
     expect(@io).to receive(:gets).and_return("£3").ordered
     expect(@io).to receive(:puts).with('What quantity do we have?:').ordered
     expect(@io).to receive(:gets).and_return("7").ordered
+    expect(@io).to receive(:puts).with('New item created and added to database.').ordered
 
     app = Application.new(@io, ItemRepository.new, OrderRepository.new)
     app.run
@@ -65,10 +66,30 @@ RSpec.describe Application do
 
     expect(@io).to receive(:puts).and_return('Here is a list of all shop orders:')
     expect(@io).to receive(:puts).and_return('#1 Sam - Order date: August')
-    expect(@io).to receive(:puts).and_return('#1 Matt - Order date: June')
-    expect(@io).to receive(:puts).and_return('#1 Max - Order date: October')
-    expect(@io).to receive(:puts).and_return('#1 James - Order date: March')
-    expect(@io).to receive(:puts).and_return('#1 Olly - Order date: April')
+    expect(@io).to receive(:puts).and_return('#2 Matt - Order date: June')
+    expect(@io).to receive(:puts).and_return('#3 Max - Order date: October')
+    expect(@io).to receive(:puts).and_return('#4 James - Order date: March')
+    expect(@io).to receive(:puts).and_return('#5 Olly - Order date: April')
+
+    app = Application.new(@io, ItemRepository.new, OrderRepository.new)
+    app.run
+  end
+
+  it "creates a new Order object" do
+    expect(@io).to receive(:puts).with("Welcome to the shop managment program!").ordered
+    expect(@io).to receive(:puts).with("").ordered
+    expect(@io).to receive(:puts).with("1 = list all shop items").ordered
+    expect(@io).to receive(:puts).with("2 = create a new item").ordered
+    expect(@io).to receive(:puts).with("3 = list all orders").ordered
+    expect(@io).to receive(:puts).with("4 = create a new order").ordered
+
+    expect(@io).to receive(:gets).and_return("4").ordered
+
+    expect(@io).to receive(:puts).with('Please enter the customer name:').ordered
+    expect(@io).to receive(:gets).and_return("Roy").ordered
+    expect(@io).to receive(:puts).with('Please enter the order date:').ordered
+    expect(@io).to receive(:gets).and_return("July").ordered
+    expect(@io).to receive(:puts).with('New order created and added to database.').ordered
 
     app = Application.new(@io, ItemRepository.new, OrderRepository.new)
     app.run
