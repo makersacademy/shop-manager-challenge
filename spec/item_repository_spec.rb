@@ -81,6 +81,13 @@ describe ItemRepository do
       expect(items.first.unit_price).to eq 3.99
       expect(items.first.quantity).to eq 5
     end
+    
+    it "returns false if the array is empty" do
+      repo = ItemRepository.new
+      order_id = 100
+      items = repo.find_by_order(order_id)
+      expect(items).to eq false
+    end
   end
 
 end

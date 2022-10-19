@@ -49,9 +49,11 @@ class ItemRepository
       record_to_item(record)
     end
     
-    p items
-    
-    return items
+    if items.empty?
+      return false    
+    else
+      return items
+    end
   end
   
   private
