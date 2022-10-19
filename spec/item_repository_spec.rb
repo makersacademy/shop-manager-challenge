@@ -6,7 +6,7 @@ def reset_tables
   connection.exec(seed_sql)
 end
 
-describe ItemRepository do
+RSpec.describe ItemRepository do
   before(:each) do 
     reset_tables
   end

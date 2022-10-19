@@ -32,16 +32,7 @@ class Application
     end
   end
   
-  private
-  
-  def show(message)
-    @io.puts(message)
-  end
-  
-  def prompt(message)
-    @io.print(message)
-    return @io.gets.chomp
-  end
+  # private
   
   def choice_prompt
     show("What do you want to do?")
@@ -108,6 +99,18 @@ class Application
     
     @order_repository.assign_order_to_item(new_order_id, item_id_to_link)
   end
+  
+  private
+  
+  def show(message)
+    @io.puts(message)
+  end
+  
+  def prompt(message)
+    @io.print(message)
+    return @io.gets.chomp
+  end
+  
 end
 
 if __FILE__ == $0
