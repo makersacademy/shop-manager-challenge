@@ -72,7 +72,7 @@ RSpec.describe "Application Integration" do
           id: 11,
           item: 'new_item',
           unit_price: 99.99,
-          quantity: 10000
+          quantity: 10_000
         )
       )
     end
