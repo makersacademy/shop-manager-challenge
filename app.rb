@@ -22,7 +22,6 @@ class Application
   end
 end
 
-
 if __FILE__ == $0
   app = Application.new(
     'shop_manager',
