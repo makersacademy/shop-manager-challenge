@@ -56,11 +56,12 @@ describe ItemRepository do
       
       repo = ItemRepository.new
       number_of_items = repo.all.length
-      repo.create(new_item)
+      new_id = repo.create(new_item)
       
       expect(repo.all.length).to eq (number_of_items + 1)
       expect(repo.all).to include (
         have_attributes(
+          id: new_id,
           item: 'new_item',
           unit_price: 99.99,
           quantity: 29

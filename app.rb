@@ -12,29 +12,22 @@ class Application
 
   def run
     show("\nWelcome to the shop management program!\n\n")
-    
     while true
-    
       choice = choice_prompt
-      
       case choice
-        when '1'
-          list_all_items
-        
-        when '2'
-          add_new_item_prompt
-        
-        when '3'
-          list_all_orders
-          
-        when '4'
-        # TODO: Create a new order
-          p "Choice 4"
-        when 'q'
-          show("\nGoodbye!")
-          break
-        else
-          show("\n[!] Please select a valid option\n\n")
+      when '1'
+        list_all_items  
+      when '2'
+        add_new_item_prompt
+      when '3'
+        list_all_orders    
+      when '4'
+        add_new_order_prompt
+      when 'q'
+        show("\nGoodbye!")
+        break
+      else
+        show("\n[!] Please select a valid option\n\n")
       end
     end
   end
@@ -83,13 +76,38 @@ class Application
     new_item.unit_price = unit_price.to_f
     new_item.quantity = quantity.to_i
     
-    @item_repository.create(new_item)
+    new_item_id = @item_repository.create(new_item)
     
-    show("\n[+] New item created")
+    show("\n[+] New item created with id: #{new_item_id}")
   end
   
   def list_all_orders
-  
+    all_orders = @order_repository.all
+    output = all_orders.map do |order|
+      "##{order.id} #{order.order_date} - #{order.customer_name}"
+    end.join("\n")
+    
+    show("\nHere\'s a list of all orders:\n\n")
+    show(output)
+    show("\n\n")
+  end
+
+  def add_new_order_prompt
+    show("\nPlease provide details for the new order\n\n")
+    order_date = prompt("Order date [YYYY-MM-DD]: ")
+    customer_name = prompt("Customer name: ")
+    new_order = Order.new
+    new_order.order_date = order_date
+    new_order.customer_name = customer_name
+    
+    new_order_id = @order_repository.create(new_order)
+    
+    show("\n[+] New order created with id: #{new_order_id}\n\n")
+    
+    item_id_to_link = prompt("Which item would you like to link this order to?: ")
+    
+    @order_repository.assign_order_to_item(new_order_id, item_id_to_link)
+  end
 end
 
 if __FILE__ == $0

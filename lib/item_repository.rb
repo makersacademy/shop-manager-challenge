@@ -7,9 +7,7 @@ class ItemRepository
     sql_params = []
     result_set = DatabaseConnection.exec_params(sql_query, sql_params)
     
-    all_items = result_set.map do |record|
-      record_to_item(record)
-    end
+    all_items = result_set.map { |record| record_to_item(record) }
     
     return all_items
   end
@@ -18,23 +16,20 @@ class ItemRepository
     sql_query = 'SELECT * FROM items WHERE id = $1;'
     sql_params = [id]
     result_set = DatabaseConnection.exec_params(sql_query, sql_params)
-    result_set = result_set.map do |record|
-      record_to_item(record)
-    end
+    result_set = result_set.map { |record| record_to_item(record) }
     
-    if result_set.empty?
-      return false
-    else
-      find_result = result_set.first
-      return find_result
-    end
+    return false if result_set.empty?
+    
+    find_result = result_set.first
+    return find_result
   end
   
   def create(item)
-    sql_query = 'INSERT INTO items (item, unit_price, quantity) VALUES ($1, $2, $3);'
+    sql_query = 'INSERT INTO items (item, unit_price, quantity) VALUES ($1, $2, $3) RETURNING id;'
     sql_params = [item.item, item.unit_price, item.quantity]
-    DatabaseConnection.exec_params(sql_query, sql_params)
-    return nil
+    result = DatabaseConnection.exec_params(sql_query, sql_params)
+    new_item_id = result[0]['id'].to_i
+    return new_item_id
   end
   
   def find_by_order(order_id)
@@ -45,15 +40,10 @@ class ItemRepository
     sql_params = [order_id]
     result_set = DatabaseConnection.exec_params(sql_query, sql_params)
     
-    items = result_set.map do |record|
-      record_to_item(record)
-    end
+    items = result_set.map { |record| record_to_item(record) }
     
-    if items.empty?
-      return false    
-    else
-      return items
-    end
+    return false if items.empty?
+    return items
   end
   
   private
