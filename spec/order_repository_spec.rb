@@ -84,7 +84,26 @@ describe OrderRepository do
     end
   end
   
-  # TODO: TDD #assign method, to link orders to items
-
+  describe "#assign_order_to_item" do
+    it "assigns an order to item given order id and item id" do
+      repo = OrderRepository.new
+      new_order = Order.new
+      
+      item_id_to_link = 1
+      order_to_link = repo.find(3)
+      
+      repo.assign_order_to_item(order_to_link.id, item_id_to_link)
+      
+      orders = repo.find_by_item(item_id_to_link)
+            
+      expect(orders).to include (
+        have_attributes(
+          id: 3,
+          order_date: '2022-10-18',
+          customer_name: 'customer_3'
+        )
+      )
+    end
+  end
 
 end

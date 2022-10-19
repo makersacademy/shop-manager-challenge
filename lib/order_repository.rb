@@ -57,6 +57,12 @@ class OrderRepository
     end
   end
   
+  def assign_order_to_item(order_id, item_id)
+    sql_query = "INSERT INTO items_orders (item_id, order_id) VALUES ($1, $2)"
+    sql_params = [item_id, order_id]
+    DatabaseConnection.exec_params(sql_query, sql_params)
+  end
+  
   private
   
   def record_to_order(record)
