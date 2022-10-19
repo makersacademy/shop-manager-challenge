@@ -12,27 +12,31 @@ class Application
 
   def run
     show("\nWelcome to the shop management program!\n\n")
-    choice = choice_prompt
     
-    case choice
-      when '1'
-      # TODO: List all shop items
-        p "Choice 1"
-      when '2'
-      # TODO: Create a new item
-        p "Choice 2"
-      when '3'
-      # TODO: List all orders
-        p "Choice 3"
-      when '4'
-      # TODO: Create a new order
-        p "Choice 4"
-      when 'q'
-        show("\nGoodbye!")
-      else
-        p "Please select a valid option"
+    while true
+    
+      choice = choice_prompt
+      
+      case choice
+        when '1'
+          list_all_items
+        
+        when '2'
+          add_new_item_prompt
+        
+        when '3'
+          list_all_orders
+          
+        when '4'
+        # TODO: Create a new order
+          p "Choice 4"
+        when 'q'
+          show("\nGoodbye!")
+          break
+        else
+          show("\n[!] Please select a valid option\n\n")
+      end
     end
-    # show(choice)
   end
   
   private
@@ -56,6 +60,35 @@ class Application
     choice = prompt("Your choice: ")
     return choice
   end
+  
+  def list_all_items
+    all_items = @item_repository.all
+    output = all_items.map do |item|
+      "##{item.id} #{item.item} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
+    end.join("\n")
+    
+    show("\nHere\'s a list of all shop items:\n\n")
+    show(output)
+    show("\n\n")
+  end
+  
+  def add_new_item_prompt
+    show("\nPlease provide details for the new item\n\n")
+    item = prompt("Item name: ")
+    unit_price = prompt("Unit price: ")
+    quantity = prompt("Quantity: ")
+    
+    new_item = Item.new
+    new_item.item = item
+    new_item.unit_price = unit_price.to_f
+    new_item.quantity = quantity.to_i
+    
+    @item_repository.create(new_item)
+    
+    show("\n[+] New item created")
+  end
+  
+  def list_all_orders
   
 end
 
