@@ -83,5 +83,8 @@ describe OrderRepository do
       expect(orders).to eq false
     end
   end
+  
+  # TODO: TDD #assign method, to link orders to items
+
 
 end
