@@ -83,7 +83,19 @@ class ItemRepository
     # INSERT INTO items (item, unit_price, quantity)
     # VALUES ($1, $2, $3);
     
-    # Returns nil
+    # Returns id of the new object
+  end
+  
+  # Join table query
+  # One argument: order id (number)
+  def find_by_order(order_id)
+    # Execute the SQL query:
+    # SELECT items.id, items.item, items.unit_price, items.quantity FROM items
+    # JOIN items_orders ON items_orders.item_id = items.id
+    # JOIN orders ON items_orders.order_id = orders.id
+    # WHERE orders.id = $1;
+    
+    # Returns an array of Items objects
   end
 
 end
@@ -141,4 +153,17 @@ repo.create(item_to_create)
 
 repo.all.length # =>  number_of_items + 1
 repo.all # => It will include the new item
+
+# 4
+# Find by order
+
+repo = ItemRepository.new
+items = repo.find_by_order(5)
+
+items.length # =>  2
+items.first.id # =>  2
+items.first.item # =>  'item_2'
+items.first.unit_price # =>  3.99
+items.first.quantity # =>  5
+
 ```
