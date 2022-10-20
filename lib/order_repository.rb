@@ -51,6 +51,7 @@ class OrderRepository
     sql_query = "INSERT INTO items_orders (item_id, order_id) VALUES ($1, $2)"
     sql_params = [item_id, order_id]
     DatabaseConnection.exec_params(sql_query, sql_params)
+    return nil
   end
   
   private

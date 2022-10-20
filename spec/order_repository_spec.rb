@@ -52,11 +52,12 @@ RSpec.describe OrderRepository do
       
       repo = OrderRepository.new
       number_of_orders = repo.all.length
-      repo.create(new_order)
+      new_order.id = repo.create(new_order)
       
       expect(repo.all.length).to eq (number_of_orders + 1)
       expect(repo.all).to include (
         have_attributes(
+          id: new_order.id,
           order_date: '2022-10-19',
           customer_name: 'new_customer'
         )

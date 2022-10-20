@@ -56,12 +56,12 @@ RSpec.describe ItemRepository do
       
       repo = ItemRepository.new
       number_of_items = repo.all.length
-      new_id = repo.create(new_item)
+      new_item.id = repo.create(new_item)
       
       expect(repo.all.length).to eq (number_of_items + 1)
       expect(repo.all).to include (
         have_attributes(
-          id: new_id,
+          id: new_item.id,
           item: 'new_item',
           unit_price: 99.99,
           quantity: 29

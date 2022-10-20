@@ -138,4 +138,4 @@ CREATE TABLE items_orders (
 ## Model and Repository Classes
 
 - [Items Model and Repository Classes Design](docs/items-model-repository-classes.md)
-- [Orders Model and Repository Classes Design](docs/orders-model-repository-classes copy.md)
+- [Orders Model and Repository Classes Design](docs/orders-model-repository-classes.md)
