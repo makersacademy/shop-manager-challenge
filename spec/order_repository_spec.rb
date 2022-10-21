@@ -10,6 +10,13 @@ describe OrderRepository do
   before(:each) do 
     reset_orders_table
   end
+
+  it 'is an instance of OrderRepository class and order is an instance of Order' do
+    order_repo = OrderRepository.new
+    new_order = Order.new
+    expect(order_repo).to be_instance_of(OrderRepository)
+    expect(new_order).to be_instance_of(Order)
+  end
   
   it 'returns all orders' do
     repo = OrderRepository.new
