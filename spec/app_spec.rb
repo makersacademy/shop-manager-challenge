@@ -11,6 +11,17 @@ describe Application do
     reset_shop_database_tables
   end
 
+  it 'is an instance of Application class' do
+    database_name = "shop_database_test"
+    io = double :io
+    item_repository = ItemRepository.new
+    order_repository = OrderRepository.new
+    app = Application.new(database_name, io, item_repository, order_repository)
+    expect(item_repository).to be_instance_of(ItemRepository)
+    expect(order_repository).to be_instance_of(OrderRepository)
+    expect(app).to be_instance_of(Application)
+  end
+
   context "asks for user input and receives option 1" do
     it "provides the list of all shop items in predefined format" do
       database_name = "shop_database_test"
