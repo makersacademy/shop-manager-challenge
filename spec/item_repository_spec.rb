@@ -11,6 +11,13 @@ describe ItemRepository do
     reset_items_table
   end
 
+  it 'is an instance of ItemRepository class and item is an instance of Item' do
+    item_repo = ItemRepository.new
+    new_item = Item.new
+    expect(item_repo).to be_instance_of(ItemRepository)
+    expect(new_item).to be_instance_of(Item)
+  end
+
   it "returns all items" do
     repo = ItemRepository.new
     stock = repo.all
