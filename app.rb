@@ -27,6 +27,11 @@ class Application
       result.each do |record| 
         @terminal.puts "ITEM: #{record.name} - PRICE: #{record.price} - STOCK: #{record.quantity} units"
       end
+    when '3'
+      result = @order_repository.all
+      result.each do |record|
+        @terminal.puts "CUSTOMER NAME: #{record.customer_name} - ORDER DATE: #{record.date}"
+      end
     end
   end
 

@@ -34,11 +34,30 @@ describe Application do
     app.run
   end
 
+  it 'lists all orders on shop record' do
+    terminal = double(:terminal)
+    expect(terminal).to receive(:puts).with("Welcome to Shop Manager!").ordered
+    expect(terminal).to receive(:puts).with("Pick an option (input number):").ordered
+    expect(terminal).to receive(:puts).with("1 - List items in stock").ordered
+    expect(terminal).to receive(:puts).with("2 - Add new item to stock").ordered
+    expect(terminal).to receive(:puts).with("3 - List all orders on record").ordered
+    expect(terminal).to receive(:puts).with("4 - Add new order to record").ordered
+    expect(terminal).to receive(:gets).and_return("3").ordered
+    expect(terminal).to receive(:puts).with('CUSTOMER NAME: Sia - ORDER DATE: 2022-10-29')
+    expect(terminal).to receive(:puts).with('CUSTOMER NAME: Bon - ORDER DATE: 2022-09-28')
+    expect(terminal).to receive(:puts).with('CUSTOMER NAME: Ozzy - ORDER DATE: 2022-08-27')
+    expect(terminal).to receive(:puts).with('CUSTOMER NAME: Lana - ORDER DATE: 2022-07-26')
+    expect(terminal).to receive(:puts).with('CUSTOMER NAME: Ari - ORDER DATE: 2022-06-25')
+    items = ItemRepository.new
+    orders = OrderRepository.new
+    app = Application.new('shop_manager_test', terminal, items, orders)
+    app.run
+  end
+
   # it 'creates a new item' do
   # end
 
-  # it 'lists all orders on shop record' do
-  # end
+
 
   # it 'creates a new order' do
   # end
