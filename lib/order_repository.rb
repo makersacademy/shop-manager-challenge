@@ -18,4 +18,19 @@ class OrderRepository
     end
     return orders
   end
+
+  def find(id)
+    sql = 'SELECT id, customer_name, date FROM orders WHERE id = $1;'
+    params = [id]
+
+    result = DatabaseConnection.exec_params(sql, params)
+
+    order = Order.new
+    result.each do |record|
+      order.id = record['id']
+      order.customer_name = record['customer_name']
+      order.date = record['date']
+    end
+    return order
+  end
 end

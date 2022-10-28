@@ -74,7 +74,6 @@ class ItemRepository
       item.orders << order
     end
 
-  p item
   return item
 
   end

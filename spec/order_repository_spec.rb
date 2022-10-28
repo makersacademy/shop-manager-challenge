@@ -19,5 +19,12 @@ describe OrderRepository do
     expect(orders[2].date).to eq '2022-08-27'
   end
 
+  it 'finds order with ID 5' do
+    repo = OrderRepository.new
+    order = repo.find(5)
+    expect(order.customer_name).to eq 'Ari'
+    expect(order.date).to eq '2022-06-25'
+  end
+
 
 end
