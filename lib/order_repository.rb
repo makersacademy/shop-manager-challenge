@@ -28,7 +28,7 @@ class OrderRepository
     return nil
   end
 
-  def find_with_items(item_id)
+  def search_orders_by_item(item_id)
     sql = 'SELECT orders.id, items.item_name
             FROM orders 
             JOIN orders_items ON orders_items.order_id = orders.id
@@ -52,14 +52,14 @@ class OrderRepository
 
 private
 
-def record_to_order_object(record)
-  order = Order.new
-  order.id = record['id']
-  order.customer_name = record['customer_name']
-  order.order_date = record['order_date']
+  def record_to_order_object(record)
+    order = Order.new
+    order.id = record['id']
+    order.customer_name = record['customer_name']
+    order.order_date = record['order_date']
 
-  return order
-end
+    return order
+  end
 
   def record_to_item_object(record)
     item = Item.new

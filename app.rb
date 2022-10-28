@@ -30,6 +30,7 @@ class Application
     @io.puts "2 = create a new item"
     @io.puts "3 = list all orders"
     @io.puts "4 = create a new order"
+    @io.puts "5 = view orders by item"
     selection = @io.gets.chomp
 
     case selection
@@ -37,7 +38,7 @@ class Application
       when "2" then add_item
       when "3" then orders
       when "4" then add_order
-      when "5" then order_by item
+      when "5" then order_by_item
     end
   end
 
@@ -48,7 +49,7 @@ class Application
     @io.puts "Here is the list of current inventory:"
     result_set = DatabaseConnection.exec_params(sql, [])
     result_set.each do |record|
-      puts record.values.join(" - ")
+    p "#{record['id']} - #{record['item_name']} - Unit price: #{record['item_price']} - Quantity: #{record['item_quantity']}"
     end
   end
 
@@ -83,6 +84,21 @@ def add_order
   order.order_date = @io.gets.chomp
   @order_repository.create(order)
   @io.puts 'Order created'
+end
+
+def order_by_item
+  @io.puts "Please enter an item number (1-5)"
+  item_number = @io.gets.chomp
+  sql = 'SELECT orders.id, orders.customer_name, items.item_name
+            FROM orders 
+            JOIN orders_items ON orders_items.order_id = orders.id
+            JOIN items ON orders_items.item_id = items.id
+          WHERE items.id = $1'
+  
+  result_set = DatabaseConnection.exec_params(sql, [item_number])
+  result_set.each do |record|
+    puts record.values.join(" - ")
+  end
 end
 
 if __FILE__ == $0
