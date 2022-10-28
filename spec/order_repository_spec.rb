@@ -39,4 +39,13 @@ RSpec.describe OrderRepository do
         order_date: new_order.order_date
       ))
   end
+
+  it 'finds an order with related items' do
+    repo = OrderRepository.new
+
+    order = repo.find_with_items(2)
+
+    expect(order.items.length).to eq 2
+  end
 end
+
