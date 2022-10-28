@@ -12,7 +12,7 @@ RSpec.describe Application do
     reset_shop_table
   end
 
-  it 'returns a list of all shop items' do
+  it 'returns a list of all shop items' do  
     io = double :io
     expect(io).to receive(:puts).with('Welcome to the sweet shop management program!')
     expect(io).to receive(:puts).with ("What do you want to do?")
@@ -23,6 +23,11 @@ RSpec.describe Application do
     expect(io).to receive(:puts).with ("5 = view orders by item")
     expect(io).to receive(:gets).and_return('1')
     expect(io).to receive(:puts).with ("Here is the list of current inventory:")
+    expect(io).to receive(:puts).with("1 - Sherbet Lemons - Unit price: 1 - Quantity: 500")
+    expect(io).to receive(:puts).with("2 - Starmix - Unit price: 3 - Quantity: 250")
+    expect(io).to receive(:puts).with("3 - Candy Apple - Unit price: 5 - Quantity: 20")
+    expect(io).to receive(:puts).with("4 - Foam Bananas - Unit price: 1 - Quantity: 40")
+    expect(io).to receive(:puts).with("5 - Lollipops - Unit price: 2 - Quantity: 650")
     expect(io).to receive(:puts).with ("Thank you for using the sweet shop management program!")
     application = Application.new('shop_challenge_test', io, ItemRepository.new, OrderRepository.new)
     application.run
@@ -39,6 +44,9 @@ RSpec.describe Application do
     expect(io).to receive(:puts).with ("5 = view orders by item")
     expect(io).to receive(:gets).and_return('3')
     expect(io).to receive(:puts).with ("Here is a list of all the orders:")
+    expect(io).to receive(:puts).with ("1 - John Smith - 04/01/2022")
+    expect(io).to receive(:puts).with ("2 - Jane Bower - 06/01/2022")
+    expect(io).to receive(:puts).with ("3 - Sylvia Hanratty - 14/11/2022")
     expect(io).to receive(:puts).with ("Thank you for using the sweet shop management program!")
     application = Application.new('shop_challenge_test', io, ItemRepository.new, OrderRepository.new)
     application.run

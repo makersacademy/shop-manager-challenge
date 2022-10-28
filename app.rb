@@ -42,14 +42,13 @@ class Application
     end
   end
 
-  private
 
   def items
     sql = 'SELECT id, item_name, item_price, item_quantity FROM items;'
     @io.puts "Here is the list of current inventory:"
     result_set = DatabaseConnection.exec_params(sql, [])
     result_set.each do |record|
-    p "#{record['id']} - #{record['item_name']} - Unit price: #{record['item_price']} - Quantity: #{record['item_quantity']}"
+    @io.puts "#{record['id']} - #{record['item_name']} - Unit price: #{record['item_price']} - Quantity: #{record['item_quantity']}"
     end
   end
 
@@ -72,7 +71,7 @@ def orders
 
   result_set = DatabaseConnection.exec_params(sql, [])
   result_set.each do |record|
-    puts record.values.join(" - ")
+    @io.puts record.values.join(" - ")
   end
 end
 
