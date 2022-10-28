@@ -27,6 +27,18 @@ class Application
       result.each do |record| 
         @terminal.puts "ITEM: #{record.name} - PRICE: #{record.price} - STOCK: #{record.quantity} units"
       end
+    when '2'
+      new_item = Item.new
+      @terminal.puts "Enter item name to add:"
+      item_input = @terminal.gets.chomp.downcase.capitalize
+      new_item.name = item_input
+      @terminal.puts "Enter price for #{item_input}:"
+      price_input = @terminal.gets.chomp
+      new_item.price = "$#{price_input}"
+      @terminal.puts "Enter stock quantity for #{item_input}:"
+      quantity_input = @terminal.gets.chomp
+      new_item.quantity = quantity_input
+      @terminal.puts "#{new_item.quantity} x #{new_item.name} @ #{new_item.price} added to stock."
     when '3'
       result = @order_repository.all
       result.each do |record|
