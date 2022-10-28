@@ -77,7 +77,7 @@ end
 # Model class
 # (in lib/order.rb)
 
-class Item
+class Order
   attr_accessor :id, :customer_name, :order_date, :items
 end
 
@@ -150,59 +150,57 @@ These examples will later be encoded as RSpec tests.
 `# EXAMPLES
 
 # 1
-# Get all students
+# Get all items
 
-repo = StudentRepository.new
+repo = ItemRepository.new
 
-students = repo.all
+items = repo.all
 
-students.length # =>  2
-
-students[0].id # =>  1
-students[0].name # =>  'David'
-students[0].cohort_name # =>  'April 2022'
-
-students[1].id # =>  2
-students[1].name # =>  'Anna'
-students[1].cohort_name # =>  'May 2022'
+items.length # =>  5
+items.first.item_name => "Sherbet Lemons"
 
 # 2
-# Get a single student
+# Get a single item
 
-repo = StudentRepository.new
+repo = ItemRepository.new
 
-student = repo.find(1)
+item = repo.find(3)
 
-student.id # =>  1
-student.name # =>  'David'
-student.cohort_name # =>  'April 2022'
+item.id # =>  1
+item.item_name # =>  'Candy Apple'
+item.item_quantity # =>  20
 
-# Add more examples for each method`
+# Creates an item
+repo = ItemRepository.new
 
-Encode this example as a test.
+new_item = Item.new
+new_item.item_name = 'Maoam'
+new_item.item_price = 3
+new_item.quantity = 14
+
+repo.create(new_item)
+
+ all_items = repo.all
+
+    expect(repo.all).to include (
+      have_attributes(
+        item_name: new_item.item_name,
+        item_price: new_item.item_price
 
 ## **7. Reload the SQL seeds before each test run**
 
-Running the SQL code present in the seed file will empty the table and re-insert the seed data.
-
-This is so you get a fresh table contents every time you run the test suite.
-
-`# EXAMPLE
-
 # file: spec/student_repository_spec.rb
 
-def reset_students_table
-  seed_sql = File.read('spec/seeds_students.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'students' })
+def reset_shop_table
+  seed_sql = File.read('spec/seeds_shop.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_challenge_test' })
   connection.exec(seed_sql)
 end
 
-describe StudentRepository do
+describe ItemRepository do
   before(:each) do 
-    reset_students_table
+    reset_shop_table
   end
-
-  # (your tests will go here).
 end`
 
 ## **8. Test-drive and implement the Repository class behaviour**

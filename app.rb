@@ -27,6 +27,7 @@ class Application
     selection = @io.gets.chomp
     case selection
     when "1" then items
+    when "2" then add_item
     end
   end
 
@@ -36,6 +37,18 @@ class Application
     result_set.each do |record|
       puts record.values.join(" - ")
     end
+  end
+
+  def add_item
+    item = Item.new
+    @io.puts "Please enter item name"
+    item.item_name = @io.gets.chomp
+    @io.puts "Please enter item price"
+    item.item_price = @io.gets.chomp
+    @io.puts "Please enter item quantity"
+    item.item_quantity = @io.gets.chomp
+    @item_repository.create(item)
+    @io.puts 'Item created'
   end
 end
 

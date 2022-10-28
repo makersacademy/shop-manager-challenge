@@ -20,14 +20,12 @@ class ItemRepository
     return items
   end
 
-  def find(id)
-    # Executes the SQL query:
-    # SELECT id, item_name, item_price, item_quantity FROM items WHERE id = $1;
-
-    # Returns a single Student object.
-  end
-
   def create(item)
-  # 'INSERT INTO items (item_name, item_price, item_quantity) VALUES ($1, $2, $3);
+    sql = 'INSERT INTO items (item_name, item_price, item_quantity) VALUES ($1, $2, $3);'
+    sql_params = [item.item_name, item.item_price, item.item_quantity]
+
+    result_set = DatabaseConnection.exec_params(sql, sql_params)
+
+    return nil
   end
 end
