@@ -44,6 +44,16 @@ class Application
       result.each do |record|
         @terminal.puts "CUSTOMER NAME: #{record.customer_name} - ORDER DATE: #{record.date}"
       end
+    when '4'
+      new_order = Order.new
+      @terminal.puts "Enter customer name:"
+      name_input = @terminal.gets.chomp.downcase.capitalize
+      new_order.customer_name = name_input
+      @terminal.puts "Enter order date (YYYY-MM-DD):"
+      date_input = @terminal.gets.chomp
+   
+
+
     end
   end
 
