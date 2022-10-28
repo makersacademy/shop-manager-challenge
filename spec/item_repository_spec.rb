@@ -41,4 +41,13 @@ describe ItemRepository do
     expect(stock.last.price).to eq '$5.25'
     expect(stock.last.quantity).to eq '35'
   end
+
+  it 'returns orders placed with item ID 7' do
+    repo = ItemRepository.new
+    item = repo.find_orders_with_item('7')
+    expect(item.name).to eq 'Scarf'
+    expect(item.orders.length).to eq 2
+    expect(item.orders[0].customer_name).to eq 'Bon'
+    expect(item.orders[1].date).to eq '2022-08-27'
+  end
 end
