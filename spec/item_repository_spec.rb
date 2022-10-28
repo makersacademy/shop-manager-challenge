@@ -19,4 +19,12 @@ describe ItemRepository do
     expect(stock[2].price).to eq '$12.00'
     expect(stock[5].quantity).to eq '90'
   end
+
+  it 'returns item with ID 2' do
+    repo = ItemRepository.new
+    item = repo.find(2)
+    expect(item.name).to eq 'Trousers'
+    expect(item.price).to eq '$11.00'
+    expect(item.quantity).to eq '75'
+  end
 end

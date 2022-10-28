@@ -18,4 +18,17 @@ class ItemRepository
     end
     return items
   end
+
+  def find(id)
+    sql = 'SELECT id, name, price, quantity FROM items WHERE id = $1;'
+    params = [id]
+    result = DatabaseConnection.exec_params(sql, params)
+    record = result[0]
+    item = Item.new
+    item.id = record['id']
+    item.name = record['name']
+    item.price = record['price']
+    item.quantity = record['quantity']
+    return item
+  end
 end
