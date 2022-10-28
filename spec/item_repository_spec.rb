@@ -27,4 +27,18 @@ describe ItemRepository do
     expect(item.price).to eq '$11.00'
     expect(item.quantity).to eq '75'
   end
+
+  it 'creates a new item' do
+    repo = ItemRepository.new
+    new_item = Item.new
+    new_item.name = 'Sunglasses'
+    new_item.price = '$5.25'
+    new_item.quantity = '35'
+    repo.create(new_item)
+    stock = repo.all
+    expect(stock.length).to eq 9
+    expect(stock.last.name).to eq 'Sunglasses'
+    expect(stock.last.price).to eq '$5.25'
+    expect(stock.last.quantity).to eq '35'
+  end
 end
