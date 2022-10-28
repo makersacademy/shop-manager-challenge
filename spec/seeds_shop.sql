@@ -1,4 +1,4 @@
-TRUNCATE TABLE posts, tags, posts_tags RESTART IDENTITY; 
+TRUNCATE TABLE items, orders, items_orders RESTART IDENTITY; 
 
 INSERT INTO items (name, price, quantity) VALUES ('Socks', 2.50, 100);
 INSERT INTO items (name, price, quantity) VALUES ('Trousers', 11.00, 75);
