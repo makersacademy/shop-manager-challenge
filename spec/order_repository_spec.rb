@@ -38,5 +38,12 @@ describe OrderRepository do
     expect(orders.last.date).to eq '2022-05-23'
   end
 
-
+  it 'returns items in order' do
+    repo = OrderRepository.new
+    order = repo.find_items_in_order(3)
+    expect(order.customer_name).to eq 'Ozzy'
+    expect(order.items[0].name).to eq 'Socks'
+    expect(order.items[1].price).to eq '$12.00'
+    expect(order.items[2].quantity).to eq '90'
+  end
 end
