@@ -146,35 +146,37 @@ These examples will later be encoded as RSpec tests.
 ```ruby
 # EXAMPLES
 
-# 1
-# Get all students
+it 'return the list of orders, (added .first method)' do 
+    repo = OrderRepository.new 
+    orders = repo.all
 
-repo = StudentRepository.new
+    expect(orders.length).to eq(2)
+    expect(orders.first.id).to eq('1')  # => '1'
+    expect(orders.first.customer_name).to eq ("David")
+  end 
+ 
+  it 'returns a single artist and info from id = "1"' do 
+   repo = OrderRepository.new 
+   orders = repo.find(1)
+   expect(order.customer_name).to eq('David')
+   expect(order.item_ordered).to eq('pizza')
+  end 
 
-students = repo.all
+  it 'creates a new artist' do 
+    repo = OrderRepository.new 
 
-students.length # =>  2
+      order = Order.new 
+      order.customer_name = 'Chantal'
+      order.item_ordered = 'Gin'
+      order.date_order = 'October 29th'
 
-students[0].id # =>  1
-students[0].name # =>  'David'
-students[0].cohort_name # =>  'April 2022'
+      repo.create(order) # => nil
 
-students[1].id # =>  2
-students[1].name # =>  'Anna'
-students[1].cohort_name # =>  'May 2022'
+      orders = repo.all
 
-# 2
-# Get a single student
-
-repo = StudentRepository.new
-
-student = repo.find(1)
-
-student.id # =>  1
-student.name # =>  'David'
-student.cohort_name # =>  'April 2022'
-
-# Add more examples for each method
+      new_order = orders.last
+      expect(new_order.customer_name).to eq('Chantal')
+      expect(new_order.item_ordered).to eq('Gin')
 ```
 
 Encode this example as a test.
