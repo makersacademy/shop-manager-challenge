@@ -146,4 +146,5 @@ CREATE TABLE items (
 
 ```bash
 psql -h 127.0.0.1 shop_manager < orders_table.sql
+psql -h 127.0.0.1 shop_manager < items_table.sql
 ```
