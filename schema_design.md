@@ -116,7 +116,7 @@ Replace the relevant bits in this example with your own:
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
   customer_name text,
-  item_ordered text
+  item_ordered text,
   date_order int
 );
 
