@@ -177,6 +177,7 @@ it 'return the list of orders, (added .first method)' do
       new_order = orders.last
       expect(new_order.customer_name).to eq('Chantal')
       expect(new_order.item_ordered).to eq('Gin')
+end 
 ```
 
 Encode this example as a test.

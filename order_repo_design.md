@@ -95,54 +95,86 @@ class OrderRepository
     DatabaseConnection.exec_params(sql, sql_params)
    end
 
-  # def update(student)
-  # end
-
-  # def delete(student)
-  # end
+ 
 end
 6. Write Test Examples
 Write Ruby code that defines the expected behaviour of the Repository class, following your design from the table written in step 5.
 
 These examples will later be encoded as RSpec tests.
 
+it 'return the list of orders, (added .first method)' do 
+    repo = OrderRepository.new 
+    orders = repo.all
+
+    expect(orders.length).to eq(2)
+    expect(orders.first.id).to eq('1')  # => '1'
+    expect(orders.first.customer_name).to eq ("David")
+  end 
+ 
+  it 'returns a single artist and info from id = "1"' do 
+   repo = OrderRepository.new 
+   orders = repo.find(1)
+   expect(order.customer_name).to eq('David')
+   expect(order.item_ordered).to eq('pizza')
+  end 
+
+  it 'creates a new artist' do 
+    repo = OrderRepository.new 
+
+      order = Order.new 
+      order.customer_name = 'Chantal'
+      order.item_ordered = 'Gin'
+      order.date_order = 'October 29th'
+
+      repo.create(order) # => nil
+
+      orders = repo.all
+
+      new_order = orders.last
+      expect(new_order.customer_name).to eq('Chantal')
+      expect(new_order.item_ordered).to eq('Gin')
+end 
+
+
+
+
 # EXAMPLES
 
 # 1
 # Get all students
 
-repo = StudentRepository.new
+# repo = StudentRepository.new
 
-students = repo.all
+# students = repo.all
 
-students.length # =>  2
+# students.length # =>  2
 
-students[0].id # =>  1
-students[0].name # =>  'David'
-students[0].cohort_name # =>  'April 2022'
+# students[0].id # =>  1
+# students[0].name # =>  'David'
+# students[0].cohort_name # =>  'April 2022'
 
-students[1].id # =>  2
-students[1].name # =>  'Anna'
-students[1].cohort_name # =>  'May 2022'
+# students[1].id # =>  2
+# students[1].name # =>  'Anna'
+# students[1].cohort_name # =>  'May 2022'
 
-# 2
-# Get a single student
+# # 2
+# # Get a single student
 
-repo = StudentRepository.new
+# repo = StudentRepository.new
 
-student = repo.find(1)
+# student = repo.find(1)
 
-student.id # =>  1
-student.name # =>  'David'
-student.cohort_name # =>  'April 2022'
+# student.id # =>  1
+# student.name # =>  'David'
+# student.cohort_name # =>  'April 2022'
 
-# Add more examples for each method
-Encode this example as a test.
+# # Add more examples for each method
+# Encode this example as a test.
 
-7. Reload the SQL seeds before each test run
-Running the SQL code present in the seed file will empty the table and re-insert the seed data.
+# 7. Reload the SQL seeds before each test run
+# Running the SQL code present in the seed file will empty the table and re-insert the seed data.
 
-This is so you get a fresh table contents every time you run the test suite.
+# This is so you get a fresh table contents every time you run the test suite.
 
 # EXAMPLE
 
