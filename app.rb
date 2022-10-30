@@ -24,6 +24,8 @@ class Application
       list_orders
     when '4'
       create_order
+    when '5'
+      exit
     end
   end
 
@@ -66,13 +68,23 @@ class Application
     new_order.customer_name = name_input
     @terminal.puts "Enter order date (YYYY-MM-DD):"
     date_input = @terminal.gets.chomp
+    @order_repository.create(new_order)
+    new_order_id = (@order_repository.all.length - 1)
     @terminal.puts "Order record created. Assign items? (Y/N)"
-    # assign_input = @terminal.gets.chomp.downcase
-    # while assign_input != 'n'
-    #   if assign_input == 'y'
-    #     @terminal.puts "Enter item name to add to order:"
-    #     item_input = @terminal.gets.chomp.downcase.capitalize
-        
+    assign_input = @terminal.gets.chomp.downcase
+    while assign_input != 'n'
+      if assign_input == 'y'
+        @terminal.puts "Enter item ID to add to order:"
+        item_input = @terminal.gets.chomp.to_i
+        added_item = @item_repository.find(item_input)
+        @order_repository.add_items_to_order(new_order_id, added_item.id)
+        @terminal.puts "#{added_item.name} added to Order ID: #{new_order_id}."
+        @terminal.puts "Add another item? (Y/N)"
+        assign_input = @terminal.gets.chomp.downcase
+      else
+        @terminal.puts "Invalid input. Enter Y or N."
+      end
+    end
   end
 end
 

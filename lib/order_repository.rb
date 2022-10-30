@@ -1,6 +1,7 @@
 require_relative 'order'
 require_relative 'item'
 require_relative 'item_repository'
+require_relative 'database_connection'
 
 class OrderRepository
   def all
@@ -82,6 +83,9 @@ class OrderRepository
     item_repo = ItemRepository.new
     item_to_add = item_repo.find(item_id)
     order.items << item_to_add
+    sql = 'INSERT INTO items_orders (item_id, order_id) VALUES ($1, $2);'
+    params = [item_id, order_id]
+    DatabaseConnection.exec_params(sql, params)
     return order
   end
 end
