@@ -5,5 +5,4 @@ CREATE TABLE items (
   order_id int,
   constraint fk_order foreign key(order_id)
     references orders(id)
-    on delete cascade
-);
+    on delete cascade);
