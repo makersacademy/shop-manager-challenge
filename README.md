@@ -1,20 +1,30 @@
-Shop Manager Project
-=================
+# Shop Manager Project
+A weekend task from the Makers Software Engineering Academy to help us put our week's database learning into practice. The [challenge description](#Challenge) is written below.
+
+## Notes from interpreting the requirements
+- The cost of the items are refered to as a 'unit price'. For that reason I have chosen inexpensive groceries and costed them in pence.
+- More clarifying questions to be asked about this `user story`:
+```
+As a shop manager.
+So I can know which orders were made.
+I want to assign each order to their corresponding item.
+```
+   - `item` is singular so this would suggest an order has one item. Making it a one-to-one relationship. It isn't normal for this to be the only shopping dynamic so this may be a different interpretation of the problem than the `stakeholder` intended.
+## Further features to explore
+- Currently using the same database for the tests and app as there is no real data
+___
+## Challenge
 
 * Feel free to use Google, your notes, books, etc. but work on your own
 * If you refer to the solution of another coach or student, please put a link to that in your README
 * If you have a partial solution, **still check in a partial solution**
 * You must submit a pull request to this repo with your code next Monday morning
 
-Challenge:
--------
-
 Please start by [forking this repo](https://github.com/makersacademy/shop-manager-challenge/fork), then clone your fork to your local machine. Work into that directory.
 
 We are going to write a small terminal program allowing the user to manage a shop database containing some items and orders.
 
-User stories:
--------
+### User stories
 
 ```
 As a shop manager
@@ -66,7 +76,7 @@ Here's a list of all shop items:
  (...)
 ```
 
-Technical Approach:
+Technical Approach
 -----
 
 In this unit, you integrated a database by using the `PG` gem, and test-driving and building Repository classes. You can continue to use this approach when building this challenge.
