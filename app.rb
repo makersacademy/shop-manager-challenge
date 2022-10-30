@@ -70,7 +70,11 @@ class Application
     date_input = @terminal.gets.chomp
     new_order.date = date_input
     @order_repository.create(new_order)
-    new_order_id = (@order_repository.all.length - 1)
+    new_order_id = (@order_repository.all.length - 1)   
+    assign_items(new_order_id) 
+  end
+
+  def assign_items(new_order_id)
     @terminal.puts "Order record created. Assign items? (Y/N)"
     assign_input = @terminal.gets.chomp.downcase
     while assign_input != 'n'
@@ -86,17 +90,21 @@ class Application
         @terminal.puts "Invalid input. Enter Y or N."
       end
     end
+
+  end
+  
+  def print_menu
+    @terminal.puts "Welcome to Shop Manager!"
+    @terminal.puts "Pick an option (input number):"
+    @terminal.puts "1 - List items in stock"
+    @terminal.puts "2 - Add new item to stock"
+    @terminal.puts "3 - List all orders on record"
+    @terminal.puts "4 - Add new order to record"
+    @terminal.puts "5 - Exit"
   end
 end
 
-def print_menu
-  @terminal.puts "Welcome to Shop Manager!"
-  @terminal.puts "Pick an option (input number):"
-  @terminal.puts "1 - List items in stock"
-  @terminal.puts "2 - Add new item to stock"
-  @terminal.puts "3 - List all orders on record"
-  @terminal.puts "4 - Add new order to record"
-end
+
 
 if __FILE__ == $0
   app = Application.new(

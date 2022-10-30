@@ -19,6 +19,7 @@ describe Application do
     expect(terminal).to receive(:puts).with("2 - Add new item to stock").ordered
     expect(terminal).to receive(:puts).with("3 - List all orders on record").ordered
     expect(terminal).to receive(:puts).with("4 - Add new order to record").ordered
+    expect(terminal).to receive(:puts).with("5 - Exit").ordered
     expect(terminal).to receive(:gets).and_return("1").ordered
     expect(terminal).to receive(:puts).with('ITEM: Socks - PRICE: $2.50 - STOCK: 100 units').ordered
     expect(terminal).to receive(:puts).with('ITEM: Trousers - PRICE: $11.00 - STOCK: 75 units').ordered
@@ -42,6 +43,7 @@ describe Application do
     expect(terminal).to receive(:puts).with("2 - Add new item to stock").ordered
     expect(terminal).to receive(:puts).with("3 - List all orders on record").ordered
     expect(terminal).to receive(:puts).with("4 - Add new order to record").ordered
+    expect(terminal).to receive(:puts).with("5 - Exit").ordered
     expect(terminal).to receive(:gets).and_return("3").ordered
     expect(terminal).to receive(:puts).with('CUSTOMER NAME: Sia - ORDER DATE: 2022-10-29')
     expect(terminal).to receive(:puts).with('CUSTOMER NAME: Bon - ORDER DATE: 2022-09-28')
@@ -62,6 +64,7 @@ describe Application do
     expect(terminal).to receive(:puts).with("2 - Add new item to stock").ordered
     expect(terminal).to receive(:puts).with("3 - List all orders on record").ordered
     expect(terminal).to receive(:puts).with("4 - Add new order to record").ordered
+    expect(terminal).to receive(:puts).with("5 - Exit").ordered
     expect(terminal).to receive(:gets).and_return("2").ordered
     expect(terminal).to receive(:puts).with("Enter item name to add:")
     expect(terminal).to receive(:gets).and_return("sunglasses").ordered
@@ -84,6 +87,7 @@ describe Application do
     expect(terminal).to receive(:puts).with("2 - Add new item to stock").ordered
     expect(terminal).to receive(:puts).with("3 - List all orders on record").ordered
     expect(terminal).to receive(:puts).with("4 - Add new order to record").ordered
+    expect(terminal).to receive(:puts).with("5 - Exit").ordered
     expect(terminal).to receive(:gets).and_return("4").ordered
     expect(terminal).to receive(:puts).with("Enter customer name:").ordered
     expect(terminal).to receive(:gets).and_return("Rey").ordered
