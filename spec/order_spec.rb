@@ -22,14 +22,14 @@ RSpec.describe OrderRepository do
   end 
 
  
-   it 'returns a single artist and info from id = "1"' do 
+   it 'returns a single order and info from id = "1"' do 
    repo = OrderRepository.new 
    order = repo.find(1)
    expect(order.customer_name).to eq('David')
    expect(order.item_ordered).to eq('pizza')
   end 
 
-  it 'creates a new artist' do 
+  it 'creates a new order' do 
     repo = OrderRepository.new 
 
       order = Order.new 
