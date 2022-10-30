@@ -1,6 +1,7 @@
 # frozen_string_literal: false
 
 require 'item_repository'
+require 'item'
 
 describe ItemRepository do
   it '#list' do
@@ -19,6 +20,16 @@ describe ItemRepository do
   end
 
   it '#create' do
-    
+    repo = ItemRepository.new
+    item = Item.new
+    item.item_name = 'Orange'
+    item.price = '80'
+
+    repo.create(item)
+
+    items = repo.list
+    new_entry = items.last
+    expect(new_entry.item_name).to eq 'Orange'
+    expect(new_entry.price).to eq '80'
   end
 end

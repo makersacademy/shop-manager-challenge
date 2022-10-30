@@ -121,6 +121,20 @@ items[0].price # =>  90
 items[1].id # =>  2
 items[1].item_name # =>  'Banana'
 items[1].price # =>  75
+
+# 2
+# repo = 
+repo = ItemRepository.new
+item = Item.new
+item.item_name = 'Orange'
+item.price = '80'
+
+repo.create(item)
+
+items = repo.all
+new_entry = items.last
+new_entry.item_name # => 'Orange'
+new_entry.price # => '80'
 ```
 
 Encode this example as a test.

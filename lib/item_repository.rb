@@ -26,9 +26,10 @@ class ItemRepository
   # Create a new item
   # One argument: Item object
   def create(item)
-    # Executes the SQL query:
-    # INSERT INTO items (item_name, price) VALUES($1,$2);
+    sql = 'INSERT INTO items (item_name, price) VALUES($1,$2);'
+    sql_params = [item.item_name, item.price]
+    DatabaseConnection.exec_params(sql, sql_params)
 
-    # Returns nothing
+    nil
   end
 end
