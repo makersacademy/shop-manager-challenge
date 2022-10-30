@@ -75,16 +75,20 @@ class OrderRepository
     # SELECT id, customer_name, order_date FROM orders;
 
     # Returns an array of Order objects.
+    # TODO use SELECT to join corresponding items
+    # SELECT *
+    #   FROM items
+    # JOIN orders
+    # ON orders.id = items.order_id;
   end
 
   # Create a new order
   # One argument: Order object
   def create(order)
     # Executes the SQL query:
-    # INSERT INTO orders (customer_name, order_date) VALUES($1,$2);
+    # INSERT INTO orders (customer_name, order_date) VALUES($1,$2) RETURNING id;
 
-    # Returns nothing
-    # TODO method to add item names to the order and update item order_id with new order.id
+    # Returns order id
   end
 end
 ```
