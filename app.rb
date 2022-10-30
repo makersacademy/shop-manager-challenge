@@ -70,7 +70,8 @@ class Application
     date_input = @terminal.gets.chomp
     new_order.date = date_input
     @order_repository.create(new_order)
-    new_order_id = (@order_repository.all.length - 1)   
+    new_order_id = (@order_repository.all.last.id)
+    p new_order_id   
     assign_items(new_order_id) 
   end
 

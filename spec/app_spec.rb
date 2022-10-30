@@ -97,12 +97,12 @@ describe Application do
     expect(terminal).to receive(:gets).and_return("y").ordered
     expect(terminal).to receive(:puts).with("Enter item ID to add to order:").ordered
     expect(terminal).to receive(:gets).and_return("2").ordered
-    expect(terminal).to receive(:puts).with("Trousers added to Order ID: 5.").ordered
+    expect(terminal).to receive(:puts).with("Trousers added to Order ID: 6.").ordered
     expect(terminal).to receive(:puts).with("Add another item? (Y/N)").ordered
     expect(terminal).to receive(:gets).and_return("Y").ordered
     expect(terminal).to receive(:puts).with("Enter item ID to add to order:").ordered
     expect(terminal).to receive(:gets).and_return("3").ordered
-    expect(terminal).to receive(:puts).with("Shirt added to Order ID: 5.").ordered
+    expect(terminal).to receive(:puts).with("Shirt added to Order ID: 6.").ordered
     expect(terminal).to receive(:puts).with("Add another item? (Y/N)").ordered
     expect(terminal).to receive(:gets).and_return("n").ordered
     item_repo = ItemRepository.new
