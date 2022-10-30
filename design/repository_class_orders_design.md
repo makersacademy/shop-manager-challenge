@@ -23,7 +23,7 @@ INSERT INTO orders (customer_name, order_date) VALUES ('Naomi Laine', '2022-10-1
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
 
 ```bash
-psql -h 127.0.0.1 shop_manager < seeds_orders.sql
+psql -h 127.0.0.1 shop_manager_test < seeds_orders.sql
 ```
 
 ## 3. Define the class names
@@ -145,7 +145,7 @@ This is so you get a fresh table contents every time you run the test suite.
 # file: spec/item_repository_spec.rb
 def reset_orders_table
   seed_sql = File.read('spec/seeds_orders.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager' })
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
   connection.exec(seed_sql)
 end
 

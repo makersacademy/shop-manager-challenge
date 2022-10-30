@@ -1,24 +1,32 @@
 # Shop Manager Project
+
 A weekend task from the Makers Software Engineering Academy to help us put our week's database learning into practice. The [challenge description](#Challenge) is written below.
 
 ## Notes from interpreting the requirements
+
 - The cost of the items are refered to as a 'unit price'. For that reason I have chosen inexpensive groceries and costed them in pence.
 - More clarifying questions to be asked about this `user story`:
+
 ```
 As a shop manager.
 So I can know which orders were made.
 I want to assign each order to their corresponding item.
 ```
-   - `item` is singular so this would suggest an order has one item. Making it a one-to-one relationship. It isn't normal for this to be the only shopping dynamic so this may be a different interpretation of the problem than the `stakeholder` intended.
+
+- `item` is singular so this would suggest an order has one item. Making it a one-to-one relationship. It isn't normal for this to be the only shopping dynamic so this may be a different interpretation of the problem than the `stakeholder` intended.
+
 ## Further features to explore
-- Currently using the same database for the tests and app as there is no real data
-___
+
+...
+
+---
+
 ## Challenge
 
-* Feel free to use Google, your notes, books, etc. but work on your own
-* If you refer to the solution of another coach or student, please put a link to that in your README
-* If you have a partial solution, **still check in a partial solution**
-* You must submit a pull request to this repo with your code next Monday morning
+- Feel free to use Google, your notes, books, etc. but work on your own
+- If you refer to the solution of another coach or student, please put a link to that in your README
+- If you have a partial solution, **still check in a partial solution**
+- You must submit a pull request to this repo with your code next Monday morning
 
 Please start by [forking this repo](https://github.com/makersacademy/shop-manager-challenge/fork), then clone your fork to your local machine. Work into that directory.
 
@@ -49,7 +57,7 @@ I want to assign each order to their corresponding item.
 
 As a shop manager
 So I can know which orders were made
-I want to know on which date an order was placed. 
+I want to know on which date an order was placed.
 
 As a shop manager
 So I can manage orders
@@ -76,15 +84,13 @@ Here's a list of all shop items:
  (...)
 ```
 
-Technical Approach
------
+## Technical Approach
 
 In this unit, you integrated a database by using the `PG` gem, and test-driving and building Repository classes. You can continue to use this approach when building this challenge.
 
 [You'll also need to mock IO](https://github.com/makersacademy/golden-square/blob/main/mocking_bites/05_unit_testing_terminal_io_bite.md) in your integration or unit tests, since the program will ask for user input.
 
-Notes on test coverage
-----------------------
+## Notes on test coverage
 
 Please ensure you have the following **AT THE TOP** of your spec_helper.rb in order to have test coverage stats generated
 on your pull request:
