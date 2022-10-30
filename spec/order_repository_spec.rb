@@ -31,7 +31,7 @@ describe OrderRepository do
     expect(orders[2].order_date).to eq '2022-10-14'
   end
 
-  xit '#create' do
+  it '#create' do
     repo = OrderRepository.new
     order = Order.new
     order.customer_name = 'Father Christmas'
