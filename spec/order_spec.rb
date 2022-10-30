@@ -20,28 +20,29 @@ RSpec.describe OrderRepository do
     expect(orders.first.id).to eq('1') 
     expect(orders.first.customer_name).to eq ("David")
   end 
-end
+
  
-#   it 'returns a single artist and info from id = "1"' do 
-#    repo = OrderRepository.new 
-#    orders = repo.find(1)
-#    expect(order.customer_name).to eq('David')
-#    expect(order.item_ordered).to eq('pizza')
-#   end 
+   it 'returns a single artist and info from id = "1"' do 
+   repo = OrderRepository.new 
+   order = repo.find(1)
+   expect(order.customer_name).to eq('David')
+   expect(order.item_ordered).to eq('pizza')
+  end 
 
-#   it 'creates a new artist' do 
-#     repo = OrderRepository.new 
+  it 'creates a new artist' do 
+    repo = OrderRepository.new 
 
-#       order = Order.new 
-#       order.customer_name = 'Chantal'
-#       order.item_ordered = 'Gin'
-#       order.date_order = 'October 29th'
+      order = Order.new 
+      order.customer_name = 'Chantal'
+      order.item_ordered = 'Gin'
+      order.date_order = 'October 29th'
 
-#       repo.create(order) # => nil
+      repo.create(order) # => nil
 
-#       orders = repo.all
+      orders = repo.all
 
-#       new_order = orders.last
-#       expect(new_order.customer_name).to eq('Chantal')
-#       expect(new_order.item_ordered).to eq('Gin')
-# end 
+      new_order = orders.last
+      expect(new_order.customer_name).to eq('Chantal')
+      expect(new_order.item_ordered).to eq('Gin')
+end 
+end
