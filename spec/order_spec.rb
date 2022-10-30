@@ -1,29 +1,26 @@
-require_relative '../lib/order'
+require_relative '../lib/order_repo'
 
 def reset_orders_table
   seed_sql = File.read('spec/seeds_orders.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'orders' })
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'store_manager_test' })
   connection.exec(seed_sql)
 end
 
-
-
-RSpec.describe OrdersRepository do
+RSpec.describe OrderRepository do
   
   before(:each) do 
     reset_orders_table
   end
 
-
-
-  it 'return the list of orders, (added .first method)' do 
+  it 'returns the list of orders, (added .first method)' do 
     repo = OrderRepository.new 
     orders = repo.all
 
     expect(orders.length).to eq(2)
-    expect(orders.first.id).to eq('1')  # => '1'
+    expect(orders.first.id).to eq('1') 
     expect(orders.first.customer_name).to eq ("David")
   end 
+end
  
 #   it 'returns a single artist and info from id = "1"' do 
 #    repo = OrderRepository.new 
