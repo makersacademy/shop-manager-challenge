@@ -54,8 +54,8 @@ describe OrderRepository do
     updated_order = repo.find_items_in_order(3)
     expect(order.customer_name).to eq 'Ozzy'
     expect(order.items.length).to eq 5
-    expect(order.items[0].name).to eq 'Socks'
-    expect(order.items[1].price).to eq '$12.00'
-    expect(order.items[2].quantity).to eq '90'
+    expect(order.items[-1].name).to eq 'Trousers'
+    expect(order.items[-1].price).to eq '$11.00'
+    expect(order.items[-1].quantity).to eq '75'
   end
 end
