@@ -43,4 +43,3 @@ describe ItemRepository do
     expect(new_entry.price).to eq '80'
   end
 end
-

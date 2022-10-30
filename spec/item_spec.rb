@@ -20,7 +20,7 @@ describe Item do
     repo = ItemRepository.new
     items = repo.list
     # update moves it to end of list
-    item_id_of_1 = items.last
-    expect(item_id_of_1.order_id).to eq '2'
+    item1 = items.last
+    expect(item1.order_id).to eq '2'
   end
 end
