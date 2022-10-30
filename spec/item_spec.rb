@@ -19,30 +19,30 @@ RSpec.describe ItemRepository do
     expect(item[1].id).to eq('2')  # => '1'
     expect(item[1].item_name).to eq ("beer")
   end 
-end 
 
-#   it 'returns a single item and info from order_id = "1"' do 
-#     repo = ItemRepository.new 
 
-#     item = repo.find(1)
-#     expect(item.item_name).to eq('pizza')
-#     expect(item.price).to eq('4.99')
-#   end 
+  it 'returns a single item and info from order_id = "1"' do 
+    repo = ItemRepository.new 
 
-#   it 'creates a new album' do 
-#     repo = ItemRepository.new 
+    item = repo.find(1)
+    expect(item.item_name).to eq('pizza')
+    expect(item.price).to eq(4.99)
+  end 
 
-#     new_item = Item.new 
-#     new_item.item_name = 'gum'
-#     new_item.price = 1
-#     new_item.order_id = 1
+  it 'creates a new album' do 
+    repo = ItemRepository.new 
 
-#      repo.create(new_item)
+    new_item = Item.new 
+    new_item.item_name = 'gum'
+    new_item.quantity = 10
+    new_item.price = 1.0
+    new_item.order_id = 1
 
-#      all_items = repo.all
+     repo.create(new_item)
+     all_items = repo.all
 
-#       expect(all_items.item_name).to eq 'gum'
-#       expect(all_items.price).to eq 1
-#   end
-# end 
+      expect(all_items[2].item_name).to eq 'gum'
+      expect(all_items[2].price).to eq 1
+  end
+ end 
 

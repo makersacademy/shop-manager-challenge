@@ -10,9 +10,9 @@ class ItemRepository
         item = Item.new
         item.id = record['id']
         item.item_name = record['item_name']
-        item.quantity = record['quantity']
-        item.price = record['price']
-        item.order_id = record['order_id']
+        item.quantity = record['quantity'].to_i
+        item.price = record['price'].to_f
+        item.order_id = record['order_id'].to_i
 
         items << item
 
@@ -21,32 +21,32 @@ class ItemRepository
   end
 
 
-#   # Gets a single record by its ID
-#   # One argument: the id (number)
-# def find(id)
-#     sql = 'SELECT id, item_name, quantity, price, order_id FROM items WHERE order_id = $1;'
-#     params = [id]
-#     result_set = DatabaseConnection.exec_params(sql, params)
+  # Gets a single record by its ID
+  # One argument: the id (number)
+def find(id)
+    sql = 'SELECT id, item_name, quantity, price, order_id FROM items WHERE order_id = $1;'
+    params = [id]
+    result_set = DatabaseConnection.exec_params(sql, params)
 
-#      record = result_set[0]
+     record = result_set[0]
     
-#     item = Item.new
-#     item.id = record['id']
-#     item.item_name = record['item_name']
-#     item.quantity = record['quantity']
-#     item.price = record['price']
-#     item.order_id = record['order_id']
+    item = Item.new
+    item.id = record['id']
+    item.item_name = record['item_name']
+    item.quantity = record['quantity'].to_i
+    item.price = record['price'].to_f
+    item.order_id = record['order_id'].to_i
 
-#     return item
-#   end  
+    return item
+  end  
   
-#   def create(item)
-#       # excutes SQL query;
-#     sql =  'INSERT INTO items (item_name, quantity, price, order_id) VALUES($1, $2, $3, $4);'
-#     sql_params = [item.item_name, item.quantity, item.price, item.order_id]
+  def create(item)
+      # excutes SQL query;
+    sql =  'INSERT INTO items (item_name, quantity, price, order_id) VALUES($1, $2, $3, $4);'
+    sql_params = [item.item_name, item.quantity, item.price, item.order_id]
 
-#     DatabaseConnection.exec_params(sql, sql_params)
+    DatabaseConnection.exec_params(sql, sql_params)
 
-#     return nil
-#   end 
+    return nil
+  end 
 end
