@@ -42,6 +42,18 @@ describe OrderRepository do
     repo = OrderRepository.new
     order = repo.find_items_in_order(3)
     expect(order.customer_name).to eq 'Ozzy'
+    expect(order.items.length).to eq 4
+    expect(order.items[0].name).to eq 'Socks'
+    expect(order.items[1].price).to eq '$12.00'
+    expect(order.items[2].quantity).to eq '90'
+  end
+
+  it 'adds new item to existing order' do
+    repo = OrderRepository.new
+    order = repo.add_items_to_order(3, 2)
+    updated_order = repo.find_items_in_order(3)
+    expect(order.customer_name).to eq 'Ozzy'
+    expect(order.items.length).to eq 5
     expect(order.items[0].name).to eq 'Socks'
     expect(order.items[1].price).to eq '$12.00'
     expect(order.items[2].quantity).to eq '90'

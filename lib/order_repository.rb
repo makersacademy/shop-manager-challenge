@@ -1,5 +1,6 @@
 require_relative 'order'
 require_relative 'item'
+require_relative 'item_repository'
 
 class OrderRepository
   def all
@@ -73,6 +74,15 @@ class OrderRepository
 
       order.items << item
     end
+    return order
+  end
+
+  def add_items_to_order(order_id, item_id)
+    order = find_items_in_order(order_id)
+    item_repo = ItemRepository.new
+    item_to_add = item_repo.find(item_id)
+    order.items << item_to_add
+
     return order
   end
 end

@@ -66,7 +66,13 @@ class Application
     new_order.customer_name = name_input
     @terminal.puts "Enter order date (YYYY-MM-DD):"
     date_input = @terminal.gets.chomp
-    @terminal.puts "Order record created."
+    @terminal.puts "Order record created. Assign items? (Y/N)"
+    # assign_input = @terminal.gets.chomp.downcase
+    # while assign_input != 'n'
+    #   if assign_input == 'y'
+    #     @terminal.puts "Enter item name to add to order:"
+    #     item_input = @terminal.gets.chomp.downcase.capitalize
+        
   end
 end
 

@@ -89,7 +89,7 @@ describe Application do
     expect(terminal).to receive(:gets).and_return("Rey").ordered
     expect(terminal).to receive(:puts).with("Enter order date (YYYY-MM-DD):")
     expect(terminal).to receive(:gets).and_return("2022-10-28").ordered
-    expect(terminal).to receive(:puts).with("Order record created.").ordered
+    expect(terminal).to receive(:puts).with("Order record created. Assign items? (Y/N)").ordered
     items = ItemRepository.new
     orders = OrderRepository.new
     app = Application.new('shop_manager_test', terminal, items, orders)
