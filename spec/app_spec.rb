@@ -107,7 +107,9 @@ describe Application do
     app.run
     orders = order_repo.all
     expect(orders.length).to eq 6
+    expect(orders.last.id).to eq '6'
     expect(orders.last.customer_name).to eq 'Rey'
+    expect(orders.last.date).to eq '2022-10-28'
   end
 
 end

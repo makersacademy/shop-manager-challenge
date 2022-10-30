@@ -68,6 +68,7 @@ class Application
     new_order.customer_name = name_input
     @terminal.puts "Enter order date (YYYY-MM-DD):"
     date_input = @terminal.gets.chomp
+    new_order.date = date_input
     @order_repository.create(new_order)
     new_order_id = (@order_repository.all.length - 1)
     @terminal.puts "Order record created. Assign items? (Y/N)"
