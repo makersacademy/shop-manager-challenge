@@ -1,3 +1,5 @@
+require 'database_connection'
+DatabaseConnection.connect('shop_manager_test')
 require 'simplecov'
 require 'simplecov-console'
 
