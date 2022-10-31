@@ -19,45 +19,28 @@ RSpec.describe OrdersRepo do
     
 
 
-    # it "tests find by method" do
-    #     repo1 = CohortsRepo.new
-    #     expect(repo1.find_names_by_cohort("december")).to eq "december: bill gates, robin-resit"
-    # end
+    it "INTEGRATION app test 1" do
+        kernaldouble = double :kernaldouble
+        orderbook = OrdersRepo.new
+        stocks = StockItemsRepo.new
 
-    # it "tests the find by method again" do
-    #   repo1 = CohortsRepo.new
-    #   expect(repo1.find_names_by_cohort_2("december").length).to eq 2
-    # end
+        app1 = Application.new('shop2', kernaldouble, orderbook, stocks)
 
-    # it "app test" do
-    #     kernaldouble = double :kernaldouble
-    #     repo1 = CohortsRepo.new
+        expect(kernaldouble).to receive(:puts).with("Welcome to the shop management program!"\
+            "\nWhat do you want to do?"\
+            "\n   1 = list all shop items"\
+            "\n   2 = create a new item"\
+            "\n   3 = list all orders"\
+            "\n   4 = create a new order"\
+            "\n   5 = find a customer's order"\
+            "\n   6 = view customers of a product"\
+            "\n   7 = exit program")
+        expect(kernaldouble).to receive(:gets).and_return("7")
+            ###DO I NEED TO END EVERY TEST WITH INPUT 7??? Find this out.
+        app1.run
+        expect(orderbook.show_customer_orders.length).to eq 2
 
-    #     expect(kernaldouble).to receive(:puts).with("select cohort")
-    #     expect(kernaldouble).to receive(:gets).and_return("october")
-    #     #expect(kernaldouble).to receive(:puts).with("december: bill gates, robin-resit")
-    #     expect(kernaldouble).to receive(:puts).with("october: robin, alastair")
-    
-    #     app1 = Application.new('student_directory_2', kernaldouble, repo1)
-    #     app1.run2
-    #     #expect(repo1.find_names_by_cohort("december")).to eq "december: bill gates, robin-resit"
-    #     expect(repo1.find_names_by_cohort("october")).to eq "october: robin, alastair"
-
-    # end
-
-    # it "app test2" do
-    #     kernaldouble = double :kernaldouble
-    #     repo1 = CohortsRepo.new
-
-    #     expect(kernaldouble).to receive(:puts).with("select cohort")
-    #     expect(kernaldouble).to receive(:gets).and_return("october")
-    #     expect(kernaldouble).to receive(:puts).with("robin\nalastair")
-    
-    #     app1 = Application.new('student_directory_2', kernaldouble, repo1)
-    #     app1.run
-
-    #     expect(repo1.find_names_by_cohort_2("october").length).to eq 2
-    # end
+    end
 
 
 end

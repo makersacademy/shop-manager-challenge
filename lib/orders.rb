@@ -46,7 +46,6 @@ class OrdersRepo
         sql2 = "select max(id) from customer_orders where customer_name = $1"
         sql2res = DatabaseConnection.exec_params(sql2,[name]).values[0].join.to_i
 
-      
         sql3 = "insert into orders (customer_order_id, stock_item_ordered_id,
         stock_item_ordered_qty) values ($1,$2,$3)"
         DatabaseConnection.exec_params(sql3,[sql2res,item_ordered, qty_ordered])

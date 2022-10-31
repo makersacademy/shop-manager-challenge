@@ -14,7 +14,7 @@
       <img src="./assets/0.12.3/loading.gif" alt="loading"/>
     </div>
     <div id="wrapper" class="hide">
-      <div class="timestamp">Generated <abbr class="timeago" title="2022-10-31T17:05:17+00:00">2022-10-31T17:05:17+00:00</abbr></div>
+      <div class="timestamp">Generated <abbr class="timeago" title="2022-10-31T18:09:21+00:00">2022-10-31T18:09:21+00:00</abbr></div>
       <ul class="group_tabs"></ul>
 
       <div id="content">
@@ -23,14 +23,14 @@
     <span class="group_name">All Files</span>
     (<span class="covered_percent">
       <span class="green">
-  91.07%
+  93.94%
 </span>
 
      </span>
      covered at
      <span class="covered_strength">
        <span class="green">
-         1.16
+         1.17
        </span>
     </span> hits/line
     )
@@ -43,11 +43,11 @@
   </div>
 
   <div class="t-line-summary">
-    <b>112</b> relevant lines,
-    <span class="green"><b>102</b> lines covered</span> and
-    <span class="red"><b>10</b> lines missed. </span>
+    <b>132</b> relevant lines,
+    <span class="green"><b>124</b> lines covered</span> and
+    <span class="red"><b>8</b> lines missed. </span>
     (<span class="green">
-  91.07%
+  93.94%
 </span>
 )
   </div>
@@ -72,23 +72,23 @@
         
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#07050bb82b98a0557101ae5d59eb244c0b29b8a9" class="src_link" title="app.rb">app.rb</a></td>
-            <td class="red strong cell--number t-file__coverage">53.85 %</td>
-            <td class="cell--number">37</td>
-            <td class="cell--number">13</td>
-            <td class="cell--number">7</td>
-            <td class="cell--number">6</td>
-            <td class="cell--number">0.54</td>
+            <td class="red strong cell--number t-file__coverage">66.67 %</td>
+            <td class="cell--number">55</td>
+            <td class="cell--number">24</td>
+            <td class="cell--number">16</td>
+            <td class="cell--number">8</td>
+            <td class="cell--number">0.67</td>
             
           </tr>
         
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#b70d4fc5ed3515bf3c7417c23c060dbc536f7ccc" class="src_link" title="lib/orders.rb">lib/orders.rb</a></td>
             <td class="green strong cell--number t-file__coverage">100.00 %</td>
-            <td class="cell--number">62</td>
+            <td class="cell--number">61</td>
             <td class="cell--number">26</td>
             <td class="cell--number">26</td>
             <td class="cell--number">0</td>
-            <td class="cell--number">1.15</td>
+            <td class="cell--number">1.23</td>
             
           </tr>
         
@@ -105,12 +105,12 @@
         
           <tr class="t-file">
             <td class="strong t-file__name"><a href="#6d4d087fb5b0690bca1a64292bfe0cbb94c56a39" class="src_link" title="spec/app_spec.rb">spec/app_spec.rb</a></td>
-            <td class="red strong cell--number t-file__coverage">66.67 %</td>
-            <td class="cell--number">63</td>
-            <td class="cell--number">12</td>
-            <td class="cell--number">8</td>
-            <td class="cell--number">4</td>
-            <td class="cell--number">0.67</td>
+            <td class="green strong cell--number t-file__coverage">100.00 %</td>
+            <td class="cell--number">47</td>
+            <td class="cell--number">21</td>
+            <td class="cell--number">21</td>
+            <td class="cell--number">0</td>
+            <td class="cell--number">1.00</td>
             
           </tr>
         
@@ -158,7 +158,7 @@
     <h3>app.rb</h3>
     <h4>
       <span class="red">
-  53.85%
+  66.67%
 </span>
 
       lines covered
@@ -167,9 +167,9 @@
     
 
     <div class="t-line-summary">
-      <b>13</b> relevant lines.
-      <span class="green"><b>7</b> lines covered</span> and
-      <span class="red"><b>6</b> lines missed.</span>
+      <b>24</b> relevant lines.
+      <span class="green"><b>16</b> lines covered</span> and
+      <span class="red"><b>8</b> lines missed.</span>
     </div>
 
     
@@ -263,51 +263,51 @@
 
             
 
-            <code class="ruby">    def initialize (a,b,c,d)</code>
+            <code class="ruby">    def initialize (database,inputkernel,orders_repo,stocks_repo)</code>
           </li>
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="9">
-            
-            
-
+          <li class="covered" data-hits="1" data-linenumber="9">
+            <span class="hits">1</span>
             
 
-            <code class="ruby">        DatabaseConnection.connect(a)</code>
+            
+
+            <code class="ruby">        DatabaseConnection.connect(database)</code>
           </li>
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="10">
-            
-            
-
+          <li class="covered" data-hits="1" data-linenumber="10">
+            <span class="hits">1</span>
             
 
-            <code class="ruby">        @io = b</code>
+            
+
+            <code class="ruby">        @io = inputkernel</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="11">
-            
-            
-
+          <li class="covered" data-hits="1" data-linenumber="11">
+            <span class="hits">1</span>
             
 
-            <code class="ruby">        #c,d are instances of classes</code>
+            
+
+            <code class="ruby">        @ordersrepo = orders_repo</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="12">
-            
-            
-
+          <li class="covered" data-hits="1" data-linenumber="12">
+            <span class="hits">1</span>
             
 
-            <code class="ruby">    end</code>
+            
+
+            <code class="ruby">        @stocksrepo = stocks_repo</code>
           </li>
         </div>
       
@@ -318,100 +318,12 @@
 
             
 
-            <code class="ruby"></code>
+            <code class="ruby">        </code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="14">
-            <span class="hits">1</span>
-            
-
-            
-
-            <code class="ruby">    def run</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="15">
-            
-            
-
-            
-
-            <code class="ruby">        @io.puts &quot;Welcome to the shop management program!&quot;\</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="16">
-            
-            
-
-            
-
-            <code class="ruby">        &quot;\nWhat do you want to do?&quot;\</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="17">
-            
-            
-
-            
-
-            <code class="ruby">          &quot;\n   1 = list all shop items&quot;\</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="18">
-            
-            
-
-            
-
-            <code class="ruby">          &quot;\n   2 = create a new item&quot;\</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="19">
-            
-            
-
-            
-
-            <code class="ruby">          &quot;\n   3 = list all orders&quot;\</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="20">
-            
-            
-
-            
-
-            <code class="ruby">          &quot;\n   4 = create a new order&quot;</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="missed" data-hits="0" data-linenumber="21">
-            
-            
-
-            
-
-            <code class="ruby">        input1 = @io.gets.chomp.to_i</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="22">
+          <li class="never" data-hits="" data-linenumber="14">
             
             
 
@@ -422,13 +334,101 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="23">
+          <li class="never" data-hits="" data-linenumber="15">
             
             
 
             
 
             <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="16">
+            <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">    def run</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="17">
+            <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      input1 = &quot;&quot;</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="18">
+            <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">      while input1 != 7 do</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="19">
+            <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">        @io.puts &quot;Welcome to the shop management program!&quot;\</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="20">
+            
+            
+
+            
+
+            <code class="ruby">          &quot;\nWhat do you want to do?&quot;\</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="21">
+            
+            
+
+            
+
+            <code class="ruby">            &quot;\n   1 = list all shop items&quot;\</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="22">
+            
+            
+
+            
+
+            <code class="ruby">            &quot;\n   2 = create a new item&quot;\</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="23">
+            
+            
+
+            
+
+            <code class="ruby">            &quot;\n   3 = list all orders&quot;\</code>
           </li>
         </div>
       
@@ -439,7 +439,7 @@
 
             
 
-            <code class="ruby">end</code>
+            <code class="ruby">            &quot;\n   4 = create a new order&quot;\</code>
           </li>
         </div>
       
@@ -450,51 +450,51 @@
 
             
 
-            <code class="ruby"></code>
+            <code class="ruby">            &quot;\n   5 = find a customer&#39;s order&quot;\</code>
           </li>
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="26">
+          <li class="never" data-hits="" data-linenumber="26">
+            
+            
+
+            
+
+            <code class="ruby">            &quot;\n   6 = view customers of a product&quot;\</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="27">
+            
+            
+
+            
+
+            <code class="ruby">            &quot;\n   7 = exit program&quot;</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="28">
             <span class="hits">1</span>
             
 
             
 
-            <code class="ruby">if __FILE__ == $0</code>
+            <code class="ruby">          input1 = @io.gets.chomp.to_i</code>
           </li>
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="27">
-            
-            
-
-            
-
-            <code class="ruby">    app = Application.new(</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="28">
-            
+          <li class="covered" data-hits="1" data-linenumber="29">
+            <span class="hits">1</span>
             
 
             
 
-            <code class="ruby">      &#39;shop2&#39;,</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="29">
-            
-            
-
-            
-
-            <code class="ruby">      Kernel,</code>
+            <code class="ruby">          case input1</code>
           </li>
         </div>
       
@@ -505,18 +505,18 @@
 
             
 
-            <code class="ruby">      OrdersRepo.new,</code>
+            <code class="ruby">            when 1 then </code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="31">
+          <li class="missed" data-hits="0" data-linenumber="31">
             
             
 
             
 
-            <code class="ruby">      StockItemsRepo.new</code>
+            <code class="ruby">              p @stocksrepo.show_all_stock #some formatting needed here, try and get sql table output into terminal</code>
           </li>
         </div>
       
@@ -527,7 +527,7 @@
 
             
 
-            <code class="ruby">    )</code>
+            <code class="ruby">            when 2 then </code>
           </li>
         </div>
       
@@ -538,12 +538,210 @@
 
             
 
+            <code class="ruby">              @io.puts &quot;enter your addition in format item-price-qty&quot;</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="34">
+            
+            
+
+            
+
+            <code class="ruby">              input2 = @io.gets.chomp.split(&#39;-&#39;)</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="35">
+            
+            
+
+            
+
+            <code class="ruby">              @stocksrepo.add_new_item(input2[0],input2[1],input2[2])</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="36">
+            
+            
+
+            
+
+            <code class="ruby">              puts &quot;#{input2[0]} successfully added to catalogue&quot;</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="37">
+            
+            
+
+            
+
+            <code class="ruby">            when 3 then puts &quot;chosen 3&quot;</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="38">
+            
+            
+
+            
+
+            <code class="ruby">          end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="39">
+            
+            
+
+            
+
+            <code class="ruby">      end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="40">
+            
+            
+
+            
+
+            <code class="ruby">    end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="41">
+            
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="42">
+            
+            
+
+            
+
+            <code class="ruby">end</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="43">
+            
+            
+
+            
+
+            <code class="ruby"></code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="covered" data-hits="1" data-linenumber="44">
+            <span class="hits">1</span>
+            
+
+            
+
+            <code class="ruby">if __FILE__ == $0</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="45">
+            
+            
+
+            
+
+            <code class="ruby">    app = Application.new(</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="46">
+            
+            
+
+            
+
+            <code class="ruby">      &#39;shop2&#39;,</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="47">
+            
+            
+
+            
+
+            <code class="ruby">      Kernel,</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="48">
+            
+            
+
+            
+
+            <code class="ruby">      OrdersRepo.new,</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="49">
+            
+            
+
+            
+
+            <code class="ruby">      StockItemsRepo.new</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="never" data-hits="" data-linenumber="50">
+            
+            
+
+            
+
+            <code class="ruby">    )</code>
+          </li>
+        </div>
+      
+        <div>
+          <li class="missed" data-hits="0" data-linenumber="51">
+            
+            
+
+            
+
             <code class="ruby">    app.run</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="34">
+          <li class="never" data-hits="" data-linenumber="52">
             
             
 
@@ -554,7 +752,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="35">
+          <li class="never" data-hits="" data-linenumber="53">
             
             
 
@@ -565,7 +763,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="36">
+          <li class="never" data-hits="" data-linenumber="54">
             
             
 
@@ -576,7 +774,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="37">
+          <li class="never" data-hits="" data-linenumber="55">
             
             
 
@@ -783,8 +981,8 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="2" data-linenumber="16">
-            <span class="hits">2</span>
+          <li class="covered" data-hits="3" data-linenumber="16">
+            <span class="hits">3</span>
             
 
             
@@ -794,8 +992,8 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="2" data-linenumber="17">
-            <span class="hits">2</span>
+          <li class="covered" data-hits="3" data-linenumber="17">
+            <span class="hits">3</span>
             
 
             
@@ -1146,18 +1344,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="49">
-            
-            
-
-            
-
-            <code class="ruby">      </code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="covered" data-hits="1" data-linenumber="50">
+          <li class="covered" data-hits="1" data-linenumber="49">
             <span class="hits">1</span>
             
 
@@ -1168,7 +1355,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="51">
+          <li class="never" data-hits="" data-linenumber="50">
             
             
 
@@ -1179,7 +1366,7 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="52">
+          <li class="covered" data-hits="1" data-linenumber="51">
             <span class="hits">1</span>
             
 
@@ -1190,7 +1377,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="53">
+          <li class="never" data-hits="" data-linenumber="52">
             
             
 
@@ -1201,7 +1388,7 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="54">
+          <li class="covered" data-hits="1" data-linenumber="53">
             <span class="hits">1</span>
             
 
@@ -1212,7 +1399,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="55">
+          <li class="never" data-hits="" data-linenumber="54">
             
             
 
@@ -1223,7 +1410,7 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="56">
+          <li class="covered" data-hits="1" data-linenumber="55">
             <span class="hits">1</span>
             
 
@@ -1234,7 +1421,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="57">
+          <li class="never" data-hits="" data-linenumber="56">
             
             
 
@@ -1245,7 +1432,7 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="58">
+          <li class="covered" data-hits="1" data-linenumber="57">
             <span class="hits">1</span>
             
 
@@ -1256,7 +1443,7 @@
         </div>
       
         <div>
-          <li class="covered" data-hits="1" data-linenumber="59">
+          <li class="covered" data-hits="1" data-linenumber="58">
             <span class="hits">1</span>
             
 
@@ -1267,7 +1454,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="60">
+          <li class="never" data-hits="" data-linenumber="59">
             
             
 
@@ -1278,7 +1465,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="61">
+          <li class="never" data-hits="" data-linenumber="60">
             
             
 
@@ -1289,7 +1476,7 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="62">
+          <li class="never" data-hits="" data-linenumber="61">
             
             
 
@@ -1680,8 +1867,8 @@
   <div class="header">
     <h3>spec/app_spec.rb</h3>
     <h4>
-      <span class="red">
-  66.67%
+      <span class="green">
+  100.0%
 </span>
 
       lines covered
@@ -1690,9 +1877,9 @@
     
 
     <div class="t-line-summary">
-      <b>12</b> relevant lines.
-      <span class="green"><b>8</b> lines covered</span> and
-      <span class="red"><b>4</b> lines missed.</span>
+      <b>21</b> relevant lines.
+      <span class="green"><b>21</b> lines covered</span> and
+      <span class="red"><b>0</b> lines missed.</span>
     </div>
 
     
@@ -1813,8 +2000,8 @@
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="11">
-            
+          <li class="covered" data-hits="1" data-linenumber="11">
+            <span class="hits">1</span>
             
 
             
@@ -1824,8 +2011,8 @@
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="12">
-            
+          <li class="covered" data-hits="1" data-linenumber="12">
+            <span class="hits">1</span>
             
 
             
@@ -1835,8 +2022,8 @@
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="13">
-            
+          <li class="covered" data-hits="1" data-linenumber="13">
+            <span class="hits">1</span>
             
 
             
@@ -1879,8 +2066,8 @@
         </div>
       
         <div>
-          <li class="missed" data-hits="0" data-linenumber="17">
-            
+          <li class="covered" data-hits="1" data-linenumber="17">
+            <span class="hits">1</span>
             
 
             
@@ -1934,46 +2121,46 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="22">
-            
-            
-
+          <li class="covered" data-hits="1" data-linenumber="22">
+            <span class="hits">1</span>
             
 
-            <code class="ruby">    # it &quot;tests find by method&quot; do</code>
+            
+
+            <code class="ruby">    it &quot;INTEGRATION app test 1&quot; do</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="23">
-            
-            
-
+          <li class="covered" data-hits="1" data-linenumber="23">
+            <span class="hits">1</span>
             
 
-            <code class="ruby">    #     repo1 = CohortsRepo.new</code>
+            
+
+            <code class="ruby">        kernaldouble = double :kernaldouble</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="24">
-            
-            
-
+          <li class="covered" data-hits="1" data-linenumber="24">
+            <span class="hits">1</span>
             
 
-            <code class="ruby">    #     expect(repo1.find_names_by_cohort(&quot;december&quot;)).to eq &quot;december: bill gates, robin-resit&quot;</code>
+            
+
+            <code class="ruby">        orderbook = OrdersRepo.new</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="25">
-            
-            
-
+          <li class="covered" data-hits="1" data-linenumber="25">
+            <span class="hits">1</span>
             
 
-            <code class="ruby">    # end</code>
+            
+
+            <code class="ruby">        stocks = StockItemsRepo.new</code>
           </li>
         </div>
       
@@ -1989,13 +2176,13 @@
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="27">
-            
-            
-
+          <li class="covered" data-hits="1" data-linenumber="27">
+            <span class="hits">1</span>
             
 
-            <code class="ruby">    # it &quot;tests the find by method again&quot; do</code>
+            
+
+            <code class="ruby">        app1 = Application.new(&#39;shop2&#39;, kernaldouble, orderbook, stocks)</code>
           </li>
         </div>
       
@@ -2006,18 +2193,18 @@
 
             
 
-            <code class="ruby">    #   repo1 = CohortsRepo.new</code>
+            <code class="ruby"></code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="29">
-            
-            
-
+          <li class="covered" data-hits="1" data-linenumber="29">
+            <span class="hits">1</span>
             
 
-            <code class="ruby">    #   expect(repo1.find_names_by_cohort_2(&quot;december&quot;).length).to eq 2</code>
+            
+
+            <code class="ruby">        expect(kernaldouble).to receive(:puts).with(&quot;Welcome to the shop management program!&quot;\</code>
           </li>
         </div>
       
@@ -2028,7 +2215,7 @@
 
             
 
-            <code class="ruby">    # end</code>
+            <code class="ruby">            &quot;\nWhat do you want to do?&quot;\</code>
           </li>
         </div>
       
@@ -2039,7 +2226,7 @@
 
             
 
-            <code class="ruby"></code>
+            <code class="ruby">            &quot;\n   1 = list all shop items&quot;\</code>
           </li>
         </div>
       
@@ -2050,7 +2237,7 @@
 
             
 
-            <code class="ruby">    # it &quot;app test&quot; do</code>
+            <code class="ruby">            &quot;\n   2 = create a new item&quot;\</code>
           </li>
         </div>
       
@@ -2061,7 +2248,7 @@
 
             
 
-            <code class="ruby">    #     kernaldouble = double :kernaldouble</code>
+            <code class="ruby">            &quot;\n   3 = list all orders&quot;\</code>
           </li>
         </div>
       
@@ -2072,7 +2259,7 @@
 
             
 
-            <code class="ruby">    #     repo1 = CohortsRepo.new</code>
+            <code class="ruby">            &quot;\n   4 = create a new order&quot;\</code>
           </li>
         </div>
       
@@ -2083,7 +2270,7 @@
 
             
 
-            <code class="ruby"></code>
+            <code class="ruby">            &quot;\n   5 = find a customer&#39;s order&quot;\</code>
           </li>
         </div>
       
@@ -2094,7 +2281,7 @@
 
             
 
-            <code class="ruby">    #     expect(kernaldouble).to receive(:puts).with(&quot;select cohort&quot;)</code>
+            <code class="ruby">            &quot;\n   6 = view customers of a product&quot;\</code>
           </li>
         </div>
       
@@ -2105,18 +2292,18 @@
 
             
 
-            <code class="ruby">    #     expect(kernaldouble).to receive(:gets).and_return(&quot;october&quot;)</code>
+            <code class="ruby">            &quot;\n   7 = exit program&quot;)</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="38">
-            
-            
-
+          <li class="covered" data-hits="1" data-linenumber="38">
+            <span class="hits">1</span>
             
 
-            <code class="ruby">    #     #expect(kernaldouble).to receive(:puts).with(&quot;december: bill gates, robin-resit&quot;)</code>
+            
+
+            <code class="ruby">        expect(kernaldouble).to receive(:gets).and_return(&quot;7&quot;)</code>
           </li>
         </div>
       
@@ -2127,18 +2314,18 @@
 
             
 
-            <code class="ruby">    #     expect(kernaldouble).to receive(:puts).with(&quot;october: robin, alastair&quot;)</code>
+            <code class="ruby">            ###DO I NEED TO END EVERY TEST WITH INPUT 7???</code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="40">
-            
-            
-
+          <li class="covered" data-hits="1" data-linenumber="40">
+            <span class="hits">1</span>
             
 
-            <code class="ruby">    </code>
+            
+
+            <code class="ruby">        app1.run</code>
           </li>
         </div>
       
@@ -2149,18 +2336,18 @@
 
             
 
-            <code class="ruby">    #     app1 = Application.new(&#39;student_directory_2&#39;, kernaldouble, repo1)</code>
+            <code class="ruby">     </code>
           </li>
         </div>
       
         <div>
-          <li class="never" data-hits="" data-linenumber="42">
-            
-            
-
+          <li class="covered" data-hits="1" data-linenumber="42">
+            <span class="hits">1</span>
             
 
-            <code class="ruby">    #     app1.run2</code>
+            
+
+            <code class="ruby">        expect(orderbook.show_customer_orders.length).to eq 2</code>
           </li>
         </div>
       
@@ -2171,7 +2358,7 @@
 
             
 
-            <code class="ruby">    #     #expect(repo1.find_names_by_cohort(&quot;december&quot;)).to eq &quot;december: bill gates, robin-resit&quot;</code>
+            <code class="ruby"></code>
           </li>
         </div>
       
@@ -2182,7 +2369,7 @@
 
             
 
-            <code class="ruby">    #     expect(repo1.find_names_by_cohort(&quot;october&quot;)).to eq &quot;october: robin, alastair&quot;</code>
+            <code class="ruby">    end</code>
           </li>
         </div>
       
@@ -2204,188 +2391,12 @@
 
             
 
-            <code class="ruby">    # end</code>
+            <code class="ruby"></code>
           </li>
         </div>
       
         <div>
           <li class="never" data-hits="" data-linenumber="47">
-            
-            
-
-            
-
-            <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="48">
-            
-            
-
-            
-
-            <code class="ruby">    # it &quot;app test2&quot; do</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="49">
-            
-            
-
-            
-
-            <code class="ruby">    #     kernaldouble = double :kernaldouble</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="50">
-            
-            
-
-            
-
-            <code class="ruby">    #     repo1 = CohortsRepo.new</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="51">
-            
-            
-
-            
-
-            <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="52">
-            
-            
-
-            
-
-            <code class="ruby">    #     expect(kernaldouble).to receive(:puts).with(&quot;select cohort&quot;)</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="53">
-            
-            
-
-            
-
-            <code class="ruby">    #     expect(kernaldouble).to receive(:gets).and_return(&quot;october&quot;)</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="54">
-            
-            
-
-            
-
-            <code class="ruby">    #     expect(kernaldouble).to receive(:puts).with(&quot;robin\nalastair&quot;)</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="55">
-            
-            
-
-            
-
-            <code class="ruby">    </code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="56">
-            
-            
-
-            
-
-            <code class="ruby">    #     app1 = Application.new(&#39;student_directory_2&#39;, kernaldouble, repo1)</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="57">
-            
-            
-
-            
-
-            <code class="ruby">    #     app1.run</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="58">
-            
-            
-
-            
-
-            <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="59">
-            
-            
-
-            
-
-            <code class="ruby">    #     expect(repo1.find_names_by_cohort_2(&quot;october&quot;).length).to eq 2</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="60">
-            
-            
-
-            
-
-            <code class="ruby">    # end</code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="61">
-            
-            
-
-            
-
-            <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="62">
-            
-            
-
-            
-
-            <code class="ruby"></code>
-          </li>
-        </div>
-      
-        <div>
-          <li class="never" data-hits="" data-linenumber="63">
             
             
 
