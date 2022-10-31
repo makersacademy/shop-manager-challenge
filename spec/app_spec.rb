@@ -33,7 +33,33 @@ describe Application do
 
       order_repository = OrderRepository.new
       item_repository = ItemRepository.new
-      app = Application.new('shop_manager_test', terminal, order_repository, item_repository)
+      item = Item.new
+      app = Application.new('shop_manager_test', terminal, order_repository, item_repository, item)
+      app.run
+    end
+  end
+
+  context 'given the user selects "2 = create a new item"' do
+    it 'creates a new item' do
+      terminal = double :terminal
+      expect(terminal).to receive(:puts).with('Welcome to the shop management program!').ordered
+      expect(terminal).to receive(:puts).with("\nWhat do you want to do?").ordered
+      expect(terminal).to receive(:puts).with('1 = list all shop items').ordered
+      expect(terminal).to receive(:puts).with('2 = create a new item').ordered
+      expect(terminal).to receive(:puts).with('3 = list all orders').ordered
+      expect(terminal).to receive(:puts).with("4 = create a new order\n").ordered
+      
+      expect(terminal).to receive(:gets).and_return('2').ordered
+      expect(terminal).to receive(:puts).and_return('Enter the item name:').ordered
+      expect(terminal).to receive(:gets).and_return('Orange').ordered
+      expect(terminal).to receive(:puts).and_return('Enter the item unit price:').ordered
+      expect(terminal).to receive(:gets).and_return('80').ordered
+      expect(terminal).to receive(:puts).with("\nItem created").ordered
+
+      order_repository = OrderRepository.new
+      item_repository = ItemRepository.new
+      item = Item.new
+      app = Application.new('shop_manager_test', terminal, order_repository, item_repository, item)
       app.run
     end
   end

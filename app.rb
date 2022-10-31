@@ -2,6 +2,7 @@
 require_relative 'lib/database_connection'
 require_relative 'lib/order_repository'
 require_relative 'lib/item_repository'
+require_relative 'lib/item'
 
 # The Application class initializer
 class Application
@@ -10,11 +11,12 @@ class Application
   #  * the Kernel object as `io` (so we can mock the IO in our tests)
   #  * the AlbumRepository object (or a double of it)
   #  * the ArtistRepository object (or a double of it)
-  def initialize(database_name, io, order_repository, item_repository)
+  def initialize(database_name, io, order_repository, item_repository, item)
     DatabaseConnection.connect(database_name)
     @io = io
     @order_repository = order_repository
     @item_repository = item_repository
+    @item = item
   end
 
   def run
@@ -41,6 +43,18 @@ class Application
         @io.puts "\# #{key} - Unit price: #{price[key]} - Quantity: #{total}"
       end
     end
+    if input == '2'
+      @io.puts 'Enter the item name:'
+      name = @io.gets.chomp
+      @io.puts 'Enter the item price:'
+      price = @io.gets.chomp
+      @item.item_name = name
+      @item.price = price
+      p @item
+      p @item_repository
+      @ItemRepository.create(@item)
+      @io.puts "\nItem created"
+    end
   end
 end
 
@@ -48,8 +62,9 @@ if __FILE__ == $0
   app = Application.new(
     'shop_manager',
     Kernel,
+    OrderRepository.new,
     ItemRepository.new,
-    OrderRepository.new
+    Item.new
   )
   app.run
 end
