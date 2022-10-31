@@ -6,6 +6,11 @@ Shop Manager Project
 * If you have a partial solution, **still check in a partial solution**
 * You must submit a pull request to this repo with your code next Monday morning
 
+I had to ask for some help when seeding the data bases. I didn't know about adding cascade to the file with the primary key. This projet is incomplete, I got stuck on the Application class. In part 7 I completed the excercises in the video links (I did this on friday evening), but wasn't sure how to get this working with the Application. I kept getting the error message, 'method or variable databases couldn't be initialized'.
+
+
+
+
 Challenge:
 -------
 
@@ -92,3 +97,5 @@ SimpleCov.start
 ```
 
 You can see your test coverage when you run your tests. If you want this in a graphical form, uncomment the `HTMLFormatter` line and see what happens!
+
+
