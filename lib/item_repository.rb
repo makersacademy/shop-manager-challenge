@@ -3,6 +3,7 @@ require_relative 'order'
 
 class ItemRepository
   def all
+  # Returns all items in database
     sql = 'SELECT id, name, price, quantity FROM items;'
     result_set = DatabaseConnection.exec_params(sql, [])
 
@@ -21,6 +22,7 @@ class ItemRepository
   end
 
   def find(id)
+  # Finds item in database by ID and returns item
     sql = 'SELECT id, name, price, quantity FROM items WHERE id = $1;'
     params = [id]
     result = DatabaseConnection.exec_params(sql, params)
@@ -34,12 +36,14 @@ class ItemRepository
   end
 
   def create(item)
+  # Creates new item in database
     sql = 'INSERT INTO items (name, price, quantity) VALUES ($1, $2, $3);'
     params = [item.name, item.price, item.quantity]
     DatabaseConnection.exec_params(sql, params)
   end
 
   def find_orders_with_item(id)
+  # Finds item in database and adds orders to list
     sql = 'SELECT
             items.id AS item_id,
             items.name,

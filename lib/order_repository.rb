@@ -5,6 +5,7 @@ require_relative 'database_connection'
 
 class OrderRepository
   def all
+  # Returns all orders in database
     sql = 'SELECT id, customer_name, date FROM orders;'
     result = DatabaseConnection.exec_params(sql, [])
 
@@ -22,6 +23,7 @@ class OrderRepository
   end
 
   def find(id)
+  # Finds order in database by ID and returns order
     sql = 'SELECT id, customer_name, date FROM orders WHERE id = $1;'
     params = [id]
 
@@ -37,6 +39,7 @@ class OrderRepository
   end
 
   def create(order)
+  # Creates new order in database
     sql = 'INSERT INTO orders (customer_name, date) VALUES ($1, $2);'
     params = [order.customer_name, order.date]
 
@@ -44,6 +47,7 @@ class OrderRepository
   end
 
   def find_items_in_order(id)
+  # Finds order in database and adds items to list
     sql = 'SELECT
           orders.id AS order_id,
           customer_name,
@@ -79,6 +83,7 @@ class OrderRepository
   end
 
   def add_items_to_order(order_id, item_id)
+  # Adds items to existing order in database
     order = find(order_id)
     item_repo = ItemRepository.new
     item_to_add = item_repo.find(item_id)

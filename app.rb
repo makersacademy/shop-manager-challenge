@@ -76,6 +76,7 @@ class Application
   end
 
   def assign_items(new_order_id)
+  # Adds items to created order
     @terminal.puts "Order record created. Assign items? (Y/N)"
     assign_input = @terminal.gets.chomp.downcase
     while assign_input != 'n'
@@ -95,6 +96,7 @@ class Application
   end
   
   def print_menu
+  # Prints interactive menu
     @terminal.puts "Welcome to Shop Manager!"
     @terminal.puts "Pick an option (input number):"
     @terminal.puts "1 - List items in stock"
@@ -104,8 +106,6 @@ class Application
     @terminal.puts "5 - Exit"
   end
 end
-
-
 
 if __FILE__ == $0
   app = Application.new(
