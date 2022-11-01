@@ -1,6 +1,6 @@
 require 'database_connection'
 
-class StockItem
+class StockItem #NOTE THIS IS NOT USED BY PROGRAM
     attr_accessor :id, :item_name, :stock_level, :unit_price
 end
 
@@ -11,6 +11,13 @@ class StockItemsRepo
         result = DatabaseConnection.exec_params(sql,[])
         fail "no results" unless result.ntuples>0
         result.values
+    end
+
+    def delete_stock(item_id)
+        sql1 = "delete from stock_items_orders where stock_item_id = $1"
+        DatabaseConnection.exec_params(sql1,[item_id])
+        sql2 = "delete from stock_items where id = $1"
+        DatabaseConnection.exec_params(sql2,[item_id])
     end
 
     def add_new_item(name, number, price)
@@ -25,7 +32,7 @@ class StockItemsRepo
         inner join orders on stock_items_orders.order_id = orders.id
         inner join customer_orders on orders.customer_order_id = customer_orders.id
         where item_name = $1"
-        results = DatabaseConnection.exec_params(sql,[item]).values
+        results = DatabaseConnection.exec_params(sql,[item])
     end
 
 end

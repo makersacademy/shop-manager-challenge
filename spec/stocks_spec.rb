@@ -20,6 +20,13 @@ RSpec.describe StockItemsRepo do
         expect(stock_list.show_all_stock.length).to eq 2
     end
 
+    it "show_all_stock fail message and delete_stock work" do
+        stock_list = StockItemsRepo.new
+        stock_list.delete_stock('1')
+        stock_list.delete_stock('2')
+        expect{stock_list.show_all_stock}.to raise_error "no results"
+    end
+
 
     it "add_new_item works" do 
         stock_list = StockItemsRepo.new
@@ -29,7 +36,7 @@ RSpec.describe StockItemsRepo do
 
     it "view_customers_who_bought works" do 
         stock_list = StockItemsRepo.new
-        expect(stock_list.view_customers_who_bought("Dummy item").length).to eq 2
+        expect(stock_list.view_customers_who_bought("Dummy item").values.length).to eq 2
     end
 
 

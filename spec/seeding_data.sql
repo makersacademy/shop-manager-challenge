@@ -13,7 +13,10 @@ CREATE TABLE "public"."stock_items" (
 DROP TABLE IF EXISTS "public"."stock_items_orders"; --fine
 CREATE TABLE "public"."stock_items_orders" (
     "stock_item_id" int4,
-    "order_id" int4); --fine
+    "order_id" int4),
+    constraint fk_customer_order foreign key(order_id)
+    references customer_orders(id)
+    on delete cascade);  --fine
 
 
 
@@ -58,5 +61,5 @@ INSERT INTO "public"."orders" ("id", "customer_order_id", "stock_item_ordered_qt
 
 
 
-ALTER TABLE "public"."stock_items_orders" ADD FOREIGN KEY ("stock_item_id") REFERENCES "public"."stock_items"("id"); --fine
-ALTER TABLE "public"."stock_items_orders" ADD FOREIGN KEY ("order_id") REFERENCES "public"."orders"("id"); --fine
+ALTER TABLE "public"."stock_items_orders" ADD FOREIGN KEY ("stock_item_id") REFERENCES "public"."stock_items"("id") ON DELETE CASCADE; --fine
+ALTER TABLE "public"."stock_items_orders" ADD FOREIGN KEY ("order_id") REFERENCES "public"."orders"("id") ON DELETE CASCADE; --fine

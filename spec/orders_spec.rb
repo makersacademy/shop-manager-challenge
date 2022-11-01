@@ -27,7 +27,7 @@ RSpec.describe OrdersRepo do
 
     it "show order details single works" do
         orderbook = OrdersRepo.new
-        expect(orderbook.show_order_details_single("Jeff Jeffson").length).to eq 2
+        expect(orderbook.show_order_details_single("Jeff Jeffson").values.length).to eq 2
     end
 
 

@@ -1,11 +1,11 @@
 require 'database_connection'
 
 
-class Order
+class Order #NOTE THIS IS NOT USED BY PROGRAM
     attr_accessor :id, :customer_name, :order_date 
 end
 
-class OrderItem
+class OrderItem #NOTE THIS IS NOT USED BY PROGRAM
     attr_accessor :id, :customer_order_id, :stock_item_ordered_id, :stock_item_ordered_qty 
 end
 
@@ -27,14 +27,14 @@ class OrdersRepo
     end
 
     def show_order_details_single(customer_name)
-        sql = "select customer_name, order_date, item_name, unit_price,
+        sql = "select customer_name, order_date, item_name, stock_item_ordered_qty,
         stock_item_ordered_qty from stock_items
         inner join stock_items_orders on stock_items.id = stock_items_orders.stock_item_id
         inner join orders on stock_items_orders.order_id = orders.id
         inner join customer_orders on orders.customer_order_id = customer_orders.id
         where customer_name = $1"
 
-        results = DatabaseConnection.exec_params(sql,[customer_name]).values
+        results = DatabaseConnection.exec_params(sql,[customer_name])
         
     end
 
