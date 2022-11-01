@@ -1,5 +1,5 @@
 # frozen_string_literal: false
-
+require 'item'
 # Repository class
 # (in lib/item_repository.rb)
 class ItemRepository

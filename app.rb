@@ -11,12 +11,11 @@ class Application
   #  * the Kernel object as `io` (so we can mock the IO in our tests)
   #  * the AlbumRepository object (or a double of it)
   #  * the ArtistRepository object (or a double of it)
-  def initialize(database_name, io, order_repository, item_repository, item)
+  def initialize(database_name, io, order_repository, item_repository)
     DatabaseConnection.connect(database_name)
     @io = io
     @order_repository = order_repository
     @item_repository = item_repository
-    @item = item
   end
 
   def run
@@ -44,15 +43,12 @@ class Application
       end
     end
     if input == '2'
+      item = Item.new
       @io.puts 'Enter the item name:'
-      name = @io.gets.chomp
-      @io.puts 'Enter the item price:'
-      price = @io.gets.chomp
-      @item.item_name = name
-      @item.price = price
-      p @item
-      p @item_repository
-      @ItemRepository.create(@item)
+      item.item_name = @io.gets.chomp
+      @io.puts 'Enter the item unit price:'
+      item.price = @io.gets.chomp
+      @item_repository.create(item)
       @io.puts "\nItem created"
     end
   end
@@ -64,7 +60,6 @@ if __FILE__ == $0
     Kernel,
     OrderRepository.new,
     ItemRepository.new,
-    Item.new
   )
   app.run
 end

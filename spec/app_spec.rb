@@ -33,8 +33,7 @@ describe Application do
 
       order_repository = OrderRepository.new
       item_repository = ItemRepository.new
-      item = Item.new
-      app = Application.new('shop_manager_test', terminal, order_repository, item_repository, item)
+      app = Application.new('shop_manager_test', terminal, order_repository, item_repository)
       app.run
     end
   end
@@ -50,16 +49,15 @@ describe Application do
       expect(terminal).to receive(:puts).with("4 = create a new order\n").ordered
       
       expect(terminal).to receive(:gets).and_return('2').ordered
-      expect(terminal).to receive(:puts).and_return('Enter the item name:').ordered
+      expect(terminal).to receive(:puts).with('Enter the item name:').ordered
       expect(terminal).to receive(:gets).and_return('Orange').ordered
-      expect(terminal).to receive(:puts).and_return('Enter the item unit price:').ordered
+      expect(terminal).to receive(:puts).with('Enter the item unit price:').ordered
       expect(terminal).to receive(:gets).and_return('80').ordered
       expect(terminal).to receive(:puts).with("\nItem created").ordered
 
       order_repository = OrderRepository.new
       item_repository = ItemRepository.new
-      item = Item.new
-      app = Application.new('shop_manager_test', terminal, order_repository, item_repository, item)
+      app = Application.new('shop_manager_test', terminal, order_repository, item_repository)
       app.run
     end
   end
