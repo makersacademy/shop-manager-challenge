@@ -7,26 +7,39 @@ class OrderRepository
   # Selecting all records
   # No arguments
   def list
-    sql = 'SELECT id, customer_name, order_date FROM orders;'
+    # sql = 'SELECT id, customer_name, order_date FROM orders;'
+    sql = 'SELECT orders.id, customer_name, order_date, items.item_name FROM orders
+            JOIN items
+            ON orders.id = items.order_id'
     result_set = DatabaseConnection.exec_params(sql, [])
 
-    orders = []
+    customer_date = Hash.new
+    customer_items = Hash.new
 
     result_set.each do |record|
+      name = record['customer_name']
+      order_date = record['order_date']
+      item = record['item_name']
+      
+      customer_date[name] = order_date
+      if customer_items[name].nil?
+        customer_items[name] = [item]
+      else
+        customer_items[name] = customer_items[name].push(item)
+      end
+    end
+    p customer_date
+    p customer_items
+    orders = []
+    customer_date.each do |name, date|
       order = Order.new
-      order.id = record['id']
-      order.customer_name = record['customer_name']
-      order.order_date = record['order_date']
+      order.customer_name = name
+      order.order_date = date
+      order.items = customer_items[name]
       orders << order
     end
 
     orders
-    # Returns an array of Order objects.
-    # TODO use SELECT to join corresponding items
-    # SELECT *
-    #   FROM items
-    # JOIN orders
-    # ON orders.id = items.order_id;
   end
 
   # Create a new order
