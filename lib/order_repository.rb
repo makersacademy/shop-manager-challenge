@@ -1,6 +1,6 @@
 # frozen_string_literal: false
 
-require 'order'
+require_relative './order'
 # Repository class
 # (in lib/order_repository.rb)
 class OrderRepository

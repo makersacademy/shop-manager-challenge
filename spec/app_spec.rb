@@ -28,7 +28,7 @@ describe Application do
       expect(terminal).to receive(:puts).with("\nHere's a list of all shop items:\n").ordered
 
       expect(terminal).to receive(:puts).with("# Apple - Unit price: 90 - Quantity: 2").ordered
-      expect(terminal).to receive(:puts).with("# Banana - Unit price: 75 - Quantity: 3").ordered
+      expect(terminal).to receive(:puts).with("# Banana - Unit price: 75 - Quantity: 2").ordered
       expect(terminal).to receive(:puts).with("# Cherries - Unit price: 120 - Quantity: 1").ordered
 
       order_repository = OrderRepository.new
@@ -54,6 +54,31 @@ describe Application do
       expect(terminal).to receive(:puts).with('Enter the item unit price:').ordered
       expect(terminal).to receive(:gets).and_return('80').ordered
       expect(terminal).to receive(:puts).with("\nItem created").ordered
+
+      order_repository = OrderRepository.new
+      item_repository = ItemRepository.new
+      app = Application.new('shop_manager_test', terminal, order_repository, item_repository)
+      app.run
+    end
+  end
+
+  context 'given the user selects "3 = list all orders"' do
+    it 'returns a list of the orders' do
+      terminal = double :terminal
+      expect(terminal).to receive(:puts).with('Welcome to the shop management program!').ordered
+      expect(terminal).to receive(:puts).with("\nWhat do you want to do?").ordered
+      expect(terminal).to receive(:puts).with('1 = list all shop items').ordered
+      expect(terminal).to receive(:puts).with('2 = create a new item').ordered
+      expect(terminal).to receive(:puts).with('3 = list all orders').ordered
+      expect(terminal).to receive(:puts).with("4 = create a new order\n").ordered
+      
+      expect(terminal).to receive(:gets).and_return('3').ordered
+
+      expect(terminal).to receive(:puts).with("\nHere's the list of orders:\n").ordered
+
+      expect(terminal).to receive(:puts).with("# Customer: Paul Jones, Order Date: 2022-08-25").ordered
+      expect(terminal).to receive(:puts).with("# Customer: Isabelle Mayhew, Order Date: 2022-10-13").ordered
+      expect(terminal).to receive(:puts).with("# Customer: Naomi Laine, Order Date: 2022-10-14").ordered
 
       order_repository = OrderRepository.new
       item_repository = ItemRepository.new

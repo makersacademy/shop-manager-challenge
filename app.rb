@@ -51,6 +51,13 @@ class Application
       @item_repository.create(item)
       @io.puts "\nItem created"
     end
+    if input == '3'
+      @io.puts "\nHere's the list of orders:\n"
+      orders = @order_repository.list
+      orders.each do |order|
+        @io.puts "\# Customer: #{order.customer_name}, Order Date: #{order.order_date}"
+      end
+    end
   end
 end
 

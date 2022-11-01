@@ -18,7 +18,7 @@ describe ItemRepository do
     repo = ItemRepository.new
     items = repo.list
 
-    expect(items.length).to eq 6  
+    expect(items.length).to eq 12  
 
     expect(items[0].id).to eq '1'
     expect(items[0].item_name).to eq 'Apple'
