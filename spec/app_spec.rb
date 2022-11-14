@@ -76,7 +76,7 @@ describe Application do
 
       expect(terminal).to receive(:puts).with("\nHere's the list of orders:\n").ordered
 
-      expect(terminal).to receive(:puts).with("# Customer: Paul Jones, Order Date: 2022-08-25, Items: 1 x Apple, 2 x Banana").ordered
+      expect(terminal).to receive(:puts).with("# Customer: Paul Jones, Order Date: 2022-08-25, Items: 1 x Apple, 1 x Banana").ordered
       expect(terminal).to receive(:puts).with("# Customer: Isabelle Mayhew, Order Date: 2022-10-13, Items: 3 x Cherries").ordered
       expect(terminal).to receive(:puts).with("# Customer: Naomi Laine, Order Date: 2022-10-14, Items: 2 x Banana").ordered
 

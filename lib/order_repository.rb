@@ -8,7 +8,7 @@ class OrderRepository
   # No arguments
   def list
     # sql = 'SELECT id, customer_name, order_date FROM orders;'
-    sql = 'SELECT orders.id, customer_name, order_date, items.item_name FROM orders
+    sql = 'SELECT customer_name, order_date, items.item_name FROM orders
             JOIN items
             ON orders.id = items.order_id'
     result_set = DatabaseConnection.exec_params(sql, [])
@@ -28,17 +28,23 @@ class OrderRepository
         customer_items[name] = customer_items[name].push(item)
       end
     end
-    p customer_date
-    p customer_items
+
     orders = []
+    # customer_date.each do |name, date|
+    #   order = Order.new
+    #   order.customer_name = name
+    #   order.order_date = date
+    #   order.items = customer_items[name]
+    #   orders << order
+    # end
     customer_date.each do |name, date|
-      order = Order.new
-      order.customer_name = name
-      order.order_date = date
-      order.items = customer_items[name]
+      order = Hash.new
+      order['customer_name'] = name
+      order['order_date'] = date
+      order['items'] = customer_items[name]
       orders << order
     end
-
+    
     orders
   end
 

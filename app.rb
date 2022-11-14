@@ -55,7 +55,11 @@ class Application
       @io.puts "\nHere's the list of orders:\n"
       orders = @order_repository.list
       orders.each do |order|
-        @io.puts "\# Customer: #{order.customer_name}, Order Date: #{order.order_date}"
+        items_count= Hash.new(0)
+        order['items'].each { |item| items_count[item] += 1 }
+        items_count.to_a
+        items_string = items_count.map {|item, count| "#{count} x #{item}"}.join(', ')
+        @io.puts "\# Customer: #{order['customer_name']}, Order Date: #{order['order_date']}, Items: #{items_string}"
       end
     end
   end
