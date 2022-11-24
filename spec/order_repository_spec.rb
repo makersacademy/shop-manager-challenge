@@ -6,11 +6,13 @@ describe OrderRepository do
     connection = PG.connect({ host: '127.0.0.1', dbname: 'orders_items_test' })
     connection.exec(seed_sql)
   end
+
   def reset_orders_table
     seed_sql = File.read('spec/seeds_orders.sql')
     connection = PG.connect({ host: '127.0.0.1', dbname: 'orders_items_test' })
     connection.exec(seed_sql)
   end
+
   def reset_orders_items_table
     seed_sql = File.read('spec/seeds_orders_items.sql')
     connection = PG.connect({ host: '127.0.0.1', dbname: 'orders_items_test' })
