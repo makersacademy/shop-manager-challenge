@@ -73,14 +73,15 @@ Columns: order_id, item_id
 CREATE TABLE items (
   id SERIAL PRIMARY KEY,
   name text,
-  unit_price decimal
+  unit_price decimal,
+  quantity int
 );
 
 -- Create the second table.
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
   customer_name text,
-  date_placed: date
+  date_placed date
 );
 
 -- Create the join table.
