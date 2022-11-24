@@ -40,4 +40,20 @@ describe OrderRepository do
       expect(last_order.date_placed).to eq '2015-07-21'
     end
   end
+
+  context 'create method' do
+    it 'creates an item object which is also added to the database' do
+      repo = OrderRepository.new
+      order = Order.new
+      order.customer_name = 'Iii Jjj'
+      order.date_placed = '2022-11-24'
+      repo.create(order)
+      all_orders = repo.all
+      last_order = all_orders.last
+      expect(all_orders.length).to eq 5
+      expect(last_order.id).to eq '5'
+      expect(last_order.customer_name).to eq 'Iii Jjj'
+      expect(last_order.date_placed).to eq '2022-11-24'
+    end
+  end
 end
