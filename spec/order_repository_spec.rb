@@ -47,7 +47,7 @@ describe OrderRepository do
       order = Order.new
       order.customer_name = 'Iii Jjj'
       order.date_placed = '2022-11-24'
-      repo.create(order)
+      repo.create(order,5,1)
       all_orders = repo.all
       last_order = all_orders.last
       expect(all_orders.length).to eq 5
