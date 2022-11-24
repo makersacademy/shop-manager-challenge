@@ -1,4 +1,4 @@
-TRUNCATE TABLE orders_items_items RESTART IDENTITY CASCADE;
+TRUNCATE TABLE orders_items RESTART IDENTITY CASCADE;
 
 INSERT INTO orders_items (order_id, item_id) VALUES ('1', '1');
 INSERT INTO orders_items (order_id, item_id) VALUES ('1', '3');
