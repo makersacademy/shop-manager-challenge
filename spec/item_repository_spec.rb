@@ -11,8 +11,7 @@ describe ItemRepository do
 
       item = repo.find_with_orders(2)
         
-      expect(item.name).to eq 'My Little Pony'
-      expect(item.quantity).to eq '50'
+      expect(item.item_name).to eq 'My little Pony'
       expect(item.orders.length).to eq 2
       expect(item.orders.first.customer_name).to eq 'Simone'
     end
