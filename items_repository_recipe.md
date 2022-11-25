@@ -137,7 +137,7 @@ These examples will later be encoded as RSpec tests.
 
 ```ruby
 # 1
-# Get all items
+# Gets all items
 item_repo = ItemRepository.new
 items = item_repo.all
 
@@ -196,7 +196,7 @@ def reset_item_table
   connection.exec(seed_sql)
 end
 
-describe StudentRepository do
+describe ItemRepository do
   before(:each) do 
     reset_item_table
   end
