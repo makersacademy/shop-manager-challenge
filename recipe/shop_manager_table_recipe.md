@@ -40,7 +40,7 @@ I want to be able to create a new order.
 ```
 Nouns:
 
-items, name, unit price, quantity
+items, name, unit_price, quantity
 orders, customer_name, date, item_id,  
 ```
 
@@ -50,16 +50,16 @@ Put the different nouns in this table. Replace the example with your own nouns.
 
 | Record                | Properties          |
 | --------------------- | ------------------  |
-| item                  | name, unit price, quantity
+| item                  | name, unit_price, quantity
 | order                 | customer_name, date
 
 1. Name of the first table (always plural): `items` 
 
-    Column names: `name`, `unit price`, `quantity`
+    Column names: `name`, `unit_price`, `quantity`
 
 2. Name of the second table (always plural): `orders` 
 
-    Column names: `customer_name`, `date`
+    Column names: `customer_name`, `order_date`
 
 ## 3. Decide the column types.
 
@@ -75,13 +75,13 @@ Remember to **always** have the primary key `id` as a first column. Its type wil
 Table: items
 id: SERIAL
 name: text
-unit price: money
+unit_price: money
 quantity: int
 
 Table: orders
 id: SERIAL
 customer_name: text
-date: date
+order_date: date
 ```
 
 ## 4. Decide on The Tables Relationship

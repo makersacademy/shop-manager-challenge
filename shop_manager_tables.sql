@@ -10,7 +10,7 @@ CREATE TABLE items (
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
   customer_name text,
-  order_date date,
+  order_date date,git
 -- The foreign key name is always {other_table_singular}_id
   item_id int,
   constraint fk_item foreign key(item_id)
