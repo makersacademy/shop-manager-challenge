@@ -16,6 +16,8 @@ class Application
     loop do
       print_menu
       process(@io.gets.chomp)
+      break # <-- uncomment this break to have the menu reprint so multiple operations can be carried out
+      # e.g. list all items then make an order then list orders
     end
   end
 
@@ -99,16 +101,6 @@ class Application
     @io.puts "How many do you have in stock?"
     quantity = @io.gets.chomp
     [name,unit_price,quantity]
-  end
-
-  def menu_choice
-    @io.puts 'Enter your choice: '
-    choice = @io.gets.chomp
-    until %w[1 2 3 4 9].include?(choice)
-      @io.puts 'Enter your choice: '
-      choice = @io.gets.chomp
-    end
-    choice
   end
 end
 
