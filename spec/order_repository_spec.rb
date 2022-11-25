@@ -29,4 +29,15 @@ end
         expect(orders[1].order_date).to eq '2022-01-01'
         expect(orders[1].item_id).to eq 2
     end
+
+    it "finds a specific order from the order id 1" do
+        repo = OrderRepository.new
+
+        order = repo.find(1)
+
+        expect(order.id).to eq 1
+        expect(order.customer).to eq 'Jake'
+        expect(order.order_date).to eq '2022-01-30'
+        expect(order.item_id).to eq 1
+    end
 end
