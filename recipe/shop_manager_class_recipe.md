@@ -143,42 +143,67 @@ Using comments, define the method signatures (arguments and return value) and wh
 
 ```ruby
 # EXAMPLE
-# Table name: students
+# Table name: items
 
 # Repository class
-# (in lib/student_repository.rb)
+# (in lib/item_repository.rb)
 
-class StudentRepository
+class ItemRepository
 
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students;
+    # SELECT id, name, unit_price, quantity FROM items;
 
-    # Returns an array of Student objects.
+    # Returns an array of Item objects.
   end
 
-  # Gets a single record by its ID
-  # One argument: the id (number)
-  def find(id)
+  # Insert new item 
+  # item is a new Item object
+  def create(item)
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students WHERE id = $1;
 
-    # Returns a single Student object.
+    # INSERT INTO albums (name, unit_price, quantity) VALUES($1, $2, $3);
+    # Doesn't need to return anything (only creates a record)
   end
 
-  # Add more methods below for each operation you'd like to implement.
-
-  # def create(student)
-  # end
-
-  # def update(student)
-  # end
-
-  # def delete(student)
-  # end
 end
+
+# Repository class
+# (in lib/order_repository.rb)
+
+class OrderRepository
+
+  # Selecting all records with item name
+  # No arguments
+  def all
+    # Executes the SQL query:
+    #     SELECT 	orders.id AS order_id,
+    # 	orders.customer_name,
+    # 	orders.order_date,
+    # 	items.id AS item_id,
+    # 	items.name
+    # FROM orders
+    # JOIN items 
+    # ON items.id = orders.item_id; 
+
+
+    # Returns an array of Order objects.
+  end
+
+  # Insert new order 
+  # item is a new Order object
+  def create(order)
+    # Executes the SQL query:
+
+    # INSERT INTO albums (customer_name, order_date, item_id) VALUES($1, $2, $3);
+    # Doesn't need to return anything (only creates a record)
+  end
+
+end
+
+
 ```
 
 ## 6. Write Test Examples
