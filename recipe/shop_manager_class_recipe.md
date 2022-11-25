@@ -206,7 +206,6 @@ class OrderRepository
 
 end
 
-
 ```
 
 ## 6. Write Test Examples
@@ -252,6 +251,7 @@ item.quantity = 5
 repository.create(item) # => nil
 
 all_items = repository.all
+last_item = all_items.last
 
 last_item.name # => 'item 5'
 last_item.unit_price # => 55555.55
@@ -277,16 +277,6 @@ item.name = 'item 5'
 item.unit_price = 55555.55
 item.quantity = 'item 5'
 
-# 5 Raises error when name is not string
-
-repository = ItemRepository.new
-
-item = Item.new
-item.name = 55555.55
-item.unit_price = 55555.55
-item.quantity = 5
-
-repository.create(item) # => raises error
 
 
 # Repository class
@@ -319,7 +309,7 @@ order.item_id = 1
 repository.create(order) # => nil
 
 all_items = repository.all
-
+last_order= all_items.last
 last_order.customer_name # => 'customer 9'
 last_order.order_date # => '2022-01-25'
 last_order.item_id # => 1
@@ -346,18 +336,8 @@ order.item_id = 5
 
 repository.create(order) # => raises error
 
-# 5 Raises error when customer name is not string
 
-repository = OrderRepository.new
-
-order = Order.new
-order.customer_name = 1
-order.order_date = '2022-01-25'
-order.item_id = 1
-
-repository.create(order) # => raises error
-
-# 6 Raises error when corder_date is not a date
+# 6 Raises error when order_date is not a date
 
 repository = OrderRepository.new
 
