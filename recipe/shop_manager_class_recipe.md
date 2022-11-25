@@ -170,6 +170,9 @@ class ItemRepository
 
 end
 
+# Table name: orders
+
+
 # Repository class
 # (in lib/order_repository.rb)
 
@@ -183,7 +186,7 @@ class OrderRepository
     # 	orders.customer_name,
     # 	orders.order_date,
     # 	items.id AS item_id,
-    # 	items.name
+    # 	items.name AS item_name,
     # FROM orders
     # JOIN items 
     # ON items.id = orders.item_id; 
@@ -215,35 +218,158 @@ These examples will later be encoded as RSpec tests.
 ```ruby
 # EXAMPLES
 
+# Repository class
+# (in lib/item_repository.rb)
+
 # 1
-# Get all students
+# Get all items
 
-repo = StudentRepository.new
+repo = ItemRepository.new
 
-students = repo.all
+items = repo.all
 
-students.length # =>  2
+items.length # =>  4
 
-students[0].id # =>  1
-students[0].name # =>  'David'
-students[0].cohort_name # =>  'April 2022'
+items[0].id # =>  1
+items[0].name # =>  'item 1'
+items[0].unit_price # =>  1.11
+items[0].quantity # =>  1
 
-students[1].id # =>  2
-students[1].name # =>  'Anna'
-students[1].cohort_name # =>  'May 2022'
+items[0].id # =>  2
+items[0].name # =>  'item 2'
+items[0].unit_price # =>  22.22
+items[0].quantity # =>  22
 
-# 2
-# Get a single student
+# 2 Creates a new item
 
-repo = StudentRepository.new
+repository = ItemRepository.new
 
-student = repo.find(1)
+item = Item.new
+item.name = 'item 5'
+item.unit_price = 55555.55
+item.quantity = 5
 
-student.id # =>  1
-student.name # =>  'David'
-student.cohort_name # =>  'April 2022'
+repository.create(item) # => nil
 
-# Add more examples for each method
+all_items = repository.all
+
+last_item.name # => 'item 5'
+last_item.unit_price # => 55555.55
+last_item.quantity # => 5
+
+# 3 Raises error when unit price is not money
+
+repository = ItemRepository.new
+
+item = Item.new
+item.name = 'item 5'
+item.unit_price = 'item 5'
+item.quantity = 5
+
+repository.create(item) # => raises error
+
+# 4 Raises error when quanity is not int
+
+repository = ItemRepository.new
+
+item = Item.new
+item.name = 'item 5'
+item.unit_price = 55555.55
+item.quantity = 'item 5'
+
+# 5 Raises error when name is not string
+
+repository = ItemRepository.new
+
+item = Item.new
+item.name = 55555.55
+item.unit_price = 55555.55
+item.quantity = 5
+
+repository.create(item) # => raises error
+
+
+# Repository class
+# (in lib/order_repository.rb)
+
+# 1
+# Get all items with item name
+
+repo = OrderRepository.new
+
+orders = repo.all
+
+orders.length # =>  8
+
+orders[0].id # =>  1
+orders[0].customer_name # =>  'customer 1'
+orders[0].order_date # =>  '2022-01-25'
+orders[0].item_id # =>  1
+orders[0].item_name # =>  'item 1'
+
+# 2 Creates a new item
+
+repository = OrderRepository.new
+
+order = Order.new
+order.customer_name = 'customer 9'
+order.order_date = '2022-01-25'
+order.item_id = 1
+
+repository.create(order) # => nil
+
+all_items = repository.all
+
+last_order.customer_name # => 'customer 9'
+last_order.order_date # => '2022-01-25'
+last_order.item_id # => 1
+
+# 3 Raises error when item_id is not int
+
+repository = OrderRepository.new
+
+order = Order.new
+order.customer_name = 'customer 9'
+order.order_date = '2022-01-25'
+order.item_id = 'customer 9'
+
+repository.create(order) # => raises error
+
+# 4 # 3 Raises error when item_id does not exist
+
+repository = OrderRepository.new
+
+order = Order.new
+order.customer_name = 'customer 9'
+order.order_date = '2022-01-25'
+order.item_id = 5
+
+repository.create(order) # => raises error
+
+# 5 Raises error when customer name is not string
+
+repository = OrderRepository.new
+
+order = Order.new
+order.customer_name = 1
+order.order_date = '2022-01-25'
+order.item_id = 1
+
+repository.create(order) # => raises error
+
+# 6 Raises error when corder_date is not a date
+
+repository = OrderRepository.new
+
+order = Order.new
+order.customer_name = 'customer 9'
+order.order_date = 'customer 9'
+order.item_id = 1
+
+repository.create(order) # => raises error
+
+
+
 ```
 
 Encode this example as a test.
