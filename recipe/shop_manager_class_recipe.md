@@ -50,14 +50,14 @@ INSERT INTO items (name, unit_price, quantity) VALUES ('item 2', 22.22, 22);
 INSERT INTO items (name, unit_price, quantity) VALUES ('item 3', 333.33, 333);
 INSERT INTO items (name, unit_price, quantity) VALUES ('item 4', 4444.44, 444);
 
-INSERT INTO orders (customer_name, order_date, item_id) VALUES ('customer 1', 2022-01-25, 1);
-INSERT INTO orders (customer_name, order_date, item_id) VALUES ('customer 2', 2022-12-01, 2);
-INSERT INTO orders (customer_name, order_date, item_id) VALUES ('customer 3', 2021-01-03, 2);
-INSERT INTO orders (customer_name, order_date, item_id) VALUES ('customer 4', 2022-03-19, 3);
-INSERT INTO orders (customer_name, order_date, item_id) VALUES ('customer 5', 2022-02-01, 1);
-INSERT INTO orders (customer_name, order_date, item_id) VALUES ('customer 6', 2021-04-03, 3);
-INSERT INTO orders (customer_name, order_date, item_id) VALUES ('customer 7', 2022-05-30, 1);
-INSERT INTO orders (customer_name, order_date, item_id) VALUES ('customer 8', 2022-11-25, 4);
+INSERT INTO orders (customer_name, order_date, item_id) VALUES ('customer 1', '2022-01-25', 1);
+INSERT INTO orders (customer_name, order_date, item_id) VALUES ('customer 2', '2022-12-01', 2);
+INSERT INTO orders (customer_name, order_date, item_id) VALUES ('customer 3', '2021-01-03', 2);
+INSERT INTO orders (customer_name, order_date, item_id) VALUES ('customer 4', '2022-03-19', 3);
+INSERT INTO orders (customer_name, order_date, item_id) VALUES ('customer 5', '2022-02-01', 1);
+INSERT INTO orders (customer_name, order_date, item_id) VALUES ('customer 6', '2021-04-03', 3);
+INSERT INTO orders (customer_name, order_date, item_id) VALUES ('customer 7', '2022-05-30', 1);
+INSERT INTO orders (customer_name, order_date, item_id) VALUES ('customer 8', '2022-11-25', 4);
 
 
 
@@ -75,17 +75,29 @@ Usually, the Model class name will be the capitalised table name (single instead
 
 ```ruby
 # EXAMPLE
-# Table name: students
+# Table name: items
 
 # Model class
-# (in lib/student.rb)
-class Student
+# (in lib/item.rb)
+class Item
 end
 
 # Repository class
-# (in lib/student_repository.rb)
-class StudentRepository
+# (in lib/item_repository.rb)
+class ItemRepository
 end
+
+
+# Model class
+# (in lib/order.rb)
+class Order
+end
+
+# Repository class
+# (in lib/order_repository.rb)
+class OrderRepository
+end
+
 ```
 
 ## 4. Implement the Model class
@@ -97,12 +109,19 @@ Define the attributes of your Model class. You can usually map the table columns
 # Table name: students
 
 # Model class
-# (in lib/student.rb)
+# (in lib/item.rb)
 
-class Student
-
+class Item
   # Replace the attributes by your own columns.
-  attr_accessor :id, :name, :cohort_name
+  attr_accessor :id, :name, :unit_price, :quantity
+end
+
+# Model class
+# (in lib/order.rb)
+
+class Order
+  # Replace the attributes by your own columns.
+  attr_accessor :id, :customer_name, :order_date, :item_id
 end
 
 # The keyword attr_accessor is a special Ruby feature
