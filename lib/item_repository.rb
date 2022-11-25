@@ -2,14 +2,19 @@ require_relative './item'
 require_relative './database_connection'
 
 class ItemRepository
-
-  # Selecting all records
-  # No arguments
   def all
-    # Executes the SQL query:
-    # SELECT id, name, unit_price, quantity FROM items;
-
-    # Returns an array of Item objects.
+    sql = 'SELECT id, name, unit_price, quantity FROM items;'
+    result_set = DatabaseConnection.exec_params(sql,[])
+    items = []
+    result_set.each do |record|
+      item = Item.new
+      item.id = record["id"].to_i
+      item.name = record["name"]
+      item.unit_price = record["unit_price"].gsub("$","£")
+      item.quantity = record["quantity"].to_i
+      items << item
+    end
+    return items
   end
 
   # Insert new item 

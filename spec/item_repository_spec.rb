@@ -22,13 +22,13 @@ RSpec.describe ItemRepository do
 
       expect(items[0].id).to eq 1
       expect(items[0].name).to eq 'item 1'
-      expect(items[0].unit_price).to eq 1.11
+      expect(items[0].unit_price).to eq "£1.11"
       expect(items[0].quantity).to eq 1
 
-      expect(items[0].id).to eq 2
-      expect(items[0].name).to eq 'item 2'
-      expect(items[0].unit_price).to eq 22.22
-      expect(items[0].quantity).to eq 22
+      expect(items[1].id).to eq 2
+      expect(items[1].name).to eq 'item 2'
+      expect(items[1].unit_price).to eq "£22.22"
+      expect(items[1].quantity).to eq 22
   
     end
 
