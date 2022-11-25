@@ -1,4 +1,5 @@
 require_relative './item'
+require_relative './order'
 
 class ItemRepository
 
@@ -41,7 +42,38 @@ class ItemRepository
     return nil
   end
 
+  # def find_by_order(item_id)
+  #   sql = 'SELECT orders.id AS order_id,
+  #                 orders.customer,
+  #                 orders.date,
+  #                 items.id AS item_id,
+  #                 items.name,
+  #                 items.price,
+  #                 items.quantity
+  #         FROM items
+  #         JOIN items_orders ON items_orders.order_id = items.id
+  #         JOIN orders ON items_orders.item_id = orders.id
+  #         WHERE orders.id = $1;'
+  #   params = [item_id]
+  #   result_set = DatabaseConnection.exec_params(sql, params)
+  #   record = result_set[0]
+
+  #   item = Item.new
+  #   item.id = record['id'].to_i
+  #   item.name = record['name']
+  #   item.price = record['price'].to_f
+  #   item.quantity = record['quantity'].to_i
+
+  #   result_set.each do |record|
+  #     order = Order.new
+  #     order.customer = record['customer']
+  #     order.date = record['date']
+  #     item.orders << order
+  #   end
+  # end
+
   private
+
   def unpack_record(record)
     item = Item.new
     item.id = record['id'].to_i

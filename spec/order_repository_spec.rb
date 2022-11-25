@@ -67,14 +67,14 @@ describe OrderRepository do
     expect(order.customer).to eq 'Graeme'
   end
 
-  xit "finds an order and it's related items" do
-    repo = OrderRepository.new
-    order = repo.find_with_item(2)
-    expect(order.items.length).to eq 1
-    expect(order.first.customer).to eq 'Rob'
-    expect(order.first.date).to eq '2022-01-01'
-    expect(order.items.first.name).to eq 'TV'
-    expect(order.items.first.price).to eq 99.99
-  end
+  # xit "finds an order and it's related items" do
+  #   repo = OrderRepository.new
+  #   order = repo.find_with_item(2)
+  #   expect(order.items.length).to eq 1
+  #   expect(order.customer).to eq 'Rob'
+  #   expect(order.date).to eq '2022-01-01'
+  #   expect(order.items.first.name).to eq 'TV'
+  #   expect(order.items.first.price).to eq 99.99
+  # end
 
 end

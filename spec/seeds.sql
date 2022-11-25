@@ -13,7 +13,7 @@ INSERT INTO orders (customer, date) VALUES
 ('Anisha','Jan-02-2022');
 
 INSERT INTO items_orders (item_id, order_id) VALUES
-(1, 1),
-(1, 2),
-(2, 1),
-(3, 3);
+(1, 1), -- TV, Rob
+(1, 2), -- TV, Tom
+(2, 1), -- Fridge, Rob
+(3, 3); -- Toaster, Anisha
