@@ -52,7 +52,7 @@ RSpec.describe ItemRepository do
     
     end
 
-    xit 'Raises error when unit price is not money' do
+    it 'Raises error when unit price is not money' do
 
       repository = ItemRepository.new
 
@@ -61,11 +61,12 @@ RSpec.describe ItemRepository do
       item.unit_price = 'item 5'
       item.quantity = 5
 
-      expect { repository.create(item) }.to raise_error "error"
+      expect { repository.create(item) }.to raise_error PG::InvalidTextRepresentation
+  
 
     end
 
-    xit 'Raises error when quanity is not int' do
+    it 'Raises error when quanity is not int' do
 
       repository = ItemRepository.new
 
@@ -74,23 +75,8 @@ RSpec.describe ItemRepository do
       item.unit_price = 55555.55
       item.quantity = 'item 5'
 
-      expect { repository.create(item) }.to raise_error "error"
+      expect { repository.create(item) }.to raise_error PG::InvalidTextRepresentation
 
     end
-
-    xit 'Raises error when name is not string' do
-
-      repository = ItemRepository.new
-
-      item = Item.new
-      item.name = 55555.55
-      item.unit_price = 55555.55
-      item.quantity = 5
-
-      expect { repository.create(item) }.to raise_error "error"
-
-    end
-
   end
-
 end
