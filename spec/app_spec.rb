@@ -33,4 +33,90 @@ describe Application do
     application.run
   end
 
+  it 'creates a new item' do 
+    terminal = double(:terminal)
+
+    expect(terminal).to receive(:puts).with("\nWelcome to the shop management program!")
+    expect(terminal).to receive(:puts).with("\nWhat would you like to do?")
+    expect(terminal).to receive(:puts).with("  1 - list all shop items")
+    expect(terminal).to receive(:puts).with("  2 - create a new item")
+    expect(terminal).to receive(:puts).with("  3 - list all orders")
+    expect(terminal).to receive(:puts).with("  4 - create a new order")
+    expect(terminal).to receive(:puts).with("\nEnter you choice:")
+    expect(terminal).to receive(:gets).and_return('2')
+    expect(terminal).to receive(:puts).with("\n Enter the name of the item:")
+    expect(terminal).to receive(:gets).and_return('chocolate')
+    expect(terminal).to receive(:puts).with("\n Enter the unit price of the item (format => 00.00):")
+    expect(terminal).to receive(:gets).and_return('1.50')
+    expect(terminal).to receive(:puts).with("\n Enter the quantity of stock:")
+    expect(terminal).to receive(:gets).and_return('100')
+    
+    shop_item_repo = ShopItemRepository.new
+    application = Application.new('shop_challenge_test', terminal, OrderRepository.new, shop_item_repo)
+    application.run
+
+    expect(shop_item_repo.all.last.name).to eq('chocolate')
+    expect(shop_item_repo.all.last.unit_price).to eq('1.50')
+    expect(shop_item_repo.all.last.quantity).to eq('100')
+  end
+
+  it 'returns all orders' do 
+    terminal = double(:terminal)
+
+    expect(terminal).to receive(:puts).with("\nWelcome to the shop management program!")
+    expect(terminal).to receive(:puts).with("\nWhat would you like to do?")
+    expect(terminal).to receive(:puts).with("  1 - list all shop items")
+    expect(terminal).to receive(:puts).with("  2 - create a new item")
+    expect(terminal).to receive(:puts).with("  3 - list all orders")
+    expect(terminal).to receive(:puts).with("  4 - create a new order")
+    expect(terminal).to receive(:puts).with("\nEnter you choice:")
+    expect(terminal).to receive(:gets).and_return('3')
+    expect(terminal).to receive(:puts).with("\nHere is a list of your orders:")
+    expect(terminal).to receive(:puts).with('#1 - Customer - David - Date Placed - 2022-11-08 - Items in order - sandwich, crisps, sausage roll')
+    expect(terminal).to receive(:puts).with('#2 - Customer - Anna - Date Placed - 2022-11-10 - Items in order - bananas')
+    expect(terminal).to receive(:puts).with('#3 - Customer - Jill - Date Placed - 2022-11-11 - Items in order - sandwich, toilet roll')
+    
+    application = Application.new('shop_challenge_test', terminal, OrderRepository.new, ShopItemRepository.new)
+    application.run
+  end
+
+  it 'creates a new order' do 
+    terminal = double(:terminal)
+
+    expect(terminal).to receive(:puts).with("\nWelcome to the shop management program!")
+    expect(terminal).to receive(:puts).with("\nWhat would you like to do?")
+    expect(terminal).to receive(:puts).with("  1 - list all shop items")
+    expect(terminal).to receive(:puts).with("  2 - create a new item")
+    expect(terminal).to receive(:puts).with("  3 - list all orders")
+    expect(terminal).to receive(:puts).with("  4 - create a new order")
+    expect(terminal).to receive(:puts).with("\nEnter you choice:")
+    expect(terminal).to receive(:gets).and_return('4')
+    expect(terminal).to receive(:puts).with("\n Enter the name of the customer that placed the order:")
+    expect(terminal).to receive(:gets).and_return('Kayleigh')
+    expect(terminal).to receive(:puts).with("\n Enter the date that order was placed (format => YYYY-MM-DD):")
+    expect(terminal).to receive(:gets).and_return('2022-11-24')
+    
+    order_repo = OrderRepository.new
+    application = Application.new('shop_challenge_test', terminal, order_repo, ShopItemRepository.new)
+    application.run
+
+    expect(order_repo.all.last.customer_name).to eq('Kayleigh')
+    expect(order_repo.all.last.date_placed).to eq('2022-11-24')
+  end
+
+  it 'putses invalid input when input is not valid' do 
+    terminal = double(:terminal)
+    expect(terminal).to receive(:puts).with("\nWelcome to the shop management program!")
+    expect(terminal).to receive(:puts).with("\nWhat would you like to do?")
+    expect(terminal).to receive(:puts).with("  1 - list all shop items")
+    expect(terminal).to receive(:puts).with("  2 - create a new item")
+    expect(terminal).to receive(:puts).with("  3 - list all orders")
+    expect(terminal).to receive(:puts).with("  4 - create a new order")
+    expect(terminal).to receive(:puts).with("\nEnter you choice:")
+    expect(terminal).to receive(:gets).and_return('8')
+    expect(terminal).to receive(:puts).with("\nInvalid Input\n")
+
+    application = Application.new('shop_challenge_test', terminal, OrderRepository.new, ShopItemRepository.new)
+    application.run
+  end
 end
