@@ -162,12 +162,12 @@ items = repo.all
 items.length # =>  2
 
 items[0].id # =>  1
-items[0].name # =>  'David'
+items[0].name # =>  'item1'
 items[0].unit_price # =>  '10.0'
 items[0].quantity # => '30'
 
 items[1].id # =>  2
-items[1].name # =>  'Anna'
+items[1].name # =>  'item2'
 items[1].unit_price # =>  '12.1'
 items[1].quantity # => '22'
 
