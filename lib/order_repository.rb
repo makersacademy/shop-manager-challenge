@@ -31,4 +31,11 @@ class OrderRepository
         order.item_id = record['item_id'].to_i
         return order
     end
+
+    def create(order)
+        sql = 'INSERT INTO orders (customer, order_date, item_id) VALUES ($1, $2, $3);'
+        sql_params = [order.customer, order.order_date, order.item_id]
+        DatabaseConnection.exec_params(sql, sql_params)
+        return nil
+    end
 end
