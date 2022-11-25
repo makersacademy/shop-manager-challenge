@@ -1,12 +1,12 @@
-# shop_items Model and Repository Classes Design Recipe
+# orders Model and Repository Classes Design Recipe
 
 ## 1. Design and create the Table
 
 ```
-Table: shop_items
+Table: orders
 
 Columns:
-id | name | unit_price | quantity
+id | customer_name | date_placed
 ```
 
 ## 2. Create Test SQL seeds
@@ -37,7 +37,7 @@ INSERT INTO shop_items_orders (shop_item_id, order_id) VALUES (1,3);
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
 
 ```bash
-psql -h 127.0.0.1 your_database_name < seeds_{table_name}.sql
+psql -h 127.0.0.1 your_database_name < seeds.sql
 ```
 
 ## 3. Define the class names
@@ -45,10 +45,10 @@ psql -h 127.0.0.1 your_database_name < seeds_{table_name}.sql
 Usually, the Model class name will be the capitalised table name (single instead of plural). The same name is then suffixed by `Repository` for the Repository class name.
 
 ```ruby
-class ShopItem
+class Order
 end
 
-class ShopItemRepository
+class OrderRepository
 end
 ```
 
@@ -57,8 +57,8 @@ end
 Define the attributes of your Model class. You can usually map the table columns to the attributes of the class, including primary and foreign keys.
 
 ```ruby
-class ShopItem
-  attr_accessor :id, :name, :unit_price, :quantity
+class Order
+  attr_accessor :id, :customer_name, :date_placed
 end
 ```
 
@@ -71,22 +71,22 @@ Your Repository class will need to implement methods for each "read" or "write" 
 Using comments, define the method signatures (arguments and return value) and what they do - write up the SQL queries that will be used by each method.
 
 ```ruby
-class ShopItemRepository
+class OrderRepository
 
-  # Selecting all shop items
+  # Selects all order items
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, unit_price, quantity FROM shop_items;
+    # SELECT id, customer_name, date_placed FROM orders;
 
-    # Returns an array of shop item objects.
+    # Returns an array of order objects.
   end
 
-  # inserts a new shop_item record
-  # takes a shop item object as an argument
-  def create(shop_item)
+  # inserts a new order record
+  # takes a order object as an argument
+  def create(order)
     # Executes the SQL query:
-    # INSERT INTO shop_items (name, unit_price, quantity) VALUES($1, $2, $3);
+    # INSERT INTO orders (customer_name, date_placed) VALUES($1, $2);
 
     # doesnt need to return anything
   end
@@ -104,39 +104,37 @@ These examples will later be encoded as RSpec tests.
 # EXAMPLES
 
 # 1
-# Get all shops items
+# Get all order items
 
-repo = ShopItemRepository.new
+repo = OrderRepository.new
 
-shop_items = repo.all
+orders = repo.all
 
-shop_items.length # =>  5
+orders.length # =>  3
 
-shop_items[0].id # =>  1
-shop_items[0].name # =>  'sandwich'
-shop_items[0].unit_price # =>  '2.99'
-shop_items[0].quantity # => '10'
+orders[0].id # =>  1
+orders[0].customer_name # =>  'David'
+orders[0].date_placed # => '2022-11-08'
 
-shop_items[1].id # =>  2
-shop_items[1].name # =>  'banana'
-shop_items[1].unit_price # =>  '1.99'
-shop_items[1].quantity # => '15'
+orders[1].id # =>  2
+orders[1].customer_name # =>  'Anna'
+orders[1].date_placed # =>  '2022-11-10'
 
 # 2
-# Creates a new shop item
+# Creates a new order
 
-repo = ShopItemRepository.new 
+repo = OrderRepository.new 
 
-shop_item = ShopItem.new
-shop_item.name = 'skittles'
-shop_item.unit_price = 0.99
-shop_item.quantity = 10
+order = Order.new
+order.customer_name = 'Bob'
+order.date_placed = '2022-11-15'
 
-repo.create(shop_item)
+repo.create(order)
 
-shop_items = repo.all
+orders = repo.all
 
-shop_items.last.name # => 'skittles'
+orders.last.customer_name # => 'Bob'
+orders.last.date_placed # => '2022-11-15'
 ```
 
 Encode this example as a test.
@@ -158,7 +156,7 @@ def reset_tables
   connection.exec(seed_sql)
 end
 
-describe ShopItemRepository do
+describe OrderRepository do
   before(:each) do 
     reset_tables
   end
