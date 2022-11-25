@@ -2,7 +2,7 @@ require_relative 'item'
 
 class ItemRepository
   def all
-    sql = 'SELECT id, name, unit_price, quantity FROM items;'
+    sql = 'SELECT id, name, unit_price, quantity FROM items ORDER BY id;'
     result_set = DatabaseConnection.exec_params(sql, [])
     all_items = []
     result_set.each do |record|

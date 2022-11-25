@@ -1,6 +1,7 @@
 require_relative 'lib/database_connection'
 require_relative 'lib/item_repository'
 require_relative 'lib/order_repository'
+require 'date'
 
 class Application
   def initialize(database_name, io, item_repository, order_repository)
@@ -12,9 +13,18 @@ class Application
 
   def run
     print_intro
-    case menu_choice
-    when '1' then print_albums
-    when '2' then print_artists
+    loop do
+      print_menu
+      process(@io.gets.chomp)
+    end
+  end
+
+  def process(selection)
+    case selection
+    when '1' then list_items
+    when '2' then create_item
+    when '3' then list_orders
+    when '4' then create_order
     when '9' then exit
     end
   end
@@ -22,42 +32,89 @@ class Application
   def print_intro
     @io.puts "Welcome to the shop management program!\n"
     @io.puts 'What would you like to do?'
-    @io.puts ' 1 - List all shop items'
-    @io.puts ' 2 - Create a new item'
-    @io.puts ' 1 - List all orders'
-    @io.puts ' 2 - Create a new order'
   end
 
-  # def menu_choice
-  #   @io.puts 'Enter your choice: '
-  #   choice = @io.gets.chomp
-  #   until %w[1 2 9].include?(choice)
-  #     @io.puts 'Enter your choice: '
-  #     choice = @io.gets.chomp
-  #   end
-  #   choice
-  # end
+  def print_menu
+    @io.puts ' 1 - List all shop items'
+    @io.puts ' 2 - Create a new item'
+    @io.puts ' 3 - List all orders'
+    @io.puts ' 4 - Create a new order'
+    @io.puts ' 9 - Exit'
+  end
 
-  # def print_albums
-  #   @io.puts 'Here is the list of albums:'
-  #   albums = @album_repository.all
-  #   albums.each do |album|
-  #     @io.puts "* #{album.id} - #{album.title}"
-  #   end
-  # end
+  def list_items
+    all_items = @item_repository.all
+    all_items.each do |item|
+      @io.puts "#{item.id} - #{item.name} - £#{item.unit_price} - Quantity: #{item.quantity}"
+    end
+  end
 
-  # def print_artists
-  #   @io.puts 'Here is the list of artists:'
-  #   artists = @artist_repository.all
-  #   artists.each do |artist|
-  #     @io.puts "* #{artist.id} - #{artist.name}"
-  #   end
-  # end
+  def list_orders
+    all_orders = @order_repository.all
+    all_orders.each do |order|
+      @io.puts "#{order.id} - Name: #{order.customer_name} - Date: #{order.date_placed} - Items: #{order.items.join(', ')}"
+    end
+  end
+
+  def create_order
+    order_info = new_order_info
+    item_id = order_info[2]
+    quantity = order_info[1]
+    order = Order.new
+    order.customer_name = order_info[0]
+    order.date_placed = Date.today.to_s
+    @order_repository.create(order,quantity,item_id)
+  end
+
+  def new_order_info
+    @io.puts "What would you like to order?"
+    name = @io.gets.chomp
+    item_id = look_up_item_id(name)
+    @io.puts "How many would you like?"
+    quantity = @io.gets.chomp.to_i
+    @io.puts "Please enter your name"
+    customer_name = @io.gets.chomp
+    return [customer_name,quantity,item_id]
+  end
+
+  def look_up_item_id(name)
+    sql = 'SELECT items.id FROM items WHERE items.name = $1'
+    params = [name]
+    result = DatabaseConnection.exec_params(sql,params)
+    result[0]['id']
+  end
+
+  def create_item
+    item_info = new_item_info
+    item = Item.new
+    item.name, item.unit_price, item.quantity = item_info
+    @item_repository.create(item)
+  end
+
+  def new_item_info
+    @io.puts "What is the name of the item?"
+    name = @io.gets.chomp
+    @io.puts "Please enter the unit price"
+    unit_price =  @io.gets.chomp
+    @io.puts "How many do you have in stock?"
+    quantity = @io.gets.chomp
+    [name,unit_price,quantity]
+  end
+
+  def menu_choice
+    @io.puts 'Enter your choice: '
+    choice = @io.gets.chomp
+    until %w[1 2 3 4 9].include?(choice)
+      @io.puts 'Enter your choice: '
+      choice = @io.gets.chomp
+    end
+    choice
+  end
 end
 
 if __FILE__ == $0
   app = Application.new(
-    'music_library',
+    'orders_items_test',
     Kernel,
     ItemRepository.new,
     OrderRepository.new
