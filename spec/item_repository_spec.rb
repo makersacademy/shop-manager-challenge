@@ -32,7 +32,7 @@ RSpec.describe ItemRepository do
   
     end
 
-    xit 'Creates a new item' do
+    it 'Creates a new item' do
 
       repository = ItemRepository.new
 
@@ -47,7 +47,7 @@ RSpec.describe ItemRepository do
       last_item = all_items.last
 
       expect(last_item.name).to eq 'item 5'
-      expect(last_item.unit_price).to eq 55555.55
+      expect(last_item.unit_price).to eq "£55,555.55"
       expect(last_item.quantity).to eq 5
     
     end
