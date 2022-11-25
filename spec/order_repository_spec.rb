@@ -27,7 +27,7 @@ RSpec.describe OrderRepository do
       expect(orders[0].item_name).to eq 'item 1'
     end
 
-    xit 'Creates a new order' do 
+    it 'Creates a new order' do 
 
       repository = OrderRepository.new
 

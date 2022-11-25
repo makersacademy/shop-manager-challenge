@@ -2,6 +2,7 @@ require_relative './order'
 require_relative './database_connection'
 
 class OrderRepository
+
   def all
     sql = 'SELECT 	orders.id AS order_id,
                     orders.customer_name,
@@ -23,13 +24,13 @@ class OrderRepository
     return orders
   end
 
-  # Insert new order 
-  # item is a new Order object
   def create(order)
-    # Executes the SQL query:
+    sql = 'INSERT INTO orders (customer_name, order_date, item_id) VALUES($1, $2, $3);'
+    params = [order.customer_name, order.order_date, order.item_id]
 
-    # INSERT INTO albums (customer_name, order_date, item_id) VALUES($1, $2, $3);
-    # Doesn't need to return anything (only creates a record)
+    DatabaseConnection.exec_params(sql, params)
+
+    return nil
   end
 
   private

@@ -2,6 +2,7 @@ require_relative './item'
 require_relative './database_connection'
 
 class ItemRepository
+  
   def all
     sql = 'SELECT id, name, unit_price, quantity 
             FROM items;'
@@ -15,8 +16,7 @@ class ItemRepository
     return items
   end
 
-  # Insert new item 
-  # item is a new Item object
+
   def create(item)
     sql = 'INSERT INTO items 
             (name, unit_price, quantity) 
