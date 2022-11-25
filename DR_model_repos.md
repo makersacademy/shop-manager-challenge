@@ -70,7 +70,7 @@ Model class
 (in lib/item.rb)
 
 class Item
-  attr_accessor :id, :item_name, :quantity
+  attr_accessor :id, :item_name, :quantity, :orders
 end
 
 (in lib/order.rb)
@@ -103,10 +103,24 @@ class ItemRepository
       item.id = record['id']
       item.item_name = record['item_name']
       item.quantity = record['quantity']
+      item.orders = record['orders']
       
       items << item
     end
     return items
+  end
+
+  def find_with_orders
+    sql = 'SELECT items.id, items.item_name, orders.date, orders.customer_name FROM orders JOIN items ON orders.item_id = items.id WHERE items.id = $1;'
+    result_set = DatabaseConnection.exec_params(sql, [])
+    
+    item = Item.new
+    item.id = result_set[0]['id']
+    item.item_name = result_set[0]['item_name']
+    item.quantity = result_set[0]['quantity']
+    item.orders = result_set[0]['orders']
+
+    return item
   end
 
   def create(item)
@@ -171,10 +185,21 @@ items.length # =>  2
 items[0].id # =>  1
 items[0].item_name # =>  'Lego'
 items[0].quantity # =>  '20'
+items[0].orders # => orders as an array
 
 items[1].id # =>  2
 items[1].item_name # =>  'My Little Pony'
 items[1].quantity # =>  '50'
+
+# 1a find with orders
+repo = ItemRepository.new
+
+item = repo.find(1)
+
+items[0].id # =>  1
+items[0].item_name # =>  'Lego'
+items[0].quantity # =>  '20'
+items[0].orders # => orders as an array
 
 # 2 create a new item
 
@@ -183,6 +208,7 @@ repo = ItemRepository.new
 new_item = Item.new
 new_item.item_name = 'Magformers'
 new_item.item_quantity = 40
+
 
 query = repo.create(new_item)
 
@@ -225,6 +251,17 @@ query = repo.create(order)
 items = repo.all
 
 items.length => 3
+
+# 5 find all orders for a specific item
+
+repo = ItemRepository.new
+
+item = repo.find_with_orders(2)
+
+item.name = 'My Little Pony'
+item.quantity = '50'
+item.orders.length = 2
+item.orders.first.customer_name => 'Simone'
 
 
 7. Reload the SQL seeds before each test run
