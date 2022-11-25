@@ -45,7 +45,7 @@ RSpec.describe OrderRepository do
       expect(last_order.item_id).to eq 1  
     end
 
-    xit 'Raises error when item_id is not int' do 
+    it 'Raises error when item_id is not int' do 
       repository = OrderRepository.new
 
       order = Order.new
@@ -53,10 +53,10 @@ RSpec.describe OrderRepository do
       order.order_date = '2022-01-25'
       order.item_id = 'customer 9'
 
-      expect{ repository.create(order) } .to raises error "test"
+      expect{ repository.create(order) } .to raise_error PG::InvalidTextRepresentation
     end
 
-    xit 'Raises error when item_id does not exist' do 
+    it 'Raises error when item_id does not exist' do 
       repository = OrderRepository.new
 
       order = Order.new
@@ -64,10 +64,10 @@ RSpec.describe OrderRepository do
       order.order_date = '2022-01-25'
       order.item_id = 5
 
-      expect{ repository.create(order) } .to raises error "test"
+      expect{ repository.create(order) } .to raise_error PG::ForeignKeyViolation
     end
 
-    xit 'Raises error when order_date is not a date' do 
+    it 'Raises error when order_date is not a date' do 
 
       repository = OrderRepository.new
 
@@ -76,7 +76,7 @@ RSpec.describe OrderRepository do
       order.order_date = 'customer 9'
       order.item_id = 1
 
-      expect{ repository.create(order) } .to raises error "test"
+      expect{ repository.create(order) } .to raise_error PG::InvalidDatetimeFormat
     end
   end
 end
