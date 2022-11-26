@@ -32,4 +32,19 @@ describe ItemRepository do
       expect(items[2].stock_count).to eq '325'
     end 
   end 
+
+  context '#find' do 
+    it 'returns one record' do 
+
+    repo = ItemRepository.new
+
+    item = repo.find(2)
+
+    expect(item.id).to eq '2'
+    expect(item.name).to eq 'A5 Notebooks'
+    expect(item.unit_price).to eq '£4.75'
+    expect(item.stock_count).to eq '156'
+    end 
+  end 
+
 end
