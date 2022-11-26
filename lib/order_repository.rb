@@ -17,7 +17,8 @@ class OrderRepository
     fail "An order must have items" if items == []
 
     # Create the order record in the orders table
-    order_creation_query = "INSERT INTO orders (id, customer_name, date_placed) VALUES ($1, $2, $3);"
+    order_creation_query =
+    "INSERT INTO orders (id, customer_name, date_placed) VALUES ($1, $2, $3);"
     params = [order.id, order.customer_name, order.date_placed]
     DatabaseConnection.exec_params(order_creation_query, params)
 
