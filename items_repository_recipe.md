@@ -174,31 +174,6 @@ items.last.unit_price # => 49.99
 items.last.quantity # => 7
 
 # 2
-# Create adds an item to the database
-item_repo = ItemRepository.new
-
-new_item = Item.new
-new_item.id = 5
-new_item.name = "Saw"
-new_item.unit_price = 6.50
-new_item.quantity = 15
-item_repo.create(item)
-
-item_repo.all # => Contains the new element
-
-# 3
-# Create fails when trying to add an item with an id already being used
-item_repo = ItemRepository.new
-
-new_item = Item.new
-new_item.id = 3
-new_item.name = "Saw"
-new_item.unit_price = 6.50
-new_item.quantity = 15
-
-item_repo.create(item) # => fails
-
-# 4
 # #find_with_order successfully fetches all items associated with an order
 item_repo = ItemRepository.new
 items = item_repo.find_with_order(1)
@@ -214,10 +189,53 @@ items[1].name # => "Nails (0.5kg)"
 items[2].id # => 4
 items[2].name # => "Drill"
 
-# 5
+# 3
 # #find_with_order fails when given an order id that doesn't exist
 item_repo = ItemRepository.new
 item_repo.find_with_order(10) # => fails
+
+# 4
+# Create adds an item to the database
+item_repo = ItemRepository.new
+
+new_item = Item.new
+new_item.id = 5
+new_item.name = "Saw"
+new_item.unit_price = 6.50
+new_item.quantity = 15
+item_repo.create(item)
+
+item_repo.all # => Contains the new element
+
+# 5
+# Create fails when trying to add an item with an id already being used
+item_repo = ItemRepository.new
+
+new_item = Item.new
+new_item.id = 3
+new_item.name = "Saw"
+new_item.unit_price = 6.50
+new_item.quantity = 15
+
+item_repo.create(item) # => fails
+
+# 6
+# Create fails when trying to add an item with a negative unit_price or quantity
+item_repo = ItemRepository.new
+
+new_item = Item.new
+new_item.id = 5
+new_item.name = "Saw"
+new_item.unit_price = -6.50
+new_item.quantity = 15
+item_repo.create(new_item) # => raises error "Cannot add an item with a negative price"
+
+new_item = Item.new
+new_item.id = 5
+new_item.name = "Saw"
+new_item.unit_price = 6.50
+new_item.quantity = -15
+item_repo.create(new_item) # => raises error "Cannot add an item with a negative quantity"
 ```
 
 Encode this example as a test.

@@ -38,6 +38,8 @@ class ItemRepository
   end
 
   def create(item)
+    fail "Cannot add an item with a negative price" if item.unit_price < 0
+    fail "Cannot add an item with a negative quantity" if item.quantity < 0
     sql_query = "INSERT INTO items (id, name, unit_price, quantity) VALUES ($1, $2, $3, $4)"
     params = [item.id, item.name, item.unit_price, item.quantity]
     DatabaseConnection.exec_params(sql_query, params)
