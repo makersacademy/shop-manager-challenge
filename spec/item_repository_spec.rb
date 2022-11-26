@@ -1,7 +1,7 @@
 require "item_repository"
 require "item"
 
-def reset_item_table
+def reset_items_table
   seed_sql = File.read('spec/seeds_items.sql')
   connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
   connection.exec(seed_sql)
@@ -9,7 +9,7 @@ end
 
 describe ItemRepository do
   before(:each) do 
-    reset_item_table
+    reset_items_table
   end
 
   it "Gets all items" do
@@ -57,5 +57,27 @@ describe ItemRepository do
     new_item.quantity = 15
     
     expect { item_repo.create(new_item) }.to raise_error PG::UniqueViolation
+  end
+
+  it "#find_with_order successfully fetches all items associated with an order" do
+    item_repo = ItemRepository.new
+    items = item_repo.find_with_order(1)
+
+    expect(items.length).to eq 3
+
+    expect(items[0].id).to eq 1
+    expect(items[0].name).to eq "Hammer"
+
+    expect(items[1].id).to eq 3
+    expect(items[1].name).to eq "Nails (0.5kg)"
+
+    expect(items[2].id).to eq 4
+    expect(items[2].name).to eq "Drill"
+  end
+
+  it "#find_with_order fails when given an order id that doesn't exist" do
+    item_repo = ItemRepository.new
+    error_message = "An order with id 10 doesn't exist"
+    expect { item_repo.find_with_order(10) }.to raise_error error_message
   end
 end

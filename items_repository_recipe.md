@@ -118,6 +118,26 @@ class ItemRepository
     # Returns an array of Item objects.
   end
 
+  # Selecting all items associated with an order
+  # id (int) is the id of the order we are looking at
+  def find_with_order(id)
+    # Executes the SQL query:
+    # SELECT
+    #   items.id,
+    #   items.name,
+    #   items.unit_price,
+    #   items.quantity
+    # FROM items
+    # JOIN items_orders
+    #   ON items.id = items_orders.item_id
+    # JOIN orders
+    #   ON items_orders.order_id = orders.id
+    # WHERE
+    #   orders.id = $1;
+
+    # Returns an array of Item objects.
+  end
+
   # Adds new item to list
   # item is an instance of the Item class
   def create(item)
@@ -177,6 +197,27 @@ new_item.unit_price = 6.50
 new_item.quantity = 15
 
 item_repo.create(item) # => fails
+
+# 4
+# #find_with_order successfully fetches all items associated with an order
+item_repo = ItemRepository.new
+items = item_repo.find_with_order(1)
+
+items.length # => 3
+
+items[0].id # => 1
+items[0].name # => "Hammer"
+
+items[1].id # => 3
+items[1].name # => "Nails (0.5kg)"
+
+items[2].id # => 4
+items[2].name # => "Drill"
+
+# 5
+# #find_with_order fails when given an order id that doesn't exist
+item_repo = ItemRepository.new
+item_repo.find_with_order(10) # => fails
 ```
 
 Encode this example as a test.
