@@ -14,6 +14,21 @@ class Application
   end
 
   def run
+    prompt
+    input = @io.gets.chomp
+    @io.puts ""
+    case input
+      when "1" then list_items
+      when "2" then create_item
+      when "3" then list_orders
+      when "4" then create_order
+      else @io.puts "Request not recognized"
+    end
+  end
+
+  private
+
+  def prompt
     @io.puts "Welcome to the shop management program!"
     @io.puts ""
     @io.puts "What do you want to do?"
@@ -22,9 +37,45 @@ class Application
     @io.puts "  3 = list all orders"
     @io.puts "  4 = create a new shop order"
     @io.puts ""
-    input = @io.gets
-    @io.puts ""
+  end
+
+  def list_items
     @io.puts "Here's a list of all shop items:"
+    @io.puts ""
+    @item_repository.all.each do |item|
+      @io.puts "##{item.id} #{item.name} - Unit price: #{item.price} - Quantity: #{item.quantity}"
+    end
+  end
+
+  def list_orders
+    @io.puts "Here's a list of all orders:"
+    @io.puts ""
+    @order_repository.all.each do |order|
+      @io.puts "##{order.id} #{order.customer} - Date: #{order.date}"
+    end
+  end
+  
+  def create_item
+    item = Item.new
+    @io.puts "Item name:"
+    item.name = @io.gets.chomp
+    @io.puts "Item price:"
+    item.price = @io.gets
+    @io.puts "Item quantity:"
+    item.quantity = @io.gets
+    @item_repository.create(item)
+  end
+
+  def create_order
+    order = Order.new
+    @io.puts "Customer name:"
+    order.customer = @io.gets.chomp
+    @io.puts "Order date:"
+    order.date = @io.gets.chomp
+    @io.puts "Item ordered:"
+    item_id = @io.gets.chomp
+    item = @item_repository.find(item_id)
+    @order_repository.create(order, item)
   end
 
   if __FILE__ == $0

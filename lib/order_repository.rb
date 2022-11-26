@@ -1,4 +1,5 @@
 require_relative './order'
+require_relative './item'
 
 class OrderRepository
 
@@ -20,10 +21,14 @@ class OrderRepository
     unpack_record(record)
   end
 
-  def create(order)
-    sql = 'INSERT INTO orders (customer, date) VALUES ($1, $2);'
-    params = [order.customer, order.date]
-    DatabaseConnection.exec_params(sql, params)
+  def create(order, item)
+    sql_orders = 'INSERT INTO orders (customer, date) VALUES ($1, $2);'
+    params_orders = [order.customer, order.date]
+    DatabaseConnection.exec_params(sql_orders, params_orders)
+    sql_join = 'INSERT INTO items_orders (item_id, order_id)
+                VALUES ($1, (SELECT MAX(id) FROM orders));'
+    params_join = [item.id]
+    DatabaseConnection.exec_params(sql_join, params_join)
     return nil
   end
 

@@ -1,4 +1,5 @@
 require 'order_repository'
+require 'item_repository'
 
 def reset_orders_table
   seed_sql = File.read('spec/seeds.sql')
@@ -35,14 +36,15 @@ describe OrderRepository do
     expect(order.date).to eq '2022-01-01'
   end
 
-  it "creates a single order" do
-    repo = OrderRepository.new
+  it "creates a single order and adds to join table with related items" do
+    order_repo = OrderRepository.new
     order = Order.new
     order.customer = 'Shah'
     order.date = 'Jan-13-2022'
-    repo.create(order)
-
-    all_orders = repo.all
+    item_repo = ItemRepository.new
+    item = item_repo.find(1)
+    order_repo.create(order, item)
+    all_orders = order_repo.all
     expect(all_orders.last.id).to eq 4
     expect(all_orders.last.customer).to eq 'Shah'
     expect(all_orders.last.date).to eq '2022-01-13'
