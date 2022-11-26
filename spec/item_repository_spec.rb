@@ -47,4 +47,22 @@ describe ItemRepository do
       expect(item.orders.first.customer_name).to eq 'Simone'
     end
   end
+
+  describe "create" do
+    it "creates a new record in the items database" do
+      repo = ItemRepository.new
+
+      new_item = Item.new
+      new_item.item_name = 'Magformers'
+      new_item.unit_price = '24.99'
+      new_item.quantity = 40
+
+
+      query = repo.create(new_item)
+
+      items = repo.all
+
+      expect(items.length).to eq 3
+    end
+  end
 end 
