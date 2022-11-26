@@ -58,7 +58,7 @@ Define the attributes of your Model class. You can usually map the table columns
 # Model class
 # (in lib/item.rb)
 
-class Student
+class Item
 
   # Replace the attributes by your own columns.
   attr_accessor :id, :name, :unit_price, :stock_count
