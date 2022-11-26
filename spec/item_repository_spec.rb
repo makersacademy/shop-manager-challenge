@@ -35,4 +35,27 @@ describe ItemRepository do
     expect(items[4].unit_price).to eq '2.40'
     expect(items[4].quantity).to eq '80'
   end 
+
+  it 'creates a new item object' do 
+
+    repo = ItemRepository.new 
+
+    item = Item.new
+    
+    item.name = 'Fanta Orange 500Ml'
+    item.unit_price = '0.32'
+    item.quantity = '40'
+    
+    repo.create(item)
+    
+    all_items = repo.all
+    
+    expect(all_items.length).to eq 6
+    expect(all_items.last.id).to eq '6'
+    expect(all_items.last.name).to eq 'Fanta Orange 500Ml'
+    expect(all_items.last.unit_price).to eq '0.32'
+    expect(all_items.last.quantity).to eq '40'
+    
+
+  end 
 end
