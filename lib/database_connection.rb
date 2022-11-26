@@ -8,11 +8,12 @@ class DatabaseConnection
   # This method connects to PostgreSQL using the 
   # PG gem. We connect to 127.0.0.1, and select
   # the database name given in argument.
-  def self.connect(database_name)
+  def self.connect(_database_name)
     if ENV["PG_password"]
-    @connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test', password: ENV["PG_password"] })
+      @connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test', 
+password: ENV["PG_password"] })
     else
-    @connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test'})
+      @connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
     end
   end
 

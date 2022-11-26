@@ -4,9 +4,9 @@ require 'pg'
 def reset_items_table
   seed_sql = File.read('spec/seeds.sql')
   if ENV["PG_password"] 
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test', password: ENV["PG_password"] })
+    connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test', password: ENV["PG_password"] })
   else
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
+    connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
   end
   connection.exec(seed_sql)
 end
@@ -29,15 +29,15 @@ describe ItemRepository do
     expect(items[0].id).to eq '1'
     expect(items[0].name).to eq 'item1'
     expect(items[0].unit_price).to eq '10.0'
-    expect(items[0].quantity).to eq'30'
+    expect(items[0].quantity).to eq '30'
 
     expect(items[1].id).to eq '2'
     expect(items[1].name).to eq 'item2'
     expect(items[1].unit_price).to eq '12.1'
-    expect(items[1].quantity).to eq'22'
+    expect(items[1].quantity).to eq '22'
   end
 
-    #2
+    # 2
     # Create a new item
   it "Create a new item" do
     repo = ItemRepository.new

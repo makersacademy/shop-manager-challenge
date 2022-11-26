@@ -27,7 +27,6 @@ class ItemRepository
     return items
   end
 
-
   # Gets a single record by its ID
   # One argument: the id (number)
   def create(item)
