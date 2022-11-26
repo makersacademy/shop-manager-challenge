@@ -58,4 +58,20 @@ Here's a list of all shop items:
  #2 Makerspresso Coffee Machine - Unit price: 69 - Quantity: 15
  (...)
 ```
+To run the application asit is intended to be used, comment out the break in the run method in app.rb. Then run appp.rb.
 
+```
+## Project Description
+
+This challenges purpose was:
+*To practice test driven development
+*Use doubles for testing
+*Use postgreSQL for data bases (including many-to-many mappings)
+*Practice object oriented programing.  
+  
+This application allows a user to:
+> List all items in stock, including quantities and unit prices 
+> Create new items to be added to the stock list, which also updates the database
+> List all previous orders, including customer name, item(s) purchased, date of purchase
+> Create a new order, including quanity required, which updates the database.
+> It also doesn't allow an order to be created if stock is too low
