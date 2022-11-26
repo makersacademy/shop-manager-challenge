@@ -9,10 +9,10 @@ If the table is already created in the database, you can skip this step.
 Otherwise, [follow this recipe to design and create the SQL schema for your table](./single_table_design_recipe_template.md).
 
 ```
-Table: items
+Table: orders
 
 Columns:
-id | name | unit_price | quantity
+id | customer_name | date_placed
 ```
 
 ## 2. Create Test SQL seeds
@@ -22,7 +22,7 @@ Your tests will depend on data stored in PostgreSQL to run.
 If seed data is provided (or you already created it), you can skip this step.
 
 ```sql
--- (file: spec/seeds_items.sql)
+-- (file: spec/seeds_orders.sql)
 TRUNCATE TABLE items RESTART IDENTITY CASCADE;
 TRUNCATE TABLE orders RESTART IDENTITY CASCADE;
 
@@ -58,7 +58,7 @@ ALTER TABLE items_orders ADD FOREIGN KEY (order_id) REFERENCES orders(id);
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
 
 ```bash
-psql -h 127.0.0.1 shop_manager_test < spec/seeds_items.sql
+psql -h 127.0.0.1 shop_manager_test < spec/seeds_orders.sql
 ```
 
 ## 3. Define the class names
@@ -66,16 +66,16 @@ psql -h 127.0.0.1 shop_manager_test < spec/seeds_items.sql
 Usually, the Model class name will be the capitalised table name (single instead of plural). The same name is then suffixed by `Repository` for the Repository class name.
 
 ```ruby
-# Table name: items
+# Table name: orders
 
 # Model class
-# (in lib/item.rb)
-class Item
+# (in lib/order.rb)
+class Order
 end
 
 # Repository class
-# (in lib/item_repository.rb)
-class ItemRepository
+# (in lib/order_repository.rb)
+class OrderRepository
 end
 ```
 
@@ -84,13 +84,13 @@ end
 Define the attributes of your Model class. You can usually map the table columns to the attributes of the class, including primary and foreign keys.
 
 ```ruby
-# Table name: items
+# Table name: orders
 
 # Model class
-# (in lib/item.rb)
+# (in lib/order.rb)
 
-class Item
-  attr_accessor :id, :name, :cohort_name
+class Order
+  attr_accessor :id, :customer_name, :date_placed
 end
 ```
 
@@ -103,26 +103,26 @@ Your Repository class will need to implement methods for each "read" or "write" 
 Using comments, define the method signatures (arguments and return value) and what they do - write up the SQL queries that will be used by each method.
 
 ```ruby
-# Table name: items
+# Table name: orders
 
 # Repository class
-# (in lib/item_repository.rb)
+# (in lib/order_repository.rb)
 
-class ItemRepository
+class OrderRepository
 
   # Selecting all items
   def all
     # Executes the SQL query:
-    # SELECT id, name, unit_price, quantity FROM items;
+    # SELECT id, customer_name, date_placed FROM orders;
 
-    # Returns an array of Item objects.
+    # Returns an array of Order objects.
   end
 
-  # Adds new item to list
-  # item is an instance of the Item class
-  def create(item)
+  # Adds new order to list
+  # order is an instance of the Order class
+  def create(order)
     # Executes the SQL query:
-    # INSERT INTO items (id, name, unit_price, quantity) VALUES ($1, $2, $3, $4);
+    # INSERT INTO orders (id, customer_name, date_placed) VALUES ($1, $2, $3);
 
     # Returns nothing
   end
@@ -137,46 +137,42 @@ These examples will later be encoded as RSpec tests.
 
 ```ruby
 # 1
-# Gets all items
-item_repo = ItemRepository.new
-items = item_repo.all
+# Gets all orders
+order_repo = OrderRepository.new
+orders = order_repo.all
 
-items.length # => 4
+orders.length # => 6
 
-items.first.id # => 1
-items.first.name # => "Hammer"
-items.first.unit_price # => 5.99
-items.first.quantity # => 20
+orders.first.id # => 1
+orders.first.customer_name # => "Customer One"
+orders.first.date_placed # => "2022-01-01"
 
-items.last.id # => 4
-items.last.name # => "Drill"
-items.last.unit_price # => 49.99
-items.last.quantity # => 7
+orders.last.id # => 6
+orders.last.customer_name # => "Customer Four"
+orders.last.date_placed # => "2022-01-08"
 
 # 2
-# Create adds an item to the database
-item_repo = ItemRepository.new
+# Create adds an order to the database
+order_repo = OrderRepository.new
 
-new_item = Item.new
-new_item.id = 5
-new_item.name = "Saw"
-new_item.unit_price = 6.50
-new_item.quantity = 15
-item_repo.create(item)
+new_order = order.new
+new_order.id = 7
+new_order.customer_name = "Customer Five"
+new_order.date_placed = "2022-01-08"
+order_repo.create(order)
 
-item_repo.all # => Contains the new element
+order_repo.all # => Contains the new element
 
 # 3
-# Create fails when trying to add an item with an id already being used
-item_repo = ItemRepository.new
+# Create fails when trying to add an order with an id already being used
+order_repo = OrderRepository.new
 
-new_item = Item.new
-new_item.id = 3
-new_item.name = "Saw"
-new_item.unit_price = 6.50
-new_item.quantity = 15
+new_order = Order.new
+new_order.id = 3
+new_order.customer_name = "Customer Five"
+new_order.date_placed = "2022-01-08"
 
-item_repo.create(item) # => fails
+order_repo.create(order) # => fails
 ```
 
 Encode this example as a test.
