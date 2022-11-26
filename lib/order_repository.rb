@@ -3,14 +3,14 @@ require_relative './order'
 
 class OrderRepository
 
-  def list
+  def all
     sql = 'SELECT id, customer_name, date FROM orders ORDER BY id;'
     result_set = DatabaseConnection.exec_params(sql, [])
-    formatted_entries = []
+    orders = []
     result_set.each do |record|
-      formatted_entries << "Order ID: #{record['id']} - Customer name: #{record['customer_name']} - Order date: #{record['date']}"
+      orders << record_to_object(record)
     end
-    return formatted_entries.join("\n")
+    return orders
   end
 
 
@@ -24,7 +24,18 @@ class OrderRepository
     return puts "\nYour order has been successfully created.\n"
   end
 
+# ================================================================
   private
+
+  def record_to_object(record)
+    object = Order.new
+    object.id = record['id'].to_i
+    object.customer_name = record['customer_name']
+    object.date = record['date']
+    return object
+  end
+
+
   def new_order_id
     # query for the last id in the table
     last_id_query = 'SELECT MAX(id) FROM orders;'

@@ -3,15 +3,13 @@ require_relative './lib/order_repository'
 require_relative './lib/database_connection'
 
 
-
 class Application
-
   # The Application class initializer
   # takes four arguments:
   #  * The database name to call `DatabaseConnection.connect`
   #  * the Kernel object as `io` (so we can mock the IO in our tests)
-  #  * the AlbumRepository object (or a double of it)
-  #  * the ArtistRepository object (or a double of it)
+  #  * the OrderRepository object (or a double of it)
+  #  * the ItemRepository object (or a double of it)
   def initialize(database_name, io, order_repository, item_repository)
     DatabaseConnection.connect(database_name)
     @io = io
@@ -27,8 +25,11 @@ class Application
 
     #  list all the items
     if user_input == "1"
-      items_list = @item_repository.list
-      puts items_list
+      # calling  the all method from the ItemRepository class
+      # iterating over the returned array to print a formatted list
+      @item_repository.all.each do |record|
+        puts "Item ID: #{record.id} - Item name: #{record.name} - Unit price: #{record.unit_price} - Quantity: #{record.quantity}"
+      end
     end
 
     #  create a new item
@@ -43,18 +44,17 @@ class Application
       # assign these fields/variables to the object
       new_item = Item.new
       new_item.name = item_name
-      new_item.unit_price = unit_price
-      new_item.quantity = quantity
-      #
+      new_item.unit_price = unit_price.to_i
+      new_item.quantity = quantity.to_i
+
       @item_repository.create(new_item)
-      items_list = @item_repository.list
-      puts items_list
     end
 
     #  list all orders
     if user_input == "3"
-      orders_list = @order_repository.list
-      puts orders_list
+      @order_repository.all.each do |record|
+        puts "Order ID: #{record.id} - Customer name: #{record.customer_name} - Order date: #{record.date}"
+      end
     end
 
     #  create a new order

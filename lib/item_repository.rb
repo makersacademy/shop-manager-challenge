@@ -2,14 +2,15 @@ require_relative './item'
 # id, name, unit_price, quantity
 
 class ItemRepository
-  def list
+
+  def all
     sql = 'SELECT id, name, unit_price, quantity FROM items ORDER BY id;'
     result_set = DatabaseConnection.exec_params(sql, [])
-    formatted_entries = []
+    items = []
     result_set.each do |record|
-      formatted_entries << "Item ID: #{record['id']} - Item name: #{record['name']} - Unit price: #{record['unit_price']} - Quantity: #{record['quantity']}"
+      items << record_to_object(record)
     end
-    return formatted_entries.join("\n")
+    return items
   end
 
 
@@ -20,12 +21,22 @@ class ItemRepository
     # feed the new_id in the sql_params
     sql_params = [new_item_id, item.name, item.unit_price, item.quantity]
     result_set = DatabaseConnection.exec_params(sql, sql_params)
-
     return puts "\nYour item has been successfully created.\n"
   end
 
-
+# ================================================================
   private
+
+  def record_to_object(record)
+    object = Item.new
+    object.id = record['id'].to_i
+    object.name = record['name']
+    object.unit_price = record['unit_price'].to_i
+    object.quantity = record['quantity'].to_i
+    return object
+  end
+
+
   def new_item_id
     # query for the last id in the table
     last_id_query = 'SELECT MAX(id) FROM items;'
