@@ -16,7 +16,7 @@ class Application
     loop do
       print_menu
       process(@io.gets.chomp)
-      break # <-- uncomment this break to have the menu reprint so multiple operations
+      break # <-- comment out this break to have the menu reprint so multiple operations
       # can be carried out e.g. list all items then make an order then list orders
     end
   end
