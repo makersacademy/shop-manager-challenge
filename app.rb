@@ -19,59 +19,87 @@ class Application
 
   def run
 
-    @io.puts "\nWhat do you want to do?\n  1 = list all shop items\n  2 = create a new item\n  3 = list all orders\n  4 = create a new order\n"
-    @io.puts "Type your answer here:"
-    user_input = @io.gets.chomp
+    loop do
 
-    #  list all the items
-    if user_input == "1"
-      # calling  the all method from the ItemRepository class
-      # iterating over the returned array to print a formatted list
-      @item_repository.all.each do |record|
-        puts "Item ID: #{record.id} - Item name: #{record.name} - Unit price: #{record.unit_price} - Quantity: #{record.quantity}"
+      @io.puts "\nWhat do you want to do?\n  1 = list all shop items\n  2 = create a new item\n  3 = list all orders\n  4 = create a new order\n  5 = exit the app\n"
+      @io.puts "Type your answer here:"
+      user_input = @io.gets.chomp
+
+      #  list all the items
+      if user_input == "1"
+        # calling  the all method from the ItemRepository class
+        # iterating over the returned array to print a formatted list
+        @item_repository.all.each do |record|
+          puts "Item ID: #{record.id} - Item name: #{record.name} - Unit price: #{record.unit_price} - Quantity: #{record.quantity}"
+        end
       end
-    end
 
-    #  create a new item
-    if user_input == "2"
-      # get all the fields needed from the user
-      @io.puts "Please provide the item's name:"
-      item_name = @io.gets.chomp
-      @io.puts "Please provide the item's unit price:"
-      unit_price = @io.gets.chomp
-      @io.puts "Please provide the item's quantity:"
-      quantity = @io.gets.chomp
-      # assign these fields/variables to the object
-      new_item = Item.new
-      new_item.name = item_name
-      new_item.unit_price = unit_price.to_i
-      new_item.quantity = quantity.to_i
+      #  create a new item
+      if user_input == "2"
+        # get all the fields needed from the user
+        # these while loops are making sure that the user is not leaving any field blank
+        item_name = ''
+        while item_name.strip.empty?
+          @io.puts "Please provide the item's name:"
+          item_name = @io.gets.chomp
+        end
 
-      @item_repository.create(new_item)
-    end
+        unit_price = ''
+        while unit_price.strip.empty?
+          @io.puts "Please provide the item's unit price:"
+          unit_price = @io.gets.chomp
+        end
 
-    #  list all orders
-    if user_input == "3"
-      @order_repository.all.each do |record|
-        puts "Order ID: #{record.id} - Customer name: #{record.customer_name} - Order date: #{record.date}"
+        quantity = ''
+        while quantity.strip.empty?
+          @io.puts "Please provide the item's quantity:"
+          quantity = @io.gets.chomp
+        end
+
+        # assign these fields/variables to the object
+        new_item = Item.new
+        new_item.name = item_name
+        new_item.unit_price = unit_price.to_i
+        new_item.quantity = quantity.to_i
+
+        @item_repository.create(new_item)
       end
-    end
 
-    #  create a new order
-    if user_input == "4"
-      @io.puts "Please provide your name:"
-      customer_name = @io.gets.chomp
-      @io.puts "Please provide the order date formatted as Jan-01-2022"
-      order_date = @io.gets.chomp
-      new_order = Order.new
-      new_order.customer_name = customer_name
-      new_order.date = order_date
-      @order_repository.create(new_order)
-    end
+      #  list all orders
+      if user_input == "3"
+        @order_repository.all.each do |record|
+          puts "Order ID: #{record.id} - Customer name: #{record.customer_name} - Order date: #{record.date}"
+        end
+      end
 
-  end
+      #  create a new order
+      if user_input == "4"
+        # these while loops are making sure that the user is not leaving any field blank
+        customer_name = ''
+        while customer_name.strip.empty?
+          @io.puts "Please provide your name:"
+          customer_name = @io.gets.chomp
+        end
 
-end
+        order_date = ''
+        while order_date.strip.empty?
+          @io.puts "Please provide the order date formatted as Jan-01-2022"
+          order_date = @io.gets.chomp
+        end
+
+        new_order = Order.new
+        new_order.customer_name = customer_name
+        new_order.date = order_date
+        @order_repository.create(new_order)
+      end
+
+      break if user_input == "5"
+
+    end #loop end
+
+  end # method run end
+
+end #class Application end
 
 
 
