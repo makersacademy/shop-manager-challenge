@@ -228,7 +228,7 @@ orders.length # =>  6
 orders[0].id # =>  1
 orders[0].date => '01/10/2022'
 orders[0].customer_name # =>  'Hillary'
-order[0].item_id => 2
+orders[0].item_id => 2
 orders[0].quantity # =>  '1'
 
 orders[1].id # =>  1
