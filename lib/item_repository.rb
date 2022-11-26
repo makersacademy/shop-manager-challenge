@@ -17,7 +17,7 @@ class ItemRepository
 
       items << item
     end 
-    return items
+    items
   end
 
   # Gets a single record by its ID
@@ -36,17 +36,24 @@ class ItemRepository
     item.unit_price = record['unit_price']
     item.stock_count = record['stock_count']
 
-    return item
+    item
   end
 
   def create(item)
-    # Executes the SQL query:
-    # INSERT INTO items(name, unit_price, stock_count) VALUES ($1, $2, $3);
-    # returns nothing
+    sql = 'INSERT INTO items(name, unit_price, stock_count) VALUES ($1, $2, $3);'
+    sql_params = [item.name, item.unit_price, item.stock_count]
+
+    DatabaseConnection.exec_params(sql, sql_params)
+
+    nil
   end
 
   def delete(id)
-    # Executes the SQL query:
-    # DELETE FROM items WHERE id $1;
+    sql = 'DELETE FROM items WHERE id = $1;'
+    sql_params = [id]
+
+    DatabaseConnection.exec_params(sql, sql_params)
+
+    nil
   end
 end

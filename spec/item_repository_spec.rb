@@ -47,4 +47,40 @@ describe ItemRepository do
     end 
   end 
 
+  context '#create' do 
+    it 'created new record' do 
+      
+      repo = ItemRepository.new
+      
+      new_item = Item.new
+      new_item.name = 'Pritt Stick'
+      new_item.unit_price = '£3.50'
+      new_item.stock_count = '76'
+      
+      repo.create(new_item)
+      
+      all_items = repo.all
+      expect(all_items.last.id).to eq '4'
+      expect(all_items.last.name).to eq 'Pritt Stick'
+      expect(all_items.last.unit_price).to eq '£3.50'
+      expect(all_items.last.stock_count).to eq '76'
+      expect(all_items.length).to eq 4
+    end 
+  end 
+
+  context '#delete' do 
+    it 'deletes first record' do 
+
+    repo = ItemRepository.new
+
+    repo.delete(1)
+
+    all_items = repo.all
+    expect(all_items.length).to eq 2
+    expect(all_items.first.id).to eq '2'
+    expect(all_items.first.name).to eq 'A5 Notebooks'
+    expect(all_items.first.unit_price).to eq '£4.75'
+    expect(all_items.first.stock_count).to eq '156'
+    end
+  end 
 end
