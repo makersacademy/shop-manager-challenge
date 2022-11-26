@@ -123,12 +123,12 @@ class ItemRepository
 
   # Gets a single record by its ID
   # One argument: the id (number)
-  def find(id)
+  # def find(id)
     # Executes the SQL query:
     # SELECT id, name, unit_price, quantity FROM items WHERE id = $1;
 
     # Returns a single item object.
-  end
+  # end
 
   # Add more methods below for each operation you'd like to implement.
 
@@ -171,21 +171,8 @@ items[1].name # =>  'item2'
 items[1].unit_price # =>  '12.1'
 items[1].quantity # => '22'
 
-# 2
-# Get a single item
 
-repo = ItemRepository.new
-
-item = repo.find(1)
-
-item.id # =>  1
-item.name # =>  'item1'
-item.unit_price # =>  '10.0'
-item.quantity # =>  '10.0'
-
-# Add more examples for each method
-
-#3
+#2
 # Create a new item
 repo = ItemRepository.new
 

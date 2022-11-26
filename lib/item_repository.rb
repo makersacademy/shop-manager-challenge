@@ -30,10 +30,6 @@ class ItemRepository
 
   # Gets a single record by its ID
   # One argument: the id (number)
-  def find(id)
-    # Executes the SQL query:
-    # SELECT id, name, unit_price, quantity FROM items WHERE id = $1;
-
-    # Returns a single item object.
+  def create(item)
   end
 end
