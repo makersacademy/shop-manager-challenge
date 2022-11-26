@@ -32,4 +32,22 @@ describe OrderRepository do
       expect(orders[1].quantity).to eq '1'
     end
   end
+  describe "create" do
+    it "creates a new record in the orders database" do
+      repo = OrderRepository.new
+
+      order = Order.new
+      order.date = '06/11/2022'
+      order.customer_name = 'Harry'
+      order.item_id = 2
+      order.quantity = 4
+
+      query = repo.create(order)
+
+      orders = repo.all
+
+      expect(orders.length).to eq 6
+      expect(orders.last.customer_name).to eq 'Harry'
+    end
+  end
 end
