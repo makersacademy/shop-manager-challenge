@@ -83,7 +83,7 @@ class ItemRepository
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, unit_price, quanity FROM items;
+    # SELECT id, name, unit_price, quantity FROM items;
 
     # Returns an array of Item objects.
   end

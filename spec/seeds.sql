@@ -1,4 +1,4 @@
-TRUNCATE TABLE items RESTART IDENTITY; -- replace with your own table name.
+TRUNCATE TABLE items RESTART IDENTITY CASCADE; -- replace with your own table name.
 
 
 INSERT INTO items (name, unit_price, quantity) VALUES ('Semi Skimmed Milk: 2 Pints', 1.30, 30);
