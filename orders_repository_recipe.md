@@ -162,12 +162,12 @@ orders.last.date_placed # => "2022-01-08"
 order_repo = OrderRepository.new
 item_repo = ItemRepository.new
 
-new_order = order.new
+new_order = Order.new
 new_order.id = 7
 new_order.customer_name = "Customer Five"
 new_order.date_placed = "2022-01-08"
 items = item_repo.all[1,2]
-order_repo.create(order, items)
+order_repo.create(new_order, items)
 
 order_repo.all # => Contains the new element
 item_repo.find_with_order(7) # => Contains items 2 and 3
@@ -182,7 +182,7 @@ new_order.id = 3
 new_order.customer_name = "Customer Five"
 new_order.date_placed = "2022-01-08"
 items = item_repo.all[1,2]
-order_repo.create(order) # => fails
+order_repo.create(new_order, items) # => fails
 
 # 4
 # Create fails when trying to add an order with items that don't exist
@@ -194,7 +194,7 @@ new_order.customer_name = "Customer Five"
 new_order.date_placed = "2022-01-08"
 
 fake_item = double(:fake_item, id: 5, name: "fake_name", unit_price: 1.00, quantity: 1)
-order_repo.create(order, [fake_item]) # => fails
+order_repo.create(new_order, [fake_item]) # => fails
 
 # 5
 # Create fails when trying to create an order without items
@@ -205,7 +205,7 @@ new_order.id = 7
 new_order.customer_name = "Customer Five"
 new_order.date_placed = "2022-01-08"
 
-order_repo.create(order, []) # => fails
+order_repo.create(new_order, []) # => fails
 ```
 
 Encode this example as a test.

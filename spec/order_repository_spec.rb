@@ -1,4 +1,6 @@
 require "order_repository"
+require "order"
+require "item_repository"
 
 def reset_orders_table
   sql_seed = File.read("spec/seeds_orders.sql")
@@ -11,7 +13,7 @@ RSpec.describe OrderRepository do
     reset_orders_table
   end
 
-  xit "Gets all orders" do
+  it "Gets all orders" do
     order_repo = OrderRepository.new
     orders = order_repo.all
 
@@ -26,16 +28,16 @@ RSpec.describe OrderRepository do
     expect(orders.last.date_placed).to eq "2022-01-08"
   end
 
-  xit "Create adds an order to the database" do
+  it "Create adds an order to the database" do
     order_repo = OrderRepository.new
     item_repo = ItemRepository.new
 
-    new_order = order.new
+    new_order = Order.new
     new_order.id = 7
     new_order.customer_name = "Customer Five"
     new_order.date_placed = "2022-01-08"
     items = item_repo.all[1,2]
-    order_repo.create(order, items)
+    order_repo.create(new_order, items)
 
     expect(order_repo.all).to include(have_attributes(
       id: 7,
@@ -49,7 +51,7 @@ RSpec.describe OrderRepository do
     expect(items.last.id).to eq 3
   end
 
-  xit "Create fails when trying to add an order with an order id already being used" do
+  it "Create fails when trying to add an order with an order id already being used" do
     order_repo = OrderRepository.new
     item_repo = ItemRepository.new
 
@@ -58,10 +60,10 @@ RSpec.describe OrderRepository do
     new_order.customer_name = "Customer Five"
     new_order.date_placed = "2022-01-08"
     items = item_repo.all[1,2]
-    expect { order_repo.create(order) }.to raise_error PG::UniqueViolation
+    expect { order_repo.create(new_order, items) }.to raise_error PG::UniqueViolation
   end
 
-  xit "Create fails when trying to add an order with items that don't exist" do
+  it "Create fails when trying to add an order with items that don't exist" do
     order_repo = OrderRepository.new
 
     new_order = Order.new
@@ -70,10 +72,10 @@ RSpec.describe OrderRepository do
     new_order.date_placed = "2022-01-08"
 
     fake_item = double(:fake_item, id: 5, name: "fake_name", unit_price: 1.00, quantity: 1)
-    expect(order_repo.create(order, [fake_item])).to eq 0
+    expect { order_repo.create(new_order, [fake_item]) }.to raise_error PG::ForeignKeyViolation
   end
 
-  xit "Create fails when trying to create an order without items" do
+  it "Create fails when trying to create an order without items" do
     order_repo = OrderRepository.new
 
     new_order = Order.new
@@ -81,6 +83,6 @@ RSpec.describe OrderRepository do
     new_order.customer_name = "Customer Five"
     new_order.date_placed = "2022-01-08"
     error_message = "An order must have items"
-    expect { order_repo.create(order, []) }.to raise_error error_message
+    expect { order_repo.create(new_order, []) }.to raise_error error_message
   end
 end
