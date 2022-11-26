@@ -9,13 +9,9 @@ class ItemRepository
     all_items = []
 
     result_set.each do |record|
-      item = Item.new
-      item.id = record['id']
-      item.name = record['name']
-      item.unit_price = record['unit_price']
-      item.quantity = record['quantity']
-      all_items << item
+      all_items << record_to_object(record)
     end 
+   
     return all_items
   end 
 
@@ -26,8 +22,17 @@ class ItemRepository
     
     DatabaseConnection.exec_params(sql,sql_params)
 
-
-    # Doesn't return anything
-
   end 
+
+  private
+
+  def record_to_object(record)
+    item = Item.new
+    item.id = record['id']
+    item.name = record['name']
+    item.unit_price = record['unit_price']
+    item.quantity = record['quantity']
+
+    return item 
+  end
 end

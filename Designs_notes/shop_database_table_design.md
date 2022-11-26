@@ -130,7 +130,7 @@ CREATE TABLE items (
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
   customer_name text,
-  date date
+  date  date
 );
 
 

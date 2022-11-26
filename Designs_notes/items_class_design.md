@@ -188,12 +188,12 @@ all_items.last.quantity # => '40'
 
 ## 7. Reloading the SQL seeds before each test run
 
-TTo ensure fresh table contents every time the test suite is ran, the following code will be added 
+To ensure fresh table contents every time the test suite is ran, the following code will be added 
 
 ```ruby
 # EXAMPLE
 
-# file: spec/student_repository_spec.rb
+# file: spec/item_repository_spec.rb
 
 def reset_items_table
   seed_sql = File.read('spec/seeds.sql')
