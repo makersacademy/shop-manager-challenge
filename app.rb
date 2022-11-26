@@ -16,8 +16,8 @@ class Application
     loop do
       print_menu
       process(@io.gets.chomp)
-      break # <-- uncomment this break to have the menu reprint so multiple operations can be carried out
-      # e.g. list all items then make an order then list orders
+      break # <-- uncomment this break to have the menu reprint so multiple operations
+      # can be carried out e.g. list all items then make an order then list orders
     end
   end
 
@@ -60,10 +60,8 @@ class Application
 
   def create_order
     order_info = new_order_info
-    item_id = order_info[2]
-    quantity = order_info[1]
     order = Order.new
-    order.customer_name = order_info[0]
+    order.customer_name, quantity, item_id = order_info
     order.date_placed = Date.today.to_s
     @order_repository.create(order,quantity,item_id)
   end
@@ -76,7 +74,7 @@ class Application
     quantity = @io.gets.chomp.to_i
     @io.puts "Please enter your name"
     customer_name = @io.gets.chomp
-    return [customer_name,quantity,item_id]
+    [customer_name,quantity,item_id]
   end
 
   def look_up_item_id(name)

@@ -21,5 +21,4 @@ class ItemRepository
     params = [item.name, item.unit_price, item.quantity]
     DatabaseConnection.exec_params(sql, params)
   end
-
 end
