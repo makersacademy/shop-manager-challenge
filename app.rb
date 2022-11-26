@@ -11,31 +11,31 @@ class Application
   end
 
   def run 
-    print_menu
-    process_choice(@io.gets.chomp)
+    @io.puts "\nWelcome to the shop management program!"
+    loop do 
+      print_menu
+      case @io.gets.chomp 
+      when '1' then print_all_shop_items
+      when '2' then create_new_item
+      when '3' then print_all_orders
+      when '4' then create_new_order
+      when '9' then break
+      else 
+        @io.puts "\nInvalid Input\n"
+      end
+    end  
   end
 
   private 
 
   def print_menu
-    @io.puts "\nWelcome to the shop management program!"
     @io.puts "\nWhat would you like to do?"
     @io.puts '  1 - list all shop items'
     @io.puts '  2 - create a new item'
     @io.puts '  3 - list all orders'
     @io.puts '  4 - create a new order'
+    @io.puts '  9 - exit program'
     @io.puts "\nEnter you choice:"
-  end
-
-  def process_choice(choice)
-    case choice 
-    when '1' then print_all_shop_items
-    when '2' then create_new_item
-    when '3' then print_all_orders
-    when '4' then create_new_order
-    else 
-      @io.puts "\nInvalid Input\n"
-    end
   end
 
   def print_all_shop_items
@@ -64,7 +64,6 @@ class Application
   def print_all_orders
     @io.puts "\nHere is a list of your orders:"
     @order_repository.all.each do |order|
-      order.load_items_into_order_object
       @io.puts "##{order.id} - Customer - #{order.customer_name} - Date Placed - #{order.date_placed} - Items in order - #{show_items_in_order(order)}"
     end
   end
@@ -79,6 +78,15 @@ class Application
     new_order.customer_name = name 
     new_order.date_placed = date 
     @order_repository.create(new_order)
+    ### loop do
+    ### puts What item do you want to add to this order? Enter 'done' when you are done
+    ### puts Available to order: shop_item_repository.list where quantity > 0
+    ### answer = gets.chomp
+    ### break if answer == 'done'
+    ### item = ShopItem.new
+    ### item.name = answer
+    ### new_order.add_item(item) in add_item it reduces the quantity of what it adds by 1 and also adds the shop_item_id and order_id to the joins table to associate it. to get order_id just do @order_repository.all.last.id
+    ### end
   end
 
   def show_items_in_order(order)
