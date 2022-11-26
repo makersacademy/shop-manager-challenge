@@ -6,7 +6,7 @@ TRUNCATE TABLE items RESTART IDENTITY CASCADE; -- replace with your own table na
 INSERT INTO items (name, unit_price, quantity) VALUES ('item 1', 1.11, 1);
 INSERT INTO items (name, unit_price, quantity) VALUES ('item 2', 22.22, 22);
 INSERT INTO items (name, unit_price, quantity) VALUES ('item 3', 333.33, 333);
-INSERT INTO items (name, unit_price, quantity) VALUES ('item 4', 4444.44, 444);
+INSERT INTO items (name, unit_price, quantity) VALUES ('item 4', 4444.44, 4444);
 
 INSERT INTO orders (customer_name, order_date, item_id) VALUES ('customer 1', '2022-01-25', 1);
 INSERT INTO orders (customer_name, order_date, item_id) VALUES ('customer 2', '2022-12-01', 2);

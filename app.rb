@@ -15,6 +15,7 @@ class Application
   def run
     @io.puts "Welcome to the shop management program!"
     print_menu
+    process(@io.gets.chomp)
   end
 
   private
@@ -25,6 +26,31 @@ class Application
     @io.puts "  2 = create a new item"
     @io.puts "  3 = list all orders"
     @io.puts "  4 = create a new order"
+  end
+
+  def print_items
+    @io.puts "Here's a list of all shop items:"
+    items = @item_repository.all
+    items.each { |item|
+      @io.puts "##{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
+    }
+  end
+
+  def print_orders
+    @io.puts "Here's a list of all shop orders:"
+    orders = @order_repository.all
+    orders.each { |order|
+      @io.puts "##{order.id} #{order.customer_name} Order Date: #{order.order_date} Item: #{order.item_name}"
+    }
+  end
+
+  def process(selection)
+    case selection
+    when "1"
+      print_items
+    when "3"
+      print_orders
+    end
   end
 
 end
