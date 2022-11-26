@@ -93,7 +93,7 @@ class ItemRepository
 
   def all
     # Executes the SQL query:
-    sql = 'SELECT id, item_name, quantity FROM items;'
+    sql = 'SELECT id, item_name, unit_price, quantity FROM items;'
     result_set = DatabaseConnection.exec_params(sql, [])
     
     items = []
@@ -102,6 +102,7 @@ class ItemRepository
       item = Item.new
       item.id = record['id']
       item.item_name = record['item_name']
+      item.unit_price = record['unit_price']
       item.quantity = record['quantity']
       item.orders = record['orders']
       
@@ -182,12 +183,12 @@ items = repo.all
 
 items.length # =>  2
 
-items[0].id # =>  1
+items[0].id # =>  '1'
 items[0].item_name # =>  'Lego'
 items[0].quantity # =>  '20'
 items[0].orders # => orders as an array
 
-items[1].id # =>  2
+items[1].id # =>  '2'
 items[1].item_name # =>  'My Little Pony'
 items[1].quantity # =>  '50'
 
