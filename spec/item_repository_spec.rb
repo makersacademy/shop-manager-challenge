@@ -18,9 +18,8 @@ RSpec.describe ItemRepository do
     expect(list_items.first.id).to eq "1"
   end
 
-
   it "returns a specific item with ID 1 (Dyson Vaccum)" do
-    repo = ItemRepository.new 
+    repo = ItemRepository.new
     list_items = repo.find(1)
     expect(list_items.item_name).to eq "Dyson Vaccum"
     expect(list_items.item_price).to eq "$319.00"
@@ -28,14 +27,13 @@ RSpec.describe ItemRepository do
     expect(list_items.id).to eq "1"
   end
 
-
   it "creates a new item in the shop" do
     repo = ItemRepository.new
     new_item = Item.new
     new_item.item_name = "LG 4K Ultra HD TV"
     new_item.item_price = "1999"
     new_item.item_quantity = "9"
-    new_item.id = '7'
+    new_item.id = "7"
 
     repo.create(new_item)
 
@@ -43,10 +41,10 @@ RSpec.describe ItemRepository do
 
     expect(list_items).to include(
       have_attributes(
-       item_name: "LG 4K Ultra HD TV",
+        item_name: "LG 4K Ultra HD TV",
         item_price: "$1,999.00",
         item_quantity: "9",
-        id: "7"
+        id: "7",
       )
     )
   end
@@ -67,15 +65,13 @@ RSpec.describe ItemRepository do
     expect(updated_item.item_quantity).to eq("10")
   end
 
-
-    it "Updates an Item object with new values" do
-        repo = ItemRepository.new
-        item = repo.find(1)
-        item.item_quantity = item.item_quantity.to_i - 1
-        repo.update(item)
-        new_item = repo.find(1)
-        expect(new_item.item_quantity).to eq "9"
-        expect(new_item.item_name).to eq 'Dyson Vaccum'
-   end
-
-end 
+  it "Updates an Item object with new values" do
+    repo = ItemRepository.new
+    item = repo.find(1)
+    item.item_quantity = item.item_quantity.to_i - 1
+    repo.update(item)
+    new_item = repo.find(1)
+    expect(new_item.item_quantity).to eq "9"
+    expect(new_item.item_name).to eq "Dyson Vaccum"
+  end
+end

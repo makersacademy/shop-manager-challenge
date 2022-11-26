@@ -49,6 +49,14 @@ class OrderRepository
     DatabaseConnection.exec_params(sql, sql_params)
     return nil
   end
+
+  def link_order_to_item (order_id, item_id)
+    sql = "INSERT INTO items_orders(order_id,item_id) VALUES ($1,$2);"
+    sql_params = [order_id,item_id]
+    DatabaseConnection.exec_params(sql, sql_params)
+    return nil
+
+  end
 end
 
 private
