@@ -90,7 +90,11 @@ Define the attributes of your Model class. You can usually map the table columns
 # (in lib/order.rb)
 
 class Order
-  attr_accessor :id, :customer_name, :date_placed
+  attr_accessor :id, :customer_name, :date_placed, :items
+
+  def initialize
+    @items = []
+  end
 end
 ```
 
@@ -120,9 +124,11 @@ class OrderRepository
 
   # Adds new order to list
   # order is an instance of the Order class
-  def create(order)
+  # items is an array of Item instances
+  def create(order, items)
     # Executes the SQL query:
     # INSERT INTO orders (id, customer_name, date_placed) VALUES ($1, $2, $3);
+    # INSERT INTO items_orders (item_id, order_id) VALUES (...)
 
     # Returns nothing
   end
@@ -152,27 +158,54 @@ orders.last.customer_name # => "Customer Four"
 orders.last.date_placed # => "2022-01-08"
 
 # 2
-# Create adds an order to the database
+# Create adds an order with items to the database
 order_repo = OrderRepository.new
+item_repo = ItemRepository.new
 
 new_order = order.new
 new_order.id = 7
 new_order.customer_name = "Customer Five"
 new_order.date_placed = "2022-01-08"
-order_repo.create(order)
+items = item_repo.all[1,2]
+order_repo.create(order, items)
 
 order_repo.all # => Contains the new element
+item_repo.find_with_order(7) # => Contains items 2 and 3
 
 # 3
-# Create fails when trying to add an order with an id already being used
+# Create fails when trying to add an order with an order id already being used
 order_repo = OrderRepository.new
+item_repo = ItemRepository.new
 
 new_order = Order.new
 new_order.id = 3
 new_order.customer_name = "Customer Five"
 new_order.date_placed = "2022-01-08"
-
+items = item_repo.all[1,2]
 order_repo.create(order) # => fails
+
+# 4
+# Create fails when trying to add an order with items that don't exist
+order_repo = OrderRepository.new
+
+new_order = Order.new
+new_order.id = 7
+new_order.customer_name = "Customer Five"
+new_order.date_placed = "2022-01-08"
+
+fake_item = double(:fake_item, id: 5, name: "fake_name", unit_price: 1.00, quantity: 1)
+order_repo.create(order, [fake_item]) # => fails
+
+# 5
+# Create fails when trying to create an order without items
+order_repo = OrderRepository.new
+
+new_order = Order.new
+new_order.id = 7
+new_order.customer_name = "Customer Five"
+new_order.date_placed = "2022-01-08"
+
+order_repo.create(order, []) # => fails
 ```
 
 Encode this example as a test.
