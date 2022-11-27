@@ -9,13 +9,11 @@ require_relative './lib/create_order'
 
 class Application
 
-  def initialize(database_name, io, item_repository, order_repository, print_orders, create_order)
+  def initialize(database_name, io, item_repository, order_repository)
     DatabaseConnection.connect(database_name)
     @io = io
     @item_repository = item_repository
     @order_repository = order_repository
-    @print_orders = print_orders
-    @create_order = create_order
   end
 
   def run
@@ -43,9 +41,11 @@ class Application
       item = CreateItem.new(@item_repository, @io)
       item.create_item
     when "3"
-      @print_orders.print_orders(@order_repository, @io)
+      orders = PrintOrders.new(@order_repository, @io)
+      orders.print_orders
     when "4"
-      @create_order.create_order(@item_repository, @order_repository, @io)
+      order = CreateOrder.new(@item_repository, @order_repository, @io)
+      order.create_order
     end
   end
 
@@ -56,9 +56,7 @@ if __FILE__ == $0
     'shop_manager',
     Kernel,
     ItemRepository.new,
-    OrderRepository.new,
-    PrintOrders.new, 
-    CreateOrder.new
+    OrderRepository.new
   )
   app.run
 end

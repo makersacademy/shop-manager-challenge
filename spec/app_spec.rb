@@ -7,9 +7,7 @@ RSpec.describe Application do
       'shop_manager_test',
       @io,
       ItemRepository.new,
-      OrderRepository.new,
-      PrintOrders.new,
-      CreateOrder.new
+      OrderRepository.new
     )
   end
   def reset_items_table
@@ -105,7 +103,7 @@ RSpec.describe Application do
       expect(@io).to receive(:gets).and_return("4").ordered
       expect(@io).to receive(:puts).with("Enter Customer name:").ordered
       expect(@io).to receive(:gets).and_return("customer 9").ordered
-      expect(@io).to receive(:puts).with("Enter Order date:").ordered
+      expect(@io).to receive(:puts).with("Enter Order date (YYYY-MM-DD):").ordered
       expect(@io).to receive(:gets).and_return("2022-01-25").ordered
       expect(@io).to receive(:puts).with("Enter Item ID:").ordered
       expect(@io).to receive(:gets).and_return("1").ordered
@@ -118,7 +116,7 @@ RSpec.describe Application do
       expect(@io).to receive(:gets).and_return("4").ordered
       expect(@io).to receive(:puts).with("Enter Customer name:").ordered
       expect(@io).to receive(:gets).and_return("customer 9").ordered
-      expect(@io).to receive(:puts).with("Enter Order date:").ordered
+      expect(@io).to receive(:puts).with("Enter Order date (YYYY-MM-DD):").ordered
       expect(@io).to receive(:gets).and_return("2022-01-25").ordered
       expect(@io).to receive(:puts).with("Enter Item ID:").ordered
       expect(@io).to receive(:gets).and_return("string").ordered
@@ -133,7 +131,7 @@ RSpec.describe Application do
       expect(@io).to receive(:gets).and_return("4").ordered
       expect(@io).to receive(:puts).with("Enter Customer name:").ordered
       expect(@io).to receive(:gets).and_return("customer 9").ordered
-      expect(@io).to receive(:puts).with("Enter Order date:").ordered
+      expect(@io).to receive(:puts).with("Enter Order date (YYYY-MM-DD):").ordered
       expect(@io).to receive(:gets).and_return("2022-01-25").ordered
       expect(@io).to receive(:puts).with("Enter Item ID:").ordered
       expect(@io).to receive(:gets).and_return("6").ordered
@@ -148,9 +146,9 @@ RSpec.describe Application do
       expect(@io).to receive(:gets).and_return("4").ordered
       expect(@io).to receive(:puts).with("Enter Customer name:").ordered
       expect(@io).to receive(:gets).and_return("customer 9").ordered
-      expect(@io).to receive(:puts).with("Enter Order date:").ordered
+      expect(@io).to receive(:puts).with("Enter Order date (YYYY-MM-DD):").ordered
       expect(@io).to receive(:gets).and_return("string").ordered
-      expect(@io).to receive(:puts).with("Enter Order date:").ordered
+      expect(@io).to receive(:puts).with("Enter Order date (YYYY-MM-DD):").ordered
       expect(@io).to receive(:gets).and_return("2022-01-25").ordered
       expect(@io).to receive(:puts).with("Enter Item ID:").ordered
       expect(@io).to receive(:gets).and_return("1").ordered
