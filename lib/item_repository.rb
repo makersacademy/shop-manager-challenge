@@ -2,9 +2,8 @@ require_relative 'item'
 require_relative 'order'
 
 class ItemRepository
-  # Select and return all items
+  # Selects and returns all items
   def all
-    # Executes the SQL query below:
     sql = "SELECT id, name, unit_price, quantity FROM items;"
     result_set = DatabaseConnection.exec_params(sql, [])
 
@@ -24,7 +23,7 @@ class ItemRepository
   end
 
 
-  # Creating a new item record (takes an instance of Item)
+  # Creates a new item record (takes an instance of Item)
   def create(item)
     raise "Only items can be added" if (!item.is_a? Item)
     
