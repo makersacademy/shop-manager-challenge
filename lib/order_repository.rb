@@ -29,5 +29,12 @@ class OrderRepository
     sql = "INSERT INTO orders (customer_name, item_id, date) VALUES($1, $2, $3);"
     params = [order.customer_name, order.item_id, order.date]
     DatabaseConnection.exec_params(sql, params)
+
+    # Update join table to include new order
+    repo = OrderRepository.new
+    sql = "INSERT INTO items_orders (item_id, order_id) VALUES($1, $2);"
+    params = [order.item_id, repo.all.last.id]
+    DatabaseConnection.exec_params(sql, params)
+    return nil
   end
 end
