@@ -16,7 +16,7 @@ class Menu
     @terminal.puts "Here's a list of shop items"
     results = ItemRepository.new
     results.all.each do |record|
-      puts "#{record.id} - #{record.item_name} - #{record.unit_price} - #{record.quantity}"
+      puts "##{record.id} - #{record.item_name} - Unit price: #{record.unit_price} - Quantity: #{record.quantity}"
     end
   end
 
@@ -37,7 +37,7 @@ class Menu
     @terminal.puts "Here's a list of orders"
     results = OrderRepository.new
     results.all.each do |record|
-      puts "#{record.id} - #{record.date} - #{record.customer_name} - #{record.item_id} - #{record.quantity}"
+      puts "##{record.id} - #{record.date} - #{record.customer_name} - Item_id: #{record.item_id} - Quantity: #{record.quantity}"
     end
   end
 

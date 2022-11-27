@@ -27,14 +27,14 @@ describe Menu do
       repo = ItemRepository.new
       repo_array = []
       repo.all.each do |record|
-        repo_array << "#{record.id} - #{record.item_name} - #{record.unit_price} - #{record.quantity}"
+        repo_array << "##{record.id} - #{record.item_name} - Unit price: #{record.unit_price} - Quantity: #{record.quantity}"
       end
       expect(terminal).to receive(:puts).with("Welcome to the shop management program!\n\nWhat would you like to do? (type a number)\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order").ordered
       expect(terminal).to receive(:gets).and_return("1").ordered
       # expect(Menu).to receive(:menu_1).and_call_original
       expect(terminal).to receive(:puts).with("Here's a list of shop items").ordered
-      expect(repo_array.first).to eq "1 - Lego - 9.99 - 20"
-      expect(repo_array.last).to eq("2 - My Little Pony - 13.99 - 50")
+      expect(repo_array.first).to eq "#1 - Lego - Unit price: 9.99 - Quantity: 20"
+      expect(repo_array.last).to eq("#2 - My Little Pony - Unit price: 13.99 - Quantity: 50")
       menu_choice = Menu.new(terminal)
       menu_choice.run_menu
     end
@@ -80,14 +80,14 @@ describe Menu do
       repo = OrderRepository.new
       repo_array = []
       repo.all.each do |record|
-        repo_array << "#{record.id} - #{record.date} - #{record.customer_name} - #{record.item_id} - #{record.quantity}"
+        repo_array << "##{record.id} - #{record.date} - #{record.customer_name} - Item_id: #{record.item_id} - Quantity: #{record.quantity}"
       end
       expect(terminal).to receive(:puts).with("Welcome to the shop management program!\n\nWhat would you like to do? (type a number)\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order").ordered
       expect(terminal).to receive(:gets).and_return("3").ordered
       # expect(Menu).to receive(:menu_1).and_call_original
       expect(terminal).to receive(:puts).with("Here's a list of orders").ordered
-      expect(repo_array.first).to eq "1 - 01/10/2022 - Hillary - 1 - 1"
-      expect(repo_array.last).to eq("5 - 05/11/2022 - Helen - 2 - 2")
+      expect(repo_array.first).to eq "#1 - 01/10/2022 - Hillary - Item_id: 1 - Quantity: 1"
+      expect(repo_array.last).to eq("#5 - 05/11/2022 - Helen - Item_id: 2 - Quantity: 2")
       menu_choice = Menu.new(terminal)
       menu_choice.run_menu
     end
