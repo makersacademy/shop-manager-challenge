@@ -8,7 +8,7 @@ As a shop manager
 So I can know which items I have in stock
 I want to know which quantity (a number) I have for each item.
 
-Method:
+Method (in addition to #all):
       As a shop manager
       So I can manage items
       I want to be able to create a new item.
@@ -25,7 +25,7 @@ As a shop manager
 So I can know which orders were made
 I want to know on which date an order was placed. 
 
-Method:
+Method (in additon to #all):
       As a shop manager
       So I can manage orders
       I want to be able to create a new order.
@@ -281,18 +281,18 @@ end
 
 # Repository class
 # (in lib/tag_repository.rb)
-class TagRepository
+class OrderRepository
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query below:
-    sql = "SELECT id, title, content, views, item_id FROM orders;"
+    sql = "SELECT id, customer_name, item_id, date FROM orders;"
     result_set = DatabaseConnection.exec_params(sql, [])
 
     orders = []
 
-    # loop through results and create an array of item objects
-    # Return array of item objects.
+    # loop through results and create an array of Order objects
+    # Return array of Order objects.
   end
 
   # Creating a new order record (takes an instance of Order)
@@ -579,9 +579,6 @@ raise_error (with string, int, nil, etc.)
 
 
 
-
-
-
 <!-- # Find orders by item - #find_by_item
 
 repo = TagRepository.new
@@ -596,38 +593,11 @@ expect(orders[1].name).to eq 'cooking' -->
 
 
 
-<!-- # EXAMPLES
+# app mock tests
 
-# 1
-# Get all orders
+Design mock tests using a double for Kernel, e.g., passing it as argument 'io'
 
-repo = orderRepository.new
 
-orders = repo.all
-
-orders.length # =>  2
-
-orders[0].id # =>  1
-orders[0].name # =>  'David'
-orders[0].item_name # =>  'April 2022'
-
-orders[1].id # =>  2
-orders[1].name # =>  'Anna'
-orders[1].item_name # =>  'May 2022'
-
-# 2
-# Get a single order
-
-repo = orderRepository.new
-
-order = repo.find(1)
-
-order.id # =>  1
-order.name # =>  'David'
-order.item_name # =>  'April 2022'
-
-# Add more examples for each method
-Encode this example as a test. -->
 
 
 

@@ -1,7 +1,7 @@
 require 'lib/database_connection'
 
 # We need to give the database name to the method `connect`.
-DatabaseConnection.connect('INSERT_DATABASE_NAME')
+DatabaseConnection.connect('items_orders')
 
 
 
