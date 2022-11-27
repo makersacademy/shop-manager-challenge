@@ -69,13 +69,7 @@ Usually, the Model class name will be the capitalised table name (single instead
 ```ruby
 # EXAMPLE
 
-# Table name: books
-
-# Model class
-# lib/books.rb
-
-
-
+# 
 
 class Item
 
@@ -128,11 +122,6 @@ end
 # Model class
 # (in lib/album.rb)
 
-class Album
-
-  # Replace the attributes by your own columns.
-  attr_accessor :id, :title, :release_year, :artist_id
-end
 
 # The keyword attr_accessor is a special Ruby feature
 # which allows us to set and get attributes on an object,
@@ -258,75 +247,76 @@ repo = ItemRepository.new
 
 item = repo.find(1)
 item.item_name # => 'Deepchord'
-item. # => 'mike'
+item.item_price # => '7'
 
 repo = OrderRepository.new
 
-post = repo.find(1)
-post.post_title # => 'day one'
-post.post_content # => 'Once upon a time'
+order = repo.find(1)
+order.order_number # => '10'
+order.customer_name # => 'mike oliver'
 
 
 # 3
-# Create a new user account
+# Create a new item
 
-repo = UserAccountRepository.new
+repo = ItemRepository.new
 
-user_account = UserAccount.new
-user_account.email_address = 'maisie@maisie'
-user_account.username = 'maisie'
+item = Item.new
+item.item_name = 'Aphex Twin'
+item.item_price = '10'
+item.item_stock = '10'
 
-user_accounts = repo.all
-repo.create(user_account)
+items = repo.all
+repo.create(item)
 
-last_user_account = user_accounts.last
+last_item = items.last
 
-expect(last_user_account.email_address).to eq ('maisie@maisie')
-expect(last_user_account.username).to eq ('maisie')
+expect(last_item.item_name).to eq ('Aphex Twin')
+expect(last_item.item_price).to eq ('10')
 
 
 # 4
-# Delete a user account
+# Delete an item
 
-repo = UserAccountRepository.new
+repo = ItemRepository.new
 
 repo.delete(1)
 
-all_user_accounts.length # => 3
-all_user_accounts.first.id # => 2
+expect(items.length).to eq 4
+expect(items.first.id).to eq 2
 
-repo = PostRepository
+repo = OrderRepository.new
 
-repo.delete(1) # Delete a post with id 1
+repo.delete(1) # Delete an order with id 1
 
-all_posts.length # => 3
-all_posts.first.id # => 2
+expect(orders.length).to eq 4
+expect(items.first.id).to eq 2
 
 
 # 5
 # Update a user account
 
-repo = UserAccountRepository.new
+# repo = UserAccountRepository.new
 
-user_account = repo.find(1)
+# user_account = repo.find(1)
 
-user_account.email_address = 'mike@mike'
-user_account.username = 'mike'
+# user_account.email_address = 'mike@mike'
+# user_account.username = 'mike'
 
-updated_user_account = repo.find(1)
-updated_user_account.email_address # => 'henry@henry'
-updated_user_account.username # => 'henry'
+# updated_user_account = repo.find(1)
+# updated_user_account.email_address # => 'henry@henry'
+# updated_user_account.username # => 'henry'
 
 
-repo = PostRepository.new
+# repo = PostRepository.new
 
-post = repo.find(1)
+# post = repo.find(1)
 
-post.post_title = 'day one'
-post.post_contents = 'Once upon a time'
+# post.post_title = 'day one'
+# post.post_contents = 'Once upon a time'
 
-updated_post.post_title # => 'To begin with'
-updated_post.post_contents # => 'I wandered lonely as a cloud...'
+# updated_post.post_title # => 'To begin with'
+# updated_post.post_contents # => 'I wandered lonely as a cloud...'
 
 
 
