@@ -1,4 +1,4 @@
-Shop Manager Project
+Shop Manager Project (Final project for databases module - week 3 of Makers bootcamp)
 =================
 
 * Feel free to use Google, your notes, books, etc. but work on your own
