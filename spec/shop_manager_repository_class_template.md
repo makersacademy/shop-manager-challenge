@@ -77,19 +77,19 @@ Usually, the Model class name will be the capitalised table name (single instead
 
 
 
-class UserAccount
+class Item
 
 end
 
-class UserAccountRepository
+class ItemRepository
 
 end
 
-class Post
+class Order
 
 end
 
-class PostRepository
+class OrderRepository
 
 end
 
@@ -113,12 +113,12 @@ Define the attributes of your Model class. You can usually map the table columns
 
 # Table name: books
 
-class UserAccount
-  attr_accessor :email_address :username
+class Item
+  attr_accessor :item_name :item_price :item_stock
 end
 
-class Post
-  attr_accessor :post_title :post_content :post_views :user_account_id
+class Order
+  attr_accessor :order_number :customer_name :order_date
 end
 
 
@@ -159,66 +159,66 @@ Using comments, define the method signatures (arguments and return value) and wh
 # Repository class
 # lib/book_repository.rb
 
-class UserAccountRepository
+class ItemRepository
   def all
 
-  # SQL: 'SELECT id, email_address, username FROM user_accounts;'
-  # returns an array of books
+  # SQL: 'SELECT id, item_name, item_price, item_stock FROM items;'
+  # returns an array of the items
   end
 
   def find(id)
 
-  # SQL: 'SELECT id, email_address, username FROM user_accounts WHERE id = $1;'
-  # Returns a single user account
+  # SQL: 'SELECT id, item_name, item_price, item_stock FROM items WHERE id = $1;'
+  # Returns a single item
   end
 
-  def create(user_account)
+  def create(item)
 
-  # SQL: 'INSERT INTO user_accounts (email_address, username) VALUES($1, $2);'
+  # SQL: 'INSERT INTO items (item_name, item_price, item_stock) VALUES($1, $2, $3);'
   # Doesn't need to return anything
   end
 
   def delete(id)
 
-  # SQL: 'DELETE FROM user_accounts WHERE id = $1;'
+  # SQL: 'DELETE FROM items WHERE id = $1;'
   # Doesn't need to return anything
   end
 
-  def update(user_account)
+  def update(item)
 
-  # SQL: 'UPDATE user_accounts SET email_address = $1, username = $2 WHERE id = $3;'
+  # SQL: 'UPDATE items SET item_name = $1, item_price = $2, item_stock = $3 WHERE id = $4;'
   # Doesn't need to return anything
   end
 
 
-class PostRepository
+class OrderRespository
   def all
 
-  # SQL: 'SELECT id, post_title, post_content, post_views, user_account_id FROM posts;'
-  # returns an array of posts
+  # SQL: 'SELECT order_number, customer_name, order_date, item_id FROM orders;'
+  # returns an array of the orders
   end
 
   def find(id)
 
-  #SQL: 'SELECT id, post_title, post_content, post_views, user_account_id FROM posts WHERE id = $1;'
-  # Returns a single user post
+  #SQL: 'SELECT order_number, customer_name, order_date, item_id FROM posts WHERE id = $1;'
+  # Returns a single order
   end
 
-  def create(post)
+  def create(order)
 
-  # SQL: 'INSERT INTO posts (post_title, post_contents, post_views, user_account_id) VALUES($1, $2, $3, $4);'
+  # SQL: 'INSERT INTO orders (order_number, customer_name, order_date, item_id) VALUES($1, $2, $3, $4);'
   # Doesn't need to return anything
   end
 
   def delete(id)
 
-  # SQL: 'DELETE FROM posts WHERE id = $1;'
+  # SQL: 'DELETE FROM orders WHERE id = $1;'
   # Doesn't need to return anything
   end
 
-  def update(post)
+  def update(order
 
-  # SQL: 'UPDATE posts SET post_title = $1, post_content = $2, post_views = $3, user_account_id = $4 WHERE id = $5;'
+  # SQL: 'UPDATE orders SET order_number = $1, customer_name = $2, order_date = $3, item_id = $4 WHERE id = $5;'
   # Doesn't need to return anything
   end
 
@@ -234,33 +234,33 @@ These examples will later be encoded as RSpec tests.
 # EXAMPLES
 
 # 1
-# Get all user_accounts and posts
+# Get all items and orders
 
-repo = UserAccountRepository.new
+repo = ItemRepository.new
 
-user_accounts = repo.all
-user_accounts.first.id # => '1'
-user_accounts.length # => 4
-user_accounts.first.email_address # => 'mike@mike'
+items = repo.all
+items.first.id # => '1'
+items.length # => 5
+items.first.item_name # => 'Deepchord'
 
-repo = PostRepository.new
+repo = OrderRepository.new
 
-posts = repo.all
-posts.first.id # => '1'
-posts.length # => 4
-posts.first.post_title # => 'day one'
+orders = repo.all
+orders.first.id # => '1'
+orders.length # => 4
+orders.first.customer_name # => 'mike oliver'
 
 
 # 2
-# Get a single user_account and post
+# Get a single item and order
 
-repo = UserAccountRepository.new
+repo = ItemRepository.new
 
-user_account = repo.find(1)
-user_account.email_address # => 'mike@mike'
-user_account.username # => 'mike'
+item = repo.find(1)
+item.item_name # => 'Deepchord'
+item. # => 'mike'
 
-repo = UserAccountRepository.new
+repo = OrderRepository.new
 
 post = repo.find(1)
 post.post_title # => 'day one'
