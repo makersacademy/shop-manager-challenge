@@ -33,11 +33,20 @@ class OrderRepository
   end
 
   def create(order)
-
+    # adds the order to orders table
     sql = 'INSERT INTO orders (customer_name, date_placed) VALUES($1, $2);'
     sql_params = [order.customer_name, order.date_placed]
 
     result_set = DatabaseConnection.exec_params(sql, sql_params)
+  end
+
+  def add_item_to_new_order(order, item)
+    # this method is called when adding items to a newly created order
+    check_if_item_in_stock(item)
+
+    add_record_to_joins_table(order, item)
+
+    reduce_stock_quantity_by_one(item)
   end
 
   private 
@@ -59,5 +68,28 @@ class OrderRepository
     item.quantity = record['quantity']
 
     return item
+  end
+
+  def check_if_item_in_stock(item)
+    sql = 'SELECT name, unit_price, quantity FROM shop_items WHERE id = $1;'
+    sql_params = [item.id]
+
+    result_set = DatabaseConnection.exec_params(sql, sql_params)
+    record = result_set[0]
+    raise 'Item not in stock' if record['quantity'] == '0'
+  end
+
+  def add_record_to_joins_table(order, item)
+    sql = 'INSERT INTO shop_items_orders (shop_item_id, order_id) VALUES ($1, $2);'
+    sql_params = [item.id, order.id]
+
+    result_set = DatabaseConnection.exec_params(sql, sql_params)
+  end
+
+  def reduce_stock_quantity_by_one(item)
+    sql = 'UPDATE shop_items SET quantity = quantity - 1 WHERE id = $1;'
+    sql_params = [item.id]
+
+    result_set = DatabaseConnection.exec_params(sql, sql_params)
   end
 end

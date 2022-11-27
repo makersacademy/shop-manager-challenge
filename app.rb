@@ -69,24 +69,12 @@ class Application
   end
 
   def create_new_order
-    @io.puts "\n Enter the name of the customer that placed the order:"
-    name = @io.gets.chomp 
-    @io.puts "\n Enter the date that order was placed (format => YYYY-MM-DD):"
-    date = @io.gets.chomp 
-
+    customer_info = get_customer_info
     new_order = Order.new 
-    new_order.customer_name = name 
-    new_order.date_placed = date 
+    new_order.customer_name, new_order.date_placed = customer_info
     @order_repository.create(new_order)
-    ### loop do
-    ### puts What item do you want to add to this order? Enter 'done' when you are done
-    ### puts Available to order: shop_item_repository.list where quantity > 0
-    ### answer = gets.chomp
-    ### break if answer == 'done'
-    ### item = ShopItem.new
-    ### item.name = answer
-    ### new_order.add_item(item) in add_item it reduces the quantity of what it adds by 1 and also adds the shop_item_id and order_id to the joins table to associate it. to get order_id just do @order_repository.all.last.id
-    ### end
+    new_order.id = @order_repository.all.last.id
+    enter_items_in_new_order(new_order)
   end
 
   def show_items_in_order(order)
@@ -96,4 +84,25 @@ class Application
     end
     return items.join(', ')
   end
+
+  def get_customer_info
+    @io.puts "\n Enter the name of the customer that placed the order:"
+    name = @io.gets.chomp 
+    @io.puts "\n Enter the date that order was placed (format => YYYY-MM-DD):"
+    date = @io.gets.chomp 
+    return [name, date]
+  end
+
+  def enter_items_in_new_order(new_order)
+    loop do
+      @io.puts 'What items were added to this order? Enter "done" when you are done'
+      answer = @io.gets.chomp
+      break if answer == 'done'
+      item = @shop_item_repository.create_item_object(answer)
+      @order_repository.add_item_to_new_order(new_order, item) 
+    end
+  end
 end
+
+# app = Application.new('shop_challenge', Kernel, OrderRepository.new, ShopItemRepository.new)
+# app.run
