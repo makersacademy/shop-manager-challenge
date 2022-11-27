@@ -108,6 +108,10 @@ class OrderRepository
     # Doesn't return anything
 
   end 
+
+  def all_with_items
+
+  end 
 end
 ```
 
@@ -156,6 +160,12 @@ all_orders.length # => 4
 all_orders.last.id # => '4'
 all_orders.customer_name # => 'Joe Schmoe'
 all_orders.last.date # => '24-Nov-2022'
+
+# Notes - needs to interact with items:  
+ # an order should display the items within them
+ # a new order should reduced the quanity of the ordered items 
+ # an order should not be able to be made if quanity of any item wihin it is 0 
+ 
 
 ```
 
