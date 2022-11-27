@@ -41,6 +41,18 @@ end
 class ItemRepository
 end
 
+# Table name: orders
+
+# Model class
+# (in lib/order.rb)
+class Order
+end
+
+# Repository class
+# (in lib/order_repository.rb)
+class OrderRepository
+end
+
 4. Implement the Model class
 
 # Table name: items
@@ -50,6 +62,15 @@ end
 
 class Item
   attr_accessor :id, :product, :price, quantity
+end
+
+# Table name: irders
+
+# Model class
+# (in lib/order.rb)
+
+class Order
+  attr_accessor :id, :customer, :date
 end
 
 5. Define the Repository Class interface
@@ -78,7 +99,36 @@ class ItemRepository
 
     # Returns nothing
   end
+end
 
+# Table name: orders
+
+# Repository class
+# (in lib/order_repository.rb)
+
+class OrderRepository
+
+  # Selecting all orders
+  # No arguments
+  def all
+    # Executes the SQL query:
+    # SELECT orders.id, orders.customer, orders.date, item_id 
+      FROM orders
+      JOIN items_orders ON items_orders.order_id = orders.id;
+
+    # Returns an array of Order objects.
+  end
+
+  # Create a new order
+  # Two argument: info, items - info is an instance of the Order class, Items in an array of items.id
+  def add(info, items)
+    # Executes the SQL query:
+    # INSERT INTO orders (customer, date) VALUES ($1, $2);
+
+    # INSERT INTO items_orders (item_id, order_id) VALUES ($1, $2)
+
+    # Returns nothing
+  end
 end
 
 6. Write Test Examples
@@ -119,6 +169,26 @@ items[-1].id # =>  4
 items[-1].product # =>  'Damsen'
 items[-1].price # =>  5
 items[-1].quantity # => 10
+
+# 3
+# List all orders
+
+repo = OrderRepository.new
+
+orders = repo.all
+
+orders.length # => 6
+
+orders[0].id # => '1'
+orders[0].customer # => 'Andy'
+orders[0].date # => '2022-01-01'
+orders[0].item_id # => '1'
+
+orders[1].id # => '1'
+orders[1].customer # => 'Andy'
+orders[1].date # => '2022-01-01'
+orders[1].item_id # => '2'
+
 
 7. Reload the SQL seeds before each test run
 
