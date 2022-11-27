@@ -2,14 +2,14 @@ require_relative './item'
 
 class ItemRepository
   def all
-    sql = 'SELECT id, item_name, unit_price, quantity FROM items'
+    sql = 'SELECT item_id, item_name, unit_price, quantity FROM items'
     result_set = DatabaseConnection.exec_params(sql, [])
 
     items = []
 
     result_set.each do |record|
       item = Item.new
-      item.id = record['id']
+      item.item_id = record['item_id']
       item.item_name = record['item_name']
       item.unit_price = record['unit_price']
       item.quantity = record['quantity']

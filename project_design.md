@@ -75,14 +75,14 @@ order_date: text
 
 # EXAMPLE
 
-1. Can one item have many orders? NO
-2. Can one order have many items? YES
+1. Can one item have many orders? YES
+2. Can one order have many items? NO
 
 -> Therefore,
--> An order HAS MANY items
--> An item BELONGS TO an order
+-> An item HAS MANY orders
+-> An order BELONGS TO an item
 
--> Therefore, the foreign key is on the items table.
+-> Therefore, the foreign key is on the orders table.
 
 4. Write the SQL.
 -- EXAMPLE
@@ -91,21 +91,31 @@ order_date: text
 -- Replace the table name, columm names and types.
 
 -- Create the table without the foreign key first.
-CREATE TABLE orders (
-  id SERIAL PRIMARY KEY,
-  customer_name text,
-  item_id int,
-  order_date text
+CREATE TABLE items (
+  item_id SERIAL PRIMARY KEY,
+  item_name text,
+  unit_price int,
+  quantity int
 );
 
 -- Then the table with the foreign key first.
-CREATE TABLE items (
-  id SERIAL PRIMARY KEY,
-  item_name text,
-  unit_price int,
-  quantity int,
-  constraint fk_order foreign key(order_id)
-    references orders(id)
+CREATE TABLE orders (
+  order_id SERIAL PRIMARY KEY,
+  customer_name text,
+  item_id int,
+  order_date text,
+  constraint fk_item foreign key(item_id)
+    references items(item_id)
+    on delete cascade
+);
+
+CREATE TABLE ordersitems (
+  order_id SERIAL PRIMARY KEY,
+  customer_name text,
+  item_id int,
+  order_date text,
+  constraint fk_item foreign key(item_id)
+    references items(item_id)
     on delete cascade
 );
 

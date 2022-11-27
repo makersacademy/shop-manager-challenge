@@ -37,48 +37,64 @@ class Application
     choice(@io.gets.chomp)
   end
 
-  def choice(selection)
-    if selection == "1"
-      @io.puts "Here is the list of items:"
-      item_repo = @item_repository.all
-      item_repo.each do |item|
-        @io.puts "#{item.id} #{item.item_name} - Unit price: £#{item.unit_price} - Quantity: #{item.quantity}"
-      end
-
-    elsif selection == "2"
-      new_item = Item.new
-      @io.puts "Please enter an item name"
-      new_item.item_name = @io.gets.chomp
-      @io.puts "Please enter a number representing price per unit"
-      new_item.unit_price = @io.gets.chomp
-      @io.puts "Please enter a number representing number of units"
-      new_item.quantity = @io.gets.chomp
-      @item_repository.create(new_item)
-      @io.puts "Successfully created new item!"
-
-    elsif selection == "3"
-      @io.puts "Here is the list of orders:"
-      order_repo = @order_repository.all
-      order_repo.each do |order|
-        @io.puts "#{order.id} #{order.customer_name} - Item ID: #{order.item_id} - Date: #{order.order_date}"
-      end
-
-    elsif selection == "4"
-      new_order = Order.new
-      @io.puts "Please enter a customer name"
-      new_order.customer_name = @io.gets.chomp
-      @io.puts "Please enter an item ID"
-      new_order.item_id = @io.gets.chomp
-      @io.puts "Please enter an order date"
-      new_order.order_date = @io.gets.chomp
-      @order_repository.create(new_order)
-      @io.puts "Successfully created new order!"
-
-    else
-      @io.puts "Please enter a valid option:"
-      menu
+  def choice(option)
+    case option
+      when "1"
+        item_list
+      when "2"
+        new_item
+      when "3"
+        order_list
+      when "4"
+        new_order
+      else
+        unknown_input
     end
+  end
 
+  def item_list
+    @io.puts "Here is the list of items:"
+    item_repo = @item_repository.all
+    item_repo.each do |item|
+      @io.puts "#{item.item_id} #{item.item_name} - Unit price: £#{item.unit_price} - Quantity: #{item.quantity}"
+    end
+  end
+
+  def new_item
+    new_item = Item.new
+    @io.puts "Please enter an item name"
+    new_item.item_name = @io.gets.chomp
+    @io.puts "Please enter a number representing price per unit in GBP"
+    new_item.unit_price = @io.gets.chomp
+    @io.puts "Please enter a number representing number of units"
+    new_item.quantity = @io.gets.chomp
+    @item_repository.create(new_item)
+    @io.puts "Successfully created new item!"
+  end
+
+  def order_list
+    @io.puts "Here is the list of orders:"
+    order_repo = @order_repository.all
+    order_repo.each do |order|
+      @io.puts "#{order.order_id} #{order.customer_name} - Date: #{order.order_date} - Item: #{order.item_name} - Price: £#{order.unit_price}"
+    end
+  end
+
+  def new_order
+    new_order = Order.new
+    @io.puts "Please enter a customer name"
+    new_order.customer_name = @io.gets.chomp
+    @io.puts "Please enter an item ID"
+    new_order.item_id = @io.gets.chomp
+    @io.puts "Please enter an order date"
+    new_order.order_date = @io.gets.chomp
+    @order_repository.create(new_order)
+    @io.puts "Successfully created new order!"
+  end
+
+  def unknown_input
+    @io.puts "Please enter a valid option:"
+    menu
   end
 end
 

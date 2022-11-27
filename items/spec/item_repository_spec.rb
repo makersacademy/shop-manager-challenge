@@ -1,4 +1,4 @@
-require 'Item_repository'
+require 'item_repository'
 
 RSpec.describe ItemRepository do
   def reset_items_table
@@ -18,7 +18,7 @@ RSpec.describe ItemRepository do
       items = repo.all
 
       expect(items.length).to eq(6)
-      expect(items.first.id).to eq('1')
+      expect(items.first.item_id).to eq('1')
       expect(items.first.item_name).to eq("Electric Guitar")
       expect(items.first.unit_price).to eq("500")
       expect(items.first.quantity).to eq("25")
