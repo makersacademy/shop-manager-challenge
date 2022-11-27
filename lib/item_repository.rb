@@ -25,7 +25,7 @@ class ItemRepository
 
     DatabaseConnection.exec_params(sql, params)
 
-    return "test"
+    return nil
   end
 
   private

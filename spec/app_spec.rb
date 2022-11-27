@@ -83,6 +83,21 @@ RSpec.describe Application do
       @app.run
     end
 
+    it 'Asks for quantity again if incorrect quantity' do
+      interactive_menu
+      expect(@io).to receive(:gets).and_return("2").ordered
+      expect(@io).to receive(:puts).with("Enter Item name:").ordered
+      expect(@io).to receive(:gets).and_return("item 5").ordered
+      expect(@io).to receive(:puts).with("Enter Unit Price:").ordered
+      expect(@io).to receive(:gets).and_return("55555.55").ordered
+      expect(@io).to receive(:puts).with("Enter Quantity:").ordered
+      expect(@io).to receive(:gets).and_return("string").ordered
+      expect(@io).to receive(:puts).with("Enter Quantity:").ordered
+      expect(@io).to receive(:gets).and_return("55555").ordered
+      expect(@io).to receive(:puts).with("item 5 has been added").ordered
+      @app.run
+    end
+
     private
 
     def interactive_menu

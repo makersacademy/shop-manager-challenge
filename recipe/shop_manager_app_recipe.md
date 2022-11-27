@@ -127,7 +127,7 @@ combinations that reflect the ways in which the system will be used._
       puts "item 5 has been added"
 
 
-# 4  Does not insert new item when 3 input due to incorrect unit price' do
+# 5  Asks for unit price again if incorrect unit price' do
 
       puts "Welcome to the shop management program!"
       puts "What do you want to do?"
@@ -139,6 +139,28 @@ combinations that reflect the ways in which the system will be used._
       puts "Enter Item name:"
       gets "item 5"
       puts "Enter Unit Price:"
+      gets "string"
+      puts "Enter Unit Price:"
+      gets "55555.55"
+      puts "Enter Quantity:"
+      gets 55555
+      puts "item 5 has not been added"
+
+
+# 5  Asks for quantity again if incorrect quantity' do
+
+      puts "Welcome to the shop management program!"
+      puts "What do you want to do?"
+      puts "  1 = list all shop items"
+      puts "  2 = create a new item"
+      puts "  3 = list all orders"
+      puts "  4 = create a new order"
+      gets 2
+      puts "Enter Item name:"
+      gets "item 5"
+      puts "Enter Unit Price:"
+      gets "55555.55"
+      puts "Enter Quantity:"
       gets "string"
       puts "Enter Quantity:"
       gets 55555
