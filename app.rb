@@ -9,13 +9,11 @@ require_relative './lib/create_order'
 
 class Application
 
-  def initialize(database_name, io, item_repository, order_repository, create_item, print_orders, create_order)
+  def initialize(database_name, io, item_repository, order_repository, print_orders, create_order)
     DatabaseConnection.connect(database_name)
     @io = io
     @item_repository = item_repository
     @order_repository = order_repository
-    # @print_items = print_items(@item_repository, @io)
-    @create_item = create_item
     @print_orders = print_orders
     @create_order = create_order
   end
@@ -39,11 +37,11 @@ class Application
   def process(selection)
     case selection
     when "1"
-      print_items = PrintItems.new(@item_repository, @io)
-      print_items.print_items
+      items = PrintItems.new(@item_repository, @io)
+      items.print_items
     when "2"
-     
-      @create_item.create_item(@item_repository, @io)
+      item = CreateItem.new(@item_repository, @io)
+      item.create_item
     when "3"
       @print_orders.print_orders(@order_repository, @io)
     when "4"
@@ -59,8 +57,6 @@ if __FILE__ == $0
     Kernel,
     ItemRepository.new,
     OrderRepository.new,
-    # PrintItems.new, 
-    CreateItem.new, 
     PrintOrders.new, 
     CreateOrder.new
   )

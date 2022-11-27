@@ -8,8 +8,6 @@ RSpec.describe Application do
       @io,
       ItemRepository.new,
       OrderRepository.new,
-      # PrintItems.new, 
-      CreateItem.new, 
       PrintOrders.new,
       CreateOrder.new
     )
