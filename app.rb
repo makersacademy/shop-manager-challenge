@@ -2,14 +2,16 @@
 
 require_relative './lib/item_repository'
 require_relative './lib/order_repository'
+require_relative './lib/print_items'
 
 class Application
 
-  def initialize(database_name, io, item_repository, order_repository)
+  def initialize(database_name, io, item_repository, order_repository, print_items)
     DatabaseConnection.connect(database_name)
     @io = io
     @item_repository = item_repository
     @order_repository = order_repository
+    @print_items = print_items
   end
 
   def run
@@ -31,7 +33,7 @@ class Application
   def process(selection)
     case selection
     when "1"
-      print_items
+      @print_items.print_items(@item_repository, @io)
     when "2"
       create_item
     when "3"
@@ -41,13 +43,13 @@ class Application
     end
   end
 
-  def print_items
-    @io.puts "Here's a list of all shop items:"
-    items = @item_repository.all
-    items.each { |item|
-      @io.puts "##{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
-    }
-  end
+  # def print_items
+  #   @io.puts "Here's a list of all shop items:"
+  #   items = @item_repository.all
+  #   items.each { |item|
+  #     @io.puts "##{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
+  #   }
+  # end
 
   def create_item
     item = Item.new
@@ -119,7 +121,8 @@ if __FILE__ == $0
     'shop_manager',
     Kernel,
     ItemRepository.new,
-    OrderRepository.new
+    OrderRepository.new,
+    PrintItems.new
   )
   app.run
 end

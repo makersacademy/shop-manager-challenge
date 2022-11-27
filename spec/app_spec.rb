@@ -7,7 +7,8 @@ RSpec.describe Application do
       'shop_manager_test',
       @io,
       ItemRepository.new,
-      OrderRepository.new
+      OrderRepository.new,
+      PrintItems.new
     )
   end
   def reset_items_table
