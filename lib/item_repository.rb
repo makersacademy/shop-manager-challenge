@@ -26,8 +26,11 @@ class ItemRepository
 
   # Creating a new item record (takes an instance of Item)
   def create(item)
-    # sql = "INSERT INTO items (name, unit_price, quantity) VALUES($1, $2, $3);"
-    # params = [item.name, item.unit_price, item.quantity]
-    # DatabaseConnection.exec_params(sql, params)
+    raise "Only items can be added" if (!item.is_a? Item)
+    
+    sql = "INSERT INTO items (name, unit_price, quantity) VALUES($1, $2, $3);"
+    params = [item.name, item.unit_price, item.quantity]
+    DatabaseConnection.exec_params(sql, params)
+    return nil
   end
 end

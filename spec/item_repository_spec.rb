@@ -1,12 +1,10 @@
 require 'item_repository'
 
-
 def reset_tables
   seed_sql = File.read('spec/seeds_items_orders.sql')
   connection = PG.connect({ host: '127.0.0.1', dbname: 'items_orders_test' })
   connection.exec(seed_sql)
 end
-
 
 RSpec.describe ItemRepository do
 
@@ -31,39 +29,30 @@ RSpec.describe ItemRepository do
 
   describe "#create(new_item)" do
     it "adds a new item" do
+      new_item = Item.new
+      new_item.name = 'Nespresso Coffee Machine'
+      new_item.unit_price = 59
+      new_item.quantity = 20
+      
+      repo = ItemRepository.new
+      repo.create(new_item)
+      
+      items = repo.all
+      
+      expect(items.last.id).to eq '6'
+      expect(items.last.name).to eq 'Nespresso Coffee Machine'
+      expect(items.last.unit_price).to eq '59'
+      expect(items.last.quantity).to eq '20'
+    end
 
+    it "raises an error if a non-Item object is passed as an argument" do
+      new_order = Order.new
+      new_order.customer_name = 'Test'
+      new_order.item_id = 5
+      new_order.date = '2022-11-27'
+
+      repo = ItemRepository.new
+      expect{ repo.create(new_order) }.to raise_error "Only items can be added"
     end
   end
 end
-
-
-
-
-
-
-
-
-
-
-
-
-# # Create an item
-# # 1 (passing an Item object to #create)
-# repo = ItemRepository.new
-
-# new_item = Item.new
-# new_item.name = 'Nespresso Coffee Machine'
-# new_item.unit_price = 59
-# new_item.quantity = 20
-
-# repo.create(new_item)
-
-# items = repo.all
-
-# expect(items.last.id).to eq 6
-# expect(items.last.name).to eq 'Nespresso Coffee Machine'
-# expect(items.last.unit_price).to eq '59'
-# expect(items.last.quantity).to eq '20'
-
-# # 2 (passing a non Item object to #create)
-# raise_error (with string, int, nil, etc.)
