@@ -7,5 +7,4 @@ class PrintOrders
       io.puts "##{order.id} #{order.customer_name} Order Date: #{order.order_date} Item: #{order.item_name}"
     }
   end
-
 end
