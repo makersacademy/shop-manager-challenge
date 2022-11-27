@@ -73,5 +73,5 @@ This application allows a user to:
 > List all items in stock, including quantities and unit prices 
 > Create new items to be added to the stock list, which also updates the database
 > List all previous orders, including customer name, item(s) purchased, date of purchase
-> Create a new order, including quanity required, which updates the database.
+> Create a new order, including quantity required, which updates the database.
 > It also doesn't allow an order to be created if stock is too low
