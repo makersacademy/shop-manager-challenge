@@ -7,18 +7,12 @@ require_relative 'item'
 # We need to give the database name to the method `connect`.
 DatabaseConnection.connect('shop_test')
 
-# Perform a SQL query on the database and get the result set.
-sql = 'SELECT id, item_name, unit_price, quantity FROM items;'
-result = DatabaseConnection.exec_params(sql, [])
-
-# Print out each record from the result set .
 class Menu
   def initialize(terminal)
     @terminal = terminal
   end
 
   def menu_1
-    # puts "Here's a list of shop items"
     @terminal.puts "Here's a list of shop items"
     results = ItemRepository.new
     results.all.each do |record|
@@ -47,6 +41,21 @@ class Menu
     end
   end
 
+  def menu_4
+    @terminal.puts "Let's create a new order!\nEnter a date for this order"
+    results = OrderRepository.new
+    order = Order.new
+    order.date = @terminal.gets
+    @terminal.puts "Enter a customer name for this order"
+    order.customer_name = @terminal.gets
+    @terminal.puts "Enter an item id for this order"
+    order.item_id = @terminal.gets
+    @terminal.puts "Enter a quantity for this order"
+    order.quantity = @terminal.gets
+
+    results.create(order)
+  end
+
   def run_menu
     @terminal.puts "Welcome to the shop management program!\n\nWhat would you like to do? (type a number)\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order"
     
@@ -57,6 +66,8 @@ class Menu
       self.menu_2
     elsif menu_choice == "3"
       self.menu_3
+    elsif menu_choice == "4"
+      self.menu_4
     end
   end
   # def choose_menu(run_menu)

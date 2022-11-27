@@ -52,7 +52,7 @@ describe Menu do
   #     menu.choose_menu("1")
   #   end
   # end
-    it "prints a menu, asks the user to choose and runs the menu_3 method if the user chooses 3" do
+    it "prints a menu, asks the user to choose and runs the menu_2 method if the user chooses 2" do
       terminal = double :terminal      
       repo = ItemRepository.new
       expect(terminal).to receive(:puts).with("Welcome to the shop management program!\n\nWhat would you like to do? (type a number)\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order").ordered
@@ -88,6 +88,32 @@ describe Menu do
       expect(terminal).to receive(:puts).with("Here's a list of orders").ordered
       expect(repo_array.first).to eq "1 - 01/10/2022 - Hillary - 1 - 1"
       expect(repo_array.last).to eq("5 - 05/11/2022 - Helen - 2 - 2")
+      menu_choice = Menu.new(terminal)
+      menu_choice.run_menu
+    end
+    it "prints a menu, asks the user to choose and runs the menu_4 method if the user chooses 4" do
+      terminal = double :terminal      
+      repo = OrderRepository.new
+      expect(terminal).to receive(:puts).with("Welcome to the shop management program!\n\nWhat would you like to do? (type a number)\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order").ordered
+      expect(terminal).to receive(:gets).and_return("4").ordered
+      expect(terminal).to receive(:puts).with("Let's create a new order!\nEnter a date for this order").ordered
+      expect(terminal).to receive(:gets).and_return("01/05/2022").ordered
+      expect(terminal).to receive(:puts).with("Enter a customer name for this order").ordered
+      expect(terminal).to receive(:gets).and_return("Jacob").ordered
+      expect(terminal).to receive(:puts).with("Enter an item id for this order").ordered
+      expect(terminal).to receive(:gets).and_return("2").ordered
+      expect(terminal).to receive(:puts).with("Enter a quantity for this order").ordered
+      expect(terminal).to receive(:gets).and_return("6").ordered
+
+      order = Order.new
+      order.date = "01/05/2022"
+      order.customer_name = "Jacob"
+      order.item_id = "2"
+      order.quantity = "6"
+
+      repo.create(order)
+
+      expect(repo.all.length).to eq 6
       menu_choice = Menu.new(terminal)
       menu_choice.run_menu
     end
