@@ -1,5 +1,5 @@
-require 'database_connection'
-require 'item'
+require_relative 'database_connection'
+require_relative 'item'
 
 class ItemRepository
 
