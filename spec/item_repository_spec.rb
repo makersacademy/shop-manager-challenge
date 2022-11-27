@@ -1,4 +1,5 @@
 require 'item_repository'
+require 'order_repository'
 
 def reset_items_table
   seed_sql = File.read('spec/seeds.sql')
@@ -73,15 +74,4 @@ describe ItemRepository do
     expect(item.price).to eq 82.00
     expect(item.quantity).to eq 9
   end
-
-  # xit "finds an item and it's related orders" do
-  #   repo = ItemRepository.new
-  #   item = repo.find_by_order(2)
-  #   expect(item.orders.length).to eq 1
-  #   expect(item.name).to eq 'TV'
-  #   expect(item.price).to eq 99.99
-  #   expect(item.quantity).to eq 5
-  #   expect(item.orders.first.customer).to eq 'Tom'
-  #   expect(item.orders.first.date).to eq '2022-01-02'
-  # end
 end

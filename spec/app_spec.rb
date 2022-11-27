@@ -29,11 +29,14 @@ RSpec.describe Application do
 
   it "prints the list of orders if user input is 3" do
     terminal = double :terminal
-    order1 = double :order, id: 1, customer: "Rob", date: '2022-01-01'
-    order2 = double :order, id: 2, customer: "Tom", date: '2022-01-02'
-    order3 = double :order, id: 3, customer: "Anisha", date: '2022-01-02'
-    order_repository = double :order_repository, all: [order1, order2, order3]
+    item1 = double :item, id: 1, name: "TV", price: 99.99, quantity: "5"
+    item2 = double :item, id: 2, name: "Fridge", price: 80.00, quantity: "10"
+    item3 = double :item, id: 3, name: "Toaster", price: 9.99, quantity: "10"
+    order1 = double :order, id: 1, customer: "Rob", date: '2022-01-01', items: [item1, item2]
+    order2 = double :order, id: 2, customer: "Tom", date: '2022-01-02', items: [item1]
+    order3 = double :order, id: 3, customer: "Anisha", date: '2022-01-02', items: [item3]
     item_repository = double :item_repository
+    order_repository = double :order_repository
     expect(terminal).to receive(:puts).with("Welcome to the shop management program!").ordered
     expect(terminal).to receive(:puts).with("").ordered
     expect(terminal).to receive(:puts).with("What do you want to do?").ordered
@@ -46,9 +49,17 @@ RSpec.describe Application do
     expect(terminal).to receive(:puts).with("").ordered
     expect(terminal).to receive(:puts).with("Here's a list of all orders:").ordered
     expect(terminal).to receive(:puts).with("").ordered
-    expect(terminal).to receive(:puts).with("#1 Rob - Date: 2022-01-01")
-    expect(terminal).to receive(:puts).with("#2 Tom - Date: 2022-01-02")
-    expect(terminal).to receive(:puts).with("#3 Anisha - Date: 2022-01-02")
+    expect(order_repository).to receive(:all).and_return [order1, order2, order3]
+    expect(order_repository).to receive(:find_with_item).with(1).and_return order1
+    expect(terminal).to receive(:puts).with("#1 Rob - Date: 2022-01-01").ordered
+    expect(terminal).to receive(:puts).with("   TV").ordered
+    expect(terminal).to receive(:puts).with("   Fridge").ordered
+    expect(order_repository).to receive(:find_with_item).with(2).and_return order2
+    expect(terminal).to receive(:puts).with("#2 Tom - Date: 2022-01-02").ordered
+    expect(terminal).to receive(:puts).with("   TV").ordered
+    expect(order_repository).to receive(:find_with_item).with(3).and_return order3
+    expect(terminal).to receive(:puts).with("#3 Anisha - Date: 2022-01-02").ordered
+    expect(terminal).to receive(:puts).with("   Toaster").ordered
     app = Application.new("shop_inventory_test", terminal, item_repository, order_repository)
     app.run
   end

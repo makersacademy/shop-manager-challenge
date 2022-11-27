@@ -46,6 +46,38 @@ class OrderRepository
     return nil
   end
 
+  def find_with_item(order_id)
+    sql = 'SELECT orders.id,
+                  orders.customer,
+                  orders.date,
+                  items.id AS "item_id",
+                  items.name,
+                  items.price,
+                  items.quantity
+          FROM orders
+          JOIN items_orders ON items_orders.order_id = orders.id
+          JOIN items ON items_orders.item_id = items.id
+          WHERE orders.id = $1;'
+    params = [order_id]
+    result_set = DatabaseConnection.exec_params(sql, params)
+    record = result_set[0]
+
+    order = Order.new
+    order.id = record['id'].to_i
+    order.customer = record['customer']
+    order.date = record['date']
+
+    result_set.each do |record|
+      item = Item.new
+      item.id = record['item_id'].to_i
+      item.name = record['name']
+      item.price = record['price'].to_f
+      item.quantity = record['quantity'].to_i
+      order.items << item
+    end
+    return order
+  end
+
   private
 
   def unpack_record(record)

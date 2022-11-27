@@ -50,8 +50,14 @@ class Application
   def list_orders
     @io.puts "Here's a list of all orders:"
     @io.puts ""
-    @order_repository.all.each do |order|
-      @io.puts "##{order.id} #{order.customer} - Date: #{order.date}"
+    i = 0
+    number_of_orders = @order_repository.all.length
+    loop do
+      i += 1
+      if i > number_of_orders then break end
+      order = @order_repository.find_with_item(i)
+      @io.puts "##{i} #{order.customer} - Date: #{order.date}"
+      order.items.each {|item| @io.puts "   #{item.name}"}
     end
   end
   
