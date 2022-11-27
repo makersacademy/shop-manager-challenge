@@ -4,16 +4,18 @@ require_relative './lib/item_repository'
 require_relative './lib/order_repository'
 require_relative './lib/print_items'
 require_relative './lib/create_item'
+require_relative './lib/print_orders'
 
 class Application
 
-  def initialize(database_name, io, item_repository, order_repository, print_items, create_item)
+  def initialize(database_name, io, item_repository, order_repository, print_items, create_item, print_orders)
     DatabaseConnection.connect(database_name)
     @io = io
     @item_repository = item_repository
     @order_repository = order_repository
     @print_items = print_items
     @create_item = create_item
+    @print_orders = print_orders
   end
 
   def run
@@ -39,45 +41,11 @@ class Application
     when "2"
       @create_item.create_item(@item_repository, @io)
     when "3"
-      print_orders
+      @print_orders.print_orders(@order_repository, @io)
     when "4"
       create_order
     end
   end
-
-  # def create_item
-  #   item = Item.new
-  #   item.quantity = ""
-  #   item.unit_price = ""
-
-  #   @io.puts "Enter Item name:"
-  #   item.name = @io.gets.chomp
-
-  #   until item.unit_price.to_f.to_s == item.unit_price do
-  #     @io.puts "Enter Unit Price:"
-  #     item.unit_price = @io.gets.chomp
-  #   end.to_f
-  
-  #   until item.quantity.to_i.to_s == item.quantity do
-  #     @io.puts "Enter Quantity:"
-  #     item.quantity = @io.gets.chomp
-  #   end.to_i
-
-  #   @item_repository.create(item)
-  #   added_item = @item_repository.all.last.name
-    
-  #   @io.puts "#{added_item} has been added"
-  # end
-
-
-  def print_orders
-    @io.puts "Here's a list of all shop orders:"
-    orders = @order_repository.all
-    orders.each { |order|
-      @io.puts "##{order.id} #{order.customer_name} Order Date: #{order.order_date} Item: #{order.item_name}"
-    }
-  end
-
 
   def create_order
     order = Order.new
@@ -117,7 +85,8 @@ if __FILE__ == $0
     ItemRepository.new,
     OrderRepository.new,
     PrintItems.new, 
-    CreateItem.new
+    CreateItem.new, 
+    PrintOrders.new
   )
   app.run
 end

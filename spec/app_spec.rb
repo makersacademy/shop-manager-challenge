@@ -9,7 +9,8 @@ RSpec.describe Application do
       ItemRepository.new,
       OrderRepository.new,
       PrintItems.new, 
-      CreateItem.new
+      CreateItem.new, 
+      PrintOrders.new
     )
   end
   def reset_items_table
