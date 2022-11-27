@@ -23,25 +23,15 @@ RSpec.describe Application do
     end 
  
     it 'puts interactive menu' do
-      expect(@io).to receive(:puts).with("Welcome to the shop management program!")
-      expect(@io).to receive(:puts).with("What do you want to do?")
-      expect(@io).to receive(:puts).with("  1 = list all shop items")
-      expect(@io).to receive(:puts).with("  2 = create a new item")
-      expect(@io).to receive(:puts).with("  3 = list all orders")
-      expect(@io).to receive(:puts).with("  4 = create a new order")
+      interactive_menu
       expect(@io).to receive(:gets).and_return("\n")
       @app.run
     end
 
 
-    it 'puts interactive menu and puts all items when 1 input' do
-      expect(@io).to receive(:puts).with("Welcome to the shop management program!")
-      expect(@io).to receive(:puts).with("What do you want to do?")
-      expect(@io).to receive(:puts).with("  1 = list all shop items")
-      expect(@io).to receive(:puts).with("  2 = create a new item")
-      expect(@io).to receive(:puts).with("  3 = list all orders")
-      expect(@io).to receive(:puts).with("  4 = create a new order")
-      expect(@io).to receive(:gets).and_return("1\n")
+    it 'puts all items when 1 input' do
+      interactive_menu
+      expect(@io).to receive(:gets).and_return("1")
       expect(@io).to receive(:puts).with("Here's a list of all shop items:")
       expect(@io).to receive(:puts).with("#1 item 1 - Unit price: £1.11 - Quantity: 1")
       expect(@io).to receive(:puts).with("#2 item 2 - Unit price: £22.22 - Quantity: 22")
@@ -50,14 +40,9 @@ RSpec.describe Application do
       @app.run
     end
 
-    it 'puts interactive menu and puts all order when 3 input' do
-      expect(@io).to receive(:puts).with("Welcome to the shop management program!")
-      expect(@io).to receive(:puts).with("What do you want to do?")
-      expect(@io).to receive(:puts).with("  1 = list all shop items")
-      expect(@io).to receive(:puts).with("  2 = create a new item")
-      expect(@io).to receive(:puts).with("  3 = list all orders")
-      expect(@io).to receive(:puts).with("  4 = create a new order")
-      expect(@io).to receive(:gets).and_return("3\n")
+    it 'Puts all order when 3 input' do
+      interactive_menu
+      expect(@io).to receive(:gets).and_return("3")
       expect(@io).to receive(:puts).with("Here's a list of all shop orders:")
       expect(@io).to receive(:puts).with("#1 customer 1 Order Date: 2022-01-25 Item: item 1")
       expect(@io).to receive(:puts).with("#2 customer 2 Order Date: 2022-12-01 Item: item 2")
@@ -70,5 +55,43 @@ RSpec.describe Application do
       @app.run
     end
 
-  end 
+    it 'Inserts new item when 3 input' do
+      interactive_menu
+      expect(@io).to receive(:gets).and_return("2").ordered
+      expect(@io).to receive(:puts).with("Enter Item name:").ordered
+      expect(@io).to receive(:gets).and_return("item 5").ordered
+      expect(@io).to receive(:puts).with("Enter Unit Price:").ordered
+      expect(@io).to receive(:gets).and_return("55555.55").ordered
+      expect(@io).to receive(:puts).with("Enter Quantity:").ordered
+      expect(@io).to receive(:gets).and_return("55555").ordered
+      expect(@io).to receive(:puts).with("item 5 has been added").ordered
+      @app.run
+    end
+
+    it 'Asks for unit price again if incorrect unit price' do
+      interactive_menu
+      expect(@io).to receive(:gets).and_return("2").ordered
+      expect(@io).to receive(:puts).with("Enter Item name:").ordered
+      expect(@io).to receive(:gets).and_return("item 5").ordered
+      expect(@io).to receive(:puts).with("Enter Unit Price:").ordered
+      expect(@io).to receive(:gets).and_return("string").ordered
+      expect(@io).to receive(:puts).with("Enter Unit Price:").ordered
+      expect(@io).to receive(:gets).and_return("55555.55").ordered
+      expect(@io).to receive(:puts).with("Enter Quantity:").ordered
+      expect(@io).to receive(:gets).and_return("55555").ordered
+      expect(@io).to receive(:puts).with("item 5 has been added").ordered
+      @app.run
+    end
+
+    private
+
+    def interactive_menu
+      expect(@io).to receive(:puts).with("Welcome to the shop management program!").ordered
+      expect(@io).to receive(:puts).with("What do you want to do?").ordered
+      expect(@io).to receive(:puts).with("  1 = list all shop items").ordered
+      expect(@io).to receive(:puts).with("  2 = create a new item").ordered
+      expect(@io).to receive(:puts).with("  3 = list all orders").ordered
+      expect(@io).to receive(:puts).with("  4 = create a new order").ordered
+    end 
+  end
 end

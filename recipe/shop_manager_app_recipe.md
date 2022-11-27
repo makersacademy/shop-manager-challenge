@@ -66,20 +66,84 @@ combinations that reflect the ways in which the system will be used._
 ```ruby
 # EXAMPLE
 
-# Open up interactive
+# 1 Puts interactive menu
+
+    puts "Welcome to the shop management program!"
+    puts "What do you want to do?"
+    puts "  1 = list all shop items"
+    puts "  2 = create a new item"
+    puts "  3 = list all orders"
+    puts "  4 = create a new order"
 
 
+# 2  Puts interactive menu and puts all items when 1 input
+
+    puts "Welcome to the shop management program!"
+    puts "What do you want to do?"
+    puts "  1 = list all shop items"
+    puts "  2 = create a new item"
+    puts "  3 = list all orders"
+    puts "  4 = create a new order"
+    gets 1
+    puts "#1 item 1 - Unit price: £1.11 - Quantity: 1"
+    puts "#1 item 2 - Unit price: £22.22 - Quantity: 22"
+    puts "#1 item 3 - Unit price: £333.33 - Quantity: 333"
+    puts "#1 item 4 - Unit price: £4444.44 - Quantity: 4444"
+
+# 3  Puts all order when 3 input' do
+      puts "Welcome to the shop management program!"
+      puts "What do you want to do?"
+      puts "  1 = list all shop items"
+      puts "  2 = create a new item"
+      puts "  3 = list all orders"
+      puts "  4 = create a new order"
+      gets 3
+      puts "Here's a list of all shop orders:"
+      puts "#1 customer 1 Order Date: 2022-01-25 Item: item 1"
+      puts "#2 customer 2 Order Date: 2022-12-01 Item: item 2"
+      puts "#3 customer 3 Order Date: 2021-01-03 Item: item 2"
+      puts "#4 customer 4 Order Date: 2022-03-19 Item: item 3"
+      puts "#5 customer 5 Order Date: 2022-02-01 Item: item 1"
+      puts "#6 customer 6 Order Date: 2021-04-03 Item: item 3"
+      puts "#7 customer 7 Order Date: 2022-05-30 Item: item 1"
+      puts "#8 customer 8 Order Date: 2022-11-25 Item: item 4"
 
 
+# 4  Inserts new item when 3 input' do
+
+      puts "Welcome to the shop management program!"
+      puts "What do you want to do?"
+      puts "  1 = list all shop items"
+      puts "  2 = create a new item"
+      puts "  3 = list all orders"
+      puts "  4 = create a new order"
+      gets 2
+      puts "Enter Item name:"
+      gets "item 5"
+      puts "Enter Unit Price:"
+      gets 55555.55
+      puts "Enter Quantity:"
+      gets 55555
+      puts "item 5 has been added"
 
 
+# 4  Does not insert new item when 3 input due to incorrect unit price' do
 
-library = MusicLibrary.new
-track_1 = Track.new("Carte Blanche", "Veracocha")
-track_2 = Track.new("Synaesthesia", "The Thrillseekers")
-library.add(track_1)
-library.add(track_2)
-library.all # => [track_1, track_2]
+      puts "Welcome to the shop management program!"
+      puts "What do you want to do?"
+      puts "  1 = list all shop items"
+      puts "  2 = create a new item"
+      puts "  3 = list all orders"
+      puts "  4 = create a new order"
+      gets 2
+      puts "Enter Item name:"
+      gets "item 5"
+      puts "Enter Unit Price:"
+      gets "string"
+      puts "Enter Quantity:"
+      gets 55555
+      puts "item 5 has not been added"
+
 ```
 
 ## 4. Create Examples as Unit Tests

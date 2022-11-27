@@ -28,6 +28,36 @@ class Application
     @io.puts "  4 = create a new order"
   end
 
+  def process(selection)
+    case selection
+    when "1"
+      print_items
+    when "2"
+      create_item
+    when "3"
+      print_orders
+    end
+  end
+
+  def create_item
+    item = Item.new
+    @io.puts "Enter Item name:"
+    item.name = @io.gets.chomp
+
+    while item.unit_price == 0.00 || item.unit_price == nil do
+      @io.puts "Enter Unit Price:"
+      item.unit_price = @io.gets.chomp.to_f
+    end
+
+    @io.puts "Enter Quantity:"
+    item.quantity = @io.gets.chomp.to_i
+    
+    @item_repository.create(item)
+    added_item = @item_repository.all.last.name
+    
+    @io.puts "#{added_item} has been added"
+  end
+
   def print_items
     @io.puts "Here's a list of all shop items:"
     items = @item_repository.all
@@ -44,14 +74,6 @@ class Application
     }
   end
 
-  def process(selection)
-    case selection
-    when "1"
-      print_items
-    when "3"
-      print_orders
-    end
-  end
 
 end
 

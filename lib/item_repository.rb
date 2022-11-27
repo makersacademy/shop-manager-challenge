@@ -2,7 +2,7 @@ require_relative './item'
 require_relative './database_connection'
 
 class ItemRepository
-  
+
   def all
     sql = 'SELECT id, name, unit_price, quantity 
             FROM items;'
@@ -25,7 +25,7 @@ class ItemRepository
 
     DatabaseConnection.exec_params(sql, params)
 
-    return nil
+    return "test"
   end
 
   private
