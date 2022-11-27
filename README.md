@@ -1,19 +1,18 @@
 Shop Manager Project
 =================
 
-* Feel free to use Google, your notes, books, etc. but work on your own
-* If you refer to the solution of another coach or student, please put a link to that in your README
-* If you have a partial solution, **still check in a partial solution**
-* You must submit a pull request to this repo with your code next Monday morning
+## Solo Project: 
 
-Challenge:
--------
+During the week 3 of Makers Bootcamp, we worked through a sequence of exercises and challenges with the following objectives:
 
-Please start by [forking this repo](https://github.com/makersacademy/shop-manager-challenge/fork), then clone your fork to your local machine. Work into that directory.
+* two tables** from a specification, including a one-to-many relationship between two tables, and create the schema in a database using SQL.
+* **Use SQL to query a database** to read data from one table or resulting of a join, create new records, update and delete.
+* **Integrate a relational database to a program** by test-driving classes which implement CRUD methods to send SQL queries to a database.
+* **Explain how your program communicates with the database** by creating a sequence diagram.
 
-We are going to write a small terminal program allowing the user to manage a shop database containing some items and orders.
+At the end of the module, we were tasked to write a small terminal program allowing the user to manage a shop database containing some items and orders.
 
-User stories:
+##  User stories:
 -------
 
 ```
@@ -66,29 +65,38 @@ Here's a list of all shop items:
  (...)
 ```
 
-Technical Approach:
+See [shop_manager_project.md](/shop_manager_project.md) for full details.
+
+## Technical Approach:
 -----
 
-In this unit, you integrated a database by using the `PG` gem, and test-driving and building Repository classes. You can continue to use this approach when building this challenge.
-
-[You'll also need to mock IO](https://github.com/makersacademy/golden-square/blob/main/mocking_bites/05_unit_testing_terminal_io_bite.md) in your integration or unit tests, since the program will ask for user input.
-
-Notes on test coverage
-----------------------
-
-Please ensure you have the following **AT THE TOP** of your spec_helper.rb in order to have test coverage stats generated
-on your pull request:
-
-```ruby
-require 'simplecov'
-require 'simplecov-console'
-
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-  SimpleCov::Formatter::Console,
-  # Want a nice code coverage website? Uncomment this next line!
-  # SimpleCov::Formatter::HTMLFormatter
-])
-SimpleCov.start
+* Integrated a database by using the `PG` gem, test-driving and building Repository classes. 
+* Mocked IO in integration tests as program asks for user input
+* One to many table design
+* Object-Oriented Design: Implemented Application, Repository and Model classes. See design recipe documents for reference:
+  - [shop_manager_table_recipe.md](/recipe/shop_manager_table_recipe.md) 
+  - [shop_manager_repo_recipe.md](/recipe/shop_manager_repo_recipe.md) 
+  - [shop_manager_app_recipe.md](/recipe/shop_manager_app_recipe.md) 
+* Test-driving using RSpec: Green on all integration and unit tests
 ```
+COVERAGE:  99.50% -- 399/401 lines in 12 files
 
-You can see your test coverage when you run your tests. If you want this in a graphical form, uncomment the `HTMLFormatter` line and see what happens!
++----------+--------+-------+--------+---------+
+| coverage | file   | lines | missed | missing |
++----------+--------+-------+--------+---------+
+|  94.44%  | app.rb | 36    | 2      | 55, 61  |
++----------+--------+-------+--------+---------+
+
+```
+* Debugging: Using debugging techniques and error message info.
+* Version control: Git and Github
+* Languages: Ruby, SQL
+* Relationship Database: PostgreSQL
+
+
+## Further considerations:
+
+* Integrate loop into interactive menu
+* Create unit tests for create_item, create_order, print_item and print_orders
+* Many to many database design
+
