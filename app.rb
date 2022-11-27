@@ -44,6 +44,9 @@ class Application
         create_new_item
       when "3"
         show_all_shop_orders
+
+      when "4"
+        create_new_order
       when "5"
         @terminal.puts 'Goodbye!'
         exit 
@@ -54,7 +57,8 @@ class Application
  
   def show_all_shop_items
 
-    @terminal.puts 'Here are all currently stored shop items'
+    @terminal.puts '_ITEM MENU_
+    '
 
     all_shop_items = @item_repository.all
     
@@ -67,12 +71,9 @@ class Application
   def create_new_item
     item_to_be_created = get_new_item_info
     item = Item.new
-    item.name, item.unit_price, iunit_price = item_to_be_created
+    item.name, item.unit_price, unit_price = item_to_be_created
     @item_repository.create(item)
-    all_shop_items = @item_repository.all
-
-    new_item = all_shop_items.last
-
+    
     @terminal.puts 'New item created!'
   end 
 
@@ -95,6 +96,30 @@ class Application
       @terminal.puts "#{order.id} - Customer name: #{order.customer_name} - Date: #{order.date} - Items: #{order.items.join(', ')}"
     end
   end 
+
+  def create_new_order
+
+    order_to_be_created = get_new_order_info
+    order = Order.new
+    order.customer_name, order.date, item_id  = order_to_be_created
+    @order_repository.create(order, item_id)
+   
+    @terminal.puts 'New order created!'
+
+
+  end 
+
+  def get_new_order_info
+    @terminal.puts 'Now creating a new order\n'
+    @terminal.puts 'Please enter the customer name'
+    customer_name = @terminal.gets.chomp
+    @terminal.puts "Please enter the date the order was placed in the format DD-MMM-YYY - e.g.: 01-Jan-2022 "
+    date = @terminal.gets.chomp
+    show_all_shop_items
+    @terminal.puts "\nPlease select the number of the item you would like to order from the item menu "
+    item_id = @terminal.gets.chomp
+    [customer_name,date,item_id]
+  end
 
   def run
     @terminal.puts 'Welcome to the shop management program!'
