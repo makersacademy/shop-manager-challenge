@@ -1,7 +1,8 @@
 Shop Manager Project
 =================
 
-## Solo Project: 
+## Solo Project:
+----- 
 
 During week 3 of the Makers Bootcamp, we worked through a sequence of exercises and challenges with the following objectives:
 
@@ -76,7 +77,7 @@ See [Shop Manager Project](/shop_manager_project.md) for full details.
 * **Object-Oriented Design:** Implemented Application, Repository and Model classes mapped out in recipe documents:
   - [Shop Manager Table Recipe](/recipe/shop_manager_table_recipe.md) 
   - [Shop Manager Repo Recipe](/recipe/shop_manager_repo_recipe.md) 
-  - [Shop Manager App Recipe.md](/recipe/shop_manager_app_recipe.md) 
+  - [Shop Manager App Recipe](/recipe/shop_manager_app_recipe.md) 
 * **Test-driving using RSpec:** Green on all integration and unit tests
 ```
 COVERAGE:  99.50% -- 399/401 lines in 12 files
