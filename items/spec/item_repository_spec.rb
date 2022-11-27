@@ -17,7 +17,6 @@ RSpec.describe ItemRepository do
 
       items = repo.all
 
-
       expect(items.length).to eq(6)
       expect(items.first.id).to eq('1')
       expect(items.first.item_name).to eq("Electric Guitar")

@@ -17,7 +17,6 @@ RSpec.describe OrderRepository do
 
       orders = repo.all
 
-
       expect(orders.length).to eq(6)
       expect(orders.first.id).to eq('1')
       expect(orders.first.customer_name).to eq("Jeff Winger")

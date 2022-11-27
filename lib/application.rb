@@ -60,7 +60,7 @@ class Application
       @io.puts "Here is the list of orders:"
       order_repo = @order_repository.all
       order_repo.each do |order|
-        @io.puts "#{order.id} #{order.customer_name}- Item ID: #{order.item_id} - Date: #{order.order_date}"
+        @io.puts "#{order.id} #{order.customer_name} - Item ID: #{order.item_id} - Date: #{order.order_date}"
       end
 
     elsif selection == "4"
