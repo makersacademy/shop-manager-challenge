@@ -13,8 +13,8 @@ class OrderRepository
     return orders
   end
 
-  def create(order, items)
-    fail "An order must have items" if items == []
+  def create(order, item_ids)
+    fail "An order must have items" if item_ids == []
 
     # Create the order record in the orders table
     order_creation_query =
@@ -23,7 +23,7 @@ class OrderRepository
     DatabaseConnection.exec_params(order_creation_query, params)
 
     # Update the join table to keep track of the items in the order
-    join_update_records = items.map { |item| "(#{item.id}, #{order.id})" }
+    join_update_records = item_ids.map { |item_id| "(#{item_id}, #{order.id})" }
     join_update_query = "INSERT INTO items_orders (item_id, order_id) VALUES "
     join_update_query += join_update_records.join(", ") + ';'
     DatabaseConnection.exec_params(join_update_query, [])

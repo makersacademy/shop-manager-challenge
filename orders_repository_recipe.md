@@ -124,8 +124,8 @@ class OrderRepository
 
   # Adds new order to list
   # order is an instance of the Order class
-  # items is an array of Item instances
-  def create(order, items)
+  # item_ids is an array of integers: the ids of the items to add
+  def create(order, item_ids)
     # Executes the SQL query:
     # INSERT INTO orders (id, customer_name, date_placed) VALUES ($1, $2, $3);
     # INSERT INTO items_orders (item_id, order_id) VALUES (...)
@@ -166,8 +166,8 @@ new_order = Order.new
 new_order.id = 7
 new_order.customer_name = "Customer Five"
 new_order.date_placed = "2022-01-08"
-items = item_repo.all[1,2]
-order_repo.create(new_order, items)
+item_ids = [2,3]
+order_repo.create(new_order, item_ids)
 
 order_repo.all # => Contains the new element
 item_repo.find_with_order(7) # => Contains items 2 and 3
@@ -181,8 +181,8 @@ new_order = Order.new
 new_order.id = 3
 new_order.customer_name = "Customer Five"
 new_order.date_placed = "2022-01-08"
-items = item_repo.all[1,2]
-order_repo.create(new_order, items) # => fails
+item_ids = [2,3]
+order_repo.create(new_order, item_ids) # => fails
 
 # 4
 # Create fails when trying to add an order with items that don't exist
@@ -193,8 +193,8 @@ new_order.id = 7
 new_order.customer_name = "Customer Five"
 new_order.date_placed = "2022-01-08"
 
-fake_item = double(:fake_item, id: 5, name: "fake_name", unit_price: 1.00, quantity: 1)
-order_repo.create(new_order, [fake_item]) # => fails
+fake_item_id = 5
+order_repo.create(new_order, [fake_item_id]) # => fails
 
 # 5
 # Create fails when trying to create an order without items

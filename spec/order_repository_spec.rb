@@ -36,8 +36,8 @@ RSpec.describe OrderRepository do
     new_order.id = 7
     new_order.customer_name = "Customer Five"
     new_order.date_placed = "2022-01-08"
-    items = item_repo.all[1,2]
-    order_repo.create(new_order, items)
+    item_ids = [2,3]
+    order_repo.create(new_order, item_ids)
 
     expect(order_repo.all).to include(have_attributes(
       id: 7,
@@ -59,8 +59,8 @@ RSpec.describe OrderRepository do
     new_order.id = 3
     new_order.customer_name = "Customer Five"
     new_order.date_placed = "2022-01-08"
-    items = item_repo.all[1,2]
-    expect { order_repo.create(new_order, items) }.to raise_error PG::UniqueViolation
+    item_ids = [2,3]
+    expect { order_repo.create(new_order, item_ids) }.to raise_error PG::UniqueViolation
   end
 
   it "Create fails when trying to add an order with items that don't exist" do
@@ -71,8 +71,8 @@ RSpec.describe OrderRepository do
     new_order.customer_name = "Customer Five"
     new_order.date_placed = "2022-01-08"
 
-    fake_item = double(:fake_item, id: 5, name: "fake_name", unit_price: 1.00, quantity: 1)
-    expect { order_repo.create(new_order, [fake_item]) }.to raise_error PG::ForeignKeyViolation
+    fake_item_id = 5
+    expect { order_repo.create(new_order, [fake_item_id]) }.to raise_error PG::ForeignKeyViolation
   end
 
   it "Create fails when trying to create an order without items" do
