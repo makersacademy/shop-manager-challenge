@@ -21,4 +21,14 @@ class ItemRepository
     params = [item.name, item.unit_price, item.quantity]
     DatabaseConnection.exec_params(sql, params)
   end
+
+  def list_of_item_names
+    sql = 'SELECT name FROM items ORDER BY id;'
+    result_set = DatabaseConnection.exec_params(sql, [])
+    all_items_list = []
+    result_set.each do |record|
+      all_items_list << record['name']
+    end
+    all_items_list
+  end
 end

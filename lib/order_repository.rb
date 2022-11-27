@@ -25,9 +25,10 @@ class OrderRepository
     sql = 'INSERT INTO orders (customer_name, date_placed) VALUES ($1, $2);'
     params = [order.customer_name, order.date_placed]
     result = DatabaseConnection.exec_params(sql, params)
+    order.id = new_order_id
     return if not_enough?(quantity,item_id)
     update_quantity(quantity,item_id)
-    update_join_table(item_id)
+    update_join_table(new_order_id,item_id,quantity)
   end
 
   def not_enough?(quantity,item_id)
@@ -52,10 +53,9 @@ class OrderRepository
     DatabaseConnection.exec_params(sql,params)
   end
 
-  def update_join_table(item_id)
-    sql = 'INSERT INTO orders_items (order_id, item_id) VALUES ($1, $2);'
-    order_id = new_order_id
-    params = [order_id, item_id]
+  def update_join_table(order_id,item_id,quantity)
+    sql = 'INSERT INTO orders_items (order_id, item_id, quantity) VALUES ($1, $2, $3);'
+    params = [order_id, item_id, quantity]
     DatabaseConnection.exec_params(sql,params)
   end
   
@@ -64,5 +64,11 @@ class OrderRepository
     new_order_id = DatabaseConnection.exec_params(sql,[])
     new_order_id[0]['max']
   end
+
+  def add_more_items_to_same_order(order,name,quantity,item_id)
+    update_join_table(order.id,item_id,quantity)
+    order.items << name
+    update_quantity(quantity,item_id)
+  end 
 
 end

@@ -16,7 +16,7 @@ class Application
     loop do
       print_menu
       process(@io.gets.chomp)
-      break # <-- comment out this break to have the menu reprint so multiple operations
+      break # <-- uncomment this break to have the menu reprint so multiple operations
       # can be carried out e.g. list all items then make an order then list orders
     end
   end
@@ -64,24 +64,65 @@ class Application
     order.customer_name, quantity, item_id = order_info
     order.date_placed = Date.today.to_s
     @order_repository.create(order,quantity,item_id)
+    another_item?(order)
   end
 
   def new_order_info
-    @io.puts "What would you like to order?"
-    name = @io.gets.chomp
-    item_id = look_up_item_id(name)
-    @io.puts "How many would you like?"
-    quantity = @io.gets.chomp.to_i
-    @io.puts "Please enter your name"
-    customer_name = @io.gets.chomp
+    customer_name = customer_name_input
+    item_id = item_name_input_to_id[0]
+    quantity = quantity_input
     [customer_name,quantity,item_id]
+  end
+
+  def customer_name_input
+    customer_name = ''
+    until customer_name.match(/^[[:alpha:][:blank:]]+$/) and customer_name.length.positive?
+      @io.puts "Please enter your name"
+      customer_name = @io.gets.chomp
+    end
+    customer_name
+  end
+
+  def item_name_input_to_id
+    item_name = ''
+    items = @item_repository.list_of_item_names
+    until items.include?(item_name)
+      @io.puts "Please enter the name of the item you would like"
+      item_name = @io.gets.chomp
+    end
+    item_id = look_up_item_id(item_name)
+    [item_id,item_name]
+  end
+
+  def quantity_input
+    quantity = ''
+    until quantity.match(/^[0-9]*$/) and quantity.to_i.positive?
+      @io.puts "How many would you like?"
+      quantity = @io.gets.chomp
+    end
+    quantity.to_i
   end
 
   def look_up_item_id(name)
     sql = 'SELECT items.id FROM items WHERE items.name = $1'
     params = [name]
     result = DatabaseConnection.exec_params(sql,params)
-    result[0]['id']
+    result.first['id']
+  end
+
+  def another_item?(order)
+    @io.puts "Would you like to add anything else to your order? y/n" 
+    choice = @io.gets.chomp
+    if choice == 'y'
+      item_id, item_name = item_name_input_to_id
+      quantity = quantity_input
+      @order_repository.add_more_items_to_same_order(order,item_name,quantity,item_id)
+      another_item?(order)
+    elsif choice == 'n' 
+      return
+    else
+      another_item?(order)
+    end 
   end
 
   def create_item
@@ -92,14 +133,39 @@ class Application
   end
 
   def new_item_info
-    @io.puts "What is the name of the item?"
-    name = @io.gets.chomp
-    @io.puts "Please enter the unit price"
-    unit_price =  @io.gets.chomp
-    @io.puts "How many do you have in stock?"
-    quantity = @io.gets.chomp
+    name = new_item_name
+    unit_price = new_item_unit_price
+    quantity = new_item_quantity
     [name,unit_price,quantity]
   end
+
+  def new_item_name
+    item_name = ''
+    until item_name.match(/^[[:alpha:][:blank:]]+$/) and item_name.length.positive?
+      @io.puts "What is the name of the item?"
+      item_name = @io.gets.chomp
+    end
+    item_name
+  end
+
+  def new_item_unit_price
+    unit_price = ''
+    until unit_price.match(/^\d*\.?\d*$/) and unit_price.to_f.positive?
+      @io.puts "Please enter the unit price"
+      unit_price = @io.gets.chomp
+    end
+    unit_price
+  end
+
+  def new_item_quantity
+    quantity = ''
+    until quantity.match(/^[0-9]*$/) and quantity.to_i.positive?
+      @io.puts "How many do you have in stock?"
+      quantity = @io.gets.chomp
+    end
+    quantity.to_i
+  end
+
 end
 
 if __FILE__ == $0
