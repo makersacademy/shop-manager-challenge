@@ -3,9 +3,9 @@ Shop Manager Project
 
 ## Solo Project: 
 
-During the week 3 of Makers Bootcamp, we worked through a sequence of exercises and challenges with the following objectives:
+During week 3 of the Makers Bootcamp, we worked through a sequence of exercises and challenges with the following objectives:
 
-* two tables** from a specification, including a one-to-many relationship between two tables, and create the schema in a database using SQL.
+* **Design a database schema with at least two tables** from a specification, including a one-to-many relationship between two tables, and create the schema in a database using SQL.
 * **Use SQL to query a database** to read data from one table or resulting of a join, create new records, update and delete.
 * **Integrate a relational database to a program** by test-driving classes which implement CRUD methods to send SQL queries to a database.
 * **Explain how your program communicates with the database** by creating a sequence diagram.
@@ -45,7 +45,7 @@ So I can manage orders
 I want to be able to create a new order.
 ```
 
-Here's an example of the terminal output your program should generate (yours might be slightly different — that's totally OK):
+Here's an example of the terminal output your program should generate:
 
 ```
 Welcome to the shop management program!
@@ -70,14 +70,14 @@ See [shop_manager_project.md](/shop_manager_project.md) for full details.
 ## Technical Approach:
 -----
 
-* Integrated a database by using the `PG` gem, test-driving and building Repository classes. 
-* Mocked IO in integration tests as program asks for user input
-* One to many table design
-* Object-Oriented Design: Implemented Application, Repository and Model classes. See design recipe documents for reference:
+* **Integrated a database** using the `PG` gem, test-driving and building Repository classes. 
+* **Mocked IO in integration tests** as program asks for user input
+* **One to Many Table Design**
+* **Object-Oriented Design:** Implemented Application, Repository and Model classes:
   - [shop_manager_table_recipe.md](/recipe/shop_manager_table_recipe.md) 
   - [shop_manager_repo_recipe.md](/recipe/shop_manager_repo_recipe.md) 
   - [shop_manager_app_recipe.md](/recipe/shop_manager_app_recipe.md) 
-* Test-driving using RSpec: Green on all integration and unit tests
+* **Test-driving using RSpec:** Green on all integration and unit tests
 ```
 COVERAGE:  99.50% -- 399/401 lines in 12 files
 
@@ -88,13 +88,14 @@ COVERAGE:  99.50% -- 399/401 lines in 12 files
 +----------+--------+-------+--------+---------+
 
 ```
-* Debugging: Using debugging techniques and error message info.
-* Version control: Git and Github
-* Languages: Ruby, SQL
-* Relationship Database: PostgreSQL
+* **Debugging** using debugging techniques and error message info.
+* **Version control:** Git and Github
+* **Languages:** Ruby, SQL
+* **Relationship** Database: PostgreSQL
 
 
 ## Further considerations:
+-----
 
 * Integrate loop into interactive menu
 * Create unit tests for create_item, create_order, print_item and print_orders
