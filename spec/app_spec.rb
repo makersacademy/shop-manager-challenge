@@ -126,6 +126,21 @@ RSpec.describe Application do
       @app.run
     end
 
+    it 'Asks for Item ID again if incorrect if no item id' do
+      interactive_menu
+      expect(@io).to receive(:gets).and_return("4").ordered
+      expect(@io).to receive(:puts).with("Enter Customer name:").ordered
+      expect(@io).to receive(:gets).and_return("customer 9").ordered
+      expect(@io).to receive(:puts).with("Enter Order date:").ordered
+      expect(@io).to receive(:gets).and_return("2022-01-25").ordered
+      expect(@io).to receive(:puts).with("Enter Item ID:").ordered
+      expect(@io).to receive(:gets).and_return("6").ordered
+      expect(@io).to receive(:puts).with("Enter Item ID:").ordered
+      expect(@io).to receive(:gets).and_return("1").ordered
+      expect(@io).to receive(:puts).with("Order for customer 9 has been added").ordered
+      @app.run
+    end
+
     it 'Asks for Date again if incorrect if not correct' do
       interactive_menu
       expect(@io).to receive(:gets).and_return("4").ordered

@@ -147,7 +147,7 @@ combinations that reflect the ways in which the system will be used._
       puts "item 5 has not been added"
 
 
-# 5  Asks for quantity again if incorrect quantity' do
+# 6  Asks for quantity again if incorrect quantity' do
 
       puts "Welcome to the shop management program!"
       puts "What do you want to do?"
@@ -166,7 +166,7 @@ combinations that reflect the ways in which the system will be used._
       gets 55555
       puts "item 5 has not been added"
 
-# 6  Inserts new order when 3 input' do
+# 7  Inserts new order when 3 input' do
 
       puts "Welcome to the shop management program!"
       puts "What do you want to do?"
@@ -183,7 +183,7 @@ combinations that reflect the ways in which the system will be used._
       gets 1
       puts "Order for customer 9 has been added"
 
-# 7   Asks for Item ID again if incorrect if not int' do
+# 8   Asks for Item ID again if incorrect if not int' do
 
       puts "Welcome to the shop management program!"
       puts "What do you want to do?"
@@ -203,7 +203,7 @@ combinations that reflect the ways in which the system will be used._
       puts "Order for customer 9 has been added"
    
 
-# 8   Asks for Date again if incorrect date format' do
+# 9   Asks for Date again if incorrect date format' do
 
       puts "Welcome to the shop management program!"
       puts "What do you want to do?"
@@ -218,6 +218,25 @@ combinations that reflect the ways in which the system will be used._
       gets "string"
       puts "Enter Order date:"
       gets "2022-01-25"
+      puts "Enter Item ID:"
+      gets 1
+      puts "Order for customer 9 has been added"
+
+# 8   Asks for Item ID again if incorrect if no item id' do
+
+      puts "Welcome to the shop management program!"
+      puts "What do you want to do?"
+      puts "  1 = list all shop items"
+      puts "  2 = create a new item"
+      puts "  3 = list all orders"
+      puts "  4 = create a new order"
+      gets 4
+      puts "Enter Customer name:"
+      gets "customer 9"
+      puts "Enter Order date:"
+      gets "2022-01-25"
+      puts "Enter Item ID:"
+      gets 6
       puts "Enter Item ID:"
       gets 1
       puts "Order for customer 9 has been added"
