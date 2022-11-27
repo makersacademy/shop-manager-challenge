@@ -1,7 +1,7 @@
 Shop Manager Project
 =================
 
-NOTICE: Not many commits as was experiencing an error with the PG gem and could not text in this repo while developing the project. Issue now fixed and project commited.
+NOTICE: Not many commits as was experiencing an error with the PG gem and could not test in this repo while developing the project. Issue now fixed and project commited.
 
 * Feel free to use Google, your notes, books, etc. but work on your own
 * If you refer to the solution of another coach or student, please put a link to that in your README
