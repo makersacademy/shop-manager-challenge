@@ -1,15 +1,8 @@
 Shop Manager Project
 =================
 
-* Feel free to use Google, your notes, books, etc. but work on your own
-* If you refer to the solution of another coach or student, please put a link to that in your README
-* If you have a partial solution, **still check in a partial solution**
-* You must submit a pull request to this repo with your code next Monday morning
-
 Challenge:
 -------
-
-Please start by [forking this repo](https://github.com/makersacademy/shop-manager-challenge/fork), then clone your fork to your local machine. Work into that directory.
 
 We are going to write a small terminal program allowing the user to manage a shop database containing some items and orders.
 
@@ -65,30 +58,20 @@ Here's a list of all shop items:
  #2 Makerspresso Coffee Machine - Unit price: 69 - Quantity: 15
  (...)
 ```
+To run the application asit is intended to be used, comment out the break in the run method in app.rb. Then run appp.rb.
 
-Technical Approach:
------
-
-In this unit, you integrated a database by using the `PG` gem, and test-driving and building Repository classes. You can continue to use this approach when building this challenge.
-
-[You'll also need to mock IO](https://github.com/makersacademy/golden-square/blob/main/mocking_bites/05_unit_testing_terminal_io_bite.md) in your integration or unit tests, since the program will ask for user input.
-
-Notes on test coverage
-----------------------
-
-Please ensure you have the following **AT THE TOP** of your spec_helper.rb in order to have test coverage stats generated
-on your pull request:
-
-```ruby
-require 'simplecov'
-require 'simplecov-console'
-
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-  SimpleCov::Formatter::Console,
-  # Want a nice code coverage website? Uncomment this next line!
-  # SimpleCov::Formatter::HTMLFormatter
-])
-SimpleCov.start
 ```
+## Project Description
 
-You can see your test coverage when you run your tests. If you want this in a graphical form, uncomment the `HTMLFormatter` line and see what happens!
+This challenges purpose was:
+*To practice test driven development
+*Use doubles for testing
+*Use postgreSQL for data bases (including many-to-many mappings)
+*Practice object oriented programing.  
+  
+This application allows a user to:
+> List all items in stock, including quantities and unit prices 
+> Create new items to be added to the stock list, which also updates the database
+> List all previous orders, including customer name, item(s) purchased, date of purchase
+> Create a new order, including quantity required, which updates the database.
+> It also doesn't allow an order to be created if stock is too low
