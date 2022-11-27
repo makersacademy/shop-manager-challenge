@@ -3,15 +3,17 @@
 require_relative './lib/item_repository'
 require_relative './lib/order_repository'
 require_relative './lib/print_items'
+require_relative './lib/create_item'
 
 class Application
 
-  def initialize(database_name, io, item_repository, order_repository, print_items)
+  def initialize(database_name, io, item_repository, order_repository, print_items, create_item)
     DatabaseConnection.connect(database_name)
     @io = io
     @item_repository = item_repository
     @order_repository = order_repository
     @print_items = print_items
+    @create_item = create_item
   end
 
   def run
@@ -35,7 +37,7 @@ class Application
     when "1"
       @print_items.print_items(@item_repository, @io)
     when "2"
-      create_item
+      @create_item.create_item(@item_repository, @io)
     when "3"
       print_orders
     when "4"
@@ -43,37 +45,29 @@ class Application
     end
   end
 
-  # def print_items
-  #   @io.puts "Here's a list of all shop items:"
-  #   items = @item_repository.all
-  #   items.each { |item|
-  #     @io.puts "##{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
-  #   }
-  # end
+  # def create_item
+  #   item = Item.new
+  #   item.quantity = ""
+  #   item.unit_price = ""
 
-  def create_item
-    item = Item.new
-    item.quantity = ""
-    item.unit_price = ""
+  #   @io.puts "Enter Item name:"
+  #   item.name = @io.gets.chomp
 
-    @io.puts "Enter Item name:"
-    item.name = @io.gets.chomp
-
-    until item.unit_price.to_f.to_s == item.unit_price do
-      @io.puts "Enter Unit Price:"
-      item.unit_price = @io.gets.chomp
-    end.to_f
+  #   until item.unit_price.to_f.to_s == item.unit_price do
+  #     @io.puts "Enter Unit Price:"
+  #     item.unit_price = @io.gets.chomp
+  #   end.to_f
   
-    until item.quantity.to_i.to_s == item.quantity do
-      @io.puts "Enter Quantity:"
-      item.quantity = @io.gets.chomp
-    end.to_i
+  #   until item.quantity.to_i.to_s == item.quantity do
+  #     @io.puts "Enter Quantity:"
+  #     item.quantity = @io.gets.chomp
+  #   end.to_i
 
-    @item_repository.create(item)
-    added_item = @item_repository.all.last.name
+  #   @item_repository.create(item)
+  #   added_item = @item_repository.all.last.name
     
-    @io.puts "#{added_item} has been added"
-  end
+  #   @io.puts "#{added_item} has been added"
+  # end
 
 
   def print_orders
@@ -122,7 +116,8 @@ if __FILE__ == $0
     Kernel,
     ItemRepository.new,
     OrderRepository.new,
-    PrintItems.new
+    PrintItems.new, 
+    CreateItem.new
   )
   app.run
 end
