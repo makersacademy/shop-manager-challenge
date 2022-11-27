@@ -21,7 +21,7 @@ class Application
   def menu_selection
     @io.puts "\n" "What would you like to do?"
     @io.puts "\n 1 - list all shop items"
-    @io.puts "\n 2 - create a new items"
+    @io.puts "\n 2 - create a new item"
     @io.puts "\n 3 - list all orders"
     @io.puts "\n 4 - create a new order"
     @io.puts "Enter your choice:"
@@ -65,37 +65,59 @@ class Application
     @io.puts "#{new_item.item_quantity} X #{new_item.item_name} added to stock!"
   end
 
-end
+  def create_order
+    order = Order.new
+    order.customer_name = get_customer_name
+    order.order_date = get_date
 
-private
 
-def get_item_name
-  @io.puts "Enter item name:"
-  item_name = @io.gets.chomp
-end
+    @order_repository.create(order)
+    @io.puts "Thank you #{order.customer_name}, we are processing your order!"
 
-def get_item_price
-  @io.puts "Enter unit price:"
-  item_price = @io.gets.chomp
+    #missing: reduce quantity by 1 and link order to items
 
-  while item_price.to_i <= 0
-    @io.puts "Price must be above zero"
+  end
+
+  private
+
+  def get_item_name
+    @io.puts "Enter item name:"
+    item_name = @io.gets.chomp
+  end
+
+  def get_item_price
+    @io.puts "Enter unit price:"
     item_price = @io.gets.chomp
+
+    while item_price.to_i <= 0
+      @io.puts "Price must be above zero"
+      item_price = @io.gets.chomp
+    end
+
+    item_price.to_f
   end
 
-  item_price.to_f
-end
-
-def get_item_quantity
-  @io.puts "Enter item quantity:"
-  item_quantity = @io.gets.chomp
-
-  while item_quantity.to_i <= 0
-    @io.puts "Quantity must be above zero"
+  def get_item_quantity
+    @io.puts "Enter item quantity:"
     item_quantity = @io.gets.chomp
+
+    while item_quantity.to_i <= 0
+      @io.puts "Quantity must be above zero"
+      item_quantity = @io.gets.chomp
+    end
+
+    item_quantity.to_i
   end
 
-  item_quantity.to_i
+  def get_customer_name
+    @io.puts "Who is the order for?"
+    customer_name = @io.gets.chomp
+  end
+
+  def get_date
+   @io.puts "Enter date in YYYY-DD-MM format"
+    order_date = @io.gets.chomp
+  end
 end
 
 if __FILE__ == $0

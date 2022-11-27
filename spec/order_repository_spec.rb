@@ -42,7 +42,7 @@ RSpec.describe OrderRepository do
     )
   end
 
-  it "Creates a new order linked to an item" do 
+  it "creates a new order linked to an item" do 
     order = Order.new
     order.customer_name = 'Zoltan'
     order.order_date = '2022-05-02'
