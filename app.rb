@@ -5,10 +5,11 @@ require_relative './lib/order_repository'
 require_relative './lib/print_items'
 require_relative './lib/create_item'
 require_relative './lib/print_orders'
+require_relative './lib/create_order'
 
 class Application
 
-  def initialize(database_name, io, item_repository, order_repository, print_items, create_item, print_orders)
+  def initialize(database_name, io, item_repository, order_repository, print_items, create_item, print_orders, create_order)
     DatabaseConnection.connect(database_name)
     @io = io
     @item_repository = item_repository
@@ -16,6 +17,7 @@ class Application
     @print_items = print_items
     @create_item = create_item
     @print_orders = print_orders
+    @create_order = create_order
   end
 
   def run
@@ -43,38 +45,38 @@ class Application
     when "3"
       @print_orders.print_orders(@order_repository, @io)
     when "4"
-      create_order
+      @create_order.create_order(@item_repository, @order_repository, @io)
     end
   end
 
-  def create_order
-    order = Order.new
-    item_id_match = false
-    order.order_date = ""
+  # def create_order
+  #   order = Order.new
+  #   item_id_match = false
+  #   order.order_date = ""
 
-    @io.puts "Enter Customer name:"
-    order.customer_name = @io.gets.chomp
+  #   @io.puts "Enter Customer name:"
+  #   order.customer_name = @io.gets.chomp
 
-    until order.order_date =~ /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/  do
-      @io.puts "Enter Order date:"
-      order.order_date = @io.gets.chomp
-    end
+  #   until order.order_date =~ /([12]\d{3}-(0[1-9]|1[0-2])-(0[1-9]|[12]\d|3[01]))/  do
+  #     @io.puts "Enter Order date:"
+  #     order.order_date = @io.gets.chomp
+  #   end
 
-    until item_id_match == true do   
-    @io.puts "Enter Item ID:"
-      order.item_id = @io.gets.chomp.to_i 
-      @item_repository.all.each do |item|
-        if item.id == order.item_id
-          item_id_match = true
-        end
-      end
-    end
+  #   until item_id_match == true do   
+  #   @io.puts "Enter Item ID:"
+  #     order.item_id = @io.gets.chomp.to_i 
+  #     @item_repository.all.each do |item|
+  #       if item.id == order.item_id
+  #         item_id_match = true
+  #       end
+  #     end
+  #   end
     
-    @order_repository.create(order)
-    added_item = @order_repository.all.last.customer_name
+  #   @order_repository.create(order)
+  #   added_item = @order_repository.all.last.customer_name
 
-    @io.puts "Order for #{added_item} has been added"
-  end
+  #   @io.puts "Order for #{added_item} has been added"
+  # end
 
 end
 
@@ -86,7 +88,8 @@ if __FILE__ == $0
     OrderRepository.new,
     PrintItems.new, 
     CreateItem.new, 
-    PrintOrders.new
+    PrintOrders.new, 
+    CreateOrder.new
   )
   app.run
 end
