@@ -85,7 +85,7 @@ class Application
 end
 
 
- if __FILE__ == $0
+if __FILE__ == $0
   app = Application.new(
     'shop_manager',
     Kernel,
