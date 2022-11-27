@@ -5,8 +5,8 @@ class OrderRepository
     def all 
       sql = 'SELECT * FROM orders;'
       result_set = DatabaseConnection.exec_params(sql,[])
-  
       orders = []
+      
       result_set.each do |record|
         order = Order.new 
         order.id = record['id']
