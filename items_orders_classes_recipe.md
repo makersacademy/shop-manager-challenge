@@ -280,7 +280,7 @@ end
 # 2 Table name: orders
 
 # Repository class
-# (in lib/tag_repository.rb)
+# (in lib/order_repository.rb)
 class OrderRepository
   # Selecting all records
   # No arguments
@@ -358,9 +358,7 @@ These examples will later be encoded as RSpec tests.
 
 # items
 
-
 # Get all items - #all
-
 # 1
 repo = ItemRepository.new
 items = repo.all
@@ -376,7 +374,6 @@ expect(items[3].quantity).to eq '34'
 
 
 # Create an item
-
 # 1 (passing an Item object to #create)
 repo = ItemRepository.new
 

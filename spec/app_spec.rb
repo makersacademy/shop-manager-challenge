@@ -115,9 +115,49 @@ describe Application do
   end
 
   context "when user requests app to 'create a new order'" do
-  xit "creates a new order" do
+    it "creates a new order" do
+      database_name = "items_orders_test"
+      io = double :io
+      item_repository = ItemRepository.new
+      order_repository = OrderRepository.new
+      app = Application.new(database_name, io, item_repository, order_repository)
+      
+      expect(io).to receive(:puts).with("Welcome to the shop management program!\n")
+      expect(io).to receive(:puts).with("What do you want to do?")
+      expect(io).to receive(:puts).with(" 1 = list all shop items")
+      expect(io).to receive(:puts).with(" 2 = create a new item")
+      expect(io).to receive(:puts).with(" 3 = list all orders")
+      expect(io).to receive(:puts).with(" 4 = create a new order\n")
+      expect(io).to receive(:gets).and_return("4")
 
+      expect(io).to receive(:puts).with("Please enter the following order information:")
+      expect(io).to receive(:puts).with("Customer name: ")
+      expect(io).to receive(:gets).and_return("Joe Bloggs")
+      expect(io).to receive(:puts).with("Item id: ")
+      expect(io).to receive(:gets).and_return("1")
+      expect(io).to receive(:puts).with("Date of order (YYYY-MM-DD): ")
+      expect(io).to receive(:gets).and_return("2022-11-28")
+      expect(io).to receive(:puts).with("This order has been successfully added")
 
+      app.run
+
+      expect(io).to receive(:puts).with("Welcome to the shop management program!\n")
+      expect(io).to receive(:puts).with("What do you want to do?")
+      expect(io).to receive(:puts).with(" 1 = list all shop items")
+      expect(io).to receive(:puts).with(" 2 = create a new item")
+      expect(io).to receive(:puts).with(" 3 = list all orders")
+      expect(io).to receive(:puts).with(" 4 = create a new order\n")
+      expect(io).to receive(:gets).and_return("3")
+      expect(io).to receive(:puts).with("\nHere's a list of all orders:\n")
+      expect(io).to receive(:puts).with(" #1 Customer: Andy Lewis - item id: 2 - date order was placed: 2022-11-23")
+      expect(io).to receive(:puts).with(" #2 Customer: James Scott - item id: 5 - date order was placed: 2022-11-24")
+      expect(io).to receive(:puts).with(" #3 Customer: Christine Smith - item id: 4 - date order was placed: 2022-11-24")
+      expect(io).to receive(:puts).with(" #4 Customer: Louise Stones - item id: 1 - date order was placed: 2022-11-25")
+      expect(io).to receive(:puts).with(" #5 Customer: Michael Kelly - item id: 3 - date order was placed: 2022-11-26")
+      expect(io).to receive(:puts).with(" #6 Customer: Catherine Wells - item id: 2 - date order was placed: 2022-11-27")
+      expect(io).to receive(:puts).with(" #7 Customer: Joe Bloggs - item id: 1 - date order was placed: 2022-11-28")
+
+      app.run
     end
   end
 

@@ -59,7 +59,17 @@ class Application
         @io.puts " ##{order.id} Customer: #{order.customer_name} - item id: #{order.item_id} - date order was placed: #{order.date}"
       end
     elsif command == "4"
-
+      order = Order.new
+      @io.puts "Please enter the following order information:" 
+      @io.puts "Customer name: "
+      order.customer_name = @io.gets.chomp
+      @io.puts "Item id: "
+      order.item_id = @io.gets.chomp
+      @io.puts "Date of order (YYYY-MM-DD): "
+      order.date = @io.gets.chomp
+      # Add order to repo
+      @order_repository.create(order)
+      @io.puts "This order has been successfully added"
     else
       @io.puts "Only 1, 2, 3 and 4 are valid commands"
     end
