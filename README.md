@@ -65,7 +65,7 @@ Here's a list of all shop items:
  (...)
 ```
 
-See [shop_manager_project.md](/shop_manager_project.md) for full details.
+See [Shop Manager Project](/shop_manager_project.md) for full details.
 
 ## Technical Approach:
 -----
@@ -73,10 +73,10 @@ See [shop_manager_project.md](/shop_manager_project.md) for full details.
 * **Integrated a database** using the `PG` gem, test-driving and building Repository classes. 
 * **Mocked IO in integration tests** as program asks for user input
 * **One to Many Table Design**
-* **Object-Oriented Design:** Implemented Application, Repository and Model classes:
-  - [shop_manager_table_recipe.md](/recipe/shop_manager_table_recipe.md) 
-  - [shop_manager_repo_recipe.md](/recipe/shop_manager_repo_recipe.md) 
-  - [shop_manager_app_recipe.md](/recipe/shop_manager_app_recipe.md) 
+* **Object-Oriented Design:** Implemented Application, Repository and Model classes mapped out in recipe documents:
+  - [Shop Manager Table Recipe](/recipe/shop_manager_table_recipe.md) 
+  - [Shop Manager Repo Recipe](/recipe/shop_manager_repo_recipe.md) 
+  - [Shop Manager App Recipe.md](/recipe/shop_manager_app_recipe.md) 
 * **Test-driving using RSpec:** Green on all integration and unit tests
 ```
 COVERAGE:  99.50% -- 399/401 lines in 12 files
@@ -91,13 +91,13 @@ COVERAGE:  99.50% -- 399/401 lines in 12 files
 * **Debugging** using debugging techniques and error message info.
 * **Version control:** Git and Github
 * **Languages:** Ruby, SQL
-* **Relationship** Database: PostgreSQL
+* **Relationship Database:** PostgreSQL
 
 
 ## Further considerations:
 -----
 
-* Integrate loop into interactive menu
-* Create unit tests for create_item, create_order, print_item and print_orders
-* Many to many database design
+* Integrate **loop** into interactive menu
+* Additional **unit tests**
+* **Many to Many** database design
 
