@@ -68,7 +68,7 @@ RSpec.describe Application do
       @app.run
     end
 
-    it 'Asks for unit price again if incorrect unit price' do
+    it 'Asks for unit price again if not float' do
       interactive_menu
       expect(@io).to receive(:gets).and_return("2").ordered
       expect(@io).to receive(:puts).with("Enter Item name:").ordered
@@ -83,7 +83,7 @@ RSpec.describe Application do
       @app.run
     end
 
-    it 'Asks for quantity again if incorrect quantity' do
+    it 'Asks for quantity again if not int' do
       interactive_menu
       expect(@io).to receive(:gets).and_return("2").ordered
       expect(@io).to receive(:puts).with("Enter Item name:").ordered
@@ -95,6 +95,49 @@ RSpec.describe Application do
       expect(@io).to receive(:puts).with("Enter Quantity:").ordered
       expect(@io).to receive(:gets).and_return("55555").ordered
       expect(@io).to receive(:puts).with("item 5 has been added").ordered
+      @app.run
+    end
+
+    it 'Inserts new order when 4 input' do
+      interactive_menu
+      expect(@io).to receive(:gets).and_return("4").ordered
+      expect(@io).to receive(:puts).with("Enter Customer name:").ordered
+      expect(@io).to receive(:gets).and_return("customer 9").ordered
+      expect(@io).to receive(:puts).with("Enter Order date:").ordered
+      expect(@io).to receive(:gets).and_return("2022-01-25").ordered
+      expect(@io).to receive(:puts).with("Enter Item ID:").ordered
+      expect(@io).to receive(:gets).and_return("1").ordered
+      expect(@io).to receive(:puts).with("Order for customer 9 has been added").ordered
+      @app.run
+    end
+
+    it 'Asks for Item ID again if incorrect if not int' do
+      interactive_menu
+      expect(@io).to receive(:gets).and_return("4").ordered
+      expect(@io).to receive(:puts).with("Enter Customer name:").ordered
+      expect(@io).to receive(:gets).and_return("customer 9").ordered
+      expect(@io).to receive(:puts).with("Enter Order date:").ordered
+      expect(@io).to receive(:gets).and_return("2022-01-25").ordered
+      expect(@io).to receive(:puts).with("Enter Item ID:").ordered
+      expect(@io).to receive(:gets).and_return("string").ordered
+      expect(@io).to receive(:puts).with("Enter Item ID:").ordered
+      expect(@io).to receive(:gets).and_return("1").ordered
+      expect(@io).to receive(:puts).with("Order for customer 9 has been added").ordered
+      @app.run
+    end
+
+    it 'Asks for Date again if incorrect if not correct' do
+      interactive_menu
+      expect(@io).to receive(:gets).and_return("4").ordered
+      expect(@io).to receive(:puts).with("Enter Customer name:").ordered
+      expect(@io).to receive(:gets).and_return("customer 9").ordered
+      expect(@io).to receive(:puts).with("Enter Order date:").ordered
+      expect(@io).to receive(:gets).and_return("string").ordered
+      expect(@io).to receive(:puts).with("Enter Order date:").ordered
+      expect(@io).to receive(:gets).and_return("2022-01-25").ordered
+      expect(@io).to receive(:puts).with("Enter Item ID:").ordered
+      expect(@io).to receive(:gets).and_return("1").ordered
+      expect(@io).to receive(:puts).with("Order for customer 9 has been added").ordered
       @app.run
     end
 
