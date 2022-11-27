@@ -18,6 +18,7 @@ class Menu
   end
 
   def menu_1
+    # puts "Here's a list of shop items"
     @terminal.puts "Here's a list of shop items"
     results = ItemRepository.new
     results.all.each do |record|
@@ -38,23 +39,32 @@ class Menu
     results.create(item)
   end
 
-  def run_menu
-   @terminal.puts "Welcome to the shop management program!\n\nWhat would you like to do? (type a number)\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order"
-    
-    menu_choice = @terminal.gets
-  
-    # if menu_choice == "1"
-    #   menu_1
-    # elsif menu_choice == "2"
-    #   puts "Let's create a new item."
-    #   puts "What is the item name?"
-    #   item_name = gets.chomp
-
-    #   post_results = ItemRepository.new
-    #   post_results.all.each do |post|
-    #     puts "#{post.id} - #{post.title} - #{post.content} - #{post.views}"
-      # end
-    # end
+  def menu_3 
+    @terminal.puts "Here's a list of orders"
+    results = OrderRepository.new
+    results.all.each do |record|
+      puts "#{record.id} - #{record.date} - #{record.customer_name} - #{record.item_id} - #{record.quantity}"
+    end
   end
+
+  def run_menu
+    @terminal.puts "Welcome to the shop management program!\n\nWhat would you like to do? (type a number)\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order"
+    
+    menu_choice = @terminal.gets.chomp
+    if menu_choice == "1"
+      self.menu_1
+    elsif menu_choice == "2"
+      self.menu_2
+    elsif menu_choice == "3"
+      self.menu_3
+    end
+  end
+  # def choose_menu(run_menu)
+  #   if run_menu == "1"
+  #     self.menu_1
+  #   end
+  # end
 end
 
+# menu = Menu.new
+# menu.choose_menu(menu.run_menu)
