@@ -125,3 +125,6 @@ end
 # orders table even though no items are associated with that order 
 # - Haven't rspec tested the raising of the error if item is out of stock, although
 # it does work
+# - When creating a new order, can't add multiple of the same shop_items to the same
+# order due to joins table constraints, would probably need to add a third column to 
+# my joins table to handle multiples of a shop_item on 1 order
