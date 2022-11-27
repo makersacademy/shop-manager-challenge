@@ -106,3 +106,22 @@ end
 
 # app = Application.new('shop_challenge', Kernel, OrderRepository.new, ShopItemRepository.new)
 # app.run
+
+# Functionality:
+
+# - Can view all shop items - see each id, name, price, quantity 
+# - Can create a new shop item - shop manager gets to input the name, price and quantity 
+# - Can view all orders - see each id, customer name, date order was placed and 
+# all of the items that are in each order 
+# - Can create new orders - shop manager can input the name of the customer and the date
+# it was placed, then the shop manager can add the items to the order. If the item is out 
+# of stock or not in the database then errors are raised. If the item is successfully
+# added to the order then a record is put in the joins table to associate that order 
+# with that item and also the stock of the item goes down by 1
+
+# Things missing / to change:
+
+# - If a new order is created but no items are added then the record remains in the 
+# orders table even though no items are associated with that order 
+# - Haven't rspec tested the raising of the error if item is out of stock, although
+# it does work
