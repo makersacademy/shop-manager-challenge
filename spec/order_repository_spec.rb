@@ -51,7 +51,7 @@ describe OrderRepository do
     orders = repo.all
 
     last_order = orders.last
-    expect(order.customer_name).to eq 'Harry'
-    expect(order.order_date).to eq '2022-08-22 19:10:25'
+    expect(last_order.customer_name).to eq 'Harry'
+    expect(last_order.order_date).to eq '2022-08-22 19:10:25'
   end
 end

@@ -52,8 +52,8 @@ describe ItemRepository do
     items = repo.all
 
     last_item = items.last
-    expect(item.name).to eq 'item3'
-    expect(item.unit_price).to eq '13.3'
-    expect(item.quantity).to eq '40'
+    expect(last_item.name).to eq 'item3'
+    expect(last_item.unit_price).to eq '13.3'
+    expect(last_item.quantity).to eq '40'
   end
 end
