@@ -8,9 +8,9 @@ INSERT INTO shop_items (name, unit_price, quantity) VALUES ('bananas', 1.99, 15)
 INSERT INTO shop_items (name, unit_price, quantity) VALUES ('toilet roll', 3.00, 20);
 INSERT INTO shop_items (name, unit_price, quantity) VALUES ('crisps', 0.99, 15);
 INSERT INTO shop_items (name, unit_price, quantity) VALUES ('sausage roll', 1.50, 10);
-INSERT INTO shop_items_orders (shop_item_id, order_id) VALUES (1,1);
-INSERT INTO shop_items_orders (shop_item_id, order_id) VALUES (4,1);
-INSERT INTO shop_items_orders (shop_item_id, order_id) VALUES (5,1);
-INSERT INTO shop_items_orders (shop_item_id, order_id) VALUES (2,2);
-INSERT INTO shop_items_orders (shop_item_id, order_id) VALUES (3,3);
-INSERT INTO shop_items_orders (shop_item_id, order_id) VALUES (1,3);
+INSERT INTO shop_items_orders (shop_item_id, order_id, quantity) VALUES (1,1,2);
+INSERT INTO shop_items_orders (shop_item_id, order_id, quantity) VALUES (4,1,1);
+INSERT INTO shop_items_orders (shop_item_id, order_id, quantity) VALUES (5,1,5);
+INSERT INTO shop_items_orders (shop_item_id, order_id, quantity) VALUES (2,2,1);
+INSERT INTO shop_items_orders (shop_item_id, order_id, quantity) VALUES (3,3,1);
+INSERT INTO shop_items_orders (shop_item_id, order_id, quantity) VALUES (1,3,1);

@@ -1,4 +1,5 @@
 require 'order_repository'
+require 'shop_item_repository'
 
 def reset_tables
   seed_sql = File.read('spec/seeds.sql')
@@ -29,12 +30,19 @@ describe OrderRepository do
 
   it 'creates a new order' do 
     repo = OrderRepository.new 
+    shop_repo = ShopItemRepository.new
 
     order = Order.new
     order.customer_name = 'Bob'
     order.date_placed = '2022-11-15'
-
     repo.create(order)
+    order.id = repo.all.last.id
+    name_of_item = 'bananas'
+    item_added_to_order = shop_repo.create_item_object(name_of_item)
+
+    quantity_added = 5
+    repo.add_item_to_new_order(order, item_added_to_order, quantity_added)
+
 
     orders = repo.all
 

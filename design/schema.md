@@ -125,6 +125,7 @@ CREATE TABLE orders (
 CREATE TABLE shop_items_orders (
   shop_item_id int,
   order_id int,
+  quantity int,
   constraint fk_shop_item foreign key(shop_item_id) references shop_items(id) on delete cascade,
   constraint fk_order foreign key(order_id) references orders(id) on delete cascade,
   PRIMARY KEY (shop_item_id, order_id)

@@ -36,7 +36,7 @@ class ShopItemRepository
     item = ShopItem.new 
     item.id = record['id']
     item.name = record['name']
-    item.name = record['unit_price']
+    item.unit_price = record['unit_price']
     item.quantity = record['quantity']
 
     return item

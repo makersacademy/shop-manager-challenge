@@ -84,7 +84,7 @@ describe Application do
   end
 
   context 'when 3 is inputted' do 
-    it 'returns all orders' do 
+    it 'returns all orders when all are associated with items' do 
       terminal = double(:terminal)
 
       expect(terminal).to receive(:puts).with("\nWelcome to the shop management program!")
@@ -97,9 +97,9 @@ describe Application do
       expect(terminal).to receive(:puts).with("\nEnter you choice:")
       expect(terminal).to receive(:gets).and_return('3')
       expect(terminal).to receive(:puts).with("\nHere is a list of your orders:")
-      expect(terminal).to receive(:puts).with('#1 - Customer - David - Date Placed - 2022-11-08 - Items in order - sandwich, crisps, sausage roll')
-      expect(terminal).to receive(:puts).with('#2 - Customer - Anna - Date Placed - 2022-11-10 - Items in order - bananas')
-      expect(terminal).to receive(:puts).with('#3 - Customer - Jill - Date Placed - 2022-11-11 - Items in order - sandwich, toilet roll')
+      expect(terminal).to receive(:puts).with('#1 - Customer - David - Date Placed - 2022-11-08 - Items in order - sandwich x2, crisps x1, sausage roll x5')
+      expect(terminal).to receive(:puts).with('#2 - Customer - Anna - Date Placed - 2022-11-10 - Items in order - bananas x1')
+      expect(terminal).to receive(:puts).with('#3 - Customer - Jill - Date Placed - 2022-11-11 - Items in order - sandwich x1, toilet roll x1')
       expect(terminal).to receive(:puts).with("\nWhat would you like to do?")
       expect(terminal).to receive(:puts).with("\nEnter you choice:")
       expect(terminal).to receive(:puts).with("  1 - list all shop items")
@@ -109,6 +109,49 @@ describe Application do
       expect(terminal).to receive(:puts).with("  9 - exit program")
       expect(terminal).to receive(:gets).and_return('9')
       
+      application = Application.new('shop_challenge_test', terminal, OrderRepository.new, ShopItemRepository.new)
+      application.run
+    end
+
+    it 'doesnt return orders that are empty / invalid' do 
+      terminal = double(:terminal)
+
+      expect(terminal).to receive(:puts).with("\nWelcome to the shop management program!")
+      expect(terminal).to receive(:puts).with("\nWhat would you like to do?")
+      expect(terminal).to receive(:puts).with("  1 - list all shop items")
+      expect(terminal).to receive(:puts).with("  2 - create a new item")
+      expect(terminal).to receive(:puts).with("  3 - list all orders")
+      expect(terminal).to receive(:puts).with("  4 - create a new order")
+      expect(terminal).to receive(:puts).with("  9 - exit program")
+      expect(terminal).to receive(:puts).with("\nEnter you choice:")
+      expect(terminal).to receive(:gets).and_return('4')
+      expect(terminal).to receive(:puts).with("\n Enter the name of the customer that placed the order:")
+      expect(terminal).to receive(:gets).and_return('Kayleigh')
+      expect(terminal).to receive(:puts).with("\n Enter the date that order was placed (format => YYYY-MM-DD):")
+      expect(terminal).to receive(:gets).and_return('2022-11-24')
+      expect(terminal).to receive(:puts).with('What items were added to this order? Enter "done" when you are done')
+      expect(terminal).to receive(:gets).and_return('done')
+      expect(terminal).to receive(:puts).with("\nWhat would you like to do?")
+      expect(terminal).to receive(:puts).with("  1 - list all shop items")
+      expect(terminal).to receive(:puts).with("  2 - create a new item")
+      expect(terminal).to receive(:puts).with("  3 - list all orders")
+      expect(terminal).to receive(:puts).with("  4 - create a new order")
+      expect(terminal).to receive(:puts).with("  9 - exit program")
+      expect(terminal).to receive(:puts).with("\nEnter you choice:")
+      expect(terminal).to receive(:gets).and_return('3')
+      expect(terminal).to receive(:puts).with("\nHere is a list of your orders:")
+      expect(terminal).to receive(:puts).with('#1 - Customer - David - Date Placed - 2022-11-08 - Items in order - sandwich x2, crisps x1, sausage roll x5')
+      expect(terminal).to receive(:puts).with('#2 - Customer - Anna - Date Placed - 2022-11-10 - Items in order - bananas x1')
+      expect(terminal).to receive(:puts).with('#3 - Customer - Jill - Date Placed - 2022-11-11 - Items in order - sandwich x1, toilet roll x1')
+      expect(terminal).to receive(:puts).with("\nWhat would you like to do?")
+      expect(terminal).to receive(:puts).with("\nEnter you choice:")
+      expect(terminal).to receive(:puts).with("  1 - list all shop items")
+      expect(terminal).to receive(:puts).with("  2 - create a new item")
+      expect(terminal).to receive(:puts).with("  3 - list all orders")
+      expect(terminal).to receive(:puts).with("  4 - create a new order")
+      expect(terminal).to receive(:puts).with("  9 - exit program")
+      expect(terminal).to receive(:gets).and_return('9')
+
       application = Application.new('shop_challenge_test', terminal, OrderRepository.new, ShopItemRepository.new)
       application.run
     end
@@ -133,8 +176,12 @@ describe Application do
       expect(terminal).to receive(:gets).and_return('2022-11-24')
       expect(terminal).to receive(:puts).with('What items were added to this order? Enter "done" when you are done')
       expect(terminal).to receive(:gets).and_return('sandwich')
+      expect(terminal).to receive(:puts).with('What was the quantity of this item added to the order?')
+      expect(terminal).to receive(:gets).and_return('6')
       expect(terminal).to receive(:puts).with('What items were added to this order? Enter "done" when you are done')
       expect(terminal).to receive(:gets).and_return('bananas')
+      expect(terminal).to receive(:puts).with('What was the quantity of this item added to the order?')
+      expect(terminal).to receive(:gets).and_return('3')
       expect(terminal).to receive(:puts).with('What items were added to this order? Enter "done" when you are done')
       expect(terminal).to receive(:gets).and_return('done')
       expect(terminal).to receive(:puts).with("\nWhat would you like to do?")
@@ -146,10 +193,10 @@ describe Application do
       expect(terminal).to receive(:puts).with("\nEnter you choice:")
       expect(terminal).to receive(:gets).and_return('3')
       expect(terminal).to receive(:puts).with("\nHere is a list of your orders:")
-      expect(terminal).to receive(:puts).with('#1 - Customer - David - Date Placed - 2022-11-08 - Items in order - crisps, sausage roll, sandwich')
-      expect(terminal).to receive(:puts).with('#2 - Customer - Anna - Date Placed - 2022-11-10 - Items in order - bananas')
-      expect(terminal).to receive(:puts).with('#3 - Customer - Jill - Date Placed - 2022-11-11 - Items in order - toilet roll, sandwich')
-      expect(terminal).to receive(:puts).with('#4 - Customer - Kayleigh - Date Placed - 2022-11-24 - Items in order - sandwich, bananas')
+      expect(terminal).to receive(:puts).with('#1 - Customer - David - Date Placed - 2022-11-08 - Items in order - crisps x1, sausage roll x5, sandwich x2')
+      expect(terminal).to receive(:puts).with('#2 - Customer - Anna - Date Placed - 2022-11-10 - Items in order - bananas x1')
+      expect(terminal).to receive(:puts).with('#3 - Customer - Jill - Date Placed - 2022-11-11 - Items in order - toilet roll x1, sandwich x1')
+      expect(terminal).to receive(:puts).with('#4 - Customer - Kayleigh - Date Placed - 2022-11-24 - Items in order - sandwich x6, bananas x3')
       expect(terminal).to receive(:puts).with("\nWhat would you like to do?")
       expect(terminal).to receive(:puts).with("  1 - list all shop items")
       expect(terminal).to receive(:puts).with("  2 - create a new item")
@@ -188,6 +235,8 @@ describe Application do
       expect(terminal).to receive(:gets).and_return('2022-11-24')
       expect(terminal).to receive(:puts).with('What items were added to this order? Enter "done" when you are done')
       expect(terminal).to receive(:gets).and_return('sandwich')
+      expect(terminal).to receive(:puts).with('What was the quantity of this item added to the order?')
+      expect(terminal).to receive(:gets).and_return('3')
       expect(terminal).to receive(:puts).with('What items were added to this order? Enter "done" when you are done')
       expect(terminal).to receive(:gets).and_return('done')
       expect(terminal).to receive(:puts).with("\nWhat would you like to do?")
@@ -195,14 +244,14 @@ describe Application do
       expect(terminal).to receive(:puts).with("  2 - create a new item")
       expect(terminal).to receive(:puts).with("  3 - list all orders")
       expect(terminal).to receive(:puts).with("  4 - create a new order")
-      expect(terminal).to receive(:puts).with("  9 - exit program")
+      expect(terminal).to receive(:puts).with("  9 - exit program") 
       expect(terminal).to receive(:puts).with("\nEnter you choice:")
       expect(terminal).to receive(:gets).and_return('9')
 
       application = Application.new('shop_challenge_test', terminal, OrderRepository.new, ShopItemRepository.new)
       application.run
 
-      expect(item_repo.all.last.quantity).to eq('9')
+      expect(item_repo.all.last.quantity).to eq('7')
     end
   end
 

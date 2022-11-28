@@ -15,7 +15,7 @@ class OrderRepository
     # section below adds all of the relevant items to each order
     orders.each do |order|
 
-      sql = 'SELECT orders.id AS order_id, orders.customer_name, orders.date_placed, shop_items.id AS shop_item_id, shop_items.name, shop_items.unit_price, shop_items.quantity
+      sql = 'SELECT orders.id AS order_id, orders.customer_name, orders.date_placed, shop_items.id AS shop_item_id, shop_items.name, shop_items.unit_price, shop_items.quantity, shop_items_orders.quantity AS quantity_added_to_order
               FROM orders
               JOIN shop_items_orders ON orders.id = shop_items_orders.order_id
               JOIN shop_items ON shop_items.id = shop_items_orders.shop_item_id
@@ -25,10 +25,14 @@ class OrderRepository
       result_set = DatabaseConnection.exec_params(sql, sql_params)
 
       result_set.each do |record|
-        order.items_in_order << record_to_item_object(record)
+        quantity = record['quantity_added_to_order']
+        order.items_in_order << [record_to_item_object(record), quantity]
       end
 
     end
+    # section below returns an array of order objects but only if there are items in that
+    # order, so if an order record is created but no items are associated with
+    # that order then it will not be showing in the orders array
     return orders
   end
 
@@ -40,13 +44,15 @@ class OrderRepository
     result_set = DatabaseConnection.exec_params(sql, sql_params)
   end
 
-  def add_item_to_new_order(order, item)
+  def add_item_to_new_order(order, item, quantity)
     # this method is called when adding items to a newly created order
     check_if_item_in_stock(item)
 
-    add_record_to_joins_table(order, item)
+    check_if_enough_stock(item, quantity)
 
-    reduce_stock_quantity_by_one(item)
+    add_record_to_joins_table(order, item, quantity)
+
+    reduce_stock_quantity_by_num_inputted(item, quantity)
   end
 
   private 
@@ -79,16 +85,25 @@ class OrderRepository
     raise 'Item not in stock' if record['quantity'] == '0'
   end
 
-  def add_record_to_joins_table(order, item)
-    sql = 'INSERT INTO shop_items_orders (shop_item_id, order_id) VALUES ($1, $2);'
-    sql_params = [item.id, order.id]
+  def check_if_enough_stock(item, num_added_to_order)
+    sql = 'SELECT name, unit_price, quantity FROM shop_items WHERE id = $1;'
+    sql_params = [item.id]
+
+    result_set = DatabaseConnection.exec_params(sql, sql_params)
+    record = result_set[0]
+    raise 'Not enough stock to fulfil order' if record['quantity'].to_i < num_added_to_order
+  end
+
+  def add_record_to_joins_table(order, item, quantity)
+    sql = 'INSERT INTO shop_items_orders (shop_item_id, order_id, quantity) VALUES ($1, $2, $3);'
+    sql_params = [item.id, order.id, quantity]
 
     result_set = DatabaseConnection.exec_params(sql, sql_params)
   end
 
-  def reduce_stock_quantity_by_one(item)
-    sql = 'UPDATE shop_items SET quantity = quantity - 1 WHERE id = $1;'
-    sql_params = [item.id]
+  def reduce_stock_quantity_by_num_inputted(item, num_added_to_order)
+    sql = 'UPDATE shop_items SET quantity = quantity - $1 WHERE id = $2;'
+    sql_params = [num_added_to_order, item.id]
 
     result_set = DatabaseConnection.exec_params(sql, sql_params)
   end

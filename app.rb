@@ -63,7 +63,10 @@ class Application
 
   def print_all_orders
     @io.puts "\nHere is a list of your orders:"
-    @order_repository.all.each do |order|
+    # section below rejects any orders that never had items associated with them
+    valid_orders = @order_repository.all.reject { |order| order.items_in_order.empty? }
+    
+    valid_orders.each do |order|
       @io.puts "##{order.id} - Customer - #{order.customer_name} - Date Placed - #{order.date_placed} - Items in order - #{show_items_in_order(order)}"
     end
   end
@@ -79,8 +82,8 @@ class Application
 
   def show_items_in_order(order)
     items = []
-    order.items_in_order.each do |item|
-      items << item.name
+    order.items_in_order.each do |item, quantity|
+      items << "#{item.name} x#{quantity}"
     end
     return items.join(', ')
   end
@@ -98,13 +101,15 @@ class Application
       @io.puts 'What items were added to this order? Enter "done" when you are done'
       answer = @io.gets.chomp
       break if answer == 'done'
+      @io.puts 'What was the quantity of this item added to the order?'
+      quantity = @io.gets.chomp.to_i
       item = @shop_item_repository.create_item_object(answer)
-      @order_repository.add_item_to_new_order(new_order, item) 
+      @order_repository.add_item_to_new_order(new_order, item, quantity) 
     end
   end
 end
 
-# app = Application.new('shop_challenge', Kernel, OrderRepository.new, ShopItemRepository.new)
+# app = Application.new('shop_challenge_test', Kernel, OrderRepository.new, ShopItemRepository.new)
 # app.run
 
 # Functionality:
@@ -112,19 +117,20 @@ end
 # - Can view all shop items - see each id, name, price, quantity 
 # - Can create a new shop item - shop manager gets to input the name, price and quantity 
 # - Can view all orders - see each id, customer name, date order was placed and 
-# all of the items that are in each order 
+# all of the items that are in each order, this will only show valid orders - i.e.
+# orders with items in them.
 # - Can create new orders - shop manager can input the name of the customer and the date
-# it was placed, then the shop manager can add the items to the order. If the item is out 
-# of stock or not in the database then errors are raised. If the item is successfully
-# added to the order then a record is put in the joins table to associate that order 
-# with that item and also the stock of the item goes down by 1
+# it was placed, then the shop manager can add the items to the order and the 
+# quantity of that item added to the order (third column in joins table handles this)
+# If the item is out of stock or not in the database then errors are raised. 
+# If the item is successfully added to the order then a record is put in the joins table 
+# to associate that order with that item and also the stock of the item goes down 
+# by the number of items added to that order, so if 10 bananas in stock and 4 were 
+# added to the order, the quantity number for bananas in the db would decrease to 6. 
+# An error would be raised if you inputted 11 or more as you cant add more to an order than is in stock.
 
 # Things missing / to change:
 
-# - If a new order is created but no items are added then the record remains in the 
-# orders table even though no items are associated with that order 
-# - Haven't rspec tested the raising of the error if item is out of stock, although
-# it does work
-# - When creating a new order, can't add multiple of the same shop_items to the same
-# order due to joins table constraints, would probably need to add a third column to 
-# my joins table to handle multiples of a shop_item on 1 order
+# - Haven't rspec tested the raising of the error if item is out of stock or when
+# not enough stock to fulfil order, although both work - will speak to coaches
+# about rspec testing user inputs that would raise an error
