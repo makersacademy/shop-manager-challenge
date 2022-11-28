@@ -29,10 +29,10 @@ class OrderRepository
     params = [info.customer, info.date]
     DatabaseConnection.exec_params(sql, params)
     
-    sql1 = 'SELECT * FROM orders WHERE customer = $1;'
-    params1 = [info.customer]
+    sql1 = 'SELECT id FROM orders WHERE customer = $1 AND date = $2;'
+    params1 = [info.customer, info.date]
     result = DatabaseConnection.exec_params(sql1, params1)
-    order_id = fill(result[0]).id
+    order_id = result[0]['id']
 
     items.each do |item_id|
       sql2 = 'INSERT INTO items_orders (item_id, order_id) VALUES ($1, $2);'
