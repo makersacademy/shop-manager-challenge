@@ -1,0 +1,11 @@
+TRUNCATE TABLE items, orders RESTART IDENTITY; 
+INSERT INTO items (item_name, item_price, item_stock) VALUES ('Deepchord', '7', '10');
+INSERT INTO items (item_name, item_price, item_stock) VALUES ('Autechre', '8', '10');
+INSERT INTO items (item_name, item_price, item_stock) VALUES ('Gas', '5', '10');
+INSERT INTO items (item_name, item_price, item_stock) VALUES ('Floating Points', '9', '10');
+INSERT INTO items (item_name, item_price, item_stock) VALUES ('wzrdryAV', '6', '10');
+INSERT INTO orders (order_number, customer_name, order_date, item_id) VALUES ('00010', 'mike oliver', '2022-10-15', '1');
+INSERT INTO orders (order_number, customer_name, order_date, item_id) VALUES ('00011', 'orla oliver', '2022-10-20', '2');
+INSERT INTO orders (order_number, customer_name, order_date, item_id) VALUES ('00012', 'marvin haberdashery', '2022-09-03', '3');
+INSERT INTO orders (order_number, customer_name, order_date, item_id) VALUES ('00013', 'steve mercenary', '2022-08-27', '4');
+INSERT INTO orders (order_number, customer_name, order_date, item_id) VALUES ('00014', 'bernard mctwist', '2022-03-16', '5');
