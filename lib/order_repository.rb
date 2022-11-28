@@ -31,9 +31,16 @@ class OrderRepository
     DatabaseConnection.exec_params(sql, params)
 
     # Update join table to include new order
+    # TEST TO BE ADDED
     repo = OrderRepository.new
     sql = "INSERT INTO items_orders (item_id, order_id) VALUES($1, $2);"
     params = [order.item_id, repo.all.last.id]
+    DatabaseConnection.exec_params(sql, params)
+    
+    # Update item quantity (decrement by one)
+    # TEST TO BE ADDED
+    sql = "UPDATE items SET quantity = (quantity - 1) WHERE id = $1;"
+    params = [order.item_id]
     DatabaseConnection.exec_params(sql, params)
     return nil
   end
