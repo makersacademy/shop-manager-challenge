@@ -24,8 +24,8 @@ class Application
     when '1'
       @item_repository.all.each do |item|
         @io.puts "##{item.id} #{item.product} - Unit price: #{item.price} - Quantity: #{item.quantity}"
-        run
       end
+      run
     when '2'
       item = Item.new
       @io.puts "Enter name of product"
