@@ -117,17 +117,18 @@ end
 # - Can view all shop items - see each id, name, price, quantity 
 # - Can create a new shop item - shop manager gets to input the name, price and quantity 
 # - Can view all orders - see each id, customer name, date order was placed and 
-# all of the items that are in each order, this will only show valid orders - i.e.
-# orders with items in them.
-# - Can create new orders - shop manager can input the name of the customer and the date
-# it was placed, then the shop manager can add the items to the order and the 
-# quantity of that item added to the order (third column in joins table handles this)
-# If the item is out of stock or not in the database then errors are raised. 
+# all of the items that are in each order (e.g. sandwich x3, crisps x2)and this will only 
+# show valid orders - i.e. orders with items in them.
+# - Can create new orders - shop manager can input the name of the customer and the date it was placed, 
+# then the shop manager can add the items to the order and the quantity of that item added to the order 
+# (third column in joins table handles this). If the item is out of stock or not in the database then 
+# errors are raised. 
 # If the item is successfully added to the order then a record is put in the joins table 
 # to associate that order with that item and also the stock of the item goes down 
 # by the number of items added to that order, so if 10 bananas in stock and 4 were 
 # added to the order, the quantity number for bananas in the db would decrease to 6. 
 # An error would be raised if you inputted 11 or more as you cant add more to an order than is in stock.
+# Coverage at 98.75%
 
 # Things missing / to change:
 
