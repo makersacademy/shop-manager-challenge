@@ -72,9 +72,9 @@ class Application
   end
 
   def create_new_order
-    customer_info = get_customer_info
+    order_info = get_order_info
     new_order = Order.new 
-    new_order.customer_name, new_order.date_placed = customer_info
+    new_order.customer_name, new_order.date_placed = order_info
     @order_repository.create(new_order)
     new_order.id = @order_repository.all.last.id
     enter_items_in_new_order(new_order)
@@ -88,7 +88,7 @@ class Application
     return items.join(', ')
   end
 
-  def get_customer_info
+  def get_order_info
     @io.puts "\n Enter the name of the customer that placed the order:"
     name = @io.gets.chomp 
     @io.puts "\n Enter the date that order was placed (format => YYYY-MM-DD):"
