@@ -41,8 +41,12 @@ I want to be able to create a new order.
 
 ## Getting started
 
-`git clone https://github.com/jillwones/shop-manager-challenge.git`
-`bundle install`       
+```
+git clone https://github.com/jillwones/shop-manager-challenge.git
+```
+```
+bundle install
+```       
 
 Create 2 databases using PostgreSQL:
 1. shop_challenge
@@ -103,10 +107,14 @@ Uncomment the following lines in the app.rb file:
 # app = Application.new('shop_challenge_test', Kernel, OrderRepository.new, ShopItemRepository.new)
 # app.run
 ```
-Then in the terminal:
-`ruby app.rb`
+Then in the terminal:    
+```
+ruby app.rb
+```
 
 ## Running tests
 
-`rspec`
+```
+rspec
+```
 
