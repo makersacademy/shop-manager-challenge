@@ -4,7 +4,11 @@ class OrderRepository
 
   def all
 
-    sql = 'SELECT orders.id, orders.customer_name, orders.date, items.name AS item_name FROM orders JOIN items_orders  ON orders.id = items_orders.order_id JOIN items ON items.id = items_orders.item_id ORDER BY id;'
+    sql = 
+    'SELECT orders.id, orders.customer_name, orders.date, items.name AS item_name 
+    FROM orders JOIN items_orders  ON orders.id = items_orders.order_id 
+    JOIN items ON items.id = items_orders.item_id 
+    ORDER BY id;'
    
     result_set = DatabaseConnection.exec_params(sql,[])
 
@@ -12,8 +16,8 @@ class OrderRepository
 
     result_set.each do |record|
       get_all_items_in_order = all_orders.select { |order| order.id == record['id'] }
-      if get_all_items_in_order.empty?
-        all_orders << record_to_order_object(record)
+
+      if get_all_items_in_order.empty? then all_orders << record_to_order_object(record)
       else get_all_items_in_order.first.items.push(record['item_name'])
       end 
     end
