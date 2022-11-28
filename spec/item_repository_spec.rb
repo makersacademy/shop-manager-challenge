@@ -2,7 +2,7 @@ require 'item'
 require 'item_repository'
 require 'database_connection'
 
-ef reset_items_table
+def reset_items_table
   seed_sql = File.read('spec/seeds_shop.sql')
   connection = PG.connect({ host: '127.0.0.1', dbname: 'shop' })
   connection.exec(seed_sql)
@@ -15,25 +15,22 @@ describe ItemRepository do
 
   # 1
   it "Get all items" do
-    repo = ItemRepository.new
+    io = double :io
+    repo = ItemRepository.new(io)
 
-    items = repo.all
 
-    expect(items.length).to eq 5
+    expect(io).to receive(:puts).with("1 - Computer £500.00 20").ordered
+    expect(io).to receive(:puts).with("2 - Phone £599.00 79").ordered
+    expect(io).to receive(:puts).with("3 - TV £150.00 200").ordered
+    expect(io).to receive(:puts).with("4 - Shoes £30.00 250").ordered
+    expect(io).to receive(:puts).with("5 - Basket £5.00 150").ordered
 
-    expect(items[0].id).to eq 1
-    expect(items[0].name).to eq 'Computer'
-    expect(items[0].unit_price).to eq 500
-
-    expect(items[4].id).to eq 5
-    expect(items[4].name).to eq 'Basket'
-    expect(items[4].quantity).to eq 150
+    repo.all
   end
 
   # 2
-  xit "Get a single item" do
+  it "Get a single item" do
     repo = ItemRepository.new
-
     item = repo.find(3)
 
     expect(item.id).to eq 3
@@ -43,7 +40,7 @@ describe ItemRepository do
   end
 
   # 3
-  xit "Get all items from a single order" do
+  it "Get all items from a single order" do
     repo = ItemRepository.new
 
     items = repo.find_by_order(2)
@@ -55,8 +52,8 @@ describe ItemRepository do
     expect(items.last.quantity).to eq 150
   end
 
-  # 4
-  xit "Add an item" do
+  #  4
+  it "Add an item" do
     repo = ItemRepository.new
 
     new_item = Item.new
@@ -73,12 +70,12 @@ describe ItemRepository do
   end
 
   # 5
-  xit "Update an item" do
+  it "Update an item" do
     repo = ItemRepository.new
 
     update_item = repo.find(1)
 
-    update_item.price = 400
+    update_item.unit_price = 400
     update_item.quantity = 15
 
     repo.update(update_item)
@@ -86,12 +83,12 @@ describe ItemRepository do
     item = repo.find(1)
 
     expect(item.name).to eq 'Computer'
-    expect(item.price).to eq 400
+    expect(item.unit_price).to eq 400
     expect(item.quantity).to eq 15
   end
 
   # 6
-  xit "Delete an item" do
+  it "Delete an item" do
     repo = ItemRepository.new
 
     repo.delete(5)

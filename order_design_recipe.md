@@ -44,7 +44,7 @@ Usually, the Model class name will be the capitalised table name (single instead
 
 ```ruby
 # EXAMPLE
-# Table name: students
+# Table name: orders
 
 # Model class
 # (in lib/student.rb)
