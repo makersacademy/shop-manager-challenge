@@ -1,15 +1,8 @@
 Shop Manager Project
 =================
 
-* Feel free to use Google, your notes, books, etc. but work on your own
-* If you refer to the solution of another coach or student, please put a link to that in your README
-* If you have a partial solution, **still check in a partial solution**
-* You must submit a pull request to this repo with your code next Monday morning
-
 Challenge:
 -------
-
-Please start by [forking this repo](https://github.com/makersacademy/shop-manager-challenge/fork), then clone your fork to your local machine. Work into that directory.
 
 We are going to write a small terminal program allowing the user to manage a shop database containing some items and orders.
 
@@ -46,49 +39,74 @@ So I can manage orders
 I want to be able to create a new order.
 ```
 
-Here's an example of the terminal output your program should generate (yours might be slightly different — that's totally OK):
+## Getting started
 
+`git clone https://github.com/jillwones/shop-manager-challenge.git`
+`bundle install`       
+
+Create 2 databases using PostgreSQL:
+1. shop_challenge
+2. shop_challenge_test
+
+Create the relevant tables in both databases using:
+
+```sql
+-- Create the first table.
+CREATE TABLE shop_items (
+  id SERIAL PRIMARY KEY,
+  name text,
+  unit_price decimal,
+  quantity int
+);
+
+-- Create the second table.
+CREATE TABLE orders (
+  id SERIAL PRIMARY KEY,
+  customer_name text,
+  date_placed date
+);
+
+-- Create the join table.
+CREATE TABLE shop_items_orders (
+  shop_item_id int,
+  order_id int,
+  quantity int,
+  constraint fk_shop_item foreign key(shop_item_id) references shop_items(id) on delete cascade,
+  constraint fk_order foreign key(order_id) references orders(id) on delete cascade,
+  PRIMARY KEY (shop_item_id, order_id)
+);
 ```
-Welcome to the shop management program!
-
-What do you want to do?
-  1 = list all shop items
-  2 = create a new item
-  3 = list all orders
-  4 = create a new order
-
-1 [enter]
-
-Here's a list of all shop items:
-
- #1 Super Shark Vacuum Cleaner - Unit price: 99 - Quantity: 30
- #2 Makerspresso Coffee Machine - Unit price: 69 - Quantity: 15
- (...)
+Then populate the non test database with:
+```sql
+INSERT INTO orders (customer_name, date_placed) VALUES ('David', '08-Nov-2022');
+INSERT INTO orders (customer_name, date_placed) VALUES ('Anna', '10-Nov-2022');
+INSERT INTO orders (customer_name, date_placed) VALUES ('Jill', '11-Nov-2022');
+INSERT INTO shop_items (name, unit_price, quantity) VALUES ('sandwich', 2.99, 10);
+INSERT INTO shop_items (name, unit_price, quantity) VALUES ('bananas', 1.99, 15);
+INSERT INTO shop_items (name, unit_price, quantity) VALUES ('toilet roll', 3.00, 20);
+INSERT INTO shop_items (name, unit_price, quantity) VALUES ('crisps', 0.99, 15);
+INSERT INTO shop_items (name, unit_price, quantity) VALUES ('sausage roll', 1.50, 10);
+INSERT INTO shop_items_orders (shop_item_id, order_id, quantity) VALUES (1,1,2);
+INSERT INTO shop_items_orders (shop_item_id, order_id, quantity) VALUES (4,1,1);
+INSERT INTO shop_items_orders (shop_item_id, order_id, quantity) VALUES (5,1,5);
+INSERT INTO shop_items_orders (shop_item_id, order_id, quantity) VALUES (2,2,1);
+INSERT INTO shop_items_orders (shop_item_id, order_id, quantity) VALUES (3,3,1);
+INSERT INTO shop_items_orders (shop_item_id, order_id, quantity) VALUES (1,3,1);
 ```
 
-Technical Approach:
------
 
-In this unit, you integrated a database by using the `PG` gem, and test-driving and building Repository classes. You can continue to use this approach when building this challenge.
 
-[You'll also need to mock IO](https://github.com/makersacademy/golden-square/blob/main/mocking_bites/05_unit_testing_terminal_io_bite.md) in your integration or unit tests, since the program will ask for user input.
+## Usage
 
-Notes on test coverage
-----------------------
-
-Please ensure you have the following **AT THE TOP** of your spec_helper.rb in order to have test coverage stats generated
-on your pull request:
-
+Uncomment the following lines in the app.rb file:
 ```ruby
-require 'simplecov'
-require 'simplecov-console'
-
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-  SimpleCov::Formatter::Console,
-  # Want a nice code coverage website? Uncomment this next line!
-  # SimpleCov::Formatter::HTMLFormatter
-])
-SimpleCov.start
+# app = Application.new('shop_challenge_test', Kernel, OrderRepository.new, ShopItemRepository.new)
+# app.run
 ```
+Then in the terminal:
+`ruby app.rb`
 
-You can see your test coverage when you run your tests. If you want this in a graphical form, uncomment the `HTMLFormatter` line and see what happens!
+## Running tests
+
+`rspec`
+
