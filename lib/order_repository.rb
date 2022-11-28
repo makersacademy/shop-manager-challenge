@@ -30,9 +30,6 @@ class OrderRepository
       end
 
     end
-    # section below returns an array of order objects but only if there are items in that
-    # order, so if an order record is created but no items are associated with
-    # that order then it will not be showing in the orders array
     return orders
   end
 
