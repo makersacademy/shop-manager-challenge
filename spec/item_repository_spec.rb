@@ -25,11 +25,8 @@ RSpec.describe 'item_repository' do
 
   it "returns a single item" do
     repo = ItemRepository.new
-
     item = repo.find(1)
     expect(item.item_name).to eq "Deepchord"
     expect(item.item_price).to eq "7"
-    
   end
-
 end
