@@ -2,14 +2,17 @@ require 'item_repository'
 
 describe ItemRepository do 
 
-  def reset_items_table
-    seed_sql = File.read('spec/seeds_items.sql')
+  def reset_table
+    items_seed_sql = File.read('spec/seeds_items.sql')
+    orders_seed_sql = File.read('spec/seeds_orders.sql')
     connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_database' })
-    connection.exec(seed_sql)
-  end 
+    [items_seed_sql, orders_seed_sql].each do |seed_sql|
+      connection.exec(seed_sql)
+    end
+  end
 
   before(:each) do
-    reset_items_table
+    reset_table
   end
 
   context '#all' do 
@@ -19,7 +22,7 @@ describe ItemRepository do
 
       items = repo.all
 
-      items.length # =>  3
+      expect(items.length).to eq 3
 
       expect(items[0].id).to eq '1'
       expect(items[0].name).to eq 'B1 Pencils'
@@ -47,6 +50,23 @@ describe ItemRepository do
     end 
   end 
 
+
+  context '#delete' do 
+    it 'deletes first record' do 
+
+    repo = ItemRepository.new
+
+    repo.delete(1)
+
+    all_items = repo.all
+    expect(all_items.length).to eq 2
+    expect(all_items.first.id).to eq '2'
+    expect(all_items.first.name).to eq 'A5 Notebooks'
+    expect(all_items.first.unit_price).to eq '£4.75'
+    expect(all_items.first.stock_count).to eq '156'
+    end
+  end 
+
   context '#create' do 
     it 'created new record' do 
       
@@ -68,19 +88,4 @@ describe ItemRepository do
     end 
   end 
 
-  context '#delete' do 
-    it 'deletes first record' do 
-
-    repo = ItemRepository.new
-
-    repo.delete(1)
-
-    all_items = repo.all
-    expect(all_items.length).to eq 2
-    expect(all_items.first.id).to eq '2'
-    expect(all_items.first.name).to eq 'A5 Notebooks'
-    expect(all_items.first.unit_price).to eq '£4.75'
-    expect(all_items.first.stock_count).to eq '156'
-    end
-  end 
 end
