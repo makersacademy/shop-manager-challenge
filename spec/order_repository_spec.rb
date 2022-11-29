@@ -36,14 +36,14 @@ RSpec.describe OrderRepository do
 
     order.customer_name = "Thomas"
     order.date = "2022-11-27"
-    order.item_id = 4
+    order.item_id = 3
 
     repo.create(order)
     orders = repo.all 
 
 
     expect(order.customer_name).to eq "Thomas"
-    expect(order.date).to eq "022-11-27"
-    expect(order.item_id).to eq 4
+    expect(order.date).to eq "2022-11-27"
+    expect(order.item_id).to eq 3
   end 
 end 
