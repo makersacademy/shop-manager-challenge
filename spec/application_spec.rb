@@ -3,6 +3,23 @@ require './items/lib/item_repository'
 require './orders/lib/order_repository'
 
 RSpec.describe Application do
+  def reset_items_table
+    seed_sql = File.read('items/spec/seeds_items.sql')
+    connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager' })
+    connection.exec(seed_sql)
+  end
+
+  def reset_orders_table
+    seed_sql = File.read('orders/spec/seeds_orders.sql')
+    connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager' })
+    connection.exec(seed_sql)
+  end
+
+  before(:each) do
+    reset_items_table
+    reset_orders_table
+  end
+
   context 'user selects to see list of items' do
     it 'outputs all entries within item table' do
       io = double :io
