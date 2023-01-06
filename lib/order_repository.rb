@@ -1,43 +1,61 @@
 require_relative "./order"
 
 class OrderRepository
-
-  # Selecting all records
-  # No arguments
   def all
-    # Executes the SQL query:
-    # SELECT id, customer_name, date FROM orders;
+    sql = "SELECT id, customer_name, date, item_id FROM orders;"
+    result_set = DatabaseConnection.exec_params(sql, [])
 
-    # Returns an array of Order objects.
+    orders = []
+
+    result_set.each do |record|
+      order = Order.new
+      order.id = record['id']
+      order.customer_name = record['customer_name']
+      order.date = record['date']
+      order.item_id = record['item_id']
+
+      orders << order
+    end
+    return orders
   end
 
-  # Gets a single record by its ID
-  # One argument: the id (number)
   def find(id)
-    # Executes the SQL query:
-    # SELECT id, customer_name, date FROM orders WHERE id = $1;
+    sql = "SELECT id, customer_name, date, item_id FROM orders WHERE id = $1;"
+    params = [id]
+    result_set = DatabaseConnection.exec_params(sql, params)
 
-    # Returns a single Order object.
+    record = result_set[0]
+
+    order = Order.new
+    order.id = record['id']
+    order.customer_name = record['customer_name']
+    order.date = record['date']
+    order.item_id = record['item_id']
+
+    return order
   end
 
   def create(order)
-    # Executes the SQL query:
-    # INSERT INTO orders (customer_name, date) VALUES($1, $2);
+    sql = "INSERT INTO orders (customer_name, date, item_id) VALUES($1, $2, $3);"
+    params = [order.customer_name, order.date, order.item_id]
+    DatabaseConnection.exec_params(sql, params)
 
-    # returns nothing
+    return nil
   end
 
   def update(order)
-    # Executes the SQL query:
-    # UPDATE orders SET customer_name = $1, date = $2 WHERE id = $3;
+    sql = "UPDATE orders SET customer_name = $1, date = $2, item_id = $3 WHERE id = $4;"
+    params = [order.customer_name, order.date, order.item_id, order.id]
+    DatabaseConnection.exec_params(sql, params)
 
-    # returns nothing
+    return nil
   end
 
-  def delete(order)
-    # Executes the SQL query:
-    # DELETE FROM orders WHERE id = $1;
+  def delete(order_id)
+    sql = "DELETE FROM orders WHERE id = $1;"
+    params = [order_id]
+    DatabaseConnection.exec_params(sql, params)
 
-    # Returns nothing
+    return nil
   end
 end
