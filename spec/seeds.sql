@@ -1,8 +1,8 @@
-TRUNCATE TABLE items, orders RESTART IDENTITY; 
+TRUNCATE TABLE items, orders, items_orders RESTART IDENTITY; 
 INSERT INTO orders (date, customer_name) VALUES ('2023-01-01', 'John Smith');
 INSERT INTO orders (date, customer_name) VALUES ('2023-01-02', 'Jane Doe');
 INSERT INTO orders (date, customer_name) VALUES ('2023-01-03', 'Joe Burgess');
-INSERT INTO orders (date, customer_name) VALUES ('2023-01-04', 'Elise Roberts');
+INSERT INTO orders (date, customer_name) VALUES ('2023-01-04', 'Elise Beer');
 INSERT INTO orders (date, customer_name) VALUES ('2023-01-06', 'James Dean');
 
 INSERT INTO items (name, price, quantity) VALUES ('Apple', '1', '100');
