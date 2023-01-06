@@ -65,16 +65,28 @@ Usually, the Model class name will be the capitalised table name (single instead
 
 ```ruby
 # EXAMPLE
-# Table name: students
+# Table name: items
 
 # Model class
-# (in lib/student.rb)
-class Student
+# (in lib/item.rb)
+class Item
 end
 
 # Repository class
-# (in lib/student_repository.rb)
-class StudentRepository
+# (in lib/item_repository.rb)
+class ItemRepository
+end
+
+# Table name: orders
+
+# Model class
+# (in lib/order.rb)
+class Order
+end
+
+# Repository class
+# (in lib/order_repository.rb)
+class OrderRepository
 end
 ```
 
@@ -83,25 +95,23 @@ end
 Define the attributes of your Model class. You can usually map the table columns to the attributes of the class, including primary and foreign keys.
 
 ```ruby
-# EXAMPLE
-# Table name: students
+# Table name: items
 
 # Model class
-# (in lib/student.rb)
+# (in lib/item.rb)
 
-class Student
-
-  # Replace the attributes by your own columns.
-  attr_accessor :id, :name, :cohort_name
+class Item
+  attr_accessor :id, :name, :price, :quantity
 end
 
-# The keyword attr_accessor is a special Ruby feature
-# which allows us to set and get attributes on an object,
-# here's an example:
-#
-# student = Student.new
-# student.name = 'Jo'
-# student.name
+# Model class
+# (in lib/order.rb)
+
+class Order
+  attr_accessor :id, :customer_name, :date, :item_id
+end
+
+
 ```
 
 *You may choose to test-drive this class, but unless it contains any more logic than the example above, it is probably not needed.*
@@ -114,41 +124,98 @@ Using comments, define the method signatures (arguments and return value) and wh
 
 ```ruby
 # EXAMPLE
-# Table name: students
+# Table name: items
 
 # Repository class
-# (in lib/student_repository.rb)
+# (in lib/item_repository.rb)
 
-class StudentRepository
+class ItemRepository
 
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students;
+    # SELECT id, name, price, quantity FROM items;
 
-    # Returns an array of Student objects.
+    # Returns an array of Item objects.
   end
 
   # Gets a single record by its ID
   # One argument: the id (number)
   def find(id)
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students WHERE id = $1;
+    # SELECT id, name, price, quantity FROM items WHERE id = $1;
 
-    # Returns a single Student object.
+    # Returns a single Item object.
   end
 
-  # Add more methods below for each operation you'd like to implement.
+  def create(item)
+    # Executes the SQL query:
+    # INSERT INTO items (name, price, quantity) VALUES($1, $2, $3);
 
-  # def create(student)
-  # end
+    # returns nothing
+  end
 
-  # def update(student)
-  # end
+  def update(item)
+    # Executes the SQL query:
+    # UPDATE items SET name = $1, price = $2, quantity = $3 WHERE id = $4;
 
-  # def delete(student)
-  # end
+    # returns nothing
+  end
+
+  def delete(item)
+    # Executes the SQL query:
+    # DELETE FROM items WHERE id = $1;
+
+    # Returns nothing
+  end
+end
+
+# Table name: orders
+
+# Repository class
+# (in lib/order_repository.rb)
+
+class OrderRepository
+
+  # Selecting all records
+  # No arguments
+  def all
+    # Executes the SQL query:
+    # SELECT id, customer_name, date FROM orders;
+
+    # Returns an array of Order objects.
+  end
+
+  # Gets a single record by its ID
+  # One argument: the id (number)
+  def find(id)
+    # Executes the SQL query:
+    # SELECT id, customer_name, date FROM orders WHERE id = $1;
+
+    # Returns a single Order object.
+  end
+
+  def create(order)
+    # Executes the SQL query:
+    # INSERT INTO orders (customer_name, date) VALUES($1, $2);
+
+    # returns nothing
+  end
+
+  def update(order)
+    # Executes the SQL query:
+    # UPDATE orders SET customer_name = $1, date = $2 WHERE id = $3;
+
+    # returns nothing
+  end
+
+  def delete(order)
+    # Executes the SQL query:
+    # DELETE FROM orders WHERE id = $1;
+
+    # Returns nothing
+  end
 end
 ```
 
