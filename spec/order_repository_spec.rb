@@ -17,7 +17,7 @@ describe OrderRepository do
 
     orders = repo.all
 
-    expect(orders.length).to eq 2
+    expect(orders.length).to eq 3
 
     expect(orders[0].id).to eq "1"
     expect(orders[0].customer_name).to eq "John Smith"
@@ -47,7 +47,7 @@ describe OrderRepository do
     delete_order = repo.delete('1')
     orders = repo.all
 
-    expect(orders.length).to eq 1
+    expect(orders.length).to eq 2
 
     expect(orders[0].id).to eq "2"
     expect(orders[0].customer_name).to eq "Pauline Jones"

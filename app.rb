@@ -78,14 +78,10 @@ class Application
     user_choice = @io.gets.chomp
 
     case user_choice
-    when '1'
-      list_shop_items
-    when '2'
-      add_new_item
-    when '3'
-      list_orders
-    when '4'
-      create_order
+    when '1' then list_shop_items
+    when '2' then add_new_item
+    when '3' then list_orders
+    when '4' then create_order
     end
   end
 end

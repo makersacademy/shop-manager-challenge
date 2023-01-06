@@ -1,10 +1,12 @@
-# Two Tables Design Recipe Template
+# Two Tables (Many-to-Many) Design Recipe Template
 
-_Copy this recipe template to design and create two related database tables from a specification._
+_Copy this recipe template to design and create two related database tables having a Many-to-Many relationship._
 
 ## 1. Extract nouns from the user stories or specification
 
 ```
+# EXAMPLE USER STORIES:
+
 As a shop manager
 So I can know which items I have in stock
 I want to keep a list of my shop items with their name and unit price.
@@ -49,6 +51,7 @@ Put the different nouns in this table. Replace the example with your own nouns.
 | items                 | name, price, quantity
 | orders                | customer_name, date
 
+
 1. Name of the first table (always plural): `items` 
 
     Column names: `name`, `price`, `quantity`
@@ -56,6 +59,7 @@ Put the different nouns in this table. Replace the example with your own nouns.
 2. Name of the second table (always plural): `orders` 
 
     Column names: `customer_name`, `date`
+
 
 ## 3. Decide the column types.
 
@@ -80,47 +84,44 @@ customer_name: text
 date: date
 ```
 
-## 4. Decide on The Tables Relationship
+## 4. Design the Many-to-Many relationship
 
-Most of the time, you'll be using a **one-to-many** relationship, and will need a **foreign key** on one of the two tables.
-
-To decide on which one, answer these two questions:
+Make sure you can answer YES to these two questions:
 
 1. Can one [TABLE ONE] have many [TABLE TWO]? (Yes/No)
 2. Can one [TABLE TWO] have many [TABLE ONE]? (Yes/No)
 
-You'll then be able to say that:
+```
+# EXAMPLE
 
-1. **[A] has many [B]**
-2. And on the other side, **[B] belongs to [A]**
-3. In that case, the foreign key is in the table [B]
+1. Can one item have many orders? Yes
+2. Can one order have many items? Yes
+```
 
-Replace the relevant bits in this example with your own:
+_If you would answer "No" to one of these questions, you'll probably have to implement a One-to-Many relationship, which is simpler. Use the relevant design recipe in that case._
+
+## 5. Design the Join Table
+
+The join table usually contains two columns, which are two foreign keys, each one linking to a record in the two other tables.
+
+The naming convention is `table1_table2`.
 
 ```
 # EXAMPLE
-# User story specifices 'assign each order to their corresponding ITEM' - inferred that it is one item per order
-1. Can one item have many orders? Yes
-2. Can one order have many items? No
 
--> Therefore,
--> An item HAS MANY orders
--> An order BELONGS TO an item
-
--> Therefore, the foreign key is on the orders table.
+Join table for tables: items and orders
+Join table name: orders_items
+Columns: order_id, item_id
 ```
-
-*If you can answer YES to the two questions, you'll probably have to implement a Many-to-Many relationship, which is more complex and needs a third table (called a join table).*
 
 ## 4. Write the SQL.
 
 ```sql
 -- EXAMPLE
--- file: items_orders_table.sql
+-- file: items_orders.sql
 
 -- Replace the table name, columm names and types.
 
--- Create the table without the foreign key first.
 CREATE TABLE items (
   id SERIAL PRIMARY KEY,
   name text,
@@ -128,16 +129,22 @@ CREATE TABLE items (
   quantity int
 );
 
--- Then the table with the foreign key first.
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
   name text,
   date date,
--- The foreign key name is always {other_table_singular}_id
   item_id int,
   constraint fk_item foreign key(item_id)
     references items(id)
     on delete cascade
+);
+
+CREATE TABLE orders_items (
+  order_id int,
+  item_id int,
+  constraint fk_order foreign key(order_id) references orders(id) on delete cascade,
+  constraint fk_item foreign key(item_id) references items(id) on delete cascade,
+  PRIMARY KEY (order_id, item_id)
 );
 
 ```
@@ -145,7 +152,7 @@ CREATE TABLE orders (
 ## 5. Create the tables.
 
 ```bash
-psql -h 127.0.0.1 database_name < albums_table.sql
+psql -h 127.0.0.1 database_name < posts_tags.sql
 ```
 
 <!-- BEGIN GENERATED SECTION DO NOT EDIT -->
@@ -153,7 +160,7 @@ psql -h 127.0.0.1 database_name < albums_table.sql
 ---
 
 **How was this resource?**  
-[😫](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy%2Fdatabases&prefill_File=resources%2Ftwo_table_design_recipe_template.md&prefill_Sentiment=😫) [😕](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy%2Fdatabases&prefill_File=resources%2Ftwo_table_design_recipe_template.md&prefill_Sentiment=😕) [😐](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy%2Fdatabases&prefill_File=resources%2Ftwo_table_design_recipe_template.md&prefill_Sentiment=😐) [🙂](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy%2Fdatabases&prefill_File=resources%2Ftwo_table_design_recipe_template.md&prefill_Sentiment=🙂) [😀](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy%2Fdatabases&prefill_File=resources%2Ftwo_table_design_recipe_template.md&prefill_Sentiment=😀)  
+[😫](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy%2Fdatabases&prefill_File=resources%2Ftwo_tables_many_to_many_design_recipe_template.md&prefill_Sentiment=😫) [😕](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy%2Fdatabases&prefill_File=resources%2Ftwo_tables_many_to_many_design_recipe_template.md&prefill_Sentiment=😕) [😐](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy%2Fdatabases&prefill_File=resources%2Ftwo_tables_many_to_many_design_recipe_template.md&prefill_Sentiment=😐) [🙂](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy%2Fdatabases&prefill_File=resources%2Ftwo_tables_many_to_many_design_recipe_template.md&prefill_Sentiment=🙂) [😀](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy%2Fdatabases&prefill_File=resources%2Ftwo_tables_many_to_many_design_recipe_template.md&prefill_Sentiment=😀)  
 Click an emoji to tell us.
 
 <!-- END GENERATED SECTION DO NOT EDIT -->

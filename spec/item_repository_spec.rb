@@ -16,7 +16,7 @@ describe ItemRepository do
 
     items = repo.all
 
-    expect(items.length).to eq 2
+    expect(items.length).to eq 4
 
     expect(items[0].id).to eq '1'
     expect(items[0].name).to eq 'Super Shark Vacuum Cleaner'
@@ -81,7 +81,7 @@ describe ItemRepository do
     delete_item = repo.delete('1')
     items = repo.all
 
-    expect(items.length).to eq 1
+    expect(items.length).to eq 3
 
     expect(items[0].id).to eq "2"
     expect(items[0].name).to eq "Makerspresso Coffee Machine"

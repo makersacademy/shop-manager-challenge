@@ -13,6 +13,8 @@ describe "Application class for shop_manager_challenge" do
       expect(io).to receive(:puts).with("Here is the list of all shop items:")
       expect(io).to receive(:puts).with("#1 - Super Shark Vacuum Cleaner - Unit price: 99 - Quantity: 30")
       expect(io).to receive(:puts).with("#2 - Makerspresso Coffee Machine - Unit price: 70 - Quantity: 15")
+      expect(io).to receive(:puts).with("#3 - Magic Beans - Unit price: 20 - Quantity: 40")
+      expect(io).to receive(:puts).with("#4 - Beanstalk - Unit price: 30 - Quantity: 50")
 
       app = Application.new('shop_manager_test', io, 'item_repository', 'order_repository')
       app.run
@@ -47,6 +49,7 @@ describe "Application class for shop_manager_challenge" do
       expect(io).to receive(:puts).with("Here is the list of all orders:")
       expect(io).to receive(:puts).with("#1 - Customer name: John Smith - Order date: 2022-06-01 - Item ID: 1")
       expect(io).to receive(:puts).with("#2 - Customer name: Pauline Jones - Order date: 2022-05-01 - Item ID: 2")
+      expect(io).to receive(:puts).with("#3 - Customer name: Colonel Mustard - Order date: 2022-05-01 - Item ID: 2")
 
       app = Application.new('shop_manager_test', io, 'item_repository', 'order_repository')
       app.run
