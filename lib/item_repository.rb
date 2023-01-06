@@ -12,6 +12,9 @@ class ItemRepository
   end
   
   def create(item)
+    sql = "INSERT INTO items (name, price, quantity) VALUES ($1, $2, $3);"
+    params = [item.name, item.price, item.quantity]
+    DatabaseConnection.exec_params(sql, params)
   end
 
   private
