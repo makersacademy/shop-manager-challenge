@@ -25,6 +25,13 @@ RSpec.describe Application do
     expect(io).to receive(:puts).with('3 - List all orders')
     expect(io).to receive(:puts).with('4 - Create a new order')
     expect(io).to receive(:puts).with('Enter your choice:')
+    expect(io).to receive(:gets).and_return('1')
+    expect(io).to receive(:puts).with("1. Apple ($1.00) / In stock: 100")
+    expect(io).to receive(:puts).with("2. Orange ($1.00) / In stock: 120")
+    expect(io).to receive(:puts).with("3. Chocolate Bar ($3.00) / In stock: 50")
+    expect(io).to receive(:puts).with("4. Crisp Pack ($2.00) / In stock: 200")
+    expect(io).to receive(:puts).with("5. Sirloin Steak ($5.00) / In stock: 10")
+    expect(io).to receive(:puts).with("6. Chicken Breast ($4.00) / In stock: 20")
     app.run
     
   end
