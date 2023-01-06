@@ -41,21 +41,18 @@ describe OrderRepository do
     expect(order.item_id).to eq "1"
   end
 
-  it "creates an order entry" do
+  it "deletes an order" do
     repo = OrderRepository.new
 
-    order = Order.new
-    order.customer_name = 'Alex Appleby'
-    order.date = '06/01/22'
-    order.item_id = '2'
-
-    repo.create(order)
-
+    delete_order = repo.delete('1')
     orders = repo.all
-    last_order = orders.last
-    expect(last_order.customer_name).to eq 'Alex Appleby'
-    expect(last_order.date).to eq '2022-06-01'
-    expect(last_order.item_id).to eq '2'
+
+    expect(orders.length).to eq 1
+
+    expect(orders[0].id).to eq "2"
+    expect(orders[0].customer_name).to eq "Pauline Jones"
+    expect(orders[0].date).to eq "2022-05-01"
+    expect(orders[0].item_id).to eq "2"
   end
 
   it "updates an order" do
@@ -76,17 +73,24 @@ describe OrderRepository do
     expect(updated_order.item_id).to eq '1'
   end
 
-  it "deletes an order" do
+  it "creates an order entry" do
     repo = OrderRepository.new
 
-    delete_order = repo.delete('1')
+    order = Order.new
+    order.customer_name = 'Alex Appleby'
+    order.date = '06/01/22'
+    order.item_id = '2'
+
+    repo.create(order)
+
     orders = repo.all
+    last_order = orders.last
+    expect(last_order.customer_name).to eq 'Alex Appleby'
+    expect(last_order.date).to eq '2022-06-01'
+    expect(last_order.item_id).to eq '2'
+  end
 
-    expect(orders.length).to eq 1
-
-    expect(orders[0].id).to eq "2"
-    expect(orders[0].customer_name).to eq "Pauline Jones"
-    expect(orders[0].date).to eq "2022-05-01"
-    expect(orders[0].item_id).to eq "2"
+  it "resets test database" do
+    # not testing anything
   end
 end
