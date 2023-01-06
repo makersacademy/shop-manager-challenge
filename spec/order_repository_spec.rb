@@ -17,8 +17,25 @@ RSpec.describe OrderRepository do
     
     orders = repo.all
     expect(orders.length).to eq 5
-    expect(order[0].customer_name).to eq 'John Smith'
-    expect(order[1].date).to eq '2023-01-02'
-    expect(order[3].customer_name).to eq 'Elise Beer'
+    expect(orders[0].customer_name).to eq 'John Smith'
+    expect(orders[1].date).to eq '2023-01-02'
+    expect(orders[3].customer_name).to eq 'Elise Beer'
+  end
+
+  it 'creates a new order and adds to the order repository' do
+    repo = OrderRepository.new
+    orders = repo.all
+
+    expect(orders.length).to eq 5
+    expect(orders.last.customer_name).to eq 'James Dean'
+
+    new_order = Order.new
+    new_order.date = '2023-01-03'
+    new_order.customer_name = 'Tara Dunham'
+    repo.create(new_order)
+    updated_orders = repo.all
+
+    expect(updated_orders.length).to eq 6
+    expect(updated_orders.last.customer_name).to eq 'Tara Dunham'
   end
 end
