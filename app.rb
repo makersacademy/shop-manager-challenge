@@ -17,7 +17,7 @@ class Application
     show '2 - Create a new item'
     show '3 - List all orders'
     show '4 - Create a new order'
-    show 'Enter your choice:'
+    prompt_for_input
   end
 
   private
@@ -35,14 +35,21 @@ class Application
     input = prompt 'Enter your choice:'
     case input
     when '1'
-      show 'Here is the list of albums:'
-      @item_repository.all.each do |album|
-        show "* #{album.id} - #{album.title} (#{album.release_year})"
+      show 'Here is the list of items:'
+      @item_repository.all.each do |item|
+        show "#{item.id}. #{item.name} (#{item.price}) / In stock: #{item.quantity}"
       end
-    else
-      show 'Here is the list of artists:'
-      @order_repository.all.each do |artist|
-        show "* #{artist.id} - #{artist.name} (#{artist.genre})"
+    when '2'
+      item = Item.new
+      item.name = prompt "What item would you like to add?" 
+      item.price = prompt "Please set the price in dollars." 
+      item.quantity = prompt "Please set the quantity."
+      @item_repository.create(item) 
+      show "New item created: ID# #{@item_repository.all.last.id} - #{@item_repository.all.last.name} (#{@item_repository.all.last.price}) / In stock: #{@item_repository.all.last.quantity}"
+    when '3'
+      show 'Here is the list of orders:'
+      @order_repository.all.each do |order|
+        show "Order ID [#{order.id}] ordered by #{order.customer_name} on #{order.date}"
       end
     end
   end
