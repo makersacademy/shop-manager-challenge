@@ -38,4 +38,11 @@ RSpec.describe OrderRepository do
     expect(updated_orders.length).to eq 6
     expect(updated_orders.last.customer_name).to eq 'Tara Dunham'
   end
+
+  it 'provides order information including related items' do
+    repo = OrderRepository.new
+    order = repo.find_with_items(1)
+    expect(order.customer_name).to eq 'John Smith'
+    expect(order.items[0].name).to eq 'Apple'
+  end
 end

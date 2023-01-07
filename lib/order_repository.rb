@@ -17,6 +17,33 @@ class OrderRepository
     DatabaseConnection.exec_params(sql, params)
   end
 
+  def find_with_items(id)
+    sql = 'SELECT orders.id, orders.customer_name, date, items.id AS item_id, items.name AS item_name, price FROM orders
+    JOIN items_orders
+    ON items_orders.order_id = orders.id
+    JOIN items 
+    ON items_orders.item_id = items.id
+    WHERE orders.id = $1;'
+    
+    params = [id]
+
+    result = DatabaseConnection.exec_params(sql, params)
+
+    order = Order.new
+    order.id = result.first['id']
+    order.customer_name = result.first['customer_name']
+    order.date = result.first['date']
+
+    result.each do |record|
+      item = Item.new
+      item.id = record['item_id']
+      item.name = record['item_name']
+      item.price = record['price']
+      order.items << item
+    end
+    order
+  end
+
   private
 
   def record_to_object(record)
