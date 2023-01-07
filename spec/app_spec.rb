@@ -36,7 +36,7 @@ RSpec.describe Application do
     app.run
   end
 
-  it 'shows the shop management system and allow the user to add new items' do
+  it 'shows the shop management system and adds new items' do
     database_name = 'shop_manager_test'
     io = double(:io)
     order_repository = OrderRepository.new
@@ -59,6 +59,7 @@ RSpec.describe Application do
     expect(io).to receive(:puts).with("New item created: ID# 7 - Champagne ($10.00) / In stock: 20")
     app.run
   end
+
   it 'shows the shop management system and will print orders' do
     database_name = 'shop_manager_test'
     io = double(:io)
@@ -81,4 +82,5 @@ RSpec.describe Application do
     expect(io).to receive(:puts).with("Order ID [5] ordered by James Dean on 2023-01-06")
     app.run
   end
+
 end
