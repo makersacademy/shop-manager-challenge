@@ -44,6 +44,11 @@ class Application
       create_new_item
     when '3'
       list_all_orders
+    when '4'
+      create_new_order
+    else
+      show 'Invalid input'
+      prompt_for_input
     end
   end
 
@@ -79,6 +84,32 @@ class Application
     end
   end
 
+  def create_new_order
+    order = Order.new
+    order.customer_name = prompt "Please enter customer name:"
+    order.date = prompt "Please enter order date (YYYY-MM-DD):"
+    items = prompt "Please enter item IDs separated by commas:"
+    array = items.split(',')
+    array.each do |item| 
+      order.items << @item_repository.find(item)
+    end
+    @order_repository.create(order)
+    show "Order successfully created:"
+    print_last_order(order)
+  end
+  
+  def print_last_order(order)
+    items = ''
+    total = 0
+    order_with_items = @order_repository.find_with_items(@order_repository.all.last.id)
+    order_with_items.items.each do |item|
+      items << "\n#{item.name} - #{item.price}"
+      total += item.price[1..-1].to_f
+    end
+    show "\nOrder ID [#{order.id}] ordered by #{order.customer_name} on #{order.date}."
+    show "Items ordered: #{items}"
+    show "** Order total - $#{'%.2f' % total} **"
+  end
 end
 
 if __FILE__ == $0

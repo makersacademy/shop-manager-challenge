@@ -28,10 +28,11 @@ RSpec.describe OrderRepository do
 
     expect(orders.length).to eq 5
     expect(orders.last.customer_name).to eq 'James Dean'
-
+    item = double(:item, :id => 1, :name => 'Apple', :price => '$1.00')
     new_order = Order.new
     new_order.date = '2023-01-03'
     new_order.customer_name = 'Tara Dunham'
+    new_order.items << item
     repo.create(new_order)
     updated_orders = repo.all
 

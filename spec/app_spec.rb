@@ -93,4 +93,31 @@ RSpec.describe Application do
     app.run
   end
 
+  it 'shows the shop management system and will create new orders' do
+    database_name = 'shop_manager_test'
+    io = double(:io)
+    order_repository = OrderRepository.new
+    item_repository = ItemRepository.new
+    app = Application.new(database_name, io, item_repository, order_repository)
+    expect(io).to receive(:puts).with('Welcome to the shop management program!')
+    expect(io).to receive(:puts).with('What do you want to do?')
+    expect(io).to receive(:puts).with('1 - List all items')
+    expect(io).to receive(:puts).with('2 - Create a new item')
+    expect(io).to receive(:puts).with('3 - List all orders')
+    expect(io).to receive(:puts).with('4 - Create a new order')
+    expect(io).to receive(:puts).with('Enter your choice:')
+    expect(io).to receive(:gets).and_return('4')
+    expect(io).to receive(:puts).with("Please enter customer name:")
+    expect(io).to receive(:gets).and_return('Peyman Hewitt')
+    expect(io).to receive(:puts).with("Please enter order date (YYYY-MM-DD):")
+    expect(io).to receive(:gets).and_return('2023-01-08')
+    expect(io).to receive(:puts).with("Please enter item IDs separated by commas:")
+    expect(io).to receive(:gets).and_return('3,4')
+    expect(io).to receive(:puts).with("Order successfully created:")
+    expect(io).to receive(:puts).with("\nOrder ID [6] ordered by Peyman Hewitt on 2023-01-08.")
+    expect(io).to receive(:puts).with("Items ordered: \nChocolate Bar - $3.00\nCrisp Pack - $2.00")
+    expect(io).to receive(:puts).with("** Order total - $5.00 **")
+    app.run
+  end
+
 end

@@ -12,9 +12,16 @@ class OrderRepository
   end
 
   def create(order)
-    sql = "INSERT INTO orders (date, customer_name) VALUES ($1, $2);"
-    params = [order.date, order.customer_name]
+    order.id = new_order_id
+    sql = "INSERT INTO orders (id, date, customer_name) VALUES ($1, $2, $3);"
+    params = [order.id, order.date, order.customer_name]
     DatabaseConnection.exec_params(sql, params)
+
+    order.items.each do |item|
+      sql_items = 'INSERT INTO items_orders (item_id, order_id) VALUES ($1, $2)'
+      params_items = [item.id, order.id]
+      DatabaseConnection.exec_params(sql_items, params_items)
+    end
   end
 
   def find_with_items(id)
@@ -52,5 +59,13 @@ class OrderRepository
     object.customer_name = record['customer_name']
     object.date = record['date']
     object
+  end
+
+  def new_order_id
+    last_id_query = 'SELECT MAX(id) FROM orders;'
+    last_id_result = DatabaseConnection.exec_params(last_id_query, [])
+
+    new_id = last_id_result.first['max'].to_i
+    new_id + 1
   end
 end
