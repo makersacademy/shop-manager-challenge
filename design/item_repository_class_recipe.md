@@ -132,9 +132,9 @@ items = repo.all
 items.length # => 2
 
 items[0].id # => 1
-item[1].name # => 'Makerspresso Coffee Machine'
-item[0].unit_price # => 99
-item[1].quantity # => 15
+items[1].name # => 'Makerspresso Coffee Machine'
+items[0].unit_price # => 99
+items[1].quantity # => 15
 
 # 2
 # Adds a new item

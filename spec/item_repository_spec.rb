@@ -12,32 +12,23 @@ RSpec.describe ItemRepository do
     end
   
     it 'Get all items' do
-
         repo = ItemRepository.new
-
         items = repo.all
-
         expect(items.length).to eq 2
-
         expect(items[0].id).to eq 1
-        expect(item[1].name).to eq 'Makerspresso Coffee Machine'
-        expect(item[0].unit_price).to eq 99
-        expect(item[1].quantity).to eq 15
+        expect(items[1].name).to eq 'Makerspresso Coffee Machine'
+        expect(items[0].unit_price).to eq 99
+        expect(items[1].quantity).to eq 15
     end
 
     it 'Adds a new item' do
-
         repo = ItemRepository.new
-
         item = Item.new
         item.name = 'Black Rubber Duck'
         item.unit_price = 5
         item.quantity = 150
-
         repo.create(item)
-
         all_items = repo.all
-
         expect(all_items.length).to eq 3
         expect(all_items.last.id).to eq 3
         expect(all_items.last.name).to eq 'Black Rubber Duck'
