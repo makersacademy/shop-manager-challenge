@@ -11,12 +11,7 @@ class Application
   end
 
   def run
-    show 'Welcome to the shop management program!'
-    show 'What do you want to do?'
-    show '1 - List all items'
-    show '2 - Create a new item'
-    show '3 - List all orders'
-    show '4 - Create a new order'
+    display_user_interface
     prompt_for_input
   end
 
@@ -29,6 +24,15 @@ class Application
   def prompt(message)
     @io.puts(message)
     @io.gets.chomp
+  end
+
+  def display_user_interface
+    show 'Welcome to the shop management program!'
+    show 'What do you want to do?'
+    show '1 - List all items'
+    show '2 - Create a new item'
+    show '3 - List all orders'
+    show '4 - Create a new order'
   end
 
   def prompt_for_input
