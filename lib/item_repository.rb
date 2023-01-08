@@ -1,5 +1,5 @@
 require_relative '../database_connection.rb'
-require 'item'
+require_relative 'item'
 
 class ItemRepository
   # Selecting all records
