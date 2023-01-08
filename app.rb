@@ -70,16 +70,7 @@ class Application
   def list_all_orders
     show 'Here is the list of orders:'
     @order_repository.all.each do |order|
-      items = ''
-      total = 0
-      order_with_items = @order_repository.find_with_items(order.id)
-      order_with_items.items.each do |item|
-        items << "\n#{item.name} - #{item.price}"
-        total += item.price[1..-1].to_f
-      end
-      show "\nOrder ID [#{order.id}] ordered by #{order.customer_name} on #{order.date}."
-      show "Items ordered: #{items}"
-      show "** Order total - $#{'%.2f' % total} **"
+      print_order(order)
     end
   end
 
@@ -88,19 +79,18 @@ class Application
     order.customer_name = prompt "Please enter customer name:"
     order.date = prompt "Please enter order date (YYYY-MM-DD):"
     items = prompt "Please enter item IDs separated by commas:"
-    array = items.split(',')
-    array.each do |item| 
+    items.split(',').each do |item| 
       order.items << @item_repository.find(item)
     end
     @order_repository.create(order)
     show "Order successfully created:"
-    print_last_order(order)
+    print_order(@order_repository.all.last)
   end
   
-  def print_last_order(order)
+  def print_order(order)
     items = ''
     total = 0
-    order_with_items = @order_repository.find_with_items(@order_repository.all.last.id)
+    order_with_items = @order_repository.find_with_items(order.id)
     order_with_items.items.each do |item|
       items << "\n#{item.name} - #{item.price}"
       total += item.price[1..-1].to_f
