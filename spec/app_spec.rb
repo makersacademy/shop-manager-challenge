@@ -28,13 +28,21 @@ describe Application do
     expect(@io).to receive(:gets).and_return("5").ordered
     @app.run
   end
-  
+
   it "Application can list all items after formatting" do
     expect(@io).to receive(:gets).and_return("1").ordered
     expect(@io).to receive(:puts).with("Here is the list of all shop items\n").ordered
     expect(@io).to receive(:puts).with("#1 Super Shark Vacuum Cleaner - Unit Price: £99.99").ordered
     expect(@io).to receive(:puts).with("#2 Makerspresso Coffee Machine - Unit Price: £69.50").ordered
     expect(@io).to receive(:puts).with("#3 ThomasTech Wireless Charger - Unit Price: £11.39").ordered
+  end
+
+  it "Application can list all orders after formatting" do
+    expect(@io).to receive(:gets).and_return("2").ordered
+    expect(@io).to receive(:puts).with("Here is the list of all shop orders\n").ordered
+    expect(@io).to receive(:puts).with("John ordered on 2022-06-20").ordered
+    expect(@io).to receive(:puts).with("Grace ordered on 2023-01-01").ordered
+    expect(@io).to receive(:puts).with("Baz ordered on 2021-07-29").ordered
   end
 
 end
