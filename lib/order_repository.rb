@@ -6,7 +6,7 @@ class OrderRepository
     results = DatabaseConnection.exec_params(sql, [])
     orders = []
     results.each do |record|
-      orders << record_to_object(record)
+      orders << process_order_details(record)
     end
     orders
   end
@@ -36,29 +36,30 @@ class OrderRepository
 
     result = DatabaseConnection.exec_params(sql, params)
 
-    order = Order.new
-    order.id = result.first['id']
-    order.customer_name = result.first['customer_name']
-    order.date = result.first['date']
+    order = process_order_details(result.first)
 
     result.each do |record|
-      item = Item.new
-      item.id = record['item_id']
-      item.name = record['item_name']
-      item.price = record['price']
-      order.items << item
+      order.items << fill_items(record)
     end
     order
   end
 
   private
 
-  def record_to_object(record)
+  def process_order_details(record)
     object = Order.new
     object.id = record['id']
     object.customer_name = record['customer_name']
     object.date = record['date']
     object
+  end
+
+  def fill_items(record)
+    item = Item.new
+    item.id = record['item_id']
+    item.name = record['item_name']
+    item.price = record['price']
+    item
   end
 
   def new_order_id

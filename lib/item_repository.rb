@@ -6,7 +6,7 @@ class ItemRepository
     results = DatabaseConnection.exec_params(sql, [])
     items = []
     results.each do |record|
-      items << record_to_object(record)
+      items << process_item_details(record)
     end
     items
   end
@@ -22,12 +22,12 @@ class ItemRepository
     params = [id]
     result_set = DatabaseConnection.exec_params(sql, params)
     record = result_set[0]
-    record_to_object(record)
+    process_item_details(record)
   end
 
   private
 
-  def record_to_object(record)
+  def process_item_details(record)
     object = Item.new
     object.id = record['id']
     object.name = record['name']
