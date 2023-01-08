@@ -66,18 +66,24 @@ class Application
   def list_all_orders
     show 'Here is the list of orders:'
     @order_repository.all.each do |order|
-      show "Order ID [#{order.id}] ordered by #{order.customer_name} on #{order.date}"
+      items = ''
+      order_with_items = @order_repository.find_with_items(order.id)
+      order_with_items.items.each do |item|
+        items << "\n#{item.name} - #{item.price}"
+      end
+      show "\nOrder ID [#{order.id}] ordered by #{order.customer_name} on #{order.date}."
+      show "Items ordered: #{items}"
     end
   end
-  
+
 end
 
 if __FILE__ == $0
   app = Application.new(
-    'music_library',
+    'shop_manager',
     Kernel,
-    AlbumRepository.new,
-    ArtistRepository.new
+    ItemRepository.new,
+    OrderRepository.new
   )
   app.run
 end

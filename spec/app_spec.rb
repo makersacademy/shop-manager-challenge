@@ -75,11 +75,16 @@ RSpec.describe Application do
     expect(io).to receive(:puts).with('Enter your choice:')
     expect(io).to receive(:gets).and_return('3')
     expect(io).to receive(:puts).with("Here is the list of orders:")
-    expect(io).to receive(:puts).with("Order ID [1] ordered by John Smith on 2023-01-01")
-    expect(io).to receive(:puts).with("Order ID [2] ordered by Jane Doe on 2023-01-02")
-    expect(io).to receive(:puts).with("Order ID [3] ordered by Joe Burgess on 2023-01-03")
-    expect(io).to receive(:puts).with("Order ID [4] ordered by Elise Beer on 2023-01-04")
-    expect(io).to receive(:puts).with("Order ID [5] ordered by James Dean on 2023-01-06")
+    expect(io).to receive(:puts).with("\nOrder ID [1] ordered by John Smith on 2023-01-01.")
+    expect(io).to receive(:puts).with("Items ordered: \nApple - $1.00\nOrange - $1.00")
+    expect(io).to receive(:puts).with("\nOrder ID [2] ordered by Jane Doe on 2023-01-02.")
+    expect(io).to receive(:puts).with("Items ordered: \nApple - $1.00\nOrange - $1.00\nSirloin Steak - $5.00")
+    expect(io).to receive(:puts).with("\nOrder ID [3] ordered by Joe Burgess on 2023-01-03.")
+    expect(io).to receive(:puts).with("Items ordered: \nApple - $1.00\nCrisp Pack - $2.00\nSirloin Steak - $5.00")
+    expect(io).to receive(:puts).with("\nOrder ID [4] ordered by Elise Beer on 2023-01-04.")
+    expect(io).to receive(:puts).with("Items ordered: \nChocolate Bar - $3.00\nCrisp Pack - $2.00\nSirloin Steak - $5.00")
+    expect(io).to receive(:puts).with("\nOrder ID [5] ordered by James Dean on 2023-01-06.")
+    expect(io).to receive(:puts).with("Items ordered: \nChocolate Bar - $3.00\nCrisp Pack - $2.00\nChicken Breast - $4.00")
     app.run
   end
 
