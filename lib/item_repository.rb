@@ -21,7 +21,7 @@ class ItemRepository
     sql = "SELECT * FROM items WHERE id = $1;"
     params = [id]
     result_set = DatabaseConnection.exec_params(sql, params)
-    record = result_set[0]
+    record = result_set.first
     process_item_details(record)
   end
 
