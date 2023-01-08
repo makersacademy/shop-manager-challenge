@@ -36,7 +36,7 @@ Run this SQL file on the database to truncate (empty) the table, and insert the 
 
 ```bash
 psql -h 127.0.0.1 shop_manager_test < shop_manager_tables_seeds.sql
-psql -h 127.0.0.1 shop_manager_test < spec/seeds_items.sql
+psql -h 127.0.0.1 shop_manager_test < spec/seeds_tests.sql
 ```
 
 ## 3. Define the class names
@@ -172,7 +172,7 @@ This is so you get a fresh table unit_prices every time you run the test suite.
 
 describe ItemRepository do
   def reset_items_table
-    seed_sql = File.read('spec/seeds_items.sql')
+    seed_sql = File.read('spec/seeds_tests.sql')
     connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
     connection.exec(seed_sql)
   end
