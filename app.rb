@@ -29,13 +29,14 @@ class Application
       item = Items.new
       item.name = @io.gets.chomp
       @io.puts "Enter the price of the item"
-      item.price = @io.gets.chomp
+      item.price = @io.gets
       @io.puts "Enter the quantity of the item"
-      item.quantity = @io.gets.to_i
+      item.quantity = @io.gets
       @items_repository.create(item)
     elsif choice == 3
+      @io.puts "Here is your list of all orders:"
       @orders_repository.all.each do |record|
-        puts "Customer name: #{record.customer_name} - Date ordered: #{record.date} - Item: #{record.items.first.name} - Price: £#{record.items.first.price}"
+        @io.puts "Customer name: #{record.customer_name} - Date ordered: #{record.date} - Item: #{record.items.first.name} - Price: £#{record.items.first.price}"
       end
     elsif choice == 4
       order = Orders.new

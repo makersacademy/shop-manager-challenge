@@ -33,5 +33,8 @@ describe OrdersRepository do
     item = Items.new
     item_id = item.id = 1
     repo.create(order, item_id)
+    list = repo.all.last
+    expect(list.customer_name).to eq "Billy"
+    expect(list.date).to eq "8/01/2023"
   end
 end
