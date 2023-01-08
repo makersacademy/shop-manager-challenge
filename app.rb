@@ -42,6 +42,23 @@ class Application
       @io.puts "This item has been added:"
       item = @item_repository.all.last
       @io.puts " ##{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
+    when '3'
+      @io.puts "Here's a list of all shop orders:"
+      @order_repository.all.each do |record|
+        @io.puts " ##{record.id} #{record.customer_name} - Order date: #{record.order_date} - Item ID: #{record.item_id}"
+      end
+    when '4'
+      order = Order.new
+      @io.print "What is the order customer name? "
+      order.customer_name = @io.gets.chomp
+      @io.print "What is the order date? "
+      order.order_date = @io.gets.chomp
+      @io.print "What is the order item ID? "
+      order.item_id = @io.gets.chomp.to_i
+      @order_repository.create(order)
+      @io.puts "This order has been added:"
+      order = @order_repository.all.last
+      @io.puts " ##{order.id} #{order.customer_name} - Order date: #{order.order_date} - Item ID: #{order.item_id}"  
     else
       @io.puts "ERROR: Please enter valid option!"
     end
