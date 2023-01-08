@@ -19,14 +19,34 @@ class Application
   end
 
   def run
-    # "Runs" the terminal application
-    # so it can ask the user to enter some input
-    # and then decide to run the appropriate action
-    # or behaviour.
-
-    # Use `@io.puts` or `@io.gets` to
-    # write output and ask for user input.
+    show "Welcome to the shop management program!\n"
+    while true
+      input = obtain_selection
+      break if input == "5"
+      show "Here is the list of all shop items\n"
+      @item_repository.all.each do |item|
+        show "##{item.id} #{item.name} - Unit Price: £#{item.unit_price}"
+      end
+    end
+    
   end
+
+  private
+
+  def show(message)
+    @io.puts message
+  end
+
+  def obtain_selection
+    show "\nWhat do you want to do?\n" \
+      "  1 = list all shop items\n" \
+      "  2 = create a new item\n" \
+      "  3 = list all orders\n" \
+      "  4 = create a new order\n" \
+      "  5 = end the program"
+    @io.gets.chomp
+  end
+
 end
 
 # Don't worry too much about this if statement. It is basically saying "only
