@@ -8,7 +8,7 @@ require_relative 'lib/order_repository'
 
 
 
-class App
+class Application
   def initialize(database_name, io, item_repository, order_repository)
     DatabaseConnection.connect(database_name)
     @io = io
@@ -84,7 +84,7 @@ class App
     @item_repository.update_item_quantity(new_unit_quantity, id)
   end
 
-  def display_menu
+  def run
     @io.puts "Shop Manager................"   
     @io.puts "    [1]  view all items "           
     @io.puts "    [2]  view all orders"
@@ -118,3 +118,12 @@ class App
  
 end 
 
+if __FILE__ == $0
+  app = Application.new(
+    'shop_manager',
+    Kernel,
+    ItemRepository.new,
+    OrderRepository.new
+  )
+  app.run
+end

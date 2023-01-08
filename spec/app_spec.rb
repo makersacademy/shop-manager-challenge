@@ -1,6 +1,6 @@
 require_relative '../app'
 
-RSpec.describe App do
+RSpec.describe Application do
     def reset_data
         seed_sql = File.read('spec/seeds_shop_manager.sql')
         connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
@@ -10,7 +10,7 @@ RSpec.describe App do
     before(:each) do
         reset_data
     end
-    context "When app main display recieves the user input for option 1" do
+    context "When app recieves the user input for option 1" do
       it "puts all items to the terminal" do
         io = double :io
         expect(io).to receive(:puts).with("Shop Manager................")  
@@ -37,12 +37,12 @@ RSpec.describe App do
         order_repository = OrderRepository.new
         
             
-        app = App.new('shop_manager_test', io, item_repository, order_repository)
-        app.display_menu 
+        app = Application.new('shop_manager_test', io, item_repository, order_repository)
+        app.run 
         
         end
     end
-    context "When app main display recieves the user input for option 2" do
+    context "When app recieves the user input for option 2" do
         it "puts all orders to the terminal" do
             item_repository = ItemRepository.new
             order_repository = OrderRepository.new
@@ -67,12 +67,12 @@ RSpec.describe App do
             expect(io).to receive(:puts).with("id: 4, name: Mary Cole, order date: 2023-01-05, item_id: 4")
         
 
-            app = App.new('shop_manager_test', io, item_repository, order_repository)
-            app.display_menu
+            app = Application.new('shop_manager_test', io, item_repository, order_repository)
+            app.run
            
         end
     end
-    context "When app main display recieves the user input for option 3" do
+    context "When app recieves the user input for option 3" do
         it "takes user input to add an item" do
             item_repository = ItemRepository.new
             order_repository = OrderRepository.new
@@ -98,11 +98,11 @@ RSpec.describe App do
             expect(io).to receive(:puts).with("Enter item quantity: ")
             expect(io).to receive(:gets).and_return('6')
 
-            app = App.new('shop_manager_test', io, item_repository, order_repository)
-            app.display_menu
+            app = Application.new('shop_manager_test', io, item_repository, order_repository)
+            app.run
         end
     end
-    context "When app main display recieves the user input for option 4" do
+    context "When app recieves the user input for option 4" do
         it "takes user input to add an order" do
             item_repository = ItemRepository.new
             order_repository = OrderRepository.new
@@ -128,12 +128,12 @@ RSpec.describe App do
             expect(io).to receive(:puts).with("Enter item_id: ")
             expect(io).to receive(:gets).and_return('3')
 
-            app = App.new('shop_manager_test', io, item_repository, order_repository)
-            app.display_menu
+            app = Application.new('shop_manager_test', io, item_repository, order_repository)
+            app.run
             
         end
     end
-    context "When app main display recieves the user input for option 5" do
+    context "When app recieves the user input for option 5" do
         it "takes user input to update an item" do
             item_repository = ItemRepository.new
             order_repository = OrderRepository.new
@@ -160,11 +160,11 @@ RSpec.describe App do
             expect(io).to receive(:puts).with("Item updated")
 
 
-            app = App.new('shop_manager_test', io, item_repository, order_repository)
-            app.display_menu
+            app = Application.new('shop_manager_test', io, item_repository, order_repository)
+            app.run
         end
     end
-    context "When app main display recieves the user input for option 6" do
+    context "When app recieves the user input for option 6" do
         it "takes user input to update an item" do
             item_repository = ItemRepository.new
             order_repository = OrderRepository.new
@@ -190,12 +190,12 @@ RSpec.describe App do
             expect(io).to receive(:gets).and_return('11')
             expect(io).to receive(:puts).with("Item updated")
 
-            app = App.new('shop_manager_test', io, item_repository, order_repository)
-            app.display_menu
+            app = Application.new('shop_manager_test', io, item_repository, order_repository)
+            app.run
             
         end
     end
-    context "When app main display recieves the user input for option 7" do
+    context "When app recieves the user input for option 7" do
         it "takes user input to update an item" do
             item_repository = ItemRepository.new
             order_repository = OrderRepository.new
@@ -220,8 +220,8 @@ RSpec.describe App do
             expect(io).to receive(:gets).and_return('30')
             expect(io).to receive(:puts).with("Item updated")
 
-            app = App.new('shop_manager_test', io, item_repository, order_repository)
-            app.display_menu
+            app = Application.new('shop_manager_test', io, item_repository, order_repository)
+            app.run
         end
     end
   

@@ -1,4 +1,4 @@
-# App Class Design Recipe
+# Application Class Design Recipe
 
 ## 1. Describe the Problem
 
@@ -41,7 +41,7 @@ require_relative 'database_connection'
 require_relative 'item_repository'
 require_relative 'order_repository'
 
-class App
+class Application
   def initialize # initialises with database_name, terminal, item_repository, order_repository
     DtabaseConnection.connect(database_name) # calls connect method from DatabaseConnection class to connect to databse
   end
@@ -101,7 +101,7 @@ class App
     # calls ItemRepository.update_item_quantity(new_quantity, id)
   end
 
-  def display_menu
+  def run
    # putses a series of options in the terminal
    # gets user input to execute a method
   end
@@ -113,8 +113,8 @@ class App
 # Terminal Output
 
 
-app = App.new()
-app.display_menu 
+app = Application.new()
+app.run 
 
 # should return the terminal output below
 =begin
