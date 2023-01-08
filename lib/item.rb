@@ -6,4 +6,8 @@ class Item
     @attributes = [@id, @name, @unit_price, @quantity]
   end
 
+  def ==(other)
+    @attributes = other.attributes
+  end
+  
 end
