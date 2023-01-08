@@ -1,5 +1,5 @@
 class Order
-  attr_accessor :id, :customer_name, :date, :item_id
+  attr_accessor :id, :customer_name, :date, :item_id, :attributes
 
   def initialize(attributes = [nil] * 4)
     @id, @customer_name, @date, @item_id = attributes
