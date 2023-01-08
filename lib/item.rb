@@ -1,5 +1,5 @@
 class Item
-  attr_accessor :id, :name, :unit_price, :quantity
+  attr_accessor :id, :name, :unit_price, :quantity, :attributes
 
   def initialize(attributes = [nil] * 4)
     @id, @name, @unit_price, @quantity = attributes
@@ -9,5 +9,4 @@ class Item
   def ==(other)
     @attributes = other.attributes
   end
-  
 end
