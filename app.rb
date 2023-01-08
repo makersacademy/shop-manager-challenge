@@ -22,10 +22,15 @@ class Application
     show "Welcome to the shop management program!\n"
     while true
       input = obtain_selection
-      break if input == "5"
-      show "Here is the list of all shop items\n"
-      @item_repository.all.each do |item|
-        show "##{item.id} #{item.name} - Unit Price: £#{item.unit_price}"
+      case input
+      when "1"
+        show "Here is the list of all shop items\n"
+        print_items
+      when "2"
+        show "Here is the list of all shop orders\n"
+        print_orders
+      else
+        break
       end
     end
     
@@ -45,6 +50,18 @@ class Application
       "  4 = create a new order\n" \
       "  5 = end the program"
     @io.gets.chomp
+  end
+
+  def print_items
+    @item_repository.all.each do |item|
+      show "##{item.id} #{item.name} - Unit Price: £#{item.unit_price}"
+    end
+  end
+
+  def print_orders
+    @order_repository.all.each do |order|
+      show "#{order.customer_name} ordered on #{order.date}"
+    end
   end
 
 end
