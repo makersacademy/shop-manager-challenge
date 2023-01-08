@@ -48,7 +48,6 @@ class Application
       create_new_order
     else
       show 'Invalid input'
-      prompt_for_input
     end
   end
 
