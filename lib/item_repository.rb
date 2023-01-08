@@ -14,8 +14,10 @@ class ItemRepository
     end
   end
 
-  def create
-
+  def create(item)
+    query = "INSERT INTO items (name, unit_price, quantity) 
+    VALUES ('#{item.name}', #{item.unit_price}, #{item.quantity})"
+    DatabaseConnection.exec_params(query, [])
   end
 
 end
