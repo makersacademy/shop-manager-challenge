@@ -1,6 +1,6 @@
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
-  name text,
+  customer_name text,
   date text
 );
 
