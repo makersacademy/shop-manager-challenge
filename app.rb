@@ -67,12 +67,15 @@ class Application
     show 'Here is the list of orders:'
     @order_repository.all.each do |order|
       items = ''
+      total = 0
       order_with_items = @order_repository.find_with_items(order.id)
       order_with_items.items.each do |item|
         items << "\n#{item.name} - #{item.price}"
+        total += item.price[1..-1].to_f
       end
       show "\nOrder ID [#{order.id}] ordered by #{order.customer_name} on #{order.date}."
       show "Items ordered: #{items}"
+      show "** Order total - $#{'%.2f' % total} **"
     end
   end
 
