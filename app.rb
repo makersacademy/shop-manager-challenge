@@ -39,24 +39,37 @@ class Application
     input = prompt 'Enter your choice:'
     case input
     when '1'
-      show 'Here is the list of items:'
-      @item_repository.all.each do |item|
-        show "#{item.id}. #{item.name} (#{item.price}) / In stock: #{item.quantity}"
-      end
+      list_all_items
     when '2'
-      item = Item.new
-      item.name = prompt "What item would you like to add?" 
-      item.price = prompt "Please set the price in dollars." 
-      item.quantity = prompt "Please set the quantity."
-      @item_repository.create(item) 
-      show "New item created: ID# #{@item_repository.all.last.id} - #{@item_repository.all.last.name} (#{@item_repository.all.last.price}) / In stock: #{@item_repository.all.last.quantity}"
+      create_new_item
     when '3'
-      show 'Here is the list of orders:'
-      @order_repository.all.each do |order|
-        show "Order ID [#{order.id}] ordered by #{order.customer_name} on #{order.date}"
-      end
+      list_all_orders
     end
   end
+
+  def list_all_items
+    show 'Here is the list of items:'
+    @item_repository.all.each do |item|
+      show "#{item.id}. #{item.name} (#{item.price}) / In stock: #{item.quantity}"
+    end
+  end
+
+  def create_new_item
+    item = Item.new
+    item.name = prompt "What item would you like to add?" 
+    item.price = prompt "Please set the price in dollars." 
+    item.quantity = prompt "Please set the quantity."
+    @item_repository.create(item) 
+    show "New item created: ID# #{@item_repository.all.last.id} - #{@item_repository.all.last.name} (#{@item_repository.all.last.price}) / In stock: #{@item_repository.all.last.quantity}"
+  end
+
+  def list_all_orders
+    show 'Here is the list of orders:'
+    @order_repository.all.each do |order|
+      show "Order ID [#{order.id}] ordered by #{order.customer_name} on #{order.date}"
+    end
+  end
+  
 end
 
 if __FILE__ == $0
