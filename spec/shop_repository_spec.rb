@@ -1,6 +1,4 @@
-require 'shop_repository'
-require 'items'
-require 'orders'
+require 'item_repository'
 
 def reset_table
   seed_sql = File.read('spec/seeds_cohort_test.sql')
@@ -8,9 +6,9 @@ def reset_table
   connection.exec(seed_sql)
 end
 
-RSpec.describe ShopRepository do
+RSpec.describe ItemRepository do
   before(:each) do
-    @repo = ShopRepository.new
+    @repo = ItemRepository.new
     reset_table
   end
 
@@ -23,6 +21,18 @@ RSpec.describe ShopRepository do
     @repo.add_item('Popcorn', '5', '5')
     expect(@repo.all_items.length).to eq 4
     expect(@repo.all_items[-1].name).to eq 'Popcorn'
+  end
+
+  it 'list all orders' do
+    expect(@repo.all_orders.length).to eq 3
+    expect(@repo.all_orders[0].cust_name).to eq 'Thomas'
+    expect(@repo.all_orders[0].product_name).to eq 'Cucumber'
+  end
+
+  it 'creates a new order' do
+    @repo.add_order('Timmy', 'Cucumber', '3', '2010-10-10')
+    expect(@repo.all_orders.length).to eq 4
+    expect(@repo.all_orders[-1].product_name).to eq 'Cucumber'
   end
 end
 
