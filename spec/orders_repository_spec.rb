@@ -17,6 +17,21 @@ describe OrdersRepository do
 
   it "returns array of all entries" do
     repo = OrdersRepository.new
-    p list = repo.all
+    list = repo.all
+    expect(list.length).to eq 2
+    expect(list[0].customer_name).to eq "Lisa"
+    expect(list[0].date).to eq "12/01/2023"
+    expect(list[0].items.first.name).to eq "Laptop"
+    expect(list[0].items.first.price).to eq "450"
+  end
+
+  it "creates an order entry" do
+    repo = OrdersRepository.new
+    order = Orders.new
+    order.customer_name = "Billy"
+    order.date = "8/01/2023"
+    item = Items.new
+    item_id = item.id = 1
+    repo.create(order, item_id)
   end
 end

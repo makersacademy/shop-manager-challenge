@@ -8,7 +8,7 @@ class OrdersRepository
   FROM items 
     JOIN orders_items ON orders_items.item_id = items.id
     JOIN orders ON orders_items.order_id = orders.id;"
-    arr = []
+    array = []
     result = DatabaseConnection.exec_params(sql, [])
     result.each do |record|
       order = Orders.new
@@ -20,27 +20,19 @@ class OrdersRepository
       item.name = record["name"]
       item.price = record["price"]
       order.items << item
-      arr << order
+      array << order
     end
-    return arr
+    return array
   end
 
-  def create(order, item)
-    sql = "INSERT INTO orders (name, date) VALUES ($1, $2);"
-    params = [order.name, order.date]
-    DatabaseConnection.exec_params(sql, params)
+  def create(order, item_id)
+    sql = "INSERT INTO orders (customer_name, date) VALUES ($1, $2) RETURNING id;"
+    params = [order.customer_name, order.date]
+    result = DatabaseConnection.exec_params(sql, params)
+    order_id = result[0]["id"].to_i
 
     sql = "INSERT INTO orders_items (order_id, item_id) VALUES ($1, $2);"
-    params = [order.id, item.id]
+    params = [order_id, item_id]
     DatabaseConnection.exec_params(sql, params)
   end
 end
-
-# repo = Order.new
-# o = repo.create(order)
-# o.name = "orhan"
-# o.date = "27.01.22"
-# o.items << item
-# item = Items.new
-# item.name = ""
-#item = Items.new

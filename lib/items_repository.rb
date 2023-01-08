@@ -4,16 +4,16 @@ class ItemsRepository
   def all
     sql = "SELECT id, name, price, quantity FROM items;"
     result = DatabaseConnection.exec_params(sql, [])
-    arr = []
+    array = []
     result.each do |record|
       item = Items.new
       item.id = record["id"]
       item.name = record["name"]
       item.price = record["price"]
       item.quantity = record["quantity"]
-      arr << item
+      array << item
     end
-    return arr
+    return array
   end
 
   def create(item)
@@ -21,14 +21,4 @@ class ItemsRepository
     params = [item.name, item.price, item.quantity]
     result = DatabaseConnection.exec_params(sql, params)
   end
-
-  # def update_quantity(item)
-  #   sql = "UPDATE items SET quantity = $1 WHERE id = $2;"
-  #   params = [album.username, album.email_address, album.id]
-  #   result = DatabaseConnection.exec_params(sql, params)
-  #   return nil
-  # end
-
-  # def delete(item)
-  # end
 end
