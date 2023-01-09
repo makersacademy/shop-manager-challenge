@@ -1,15 +1,9 @@
-source 'https://rubygems.org'
+# frozen_string_literal: true
 
-ruby '3.0.2'
+source "https://rubygems.org"
 
-group :test do
-  gem 'rspec'
-  gem 'simplecov', require: false
-  gem 'simplecov-console', require: false
-end
+# gem "rails"
 
-group :development, :test do
-  gem 'rubocop', '1.20'
-end
+gem "rspec", "~> 3.12"
 
-gem "pg", "~> 1.3"
+gem "pg", "~> 1.4"
