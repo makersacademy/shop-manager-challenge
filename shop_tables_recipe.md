@@ -128,14 +128,14 @@ CREATE TABLE items (
   id SERIAL PRIMARY KEY,
   name text,
   unit_price integer,
-  quantity text
+  quantity text,
   order_id int
 );
 
 -- Create the second table.
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
-  date date
+  date date,
   item_id int
 );
 
