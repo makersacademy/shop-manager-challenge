@@ -21,6 +21,7 @@ RSpec.describe OrderRepository do
     expect(orders.first.id).to eq "1"
     expect(orders.first.customer_name).to eq "Marta Bianchini"
     expect(orders.first.date).to eq "2023-09-01"
+    expect(orders.first.item_id).to eq "1"
   end
 
   it "creates a new order" do

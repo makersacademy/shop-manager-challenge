@@ -35,8 +35,10 @@ class Application
       create_new_item
     elsif user_input == "3"
       lists_orders
-    else
+    elsif user_input == "4"
       create_new_order
+    else
+      @io.puts "Please, select a number between 1 and 4"
     end
   end
 
@@ -47,6 +49,16 @@ class Application
   end
 
   def create_new_item
+    new_item = Item.new
+
+    @io.puts "insert the name of the item"
+    new_item.name = @io.gets.chomp
+    @io.puts "insert the price of the item"
+    new_item.unit_price = @io.gets.chomp
+    @io.puts "insert the quantity of the item"
+    new_item.quantity = @io.gets.chomp
+
+    @item_repository.create(new_item)
   end
 
   def lists_orders
@@ -56,6 +68,16 @@ class Application
   end
 
   def create_new_order
+    new_order = Order.new
+
+    @io.puts "insert the name of the customer"
+    new_order.customer_name = @io.gets.chomp
+    @io.puts "insert the date of the order (dd/mm/yyyy)"
+    new_order.date = @io.gets.chomp
+    @io.puts "insert the item id"
+    new_order.item_id = @io.gets.chomp
+    
+    @order_repository.create(new_order)
   end
 end
 
@@ -68,20 +90,3 @@ if __FILE__ == $0
   )
   app.run
 end
-
-# EXPECTED OUTCOME
-# Welcome to the shop management program!
-
-# What do you want to do?
-#   1 = list all shop items
-#   2 = create a new item
-#   3 = list all orders
-#   4 = create a new order
-
-# 1 [enter]
-
-# Here's a list of all shop items:
-
-#  #1 Super Shark Vacuum Cleaner - Unit price: 99 - Quantity: 30
-#  #2 Makerspresso Coffee Machine - Unit price: 69 - Quantity: 15
-#  (...)
