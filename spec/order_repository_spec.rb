@@ -17,7 +17,7 @@ RSpec.describe OrderRepository do
         expect(orders.length).to eq 2
         expect(orders[0].id).to eq 1
         expect(orders[1].customer_name).to eq "Bob Boberto"
-        expect(orders[0].order_date).to eq '7 Jan 2023'
+        expect(orders[0].order_date).to eq '2023-01-07'
         expect(orders[1].item_id).to eq 2
     end
 
