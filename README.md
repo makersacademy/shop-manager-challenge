@@ -1,2 +1,2 @@
-Shop Manager Project
+Week 3 Solo Project - Shop Manager
 =================

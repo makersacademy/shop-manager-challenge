@@ -161,4 +161,23 @@ RSpec.describe Application do
         application = Application.new('shop_manager_test', io, fake_order_repository, fake_order_repository)
         application.run
     end
+
+    it 'takes wrong user input and returns error message' do
+        fake_item_repository = ItemRepository.new
+        fake_order_repository = OrderRepository.new
+        io = double :io
+        expect(io).to receive(:puts).with("Welcome to the shop management program!")
+        expect(io).to receive(:puts).with("")
+        expect(io).to receive(:puts).with("What do you want to do?")
+        expect(io).to receive(:puts).with("  1 = list all shop items")
+        expect(io).to receive(:puts).with("  2 = create a new item")
+        expect(io).to receive(:puts).with("  3 = list all orders")
+        expect(io).to receive(:puts).with("  4 = create a new order")
+        expect(io).to receive(:puts).with("")
+        expect(io).to receive(:gets).and_return("5")
+        expect(io).to receive(:puts).with("")
+        expect(io).to receive(:puts).with("ERROR: Please enter valid option!")
+        application = Application.new('shop_manager_test', io, fake_item_repository, fake_order_repository)
+        application.run
+    end
 end    
