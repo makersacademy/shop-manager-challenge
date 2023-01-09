@@ -1,7 +1,4 @@
 require './app.rb'
-require_relative '../lib/order_repository'
-require_relative '../lib/item_repository'
-
 
 RSpec.describe Application do
     def reset_orders_table
@@ -79,12 +76,11 @@ RSpec.describe Application do
         )  
     end
 
-    it "greets and lists all shop items" do 
+    it "greets and lists all shop orders" do 
         io = double :io
         item_repository = ItemRepository.new
         order_repository = OrderRepository.new
-
-
+    
         expect(io).to receive(:puts).with("Welcome to the shop management program!").ordered
         expect(io).to receive(:puts).with("What would you like to do?").ordered
         expect(io).to receive(:puts).with("1 = List all shop items").ordered
@@ -96,7 +92,6 @@ RSpec.describe Application do
     
         expect(io).to receive(:gets).and_return("3").ordered
         expect(io).to receive(:puts).with("Here is the list of all orders:").ordered
-
         # expect(io).to receive(:puts).with("1 John Smith - Order date: 2023-01-01 - Item ID: 1").ordered
         # expect(io).to receive(:puts).with("2 Harry Styles - Order date: 2023-01-02 - Item ID: 2").ordered
         # expect(io).to receive(:puts).with("3 Megan Rapinoe - Order date: 2023-01-03 - Item ID: 2").ordered
@@ -105,10 +100,11 @@ RSpec.describe Application do
 
         app = Application.new('shop_manager_test', io, item_repository, order_repository)
         app.run
+        
 
         # The above tests not working and I'm not sure why
         # Went on to create Application class without TDD
-        # Working fine
+        # and it works fine
         
        
     end
