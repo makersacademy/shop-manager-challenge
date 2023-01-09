@@ -29,7 +29,33 @@ class Application
 
   def process
     user_input = @io.gets.chomp
-    #TODO
+    if user_input == "1"
+      lists_items
+    elsif user_input == "2"
+      create_new_item
+    elsif user_input == "3"
+      lists_orders
+    else
+      create_new_order
+    end
+  end
+
+  def lists_items
+    @item_repository.all.each do |item|
+      @io.puts "##{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
+    end
+  end
+
+  def create_new_item
+  end
+
+  def lists_orders
+    @order_repository.all.each do |order|
+      @io.puts "#{order.id} - Customer name: #{order.customer_name} -  Date: #{order.date}"
+    end
+  end
+
+  def create_new_order
   end
 end
 

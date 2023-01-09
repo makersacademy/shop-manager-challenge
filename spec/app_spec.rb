@@ -1,4 +1,4 @@
-require_relative '../app.rb'
+require_relative '../app'
 require 'item_repository'
 require 'order_repository'
 

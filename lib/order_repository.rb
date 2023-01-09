@@ -21,21 +21,10 @@ class OrderRepository
     return orders
   end
 
-  # PROBABLY NOT NEEDED
-  # def find(id)
-  #   # Executes the SQL query:
-  #   # SELECT id, name, cohort_name FROM orders WHERE id = $1;
+  def create(order)
+    sql = "INSERT INTO orders (customer_name, date, item_id) VALUES($1, $2, $3)" 
+    sql_params = [order.customer_name, order.date, order.item_id]
 
-  #   # Returns a single order object.
-  # end
-
-  # def create(order)
-  # end
-
-  #PROBABLY NOT NEEDED
-  # def update(order)
-  # end
-
-  # def delete(id)
-  # end
+    DatabaseConnection.exec_params(sql, sql_params)
+  end
 end

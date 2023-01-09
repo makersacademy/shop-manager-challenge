@@ -21,21 +21,10 @@ class ItemRepository
     return items
   end
 
-  # PROBABLY NOT NEEDED
-  # def find(id)
-  #   # Executes the SQL query:
-  #   # SELECT id, name, cohort_name FROM items WHERE id = $1;
+  def create(item)
+    sql = "INSERT INTO items (name, unit_price, quantity) VALUES($1, $2, $3)" 
+    sql_params = [item.name, item.unit_price, item.quantity]
 
-  #   # Returns a single Item object.
-  # end
-
-  # def create(item)
-  # end
-
-  #PROBABLY NOT NEEDED
-  # def update(item)
-  # end
-
-  # def delete(id)
-  # end
+    DatabaseConnection.exec_params(sql, sql_params)
+  end
 end
