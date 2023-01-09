@@ -60,12 +60,12 @@ Usually, the Model class name will be the capitalised table name (single instead
 
 # Model class
 # (in lib/student.rb)
-class Student
+class Order
 end
 
 # Repository class
 # (in lib/student_repository.rb)
-class StudentRepository
+class OrderRepository
 end
 ```
 
@@ -80,11 +80,12 @@ Define the attributes of your Model class. You can usually map the table columns
 # Model class
 # (in lib/student.rb)
 
-class Student
+class Order
+  attr_accessor :id, :customer_name, :item_name, :order_date
+end
 
   # Replace the attributes by your own columns.
-  attr_accessor :id, :name, :cohort_name
-end
+
 
 # The keyword attr_accessor is a special Ruby feature
 # which allows us to set and get attributes on an object,
@@ -110,37 +111,27 @@ Using comments, define the method signatures (arguments and return value) and wh
 # Repository class
 # (in lib/student_repository.rb)
 
-class StudentRepository
-
+class OrderRepository
   # Selecting all records
   # No arguments
+  
   def all
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students;
-
+    # SELECT * FROM orders;
     # Returns an array of Student objects.
   end
 
-  # Gets a single record by its ID
-  # One argument: the id (number)
   def find(id)
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students WHERE id = $1;
-
-    # Returns a single Student object.
+    # SELECT * FROM orders WHERE id = $1;
+  end
+  
+  def create(order)
+   # INSERT INTO orders (customer_name, item_name, order_date) VALUES ($1, $2, $3);'
   end
 
-  # Add more methods below for each operation you'd like to implement.
-
-  # def create(student)
-  # end
-
-  # def update(student)
-  # end
-
-  # def delete(student)
-  # end
 end
+
 ```
 
 ## 6. Write Test Examples
@@ -153,32 +144,48 @@ These examples will later be encoded as RSpec tests.
 # EXAMPLES
 
 # 1
-# Get all students
+# Get all orders
 
-repo = StudentRepository.new
+repo = OrderRepository.new
 
-students = repo.all
+orders = repo.all
 
-students.length # =>  2
+orders.length # =>  2
 
-students[0].id # =>  1
-students[0].name # =>  'David'
-students[0].cohort_name # =>  'April 2022'
+orders[0].id # => 1
+orders[0].customer_name # =>  'Brenda'
+orders[0].item_name # =>  'Fanta'
+orders[0].order_date # => '2023-01-01'
 
-students[1].id # =>  2
-students[1].name # =>  'Anna'
-students[1].cohort_name # =>  'May 2022'
+orders[1].id # => 2
+orders[1].customer_name # =>  'Keith'
+orders[1].item_name # =>  'Coke'
+orders[1].order_date # => '2022-12-31'
+
+
 
 # 2
-# Get a single student
+# Gets a single order
 
-repo = StudentRepository.new
+repo = OrderRepository.new
+single_order = repo.find(1)
+single_order[0].id # => 1
+single_order[0].customer_name # =>  'Brenda'
+single_order[0].item_name # =>  'Fanta'
+single_order[0].order_date # => '2023-01-01'
 
-student = repo.find(1)
-
-student.id # =>  1
-student.name # =>  'David'
-student.cohort_name # =>  'April 2022'
+# 3
+# Creates a single order
+repo = OrderRepository.new
+new_order = Order.new
+new_order.customer_name # =>  'Dwight'
+new_order.item_name # =>  'Sprite'
+new_order.order_date # => '2023-02-10'
+repo.create(new_order)
+find_new_order = repo.find(3)
+find_new_order[0].customer_name # =>  'Dwight'
+find_new_order[0].item_name # =>  'Sprite'
+find_new_order[0].order_date # => '2023-02-10'
 
 # Add more examples for each method
 ```
@@ -202,7 +209,7 @@ def reset_students_table
   connection.exec(seed_sql)
 end
 
-describe StudentRepository do
+describe OrderRepository do
   before(:each) do 
     reset_students_table
   end
