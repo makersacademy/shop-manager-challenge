@@ -1,19 +1,9 @@
 require_relative 'lib/database_connection'
-
-# # We need to give the database name to the method `connect`.
-# DatabaseConnection.connect('music_library')
-
-# # Perform a SQL query on the database and get the result set.
-# sql = 'SELECT id, title FROM items;'
-# result = DatabaseConnection.exec_params(sql, [])
-
-# # Print out each record from the result set .
-# result.each do |record|
-#   p record
-# end
+require_relative 'lib/item_repository'
+require_relative 'lib/order_repository'
 
 class Application
-  def initialize(database_name, io, item_repository, order_repository)
+  def initialize(database_name, io, order_repository, item_repository)
     DatabaseConnection.connect(database_name)
     @io = io
     @item_repository = item_repository
@@ -47,8 +37,8 @@ if __FILE__ == $0
   app = Application.new(
     'shop_manager',
     Kernel,
-    ItemRepository.new,
-    OrderRepository.new
+    OrderRepository.new,
+    ItemRepository.new
   )
   app.run
 end
