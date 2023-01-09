@@ -14,9 +14,9 @@ class Application
   def run
     # Use `@io.puts` or `@io.gets` to
     # write output and ask for user input.
-    while true do
+    @io.puts "Welcome to the shop management program!"
 
-      @io.puts "Welcome to the shop management program!"
+    while true do
       @io.puts
       @io.puts "What do you want to do?"
       @io.puts "  1 = list all shop items"
