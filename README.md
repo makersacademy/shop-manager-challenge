@@ -9,3 +9,4 @@ Week 3 Solo Project
 ## Further Considerations
 * Could have a many to many database relationship.
 * Interactive menu app and test code could be condensed by factoring blocks of text.
+* Use money format for unit_price
