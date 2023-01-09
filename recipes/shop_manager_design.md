@@ -1,31 +1,3 @@
-As a shop manager
-So I can know which items I have in stock
-I want to keep a list of my shop items with their name and unit price.
-
-As a shop manager
-So I can know which items I have in stock
-I want to know which quantity (a number) I have for each item.
-
-As a shop manager
-So I can manage items
-I want to be able to create a new item.
-
-As a shop manager
-So I can know which orders were made
-I want to keep a list of orders with their customer name.
-
-As a shop manager
-So I can know which orders were made
-I want to assign each order to their corresponding item.
-
-As a shop manager
-So I can know which orders were made
-I want to know on which date an order was placed. 
-
-As a shop manager
-So I can manage orders
-I want to be able to create a new order.
-
 Single Table Design Recipe Template
 Copy this recipe template to design and create a database table from a specification.
 
@@ -61,20 +33,32 @@ As a shop manager
 So I can manage orders
 I want to be able to create a new order.
 
-Nouns:
-items, name, unit_price, quantity,
 
-ability to create new item 
+Item management nouns:
+Items(list), name, unit_price, quantity(a number)
 
-album, title, release year
+Item management task: 
+Create new item
+
+Order management nouns:
+keep a list of orders with customer name, with their corresponding item,date of order
+
+Order management task
+Create a new order
+
 2. Infer the Table Name and Columns
 Put the different nouns in this table. Replace the example with your own nouns.
+2 tables
 
+Name of the table (always plural): Items
 Record	Properties
-album	title, release year
-Name of the table (always plural): albums
+items	 name, unit_price, quantity
+Column names: name, unit_price, quantity
 
-Column names: title, release_year
+Name of the table (always plural): Orders
+Record	Properties
+orders	 name, items, order_date 
+Column names: name, items, order_date 
 
 3. Decide the column types.
 Here's a full documentation of PostgreSQL data types.
@@ -86,21 +70,37 @@ Remember to always have the primary key id as a first column. Its type will alwa
 # EXAMPLE:
 
 id: SERIAL
-title: text
-release_year: int
+item_name: text
+unit_price: float
+quantity: int
+
+id: SERIAL
+customer_name: text
+item: text
+order_date: numeric
+
 4. Write the SQL.
 -- EXAMPLE
 -- file: albums_table.sql
 
 -- Replace the table name, columm names and types.
 
-CREATE TABLE albums (
+CREATE TABLE items (
   id SERIAL PRIMARY KEY,
-  title text,
-  release_year int
+  item_name text,
+  unit_price float,
+  quantity int
 );
+
+CREATE TABLE orders (
+  id SERIAL PRIMARY KEY,
+  customer_name text,
+  item text,
+  order_date DATE
+);
+
 5. Create the table.
-psql -h 127.0.0.1 database_name < albums_table.sql
+psql -h 127.0.0.1 shop_manager < _.sql
 
 
 
@@ -137,53 +137,47 @@ If seed data is provided (or you already created it), you can skip this step.
 -- so we can start with a fresh state.
 -- (RESTART IDENTITY resets the primary key)
 
-TRUNCATE TABLE students RESTART IDENTITY; -- replace with your own table name.
+TRUNCATE TABLE orders RESTART IDENTITY; -- replace with your own table name.
 
--- Below this line there should only be `INSERT` statements.
--- Replace these statements with your own seed data.
+TRUNCATE TABLE items RESTART IDENTITY; -- replace with your own table name.
 
-INSERT INTO students (name, cohort_name) VALUES ('David', 'April 2022');
-INSERT INTO students (name, cohort_name) VALUES ('Anna', 'May 2022');
+
+INSERT INTO orders (name, cohort_name) VALUES ('David', 'April 2022');
+INSERT INTO orders (name, cohort_name) VALUES ('Anna', 'May 2022');
+INSERT INTO orders (name, cohort_name) VALUES ('Anna', 'May 2022');
+
+INSERT INTO items (name, cohort_name) VALUES ('David', 'April 2022');
+INSERT INTO items (name, cohort_name) VALUES ('Anna', 'May 2022');
+INSERT INTO items (name, cohort_name) VALUES ('Anna', 'May 2022');
+
+
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
 
 psql -h 127.0.0.1 your_database_name < seeds_{table_name}.sql
 3. Define the class names
 Usually, the Model class name will be the capitalised table name (single instead of plural). The same name is then suffixed by Repository for the Repository class name.
 
-# EXAMPLE
-# Table name: students
+class Orders
+end 
 
-# Model class
-# (in lib/student.rb)
-class Student
-end
+class Items
+end 
 
-# Repository class
-# (in lib/student_repository.rb)
-class StudentRepository
-end
 4. Implement the Model class
 Define the attributes of your Model class. You can usually map the table columns to the attributes of the class, including primary and foreign keys.
 
-# EXAMPLE
-# Table name: students
-
-# Model class
-# (in lib/student.rb)
-
-class Student
+class Orders
 
   # Replace the attributes by your own columns.
   attr_accessor :id, :name, :cohort_name
 end
 
-# The keyword attr_accessor is a special Ruby feature
-# which allows us to set and get attributes on an object,
-# here's an example:
-#
-# student = Student.new
-# student.name = 'Jo'
-# student.name
+class Items
+
+  # Replace the attributes by your own columns.
+  attr_accessor :id, :name, :cohort_name
+end
+
 You may choose to test-drive this class, but unless it contains any more logic than the example above, it is probably not needed.
 
 5. Define the Repository Class interface
