@@ -29,6 +29,12 @@ class Application
       when "2"
         show "Here is the list of all shop orders\n"
         print_orders
+      when "3"
+        name, price, quantity = obtain_item_info
+        query = "INSERT INTO items (name, unit_price, quantity)
+        VALUES ($1, $2, $3)"
+        DatabaseConnection.exec_params(query, [name, price, quantity])
+        show("Item added!")
       else
         break
       end
@@ -42,14 +48,26 @@ class Application
     @io.puts message
   end
 
+  def prompt(message)
+    show(message)
+    @io.gets.chomp
+  end
+
   def obtain_selection
     show "\nWhat do you want to do?\n" \
       "  1 = list all shop items\n" \
-      "  2 = create a new item\n" \
-      "  3 = list all orders\n" \
+      "  2 = list all orders\n" \
+      "  3 = create a new item\n" \
       "  4 = create a new order\n" \
       "  5 = end the program"
     @io.gets.chomp
+  end
+
+  def obtain_item_info
+    name = prompt("What is the name of the item to be added?")
+    unit_price = prompt("What is the unit price of item?")
+    quantity = prompt("How many units of the item will be in stock?")
+    return name, unit_price, quantity
   end
 
   def print_items
