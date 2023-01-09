@@ -1,3 +1,5 @@
+require 'order'
+
 class OrderRepository
   # Selecting all records
   # No arguments
@@ -13,15 +15,16 @@ class OrderRepository
     # Returns an array of Student objects.
   end
 
-  def find(id)
-    single_item = []
-    sql = 'SELECT * FROM orders WHERE id = $1;'
-    sql_params = [id]
-    result_set = DatabaseConnection.exec_params(sql, sql_params)
-    entry = result_set[0]
-      single_item << inflate_order(entry)
-    return single_item
-  end
+  # def find(id)
+  #   single_item = []
+  #   sql = 'SELECT * FROM orders WHERE id = $1;'
+  #   sql_params = [id]
+  #   result_set = DatabaseConnection.exec_params(sql, sql_params)
+  #   entry = result_set[0]
+  #     single_item << inflate_order(entry)
+  #   return single_item
+  # end
+  # Extra method not required by challenge
   
   def create(order)
    sql = 'INSERT INTO orders (customer_name, item_name, order_date) VALUES ($1, $2, $3);'
