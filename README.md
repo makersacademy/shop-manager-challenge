@@ -7,5 +7,5 @@ I integrated a database by using the PG gem, and test-drove and built Repository
 As the application requires input, I mocked IO for integration tests.
 
 ## Further Considerations
-• Could have a many to many database relationship.
-• Interactive menu app and test code could be condensed by factoring blocks of text.
+* Could have a many to many database relationship.
+* Interactive menu app and test code could be condensed by factoring blocks of text.
