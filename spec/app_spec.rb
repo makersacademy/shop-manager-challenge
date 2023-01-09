@@ -45,4 +45,22 @@ describe Application do
     expect(@io).to receive(:puts).with("Baz ordered on 2021-07-29").ordered
   end
 
+  it "Application can list all orders after formatting" do
+    expect(@io).to receive(:gets).and_return("3").ordered
+    expect(@io).to receive(:puts).with("What is the name of the item to be added?").ordered
+    expect(@io).to receive(:gets).and_return("Chair").ordered
+    expect(@io).to receive(:puts).with("What is the unit price of item?")
+    expect(@io).to receive(:gets).and_return("5.99").ordered
+    expect(@io).to receive(:puts).with("How many units of the item will be in stock?")
+    expect(@io).to receive(:gets).and_return("10").ordered
+    expect(@io).to receive(:puts).with("Item added!")
+    expect(@io).to receive(:puts).with(@selection_str).ordered
+    expect(@io).to receive(:gets).and_return("1").ordered
+    expect(@io).to receive(:puts).with("Here is the list of all shop items\n").ordered
+    expect(@io).to receive(:puts).with("#1 Super Shark Vacuum Cleaner - Unit Price: £99.99").ordered
+    expect(@io).to receive(:puts).with("#2 Makerspresso Coffee Machine - Unit Price: £69.50").ordered
+    expect(@io).to receive(:puts).with("#3 ThomasTech Wireless Charger - Unit Price: £11.39").ordered
+    expect(@io).to receive(:puts).with("#4 Chair - Unit Price £5.99")
+  end
+
 end
