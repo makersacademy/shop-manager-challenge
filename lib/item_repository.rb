@@ -13,16 +13,16 @@ class ItemRepository
     return all_items
   end
 
-  # def find(id)
-  #   single_item = []
-  #   sql = 'SELECT * FROM items WHERE id = $1;'
-  #   sql_params = [id]
-  #   result_set = DatabaseConnection.exec_params(sql, sql_params)
-  #   entry = result_set[0]
-  #     single_item << item_inflate(entry)
-  #   return single_item
-  # end
-   # Extra method not required by challenge
+ # Extra method not required by challenge
+  def find(id)
+    single_item = []
+    sql = 'SELECT * FROM items WHERE id = $1;'
+    sql_params = [id]
+    result_set = DatabaseConnection.exec_params(sql, sql_params)
+    entry = result_set[0]
+      single_item << item_inflate(entry)
+    return single_item
+  end
 
   def create(item)
     sql = 'INSERT INTO items (item_name, unit_price, quantity) VALUES ($1, $2, $3);'
