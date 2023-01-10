@@ -49,7 +49,7 @@ RSpec.describe Application do
 
     it 'displays_all_orders' do
       io = double :io
-       displays_all_orders(io)
+      displays_all_orders(io)
       item_repository = ItemRepository.new
       order_repository = OrderRepository.new
       app = Application.new('shop_manager_test', io, item_repository, order_repository)

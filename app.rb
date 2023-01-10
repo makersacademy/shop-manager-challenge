@@ -71,10 +71,12 @@ class Application
   def create_new_item
     @item_repository = ItemRepository.new
     new_item = Item.new
-    new_item.item_name = 'Bosh Rice Cooker'
-    new_item.unit_price = '10'
-    new_item.item_quantity = '33'
-    new_item.order_id = '5'
+    @io.puts "What is the item's name?"
+    new_item.item_name =  @io.gets.chomp 
+    @io.puts "What is the item's price per unit?"
+    new_item.unit_price =  @io.gets.chomp
+    @io.puts "How many #{new_item.item_name} do I have in stock?"
+    new_item.item_quantity = @io.gets.chomp 
     @item_repository.create(new_item)
     @io.puts "A new item was created!"
     @io.puts "#{new_item.item_name} - Unit price: #{new_item.unit_price}, Quantity: #{new_item.item_quantity}"
@@ -83,9 +85,12 @@ class Application
   def create_new_order
     repo = OrderRepository.new
     new_order = Order.new
-    new_order.order_date = '2023-05-01'
-    new_order.customer_name = 'Bernard'
-    new_order.item_id = '2'     
+    @io.puts "What is the customer's name?"
+    new_order.customer_name = @io.gets.chomp 
+    @io.puts "Which date was the order placed?"
+    new_order.order_date = @io.gets.chomp
+    @io.puts "What item was ordered (enter intem's code)?"
+    new_order.item_id = @io.gets.chomp
     @order_repository.create(new_order)
     @io.puts "A new order was created!"
     @io.puts "Customer name: #{new_order.customer_name}, - Order date: #{new_order.order_date}"
