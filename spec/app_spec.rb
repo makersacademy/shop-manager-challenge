@@ -38,6 +38,28 @@ RSpec.describe Application do
       expect(io).to receive(:puts).with("Customer name: Ana - Order date: 2023-01-01")
     end
 
+    def creates_a_new_item(io)
+      expect(io).to receive(:puts).with("What is the item's name?")
+      expect(io).to receive(:gets).and_return("Bosh Rice Cooker")
+      expect(io).to receive(:puts).with("What is the item's price per unit?")
+      expect(io).to receive(:gets).and_return("10")
+      expect(io).to receive(:puts).with("How many Bosh Rice Cooker do I have in stock?")
+      expect(io).to receive(:gets).and_return("33")
+      expect(io).to receive(:puts).with("A new item was created!") 
+      expect(io).to receive(:puts).with("Bosh Rice Cooker - Unit price: 10, Quantity: 33")
+    end
+
+    def creates_a_new_order(io)
+      expect(io).to receive(:puts).with("What is the customer's name?")
+      expect(io).to receive(:gets).and_return("Bernard")
+      expect(io).to receive(:puts).with("Which date was the order placed?")
+      expect(io).to receive(:gets).and_return("2023-05-01")
+      expect(io).to receive(:puts).with("What item was ordered (enter intem's code)?")
+      expect(io).to receive(:gets).and_return("2")
+      expect(io).to receive(:puts).with("A new order was created!")
+      expect(io).to receive(:puts).with("Customer name: Bernard, - Order date: 2023-05-01 - Item's code: 2")
+    end
+
     it 'displays all items' do 
       io = double :io
       displays_all_items(io)
@@ -83,7 +105,7 @@ RSpec.describe Application do
     it "displays an error message if user makes wrong choice" do
       io = double :io 
       displays_welcome_message(io)       
-      expect(io).to receive(:gets).and_return("5")
+      expect(io).to receive(:gets).and_return("wibble")
       expect(io).to receive(:puts).with("That is not a valid choice.")
       expect(io).to receive(:puts).with(no_args)
       item_repository = ItemRepository.new
@@ -91,38 +113,11 @@ RSpec.describe Application do
       app = Application.new('shop_manager_test', io, item_repository, order_repository)
       app.run
     end
-
-    it 'creates a new item' do
-      io = double :io
-      displays_welcome_message(io)       
-      expect(io).to receive(:gets).and_return("2")
-      expect(io).to receive(:puts).with("A new item was created!")
-      expect(io).to receive(:puts).with("Bosh Rice Cooker - Unit price: 10, Quantity: 33")
-      expect(io).to receive(:puts).with(no_args)
-      item_repository = ItemRepository.new
-      order_repository = OrderRepository.new
-      app = Application.new('shop_manager_test', io, item_repository, order_repository)
-      app.run
-    end
-
-    it 'creates a new order' do
-      io = double :io
-      displays_welcome_message(io)       
-      expect(io).to receive(:gets).and_return("4")
-      expect(io).to receive(:puts).with("A new order was created!")
-      expect(io).to receive(:puts).with("Customer name: Bernard, - Order date: 2023-05-01")
-      expect(io).to receive(:puts).with(no_args)
-      item_repository = ItemRepository.new
-      order_repository = OrderRepository.new
-      app = Application.new('shop_manager_test', io, item_repository, order_repository)
-      app.run
-    end
-
+    
     it 'handles manager choice 2' do
       io = double :io
       expect(io).to receive(:puts).with(no_args)
-      expect(io).to receive(:puts).with("A new item was created!")
-      expect(io).to receive(:puts).with("Bosh Rice Cooker - Unit price: 10, Quantity: 33")
+      creates_a_new_item(io)
       item_repository = ItemRepository.new
       order_repository = OrderRepository.new
       app = Application.new('shop_manager_test', io, item_repository, order_repository)
@@ -132,8 +127,7 @@ RSpec.describe Application do
     it 'handles manager choice 4' do
       io = double :io
       expect(io).to receive(:puts).with(no_args)
-      expect(io).to receive(:puts).with("A new order was created!")
-      expect(io).to receive(:puts).with("Customer name: Bernard, - Order date: 2023-05-01")
+      creates_a_new_order(io)
       item_repository = ItemRepository.new
       order_repository = OrderRepository.new
       app = Application.new('shop_manager_test', io, item_repository, order_repository)

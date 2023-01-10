@@ -74,7 +74,7 @@ class Application
     @io.puts "What is the item's name?"
     new_item.item_name =  @io.gets.chomp 
     @io.puts "What is the item's price per unit?"
-    new_item.unit_price =  @io.gets.chomp
+    new_item.unit_price = @io.gets.chomp
     @io.puts "How many #{new_item.item_name} do I have in stock?"
     new_item.item_quantity = @io.gets.chomp 
     @item_repository.create(new_item)
@@ -93,7 +93,7 @@ class Application
     new_order.item_id = @io.gets.chomp
     @order_repository.create(new_order)
     @io.puts "A new order was created!"
-    @io.puts "Customer name: #{new_order.customer_name}, - Order date: #{new_order.order_date}"
+    @io.puts "Customer name: #{new_order.customer_name}, - Order date: #{new_order.order_date} - Item's code: #{new_order.item_id}"
   end
 
   def list_of_orders
