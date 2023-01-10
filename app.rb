@@ -32,6 +32,19 @@ class Application
     run
   end
 
+  def create_item(name, price, quantity)
+    item = Item.new
+    item.name = name
+    item.price = price
+    item.price = quantity
+
+    sql = 'INSERT INTO items (name, price, quantity) 
+    VALUES ($1, $2, $3);'
+    params = [item.name, item.price, item.quantity]
+    @connection.exec_params(sql, params)
+    run
+  end
+
   def create_order(name, date)
     order = Order.new
     order.order_name = name
