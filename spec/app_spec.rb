@@ -13,7 +13,7 @@ RSpec.describe Application do
     reset_app_table
   end
 
-  it "print the header and " do
+  it "print the header and symulate a wrong entry" do
     io = double :io
     order_repository = OrderRepository.new
     item_repository = ItemRepository.new
