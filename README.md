@@ -1,7 +1,7 @@
 Shop Manager Project
 =================
 
-This my solution for the solo project of the Makers bootcamp databases module (week 3 of the bootcamp). For this challenge, I was tasked with writing a small terminal program allowing the user to manage a shop database containing some items and orders. The user is able to list shop items, create items, list orders and create orders.
+This my solution for the solo project of the [Makers bootcamp databases module](https://github.com/atcq9876/databases-sql) (week 3 of the bootcamp). For this challenge, I was tasked with writing a small terminal program allowing the user to manage a shop database containing some items and orders. The user is able to list shop items, create items, list orders and create orders.
 
 The objectives of this module were to:
 
