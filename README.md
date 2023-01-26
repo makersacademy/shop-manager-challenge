@@ -1,7 +1,16 @@
 Shop Manager Project
 =================
 
-This my solution for the solo project of the Makers bootcamp databases module (week 3 of the bootcamp). The challenge instructions are outlined below.
+This my solution for the solo project of the Makers bootcamp databases module (week 3 of the bootcamp). For this challenge, I was tasked with writing a small terminal program allowing the user to manage a shop database containing some items and orders. The user is able to list shop items, create items, list orders and create orders.
+
+The objectives of this module were to:
+
+- Design a database schema with at least two tables from a specification, including a one-to-many relationship between two tables, and create the schema in a database using SQL.
+- Use SQL to query a database to read data from one table or resulting of a join, create new records, update and delete.
+- Integrate a relational database to a program by test-driving classes which implement CRUD methods to send SQL queries to a database.
+Explain how your program communicates with the database by creating a sequence diagram.
+
+This challenge supported me in achieving these objectives. The challenge instructions I followed are outlined below.
 
 Challenge:
 -------
