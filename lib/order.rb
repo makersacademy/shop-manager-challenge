@@ -1,0 +1,1 @@
+Order = Struct.new(:id, :customer_name, :date, :item_id, keyword_init: true)

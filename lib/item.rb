@@ -1,0 +1,1 @@
+Item = Struct.new(:id, :name, :unit_price, :quantity, keyword_init: true)
