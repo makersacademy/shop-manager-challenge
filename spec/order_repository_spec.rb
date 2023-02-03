@@ -51,4 +51,14 @@ describe OrderRepository do
 
     expect(apple_quantity).to eq 8
   end
+
+  it 'raises an error when out of stock' do
+    repo = OrderRepository.new
+
+    formated_date = Time.now.strftime("%Y-%m-%d")
+    order = double :orders, customer_name:'Luke', placed_date: formated_date, items:[["Apple", 20]]
+
+    expect {repo.create(order)}.to raise_error 'Apple is out of stock'
+    
+  end
 end

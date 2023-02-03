@@ -38,9 +38,12 @@ class OrderRepository
 
     order.items.each do |item| # => ["Apple", 2]
       # extract item id
-      item_sql = 'SELECT id FROM items WHERE name = $1;'
+      item_sql = 'SELECT id, quantity FROM items WHERE name = $1;'
       item_result = DatabaseConnection.exec_params(item_sql,[item[0]])
       item_id = item_result[0]['id'].to_i
+
+      item_quantity = item_result[0]['quantity'].to_i
+      fail "#{item[0]} is out of stock" if item[1] > item_quantity
       
       # Create links between order and items with count
       items_orders_sql = 'INSERT INTO items_orders (order_id, item_id, item_count) VALUES ($1, $2, $3);'
