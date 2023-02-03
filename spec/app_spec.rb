@@ -10,19 +10,21 @@ describe Application do
     @order_repo = double :order_repo, all:[@order]
   end
 
- it 'greets the user and shows options' do
-  expect(@io).to receive(:puts).with('Welcome to the shop management program!')
-  expect(@io).to receive(:puts).with("\n")
-  expect(@io).to receive(:puts).with('What do you want to do?')
-  expect(@io).to receive(:puts).with('  1 = list all shop items')
-  expect(@io).to receive(:puts).with('  2 = create a new item')
-  expect(@io).to receive(:puts).with('  3 = list all orders')
-  expect(@io).to receive(:puts).with('  4 = create a new order')
-  expect(@io).to receive(:gets).and_return('1')
-  expect(@io).to receive(:puts).with("Here's a list of all shop items:")
-  expect(@io).to receive(:puts).with("\n")
-  expect(@io).to receive(:puts).with(' #1 Apple - Unit price: $2.00 - Quantity: 10')
-  app = Application.new(@database,@io,@item_repo,@order_repo)
-  app.run
- end 
+  context 'option 1' do
+    it 'lists all shop items in the terminal' do
+      expect(@io).to receive(:puts).with('Welcome to the shop management program!')
+      expect(@io).to receive(:puts).with("\n")
+      expect(@io).to receive(:puts).with('What do you want to do?')
+      expect(@io).to receive(:puts).with('  1 = list all shop items')
+      expect(@io).to receive(:puts).with('  2 = create a new item')
+      expect(@io).to receive(:puts).with('  3 = list all orders')
+      expect(@io).to receive(:puts).with('  4 = create a new order')
+      expect(@io).to receive(:gets).and_return('1')
+      expect(@io).to receive(:puts).with("Here's a list of all shop items:")
+      expect(@io).to receive(:puts).with("\n")
+      expect(@io).to receive(:puts).with(' #1 Apple - Unit price: $2.00 - Quantity: 10')
+      app = Application.new(@database,@io,@item_repo,@order_repo)
+      app.run
+    end 
+  end
 end
