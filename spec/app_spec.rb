@@ -1,6 +1,5 @@
 require_relative '../app'
 
-
 describe Application do
   before(:each) do
     @database = 'items_orders_test_2'
@@ -11,16 +10,16 @@ describe Application do
     @order_repo = double :order_repo, all: [@order]
   end
 
-def print_greeting
-      expect(@io).to receive(:puts).with('Welcome to the shop management program!')
-      expect(@io).to receive(:puts).with("\n")
-      expect(@io).to receive(:puts).with('What do you want to do?')
-      expect(@io).to receive(:puts).with('  1 = list all shop items')
-      expect(@io).to receive(:puts).with('  2 = create a new item')
-      expect(@io).to receive(:puts).with('  3 = list all orders')
-      expect(@io).to receive(:puts).with('  4 = create a new order')
-      expect(@io).to receive(:puts).with('  5 = exit')
-end
+  def print_greeting
+    expect(@io).to receive(:puts).with('Welcome to the shop management program!')
+    expect(@io).to receive(:puts).with("\n")
+    expect(@io).to receive(:puts).with('What do you want to do?')
+    expect(@io).to receive(:puts).with('  1 = list all shop items')
+    expect(@io).to receive(:puts).with('  2 = create a new item')
+    expect(@io).to receive(:puts).with('  3 = list all orders')
+    expect(@io).to receive(:puts).with('  4 = create a new order')
+    expect(@io).to receive(:puts).with('  5 = exit')
+  end
 
   context 'option 1' do
     it 'lists all shop items on the terminal' do
