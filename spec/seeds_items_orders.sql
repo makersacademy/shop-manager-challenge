@@ -9,8 +9,6 @@ INSERT INTO orders(customer_name, order_date) VALUES ('Edward', '03/01/2023')
 INSERT INTO orders(customer_name, order_date) VALUES ('Gilberto', '04/01/2023')
 INSERT INTO orders(customer_name, order_date) VALUES ('Pablo', '04/01/2023')
 
-
-
 INSERT INTO items_orders (item_id, order_id) VALUES (1, 1)
 INSERT INTO items_orders (item_id, order_id) VALUES (3, 1)
 INSERT INTO items_orders (item_id, order_id) VALUES (2, 2)
