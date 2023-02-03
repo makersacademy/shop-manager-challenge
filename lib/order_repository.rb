@@ -25,4 +25,17 @@ class OrderRepository
     end
     return orders
   end
+
+  def create(order)
+    sql = 'INSERT INTO orders (customer_name, placed_date) VALUES ($1,$2) RETURNING id;'
+    params = [order.customer_name,order.placed_date]
+
+    result_set = DatabaseConnection.exec_params(sql,params)
+    
+    order_id = result_set[0]
+
+    # items_orders_sql = 'INSERT INTO items_orders (order_id, item_id) VALUES ($1,$2);'
+    # params = [order.]
+    
+  end
 end
