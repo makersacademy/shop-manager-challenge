@@ -11,7 +11,7 @@ describe Application do
   end
 
   context 'option 1' do
-    it 'lists all shop items in the terminal' do
+    it 'lists all shop items on the terminal' do
       expect(@io).to receive(:puts).with('Welcome to the shop management program!')
       expect(@io).to receive(:puts).with("\n")
       expect(@io).to receive(:puts).with('What do you want to do?')
@@ -23,6 +23,24 @@ describe Application do
       expect(@io).to receive(:puts).with("Here's a list of all shop items:")
       expect(@io).to receive(:puts).with("\n")
       expect(@io).to receive(:puts).with(' #1 Apple - Unit price: $2.00 - Quantity: 10')
+      app = Application.new(@database,@io,@item_repo,@order_repo)
+      app.run
+    end 
+  end
+
+  context 'option 3' do
+    it 'lists all orders on the terminal' do
+      expect(@io).to receive(:puts).with('Welcome to the shop management program!')
+      expect(@io).to receive(:puts).with("\n")
+      expect(@io).to receive(:puts).with('What do you want to do?')
+      expect(@io).to receive(:puts).with('  1 = list all shop items')
+      expect(@io).to receive(:puts).with('  2 = create a new item')
+      expect(@io).to receive(:puts).with('  3 = list all orders')
+      expect(@io).to receive(:puts).with('  4 = create a new order')
+      expect(@io).to receive(:gets).and_return('3')
+      expect(@io).to receive(:puts).with("Here's a list of all orders:")
+      expect(@io).to receive(:puts).with("\n")
+      expect(@io).to receive(:puts).with(' #1 Ryan - 2023-02-03 - items: Apple x 2')
       app = Application.new(@database,@io,@item_repo,@order_repo)
       app.run
     end 

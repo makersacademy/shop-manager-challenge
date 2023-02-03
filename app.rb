@@ -25,6 +25,14 @@ class Application
       @item_repo.all.each do |item|
         @io.puts(" ##{item.id} #{item.name} - Unit price: #{item.price} - Quantity: #{item.quantity}")
       end
+    elsif option == '3'
+    @io.puts("Here's a list of all orders:")
+    @io.puts("\n")
+    @order_repo.all.each do |order|
+        items_list = ''
+        order.items.each {|item| items_list += "#{item[0]} x #{item[1]} "} 
+        @io.puts(" ##{order.id} #{order.customer_name} - #{order.placed_date} - items: #{items_list.strip}")
+      end
     end
 
   end
