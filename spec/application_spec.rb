@@ -77,11 +77,11 @@ RSpec.describe Application do
 
   context "negative case" do
 
-  it "fails if you choose enter an invalid option" do
-  
-    expect(@io).to receive(:gets).and_return("8")
-    expect{@app.run}.to raise_error "Must choose one of the available options"
+    it "fails if you choose enter an invalid option" do
     
+      expect(@io).to receive(:gets).and_return("8")
+      expect { @app.run }.to raise_error "Must choose one of the available options"
+      
     end
   end
 end

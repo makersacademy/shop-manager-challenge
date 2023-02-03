@@ -34,20 +34,20 @@ class OrderRepository
     sql = 'INSERT INTO orders (customer_name,Date,item_id) VALUES($1,$2,$3);'
     params = [order.customer_name,order.date,order.item_id]
     DatabaseConnection.exec_params(sql,params)
-    #Doesn't need to return as only creates
+    # Doesn't need to return as only creates
   end
 
   def delete(id)
     sql = 'DELETE FROM orders WHERE id = $1;'
     DatabaseConnection.exec_params(sql,[id])
-    #Doesn't need to return as only deletes
+    # Doesn't need to return as only deletes
   end
 
   def update(order)
     sql = 'UPDATE orders SET customer_name = $1, date = $2, item_id = $3 WHERE id = $4;'
     params = [order.customer_name,order.date,order.item_id,order.id]
     DatabaseConnection.exec_params(sql,params)
-    #Doesn't need to return as only updates
+    # Doesn't need to return as only updates
   end
 
   private

@@ -41,7 +41,7 @@ describe ItemRepository do
     repo = ItemRepository.new
     item = repo.find(1)
     repo.delete(item.id)
-    expect(repo.all.length).to eq  1
+    expect(repo.all.length).to eq 1
     expect(repo.all.first.id).to eq '2'
   end
 
