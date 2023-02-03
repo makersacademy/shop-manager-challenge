@@ -160,4 +160,34 @@ describe Application do
       app.run
     end
   end
+
+  # context ".run" do
+  #   it "initializes the application and calls run method" do
+  #     expect(DatabaseConnection).to receive(:connect).with(@database)
+  #     app = Application.new(
+  #       @database,
+  #       @io,
+  #       @item_repo,
+  #       @order_repo
+  #     )
+  #
+  #     expect(app).to receive(:run)
+  #     app.run
+  #   end
+  # end
+
+  context "#initialize" do
+    it "connects to the database and sets instance variables" do
+      app = Application.new(
+        @database,
+        @io,
+        @item_repo,
+        @order_repo
+      )
+
+      expect(app.instance_variable_get(:@io)).to eq(@io)
+      expect(app.instance_variable_get(:@item_repo)).to eq(@item_repo)
+      expect(app.instance_variable_get(:@order_repo)).to eq(@order_repo)
+    end
+  end
 end
