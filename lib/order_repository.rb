@@ -1,4 +1,4 @@
-require 'order'
+require_relative './order'
 class OrderRepository
   def all
     sql = 'SELECT id, customer_name, placed_date FROM orders;'
