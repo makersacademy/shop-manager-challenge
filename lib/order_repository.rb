@@ -28,6 +28,7 @@ class OrderRepository
   end
 
   def create(order)
+    # Create new order in orders table
     sql = 'INSERT INTO orders (customer_name, placed_date) VALUES ($1,$2) RETURNING id;'
     params = [order.customer_name,order.placed_date]
 
@@ -35,20 +36,29 @@ class OrderRepository
     
     order_id = result_set[0]['id'].to_i
 
-    order.items.each do |item|
+    order.items.each do |item| # => ["Apple", 2]
       # extract item id
       item_sql = 'SELECT id FROM items WHERE name = $1;'
-      item_result = DatabaseConnection.exec_params(item_sql,[item])
+      item_result = DatabaseConnection.exec_params(item_sql,[item[0]])
       item_id = item_result[0]['id'].to_i
-
-      # p order_id
       
-      items_orders_sql = 'INSERT INTO items_orders (order_id, item_id) VALUES ($1, $2);'
-      DatabaseConnection.exec_params(items_orders_sql,[order_id,item_id])
+      # Create links between order and items with count
+      items_orders_sql = 'INSERT INTO items_orders (order_id, item_id, item_count) VALUES ($1, $2, $3);'
+      DatabaseConnection.exec_params(items_orders_sql,[order_id,item_id,item[1]])
 
+      # Decrease the quantity of the item after an order is placed
+      quantity_sql = 'SELECT quantity FROM items WHERE name = $1;'
+      quantity_result = DatabaseConnection.exec_params(quantity_sql,[item[0]])
+      item_quantity = quantity_result[0]['quantity'].to_i
+      updated_quantity = item_quantity - item[1]
+
+      # p updated_quantity
+      update_sql = 'UPDATE items SET quantity = $1 WHERE name = $2;'
+      DatabaseConnection.exec_params(update_sql,[updated_quantity,item[0]])
     end
-    # items_orders_sql = 'INSERT INTO items_orders (order_id, item_id) VALUES ($1,$2);'
-    # params = [order.]
+
+
     
+      return nil
   end
 end
