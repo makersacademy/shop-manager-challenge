@@ -59,6 +59,15 @@ describe OrderRepository do
     order = double :orders, customer_name:'Luke', placed_date: formated_date, items:[["Apple", 20]]
 
     expect {repo.create(order)}.to raise_error 'Apple is out of stock'
+  end
+
+  it 'raises an error if the item does not exsit in stock' do
+  repo = OrderRepository.new
+
+    formated_date = Time.now.strftime("%Y-%m-%d")
+    order = double :orders, customer_name:'Luke', placed_date: formated_date, items:[["Meat", 20]]
     
+  # repo.create(order)
+    expect {repo.create(order)}.to raise_error 'Meat does not exist in the stock'
   end
 end

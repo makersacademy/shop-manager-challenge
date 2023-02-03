@@ -33,18 +33,23 @@ class OrderRepository
     params = [order.customer_name,order.placed_date]
 
     result_set = DatabaseConnection.exec_params(sql,params)
-    
+
     order_id = result_set[0]['id'].to_i
 
     order.items.each do |item| # => ["Apple", 2]
       # extract item id
       item_sql = 'SELECT id, quantity FROM items WHERE name = $1;'
       item_result = DatabaseConnection.exec_params(item_sql,[item[0]])
-      item_id = item_result[0]['id'].to_i
 
+      # check if the order item exists in the stock
+      item_id = 0
+      item_result.each {|result| item_id = result['id'].to_i}
+      fail "#{item[0]} does not exist in the stock" if item_id == 0
+
+      # check if item is out of stock
       item_quantity = item_result[0]['quantity'].to_i
       fail "#{item[0]} is out of stock" if item[1] > item_quantity
-      
+
       # Create links between order and items with count
       items_orders_sql = 'INSERT INTO items_orders (order_id, item_id, item_count) VALUES ($1, $2, $3);'
       DatabaseConnection.exec_params(items_orders_sql,[order_id,item_id,item[1]])
@@ -59,9 +64,6 @@ class OrderRepository
       update_sql = 'UPDATE items SET quantity = $1 WHERE name = $2;'
       DatabaseConnection.exec_params(update_sql,[updated_quantity,item[0]])
     end
-
-
-    
-      return nil
+    return nil
   end
 end
