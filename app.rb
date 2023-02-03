@@ -13,17 +13,17 @@ class Application
 
   def run
     loop do
-      self.greet()
+      greet()
       option = @io.gets.chomp
 
       if option == '1'
-        self.list_all_shop_items()
+        list_all_shop_items()
       elsif option == '2'
-        self.create_item()
+        create_item()
       elsif option == '3'
-        self.list_all_orders()
+        list_all_orders()
       elsif option == '4'  
-        self.create_order()
+        create_order()
       elsif option == '5'
         break
       end
@@ -75,7 +75,7 @@ class Application
     @io.puts("\n")
     @order_repo.all.each do |order|
       items_list = ''
-      order.items.each {|item| items_list += "#{item[0]} x #{item[1]} "} 
+      order.items.each { |item| items_list += "#{item[0]} x #{item[1]} " } 
       @io.puts(" ##{number} #{order.customer_name} - #{order.placed_date} - items: #{items_list.strip}")
       number += 1
     end
@@ -101,12 +101,12 @@ class Application
   end
 end
 
-if __FILE__ == $0
-  app = Application.new(
-    'items_orders_2',
-    Kernel,
-    ItemRepository.new,
-    OrderRepository.new
-  )
-  app.run
-end
+# if __FILE__ == $0
+  # app = Application.new(
+  #   'items_orders_2',
+  #   Kernel,
+  #   ItemRepository.new,
+  #   OrderRepository.new
+  # )
+  # app.run
+# end

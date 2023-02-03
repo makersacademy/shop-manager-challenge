@@ -1,13 +1,13 @@
-require_relative '../app.rb'
+require_relative '../app'
 
 describe Application do
   before(:each) do
     @database = 'items_orders_test_2'
     @io = double :io
-    @item = double :item, id:1, name:'Apple', price:"$2.00", quantity:10
-    @item_repo = double :item_repo, all:[@item]
-    @order = double :order, id:1, customer_name:'Ryan', placed_date:'2023-02-03', items:[['Apple',2]]
-    @order_repo = double :order_repo, all:[@order]
+    @item = double :item, id: 1, name: 'Apple', price: "$2.00", quantity: 10
+    @item_repo = double :item_repo, all: [@item]
+    @order = double :order, id: 1, customer_name: 'Ryan', placed_date: '2023-02-03', items: [['Apple',2]]
+    @order_repo = double :order_repo, all: [@order]
   end
 
   context 'option 1' do

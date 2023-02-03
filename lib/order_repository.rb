@@ -43,7 +43,7 @@ class OrderRepository
 
       # check if the order item exists in the stock
       item_id = 0
-      item_result.each {|result| item_id = result['id'].to_i}
+      item_result.each { |result| item_id = result['id'].to_i }
       fail "#{item[0]} does not exist in the stock" if item_id == 0
 
       # check if item is out of stock

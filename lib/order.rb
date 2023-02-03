@@ -3,6 +3,6 @@ class Order
 
   def initialize
     @placed_date = Time.now.strftime("%Y-%m-%d")
-   @items = [] 
+    @items = [] 
   end
 end

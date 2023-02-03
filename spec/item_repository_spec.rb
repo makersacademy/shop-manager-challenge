@@ -2,7 +2,7 @@ require 'item_repository'
 
 def reset_item_table
   seed_sql = File.read('spec/seeds_items_orders_2.sql')
-  connection = PG.connect({host:'127.0.0.1',dbname:'items_orders_test_2'})
+  connection = PG.connect({ host: '127.0.0.1',dbname: 'items_orders_test_2' })
   connection.exec(seed_sql)
 end
 
@@ -25,7 +25,7 @@ describe ItemRepository do
   end
 
   it 'creates a new item to the list of item objects' do
-    item = double :item, name:'Kiwi', price:5, quantity:20
+    item = double :item, name: 'Kiwi', price: 5, quantity: 20
     repo = ItemRepository.new
 
     repo.create(item)
@@ -40,21 +40,21 @@ describe ItemRepository do
   end
 
   it 'raises an error when trying to create an exisiting item' do
-    item = double :item, name:'Kiwi', price:5, quantity:20
+    item = double :item, name: 'Kiwi', price: 5, quantity: 20
     repo = ItemRepository.new
 
     repo.create(item)
-  expect {repo.create(item)}.to raise_error 'Item is already created'
+    expect { repo.create(item) }.to raise_error 'Item is already created'
   end
 
   it 'raises an error when trying to create item with invalid information' do
-    item_1 = double :item, name:'', price:5, quantity:20
-    item_2 = double :item, name:'Chocolate', price:0, quantity:20
-    item_3 = double :item, name:'Rice', price:10, quantity:0
+    item_1 = double :item, name: '', price: 5, quantity: 20
+    item_2 = double :item, name: 'Chocolate', price: 0, quantity: 20
+    item_3 = double :item, name: 'Rice', price: 10, quantity: 0
     repo = ItemRepository.new
 
-  expect {repo.create(item_1)}.to raise_error 'Invalid inputs'
-  expect {repo.create(item_2)}.to raise_error 'Invalid inputs'
-  expect {repo.create(item_3)}.to raise_error 'Invalid inputs'
+    expect { repo.create(item_1) }.to raise_error 'Invalid inputs'
+    expect { repo.create(item_2) }.to raise_error 'Invalid inputs'
+    expect { repo.create(item_3) }.to raise_error 'Invalid inputs'
   end
 end 

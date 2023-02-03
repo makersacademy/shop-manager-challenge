@@ -24,9 +24,9 @@ class ItemRepository
     # Check if the item name is already added in the database
     check_sql = 'SELECT name FROM items WHERE name = $1;'
     result_set = DatabaseConnection.exec_params(check_sql,[item.name])
-    result_set.each {|result| fail 'Item is already created' unless result.nil?}
+    result_set.each { |result| fail 'Item is already created' unless result.nil? }
 
-    #Check input
+    # Check input
     if item.name == '' || item.price <= 0 || item.quantity <= 0
       fail 'Invalid inputs'
     end

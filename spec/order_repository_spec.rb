@@ -2,7 +2,7 @@ require 'order_repository'
 
 def reset_order_table
   seed_sql = File.read('spec/seeds_items_orders_2.sql')
-  connection = PG.connect({host:'127.0.0.1',dbname:'items_orders_test_2'})
+  connection = PG.connect({ host: '127.0.0.1',dbname: 'items_orders_test_2' })
   connection.exec(seed_sql)
 end
 
@@ -26,7 +26,7 @@ describe OrderRepository do
     repo = OrderRepository.new
 
     formated_date = Time.now.strftime("%Y-%m-%d")
-    order = double :orders, customer_name:'Luke', placed_date: formated_date, items:[["Apple", 2], ["Banana", 1]]
+    order = double :orders, customer_name: 'Luke', placed_date: formated_date, items: [["Apple", 2], ["Banana", 1]]
 
     repo.create(order)
 
@@ -42,7 +42,7 @@ describe OrderRepository do
     repo = OrderRepository.new
 
     formated_date = Time.now.strftime("%Y-%m-%d")
-    order = double :orders, customer_name:'Luke', placed_date: formated_date, items:[["Apple", 2], ["Banana", 1]]
+    order = double :orders, customer_name: 'Luke', placed_date: formated_date, items: [["Apple", 2], ["Banana", 1]]
 
     repo.create(order)
 
@@ -56,18 +56,18 @@ describe OrderRepository do
     repo = OrderRepository.new
 
     formated_date = Time.now.strftime("%Y-%m-%d")
-    order = double :orders, customer_name:'Luke', placed_date: formated_date, items:[["Apple", 20]]
+    order = double :orders, customer_name: 'Luke', placed_date: formated_date, items: [["Apple", 20]]
 
-    expect {repo.create(order)}.to raise_error 'Apple is out of stock'
+    expect { repo.create(order) }.to raise_error 'Apple is out of stock'
   end
 
   it 'raises an error if the item does not exsit in stock' do
-  repo = OrderRepository.new
+    repo = OrderRepository.new
 
     formated_date = Time.now.strftime("%Y-%m-%d")
-    order = double :orders, customer_name:'Luke', placed_date: formated_date, items:[["Meat", 20]]
+    order = double :orders, customer_name: 'Luke', placed_date: formated_date, items: [["Meat", 20]]
     
   # repo.create(order)
-    expect {repo.create(order)}.to raise_error 'Meat does not exist in the stock'
+    expect { repo.create(order) }.to raise_error 'Meat does not exist in the stock'
   end
 end
