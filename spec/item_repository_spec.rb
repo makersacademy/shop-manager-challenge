@@ -1,8 +1,8 @@
 require 'item_repository'
 
 def reset_item_table
-  seed_sql = File.read('spec/seeds_items_orders.sql')
-  connection = PG.connect({host:'127.0.0.1',dbname:'items_orders_test'})
+  seed_sql = File.read('spec/seeds_items_orders_2.sql')
+  connection = PG.connect({host:'127.0.0.1',dbname:'items_orders_test_2'})
   connection.exec(seed_sql)
 end
 

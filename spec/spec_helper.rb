@@ -17,4 +17,4 @@ RSpec.configure do |config|
   end
 end
 
-DatabaseConnection.connect('items_orders_test')
+DatabaseConnection.connect('items_orders_test_2')
