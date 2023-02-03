@@ -2,6 +2,7 @@ require_relative './lib/database_connection'
 require_relative './lib/item_repository'
 require_relative './lib/order_repository'
 require_relative './lib/item'
+require_relative './lib/order'
 class Application
   def initialize(database_name, io, item_repo, order_repo)
     DatabaseConnection.connect(database_name)
@@ -18,6 +19,7 @@ class Application
     @io.puts('  2 = create a new item')
     @io.puts('  3 = list all orders')
     @io.puts('  4 = create a new order')
+    @io.puts('  5 = exit')
     option = @io.gets.chomp
 
     if option == '1'
@@ -47,6 +49,21 @@ class Application
         order.items.each {|item| items_list += "#{item[0]} x #{item[1]} "} 
         @io.puts(" ##{order.id} #{order.customer_name} - #{order.placed_date} - items: #{items_list.strip}")
       end
+    elsif option == '4'  
+      new_order = Order.new
+      @io.puts('What is the customer name?')
+      new_order.customer_name = @io.gets.chomp  
+
+      loop do
+        @io.puts("What item do you want to add? (Enter 'N' to end)")
+        add_item = @io.gets.chomp
+        break if add_item == 'N'
+        @io.puts('How many do you want?')
+        add_item_count = @io.gets.to_i
+        new_order.items << [add_item,add_item_count]
+      end
+      @order_repo.create(new_order)
+      @io.puts('Successfully created!')
     end
 
   end
