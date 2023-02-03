@@ -100,6 +100,10 @@ A joint table `orders_items` is served as a bridge between `items` and `orders` 
 
 ![db-diagram](assets/db-diagram-sms-rev.png)
 
+**Seeds**
+
+All the seeds that were used for testing are put inside [this folder](seeds).
+
 ---
 
 ### Workflow Diagrams
@@ -130,6 +134,7 @@ sequenceDiagram
   IR->>DC: Sends SQL query by calling method `exec_params`
   DC->>DB: Sends query to db
   App-->>T: Prints out 'A new item is successfully created!'
+  App-->>T: Prints out options and ask the user for action unitl the answer is 'q'
 ```
 
 </details>
@@ -167,6 +172,8 @@ sequenceDiagram
 		T->>App: Submits '3'
 		App-->>T: Ask 'How many do you want?'
 		T->>App: Submits '10'
+    App->>IR: Check if there is enough stock
+    IR->>App: Returns TRUE
 		App->App: saves the response to 'order_items' array
 		App-->>T: Ask 'Do you want to order more items? (y/n)'
 		T->>App: Submits 'y'until the answer is 'n'
@@ -177,7 +184,8 @@ sequenceDiagram
 	OR->>IR: calls 'send_out' method
 	IR->>DC: Sends SQL queries to update quantity of each item
 	DC->>DB: Sends query to db
-	App-->>T: Prints out 'Order is successfully created!'
+	App-->>T: Prints out the order & message 'Order is successfully created!'
+  App-->>T: Prints out options and ask the user for action unitl the answer is 'q'
 ```
 
 </details>
