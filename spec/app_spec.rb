@@ -28,6 +28,30 @@ describe Application do
     end 
   end
 
+  context 'option 2' do
+    it 'creates a new item on the terminal' do
+      expect(@io).to receive(:puts).with('Welcome to the shop management program!')
+      expect(@io).to receive(:puts).with("\n")
+      expect(@io).to receive(:puts).with('What do you want to do?')
+      expect(@io).to receive(:puts).with('  1 = list all shop items')
+      expect(@io).to receive(:puts).with('  2 = create a new item')
+      expect(@io).to receive(:puts).with('  3 = list all orders')
+      expect(@io).to receive(:puts).with('  4 = create a new order')
+      expect(@io).to receive(:gets).and_return('2')
+      expect(@io).to receive(:puts).with('What is the new item name?') 
+      expect(@io).to receive(:gets).and_return('Orange')
+      expect(@io).to receive(:puts).with('How much is it?')
+      expect(@io).to receive(:gets).and_return('5')
+      expect(@io).to receive(:puts).with('How many in stock?')
+      expect(@io).to receive(:gets).and_return('40')
+      expect(@item_repo).to receive(:create)
+      expect(@io).to receive(:puts).with('Successfully created!')
+
+      app = Application.new(@database,@io,@item_repo,@order_repo)
+      app.run
+    end
+  end
+
   context 'option 3' do
     it 'lists all orders on the terminal' do
       expect(@io).to receive(:puts).with('Welcome to the shop management program!')

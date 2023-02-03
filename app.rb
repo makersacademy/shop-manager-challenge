@@ -1,6 +1,7 @@
 require_relative './lib/database_connection'
 require_relative './lib/item_repository'
 require_relative './lib/order_repository'
+require_relative './lib/item'
 class Application
   def initialize(database_name, io, item_repo, order_repo)
     DatabaseConnection.connect(database_name)
@@ -25,10 +26,23 @@ class Application
       @item_repo.all.each do |item|
         @io.puts(" ##{item.id} #{item.name} - Unit price: #{item.price} - Quantity: #{item.quantity}")
       end
+    elsif option == '2'
+      new_item = Item.new
+      @io.puts('What is the new item name?')
+      new_item.name = @io.gets.chomp
+      @io.puts('How much is it?')
+      new_item.price = @io.gets.to_i
+      @io.puts('How many in stock?')
+      new_item.quantity = @io.gets.to_i
+
+      @item_repo.create(new_item) 
+
+      @io.puts('Successfully created!')
+
     elsif option == '3'
-    @io.puts("Here's a list of all orders:")
-    @io.puts("\n")
-    @order_repo.all.each do |order|
+      @io.puts("Here's a list of all orders:")
+      @io.puts("\n")
+      @order_repo.all.each do |order|
         items_list = ''
         order.items.each {|item| items_list += "#{item[0]} x #{item[1]} "} 
         @io.puts(" ##{order.id} #{order.customer_name} - #{order.placed_date} - items: #{items_list.strip}")
