@@ -1,6 +1,7 @@
 # file: app.rb
 
 require_relative './lib/item_repository'
+require_relative './lib/item'
 require_relative './lib/order_repository'
 require_relative './lib/database_connection.rb'
 
@@ -59,7 +60,8 @@ class Application
     when "4"
       create_order_dialogue
     else
-      # do nothing
+      # fail
+      fail "Must choose one of the available options"
     end
   end
 
@@ -75,7 +77,6 @@ class Application
   def display_orders
 
     @io.puts("Here's a list of all shop orders:")
-
     @order_repository.all.each do |order|
       item_name = @item_repository.find(order.item_id).name
       @io.puts(" ##{order.id} #{order.customer_name} - Ordered: #{item_name} - On: #{order.date}")
@@ -85,9 +86,27 @@ class Application
 
   def create_item_dialogue
 
+    item = Item.new
+    @io.puts("Please enter the new item name:")
+    item.name = @io.gets.chomp
+    @io.puts("Please enter the unit price to the nearest pound:")
+    item.unit_price = @io.gets.chomp
+    @io.puts("Please enter stocked quantity:")
+    item.quantity = @io.gets.chomp
+    @item_repository.create(item)
+    @io.puts("##{@item_repository.all.last.id} #{item.name} added to system with a quantity of #{item.quantity} and a price of £#{item.unit_price}")
   end
 
   def create_order_dialogue
+    order = Order.new
+    @io.puts("Please enter the customer name:")
+    order.customer_name = @io.gets.chomp
+    @io.puts("Please enter the date in format YYYY-MM-DD:")
+    order.date = @io.gets.chomp
+    @io.puts("Please enter the item id:")
+    order.item_id = @io.gets.chomp
+    @order_repository.create(order)
+    @io.puts("##{@order_repository.all.last.id} #{@item_repository.find(order.item_id).name} ordered for #{order.customer_name} on #{order.date}")
 
   end
 end
