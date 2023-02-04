@@ -20,5 +20,5 @@ CREATE TABLE orders_items (
   item_id int NOT NULL,
   quantity int NOT NULL,
   constraint fk_orders foreign key(order_id) references orders(id) on delete cascade,
-  constraint fk_items foreign key(item_id) references items(id)
+  constraint fk_items foreign key(item_id) references items(id) on delete cascade
 );

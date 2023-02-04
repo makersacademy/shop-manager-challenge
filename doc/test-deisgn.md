@@ -16,9 +16,7 @@
 
 # 1
 # Calaulates the sum of each item in the order
-item_1 = double :item, id: 1, name: 'tomato sauce', unit_price: 2, quantity: 10
-item_2 = double :item, id: 2, name: 'smoked salmon', unit_price: 5, quantity: 25
-order_items = [{item: item_1, quantity: 4}, {item: item_2, quantity: 10}]
+items = [{name: 'tomato sauce', price: 2, quantity: 4}, {name: 'smoked salmon', price: 5, quantity: 10}]
 order = Order.new(items)
 order.total_price # => 58
 

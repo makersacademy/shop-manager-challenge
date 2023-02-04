@@ -1,118 +1,6 @@
-# Class Design of Shop Manager System
-
-## Table of Contents
-
-- [Class Design of Shop Manager System](#class-design-of-shop-manager-system)
-  - [Table of Contents](#table-of-contents)
-  - [Order Class](#order-class)
-  - [Item Class](#item-class)
-  - [Order Repository Class](#order-repository-class)
-  - [Item Repository Class](#item-repository-class)
-  - [Application Class](#application-class)
-
-## Order Class
-
-```ruby
-# file: lib/order.rb
-
-class Order
-  attr_accessor :id, :customer_name, :date, :items
-
-  def initialize(items = [])
-    @items = items
-  end
-
-  def total_price
-    # sums up all the price of all items
-    # returns an integer
-  end
-end
-
-```
-
-## Item Class
-
-```ruby
-# file: lib/item.rb
-
-class Item
-  attr_accessor :id, :name, :unit_price, :quantity
-end
-
-```
-
-## Order Repository Class
-
-```ruby
-# file: lib/order_repository.rb
-
-class OrderRepository
-  def all
-    # returns an array of Order objects
-  end
-
-  def create_order(customer_name, items, item_repo)
-    # creates Order objects and saves records to 'orders' and 'orders_items' table
-    # steps:
-    # 1. 'INSERT INTO orders (customer_name) VALUES ($1) RETURNING id;'
-    # 2. order_id = Dataconnection.exec_params(sql, [customer_name])['id']
-    # 3. loop through items:
-    #       I. INSERT INTO orders_items (order_id, item_id, quantity) VALUES
-    #             (order_id, item['item'].id, item['quantity']);
-    #       II. item_repo.send_out(item_id, quantity)
-  end
-
-  def delete_order(id)
-    # removes order from 'orders' table
-  end
-end
-
-```
-
-## Item Repository Class
-
-```ruby
-# file: lib/item_repository.rb
-
-class ItemRepository
-  def all
-    # returns an array of Item objects
-  end
-
-  def create_item(name, price, quantity)
-    # creates an Item object and save a record to database
-  end
-
-  def update_stock(id, qty, action)
-    # update an item's quantity from items table
-    # action : '+' or '-'
-  end
-
-  def update_price(id, price)
-    # updates an item's price from items table
-  end
-
-  def remove_item(id)
-    # deletes an item from items table
-  end
-
-  def enough_stock?(id, num)
-    # returns true if the num <= quantity
-  end
-
-  private
-
-  def exist?(id)
-    # returns true if the record in 'items' table exists
-  end
-end
-
-```
-
-## Application Class
-
-```ruby
-# file: lib/item_repository.rb
+require_relative "./lib/order_repository"
+require_relative "./lib/item_repository"
+require_relative "./lib/database_connection"
 
 class Application
   def initialize(db_name, io, order_repo, item_repo)
@@ -205,7 +93,14 @@ class Application
     #   2. quantity
     # calls 'update_stock' from ItemRepository
   end
-
 end
 
-```
+if __FILE__ == $0
+  app = Application.new(
+    "shop_manager",
+    Kernel,
+    OrderRepository.new,
+    ItemRepository.new
+  )
+  app.run
+end
