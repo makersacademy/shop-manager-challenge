@@ -8,32 +8,67 @@ class Application
     @io = io
     @order_repo = order_repo
     @item_repo = item_repo
+    @options = ["list all shop items", "create a new item", "update an item's price",
+                "update stock of an item", "list all orders", "create a new order"]
   end
 
   def run
     # runs the programme
-    # Steps:
-    # 1. Print out welcome message and options
-    # 2. Ask for action
-    # 3. Check the response:
-    #     1 = list all shop items
-    #     2 = create a new item
-    #     3 = update an item's price
-    #     4 = update stock of an item
-    #     5 = list all orders
-    #     6 = create a new order
-    #     7 = quit
-    # 4. execute action
-    # 5. loop back to step 1
+    @io.puts "Welcome to the shop management program!"
+    loop do
+      print_options()
+      choice()
+      break unless continue?()
+    end
   end
 
   private
+
+  def print_options
+    @io.puts ""
+    @io.puts "What do you want to do?"
+    @io.puts ""
+    @options.each_with_index do |option, index|
+      @io.puts "#{index + 1} = #{option}"
+    end
+    @io.puts ""
+    @io.puts "Enter your option:"
+  end
+
+  def filter_input(input, pattern)
+    return input.chars.select { |char| char[pattern] }.join
+  end
+
+  def choice
+    choice = filter_input(@io.gets.chomp, /\d+/).to_i
+    while choice <= 0 || choice == "" || choice > @options.length
+      @io.puts "Invalid input. Please enter again:"
+      choice = filter_input(@io.gets.chomp, /\d+/).to_i
+    end
+    case choice
+    when 1
+      valid_answer = true
+      list_items()
+    end
+  end
+
+  def continue?
+    @io.puts ""
+    @io.puts "Do you want to continue the programme? (y/n)"
+    choice = filter_input(@io.gets.chomp, /y|n/)
+    while choice == ""
+      @io.puts "Invalid input. Please enter again:"
+      choice = filter_input(@io.gets.chomp, /y|n/)
+    end
+    return choice == "y"
+  end
 
   def list_items
     # prints out list of items on terminal
     # => Here's a list of all shop items:
     # =>  1. Super Shark Vacuum Cleaner - Unit price: 10 - Quantity: 30
     # =>  2. Makerspresso Coffee Machine - Unit price: 20 - Quantity: 15
+    @io.puts 1
   end
 
   def list_orders
@@ -54,7 +89,7 @@ class Application
     # =>    ----------
     # =>    Grand total: $20
     # =>    ----------
-
+    @io.puts 5
   end
 
   def create_order
@@ -69,6 +104,7 @@ class Application
     #   end
     # calls 'create_order' from OrderRepository
     # print out 'Successfully created an order!'
+    @io.puts 6
   end
 
   def create_item
@@ -77,6 +113,7 @@ class Application
     #   2. price
     #   3. quantity
     # calls 'create_item' from ItemRepository
+    @io.puts 2
   end
 
   def update_price
@@ -84,6 +121,7 @@ class Application
     #   1. item id
     #   2. latest price
     # calls 'update_price' from ItemRepository
+    @io.puts 3
   end
 
   def update_stock
@@ -92,6 +130,7 @@ class Application
     #   1. item id
     #   2. quantity
     # calls 'update_stock' from ItemRepository
+    @io.puts 4
   end
 end
 
