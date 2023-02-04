@@ -23,7 +23,7 @@ I want to keep a list of orders with their customer name.
 
 As a shop manager
 So I can know which orders were made
-I want to assign each order to their corresponding item.
+I want to assign each order to their corresponding items.
 
 As a shop manager
 So I can know which orders were made
@@ -97,7 +97,7 @@ The join table usually contains two columns, which are two foreign keys, each on
 
 Join table for tables: items and orders
 Join table name: items_orders
-Columns: item_id, order_id
+Columns: item_id, order_id, order_quantity
 ```
 
 ## 4. Write the SQL.
@@ -124,6 +124,7 @@ CREATE TABLE orders (
 CREATE TABLE items_orders (
   item_id int,
   order_id int,
+  order_quantity int,
   constraint fk_item foreign key(item_id) references items(id) on delete cascade,
   constraint fk_order foreign key(order_id) references orders(id) on delete cascade,
   PRIMARY KEY (item_id, order_id)
