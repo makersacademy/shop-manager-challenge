@@ -28,9 +28,7 @@ class OrderRepository
   end
 
   def create(order)
-    # DatabaseConnection.connect('items_orders_2')
     DatabaseConnection.connection.transaction do
-
       # Create new order in orders table
       sql = 'INSERT INTO orders (customer_name, placed_date) VALUES ($1,$2) RETURNING id;'
       params = [order.customer_name,order.placed_date]
