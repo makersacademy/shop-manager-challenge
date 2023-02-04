@@ -14,7 +14,7 @@ id | customer_name | date | item_id
 
 ```sql
 
--- (file: spec/seeds_orders.sql)
+-- (file: spec/seeds.sql)
 
 -- (RESTART IDENTITY resets the primary key)
 
@@ -29,7 +29,7 @@ INSERT INTO orders (customer_name, date, item_id) VALUES ('customer_3', '2023-01
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data.
 
 ```bash
-psql -h 127.0.0.1 shop_manager_test < seeds_orders.sql
+psql -h 127.0.0.1 shop_manager_test < seeds.sql
 ```
 
 ## 3. Define the class names
@@ -152,7 +152,7 @@ repo = OrderRepository.new
 new_order = Order.new
 new_order.customer_name = 'customer_4'
 new_order.date = '2023-01-02 12:05:01'
-new_order.item_id = 3
+new_order.item_id = 1
 
 repo.create(new_order) # => nil
 
@@ -160,7 +160,7 @@ orders = repo.all
 
 orders.last.customer_name # => 'customer_4'
 orders.last.date # => '2023-01-02 12:05:01'
-orders.last.item_id # => 3
+orders.last.item_id # => 1
 
 
 ```
@@ -176,8 +176,8 @@ This is to get a fresh table contents every time you run the test suite.
 # file: spec/item_repository_spec.rb
 
 def reset_items_table
-  seed_sql = File.read('spec/seeds_orders.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager' })
+  seed_sql = File.read('spec/seeds.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
   connection.exec(seed_sql)
 end
 
