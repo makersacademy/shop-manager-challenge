@@ -101,12 +101,12 @@ class Application
   end
 end
 
-# if __FILE__ == $0
-  # app = Application.new(
-  #   'items_orders_2',
-  #   Kernel,
-  #   ItemRepository.new,
-  #   OrderRepository.new
-  # )
-  # app.run
-# end
+if __FILE__ == $0
+  app = Application.new(
+    'items_orders_2',
+    Kernel,
+    ItemRepository.new,
+    OrderRepository.new
+  )
+  app.run
+end
