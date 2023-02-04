@@ -43,15 +43,16 @@ class OrderRepository
     return orders
   end
 
+  # Creates a new order
   def create_order(customer_name, items, item_repo)
-    # creates Order objects and saves records to 'orders' and 'orders_items' table
-    # steps:
-    # 1. 'INSERT INTO orders (customer_name) VALUES ($1) RETURNING id;'
-    # 2. order_id = Dataconnection.exec_params(sql, [customer_name])['id']
-    # 3. loop through items:
-    #       I. INSERT INTO orders_items (order_id, item_id, quantity) VALUES
-    #             (order_id, item['item'].id, item['quantity']);
-    #       II. item_repo.send_out(item_id, quantity)
+    order_sql = "INSERT INTO orders (customer_name) VALUES ($1) RETURNING id;"
+    order_id = DatabaseConnection.exec_params(order_sql, [customer_name])[0]["id"].to_i
+    items.each do |item|
+      item_sql = "INSERT INTO orders_items (order_id, item_id, quantity) VALUES ($1, $2, $3);"
+      params = [order_id, item[:item_id], item[:quantity]]
+      DatabaseConnection.exec_params(item_sql, params)
+      item_repo.update_stock(item[:item_id], item[:quantity], "-")
+    end
   end
 
   # removes order from 'orders' table

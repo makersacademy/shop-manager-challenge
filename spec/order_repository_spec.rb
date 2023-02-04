@@ -34,6 +34,23 @@ describe OrderRepository do
   end
 
   context "#create_order" do
+    it "creates a new order" do
+      item_repo = double :item_repo
+      items = [{ item_id: 1, quantity: 5 }, { item_id: 3, quantity: 4 }, { item_id: 2, quantity: 5 }, { item_id: 4, quantity: 15 }]
+      expect(item_repo).to receive(:update_stock).with(1, 5, "-")
+      expect(item_repo).to receive(:update_stock).with(3, 4, "-")
+      expect(item_repo).to receive(:update_stock).with(2, 5, "-")
+      expect(item_repo).to receive(:update_stock).with(4, 15, "-")
+      @repo.create_order("micheal", items, item_repo)
+
+      order = @repo.all.last
+
+      expect(order.id).to eq 4
+      expect(order.items[0][:name]).to eq "Garlic Pasta Sauce"
+      expect(order.items[0][:quantity]).to eq 5
+      expect(order.items[3][:name]).to eq "Scottish Salmon Fillets"
+      expect(order.items[3][:quantity]).to eq 15
+    end
   end
 
   context "#delete_order" do

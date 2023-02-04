@@ -12,8 +12,8 @@ class Application
                 "update stock of an item", "list all orders", "create a new order"]
   end
 
+  # runs the programme
   def run
-    # runs the programme
     @io.puts "Welcome to the shop management program!"
     loop do
       print_options()
@@ -24,6 +24,7 @@ class Application
 
   private
 
+  # Prints out all options in terminal
   def print_options
     @io.puts ""
     @io.puts "What do you want to do?"
@@ -35,10 +36,12 @@ class Application
     @io.puts "Enter your option:"
   end
 
+  # Filter user input by a Regex pattern
   def filter_input(input, pattern)
     return input.chars.select { |char| char[pattern] }.join
   end
 
+  # Asks the user for a choice
   def choice
     choice = filter_input(@io.gets.chomp, /\d+/).to_i
     while choice <= 0 || choice == "" || choice > @options.length
@@ -52,6 +55,7 @@ class Application
     end
   end
 
+  # Asks the user if they want to continue
   def continue?
     @io.puts ""
     @io.puts "Do you want to continue the programme? (y/n)"
