@@ -8,6 +8,10 @@ class DatabaseConnection
     @connection = PG.connect({ host: '127.0.0.1', dbname: database_name })
   end
 
+  def self.connection
+    @connection
+  end
+
   # This method executes an SQL query 
   # on the database, providing some optional parameters
   # (you will learn a bit later about when to provide these parameters).
