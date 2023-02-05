@@ -28,9 +28,8 @@ class Application
   def print_options
     @io.puts ""
     @io.puts "What do you want to do?"
-    @io.puts ""
     @options.each_with_index do |option, index|
-      @io.puts "#{index + 1} = #{option}"
+      @io.puts " #{index + 1} = #{option}"
     end
     @io.puts ""
     @io.puts "Enter your option:"
@@ -50,8 +49,15 @@ class Application
     end
     case choice
     when 1
-      valid_answer = true
       list_items()
+    when 2
+      create_item()
+    when 3
+      update_price()
+    when 4
+      update_stock()
+    when 5
+      list_orders()
     end
   end
 
@@ -67,33 +73,35 @@ class Application
     return choice == "y"
   end
 
+  # prints out list of items on terminal
   def list_items
-    # prints out list of items on terminal
-    # => Here's a list of all shop items:
-    # =>  1. Super Shark Vacuum Cleaner - Unit price: 10 - Quantity: 30
-    # =>  2. Makerspresso Coffee Machine - Unit price: 20 - Quantity: 15
-    @io.puts 1
+    @io.puts ""
+    @io.puts "Here's a list of all shop items:"
+    @io.puts ""
+    items = @item_repo.all
+    items.each do |item|
+      @io.puts " #{item.id}. #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
+    end
   end
 
   def list_orders
     # prints out list of orders on terminal
-    # => Here's a list of all orders:
-    # =>  1. 2023-02-03 Terry's Order:
-    # =>    ----------
-    # =>    Items:
-    # =>      - Super Shark Vacuum Cleaner - Qty: 2
-    # =>      - Makerspresso Coffee Machine - Qty: 5
-    # =>    ----------
-    # =>    Grand total: $120
-    # =>    -------------------------------------------
-    # =>  2. 2023-02-03 Terry's Order:
-    # =>    ----------
-    # =>    Items:
-    # =>      - Super Shark Vacuum Cleaner - Qty: 2
-    # =>    ----------
-    # =>    Grand total: $20
-    # =>    ----------
-    @io.puts 5
+    @io.puts ""
+    @io.puts "Here's a list of all orders:"
+    @io.puts ""
+    orders = @order_repo.all
+    orders.each do |order|
+      @io.puts "#{order.id}. #{order.date} #{order.customer_name.capitalize}'s Order:"
+      @io.puts "  ----------"
+      @io.puts "  Items:"
+      order.items.each do |item|
+        @io.puts "    - #{item[:name].capitalize} - Qty: #{item[:quantity]}"
+      end
+      @io.puts "  ----------"
+      @io.puts "  Grand total: $#{order.total_price}"
+      @io.puts "  ----------"
+      @io.puts ""
+    end
   end
 
   def create_order
@@ -112,32 +120,116 @@ class Application
   end
 
   def create_item
-    # asks for inputs:
-    #   1. item name
-    #   2. price
-    #   3. quantity
-    # calls 'create_item' from ItemRepository
-    @io.puts 2
+    @io.puts ""
+    @io.puts "Create a new item"
+    @io.puts "----------"
+    @io.puts "Please enter the following details:"
+    @io.puts ""
+    @io.puts "1. Name for this new item:"
+    name = filter_input(@io.gets.chomp, /[a-zA-Z ]/).strip
+    # Checks if input valid
+    while name == ""
+      @io.puts "Invalid input. Please enter again."
+      name = filter_input(@io.gets.chomp, /[a-zA-Z ]/)
+    end
+    @io.puts ""
+    @io.puts "2. Unit price:"
+    price = filter_input(@io.gets.chomp, /\d+/)
+    # Checks if input valid
+    while price == ""
+      @io.puts "Invalid input. Please enter again."
+      price = filter_input(@io.gets.chomp, /\d+/)
+    end
+    @io.puts ""
+    @io.puts "3. How many item in stock?"
+    stock = filter_input(@io.gets.chomp, /\d+/)
+    # Checks if input valid
+    while stock == ""
+      @io.puts "Invalid input. Please enter again."
+      stock = filter_input(@io.gets.chomp, /\d+/)
+    end
+    @io.puts ""
+    @io.puts "----------"
+    @item_repo.create_item(name, price.to_i, stock.to_i)
+    @io.puts "Item has been successfully created!"
   end
 
   def update_price
-    # asks for inputs:
-    #   1. item id
-    #   2. latest price
-    # calls 'update_price' from ItemRepository
-    @io.puts 3
+    @io.puts ""
+    @io.puts "Update an item's price"
+    @io.puts "----------"
+    @io.puts "Please enter the following details:"
+    @io.puts ""
+    @io.puts "1. Item's ID:"
+    id = filter_input(@io.gets.chomp, /\d+/)
+    # Checks if input valid
+    while id == ""
+      @io.puts "Invalid input. Please enter again."
+      id = filter_input(@io.gets.chomp, /\d+/)
+    end
+    @io.puts ""
+    @io.puts "2. Updated price of this item:"
+    updated_price = filter_input(@io.gets.chomp, /\d+/)
+    # Checks if input valid
+    while updated_price == ""
+      @io.puts "Invalid input. Please enter again."
+      updated_price = filter_input(@io.gets.chomp, /\d+/)
+    end
+    @io.puts ""
+    @io.puts "----------"
+    @io.puts ""
+    begin
+      @item_repo.update_price(id.to_i, updated_price.to_i)
+    rescue RuntimeError => e
+      @io.puts e.message
+    else
+      @io.puts "Item has been successfully updated!"
+    end
   end
 
   def update_stock
-    # asks for inputs:
-    #   1. add / send out?
-    #   1. item id
-    #   2. quantity
-    # calls 'update_stock' from ItemRepository
-    @io.puts 4
+    @io.puts ""
+    @io.puts "Update an item's stock"
+    @io.puts "----------"
+    @io.puts "Please enter the following details:"
+    @io.puts ""
+    @io.puts "1. Do you want to add or remove? (+/-)"
+    action = filter_input(@io.gets.chomp, /\+|\-/)
+    # Checks if input valid
+    while action == ""
+      @io.puts "Invalid input. Please enter again."
+      action = filter_input(@io.gets.chomp, /\+|\-/)
+    end
+    @io.puts ""
+    @io.puts "2. Item's ID:"
+    id = filter_input(@io.gets.chomp, /\d+/)
+    # Checks if input valid
+    while id == ""
+      @io.puts "Invalid input. Please enter again."
+      id = filter_input(@io.gets.chomp, /\d+/)
+    end
+    @io.puts ""
+    @io.puts "3. How many do you want to add?"
+    qty = filter_input(@io.gets.chomp, /\d+/)
+    # Checks if input valid
+    while qty == ""
+      @io.puts "Invalid input. Please enter again."
+      qty = filter_input(@io.gets.chomp, /\d+/)
+    end
+    @io.puts ""
+    @io.puts "----------"
+    @io.puts ""
+    begin
+      @item_repo.update_stock(id.to_i, qty.to_i, action)
+    rescue RuntimeError => e
+      @io.puts e.message
+    else
+      @io.puts "Item has been successfully updated!"
+    end
   end
 end
 
+# The lines below will be executed only while running 'ruby app.rb'
 if __FILE__ == $0
   app = Application.new(
     "shop_manager",

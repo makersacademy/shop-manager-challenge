@@ -87,10 +87,10 @@ describe ItemRepository do
 
   context "#is_exist?" do
     it "returns error message when no record is found" do
-      expect { @repo.remove_item(23) }.to raise_error "Invalid id. Please enter again."
-      expect { @repo.update_stock(35, 1, "+") }.to raise_error "Invalid id. Please enter again."
-      expect { @repo.update_price(-2, 2) }.to raise_error "Invalid id. Please enter again."
-      expect { @repo.enough_stock?(33, 50) }.to raise_error "Invalid id. Please enter again."
+      expect { @repo.remove_item(23) }.to raise_error "Invalid id. No data is updated."
+      expect { @repo.update_stock(35, 1, "+") }.to raise_error "Invalid id. No data is updated."
+      expect { @repo.update_price(-2, 2) }.to raise_error "Invalid id. No data is updated."
+      expect { @repo.enough_stock?(33, 50) }.to raise_error "Invalid id. No data is updated."
     end
   end
 end

@@ -31,7 +31,7 @@ class ItemRepository
   # update an item's quantity from items table
   # action : '+' or '-'
   def update_stock(id, qty, action)
-    fail "Invalid id. Please enter again." unless exist?(id)
+    exist?(id)
     sql = "UPDATE items SET quantity = quantity #{action == "+" ? "+" : "-"} $1 WHERE id = $2"
     params = [qty, id]
     DatabaseConnection.exec_params(sql, params)
@@ -39,7 +39,7 @@ class ItemRepository
 
   # updates an item's price from items table
   def update_price(id, price)
-    fail "Invalid id. Please enter again." unless exist?(id)
+    exist?(id)
     sql = "UPDATE items SET unit_price = $1 WHERE id = $2"
     params = [price, id]
     DatabaseConnection.exec_params(sql, params)
@@ -47,7 +47,7 @@ class ItemRepository
 
   # deletes an item from items table
   def remove_item(id)
-    fail "Invalid id. Please enter again." unless exist?(id)
+    exist?(id)
     sql = "DELETE FROM items WHERE id = $1"
     params = [id]
     DatabaseConnection.exec_params(sql, params)
@@ -55,7 +55,7 @@ class ItemRepository
 
   # returns true if the num <= quantity
   def enough_stock?(id, num)
-    fail "Invalid id. Please enter again." unless exist?(id)
+    exist?(id)
     sql = "SELECT quantity FROM items WHERE id = $1"
     params = [id]
     quantity = DatabaseConnection.exec_params(sql, params)[0]["quantity"].to_i
@@ -70,6 +70,6 @@ class ItemRepository
     sql = "SELECT id FROM items WHERE items.id = $1"
     params = [id]
     item = DatabaseConnection.exec_params(sql, params)
-    return !item.ntuples.zero?
+    fail "Invalid id. No data is updated." if item.ntuples.zero?
   end
 end
