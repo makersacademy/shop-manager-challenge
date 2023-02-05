@@ -28,7 +28,7 @@ class Application
       when "1"
         list_items()
       when "2"  
-        @io.puts "placeholder: you selected option 2"
+        create_item()
       when "3"
         list_orders()
       when "4"
@@ -62,8 +62,26 @@ class Application
     end
     @io.puts "---------------------------------------------------"
     @io.puts " "
-
   end
+
+  def create_item
+    @io.puts "\nCreate a new item:"
+    @io.puts "---------------------------------------------------"
+    @io.puts "What item would you like to create?"
+    item_name = gets.chomp
+    @io.puts "What is the price of one '#{item_name}?"
+    item_price = gets.chomp
+    @io.puts "What is the quantity of one '#{item_name}?"
+    item_quantity = gets.chomp
+    item = Item.new
+    item.name = item_name
+    item.price = item_price
+    item.quantity = item_quantity
+    @item_repository.create(item) 
+    @io.puts "---------------------------------------------------"
+    @io.puts "new item created."
+  end
+
 
 
 
