@@ -4,8 +4,8 @@ RSpec.describe Application do
   before(:each) do
     @database = 'shop_manager_test'
     @io = double :io
-    @order_1 = double :order, id:1, customer:'Peter Jones', date:01/02/2023, item_id:1
-    @order_2 = double :order, id:2, customer:'Freda Gill', date:04/02/2023, item_id:2
+    @order_1 = double :order, id:1, customer:'Peter Jones', date:01/28/2023, item_id:1
+    @order_2 = double :order, id:2, customer:'Freda Gill', date:02/04/2023, item_id:2
     @order_repo = double :order_repo, all:[@order_1, @order_2] 
     @item_1 = double :item, id:1, name:'Hat', price:10, qty:60
     @item_2 = double :item, id:2, name:'Trainers', price:100, qty:500 
