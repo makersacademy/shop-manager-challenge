@@ -56,7 +56,7 @@ Define the attributes of your Model class. You can usually map the table columns
 # Model class
 # (in lib/order.rb)
 
-class Item
+class Order
   attr_accessor :id, :customer, :date, :item_id
 end
 ```
