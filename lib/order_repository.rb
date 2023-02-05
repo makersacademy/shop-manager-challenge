@@ -19,7 +19,7 @@ class OrderRepository
                   FROM orders 
                     JOIN orders_items ON orders_items.order_id = orders.id
                     JOIN items ON orders_items.item_id = items.id
-                  WHERE orders.id = $1;"
+                  WHERE orders.id = $1 ORDER BY items.id;"
       params = [order.id]
       item_result = DatabaseConnection.exec_params(item_sql, params)
 
