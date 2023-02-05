@@ -19,6 +19,24 @@ describe ItemRepository do
     expect(items[2].price).to eq "3"
     expect(items[3].id).to eq "4"
   end
+
+  it "creates a new item in the table" do 
+    repo = ItemRepository.new
+    item = Item.new
+    item.name = "mash potato"
+    item.price = 1
+    item.quantity = 10
+    repo.create(item)
+    all_items = repo.all
+    expect(all_items).to include(
+      have_attributes(
+        price: "1",
+        quantity: "10",
+        name: "mash potato"
+      )
+    )
+
+    end
 end
 
 
