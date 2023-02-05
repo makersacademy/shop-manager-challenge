@@ -22,10 +22,10 @@ describe OrderRepository do
       expect(orders.first.id).to eq 1
       expect(orders.first.customer_name).to eq "terry"
       expect(orders.first.date).to eq today
-      expect(orders.first.total_price).to eq 98.9
+      expect(orders.first.total_price).to eq 108.85
       expect(orders.first.items[0][:name]).to eq "Shower Gel"
       expect(orders.first.items[2][:price]).to eq 5
-      expect(orders.first.items[1][:quantity]).to eq 10
+      expect(orders.first.items[1][:quantity]).to eq 15
 
       expect(orders.last.id).to eq 3
       expect(orders.last.customer_name).to eq "luke"

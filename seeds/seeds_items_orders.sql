@@ -22,6 +22,7 @@ INSERT INTO
   orders_items(order_id, item_id, quantity)
 VALUES
   (1, 3, 10),
+  (1, 3, 5),
   (1, 2, 2),
   (1, 4, 15),
   (2, 1, 5),
