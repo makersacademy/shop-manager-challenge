@@ -75,7 +75,7 @@ qty: int
 Table: orders
 id: SERIAL
 customer: text
-date: timestamp
+date: date
 item_id: int
 ```
 
@@ -126,7 +126,7 @@ CREATE TABLE items (
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
   customer text,
-  date timestamp,
+  date date,
   item_id int,
   constraint fk_item foreign key(item_id)
     references items(id)
