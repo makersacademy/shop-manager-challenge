@@ -116,9 +116,9 @@ Using comments, define the method signatures (arguments and return value) and wh
 # Table name: order
 
 # Repository class
-# (in lib/stock_repository.rb)
+# (in lib/order_repository.rb)
 
-class StockRepository
+class OrderRepository
 
   # Selecting all records
   # No arguments
@@ -133,7 +133,7 @@ class StockRepository
   # One argument: the id (number)
   def find(id)
     # Executes the SQL query:
-    # SELECT id, item, price, quantity FROM students WHERE id = $1;
+    # SELECT id, customer, order_date, stock_id FROM orders WHERE id = $1;
 
     # Returns a single Stock object.
   end
