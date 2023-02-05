@@ -58,6 +58,8 @@ class Application
       update_stock()
     when 5
       list_orders()
+    when 6
+      create_order()
     end
   end
 
@@ -84,8 +86,8 @@ class Application
     end
   end
 
+  # prints out list of orders on terminal
   def list_orders
-    # prints out list of orders on terminal
     @io.puts ""
     @io.puts "Here's a list of all orders:"
     @io.puts ""
@@ -104,21 +106,52 @@ class Application
     end
   end
 
+  # creates a new order by calling OrderRepository
   def create_order
-    # asks questions about the order:
-    #   1. name
-    #   loop:
-    #     2. item id
-    #     3. qty (can't be 0)
-    #     4. check stock by calling 'is_enough_stock?'
-    #     4. print out message & go back to 2 if there is no enough stock
-    #     5. continue or done?
-    #   end
-    # calls 'create_order' from OrderRepository
-    # print out 'Successfully created an order!'
-    @io.puts 6
+    @io.puts ""
+    @io.puts "Create a new order"
+    @io.puts "----------"
+    @io.puts "Please enter the following details:"
+    @io.puts ""
+    @io.puts "1. What is the customer's name?"
+    name = @io.gets.chomp.capitalize
+    items = []
+    loop do
+      @io.puts ""
+      @io.puts "----------"
+      @io.puts "There is #{items.length} item(s) in #{name}'s order."
+      @io.puts "----------"
+      @io.puts "Please enter item ID."
+      id = @io.gets.chomp.to_i
+      @io.puts ""
+      @io.puts "Please enter quantity."
+      qty = @io.gets.chomp.to_i
+      begin
+        if @item_repo.enough_stock?(id, qty)
+          items << { item_id: id, quantity: qty }
+        else
+          @io.puts "Sorry, there is no enough stock for this item."
+        end
+      rescue RuntimeError => e
+        @io.puts e.message
+      end
+      @io.puts ""
+      @io.puts "Continue to add items? (y/n)"
+      choice = filter_input(@io.gets.chomp, /y|n/)
+      while choice == ""
+        @io.puts "Invalid input. Please enter again:"
+        choice = filter_input(@io.gets.chomp, /y|n/)
+      end
+      break if choice == "n"
+    end
+    @order_repo.create_order(name, items, @item_repo)
+    @io.puts ""
+    @io.puts "----------"
+    @io.puts "There is total #{items.length} item(s) in #{name}'s order."
+    @io.puts "Order has been successfully created!"
   end
 
+  # creates a new item by calling ItemRepository
   def create_item
     @io.puts ""
     @io.puts "Create a new item"
@@ -154,6 +187,7 @@ class Application
     @io.puts "Item has been successfully created!"
   end
 
+  # updates an item's price by calling ItemRepository
   def update_price
     @io.puts ""
     @io.puts "Update an item's price"
@@ -187,6 +221,7 @@ class Application
     end
   end
 
+  # updates an item's stock by calling ItemRepository
   def update_stock
     @io.puts ""
     @io.puts "Update an item's stock"
@@ -230,12 +265,12 @@ class Application
 end
 
 # The lines below will be executed only while running 'ruby app.rb'
-if __FILE__ == $0
-  app = Application.new(
-    "shop_manager",
-    Kernel,
-    OrderRepository.new,
-    ItemRepository.new
-  )
-  app.run
-end
+# if __FILE__ == $0
+#   app = Application.new(
+#     "shop_manager",
+#     Kernel,
+#     OrderRepository.new,
+#     ItemRepository.new
+#   )
+#   app.run
+# end

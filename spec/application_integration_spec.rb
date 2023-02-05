@@ -3,7 +3,7 @@ require "item_repository"
 require "order_repository"
 require "date"
 
-describe Application do
+describe "Application Integration Test" do
   def reset_tables
     seeds_sql = File.read("seeds/seeds_items_orders.sql")
     connection = PG.connect({ host: "127.0.0.1", dbname: "shop_manager_test" })
@@ -264,7 +264,63 @@ describe Application do
   end
 
   context "#create_order" do
-    it "creates an order" do
+    it "creates an order and handle invalid inputs" do
+      expected_starter(@io)
+      expected_menu(@io)
+      expect(@io).to receive(:gets).and_return("6")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("Create a new order")
+      expect(@io).to receive(:puts).with("----------")
+      expect(@io).to receive(:puts).with("Please enter the following details:")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("1. What is the customer's name?")
+      expect(@io).to receive(:gets).and_return("micheal")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("----------")
+      expect(@io).to receive(:puts).with("There is 0 item(s) in Micheal's order.")
+      expect(@io).to receive(:puts).with("----------")
+      expect(@io).to receive(:puts).with("Please enter item ID.")
+      expect(@io).to receive(:gets).and_return("1")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("Please enter quantity.")
+      expect(@io).to receive(:gets).and_return("20")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("Continue to add items? (y/n)")
+      expect(@io).to receive(:gets).and_return("y")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("----------")
+      expect(@io).to receive(:puts).with("There is 1 item(s) in Micheal's order.")
+      expect(@io).to receive(:puts).with("----------")
+      expect(@io).to receive(:puts).with("Please enter item ID.")
+      expect(@io).to receive(:gets).and_return("5")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("Please enter quantity.")
+      expect(@io).to receive(:gets).and_return("21")
+      expect(@io).to receive(:puts).with("Sorry, there is no enough stock for this item.")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("Continue to add items? (y/n)")
+      expect(@io).to receive(:gets).and_return("y")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("----------")
+      expect(@io).to receive(:puts).with("There is 1 item(s) in Micheal's order.")
+      expect(@io).to receive(:puts).with("----------")
+      expect(@io).to receive(:puts).with("Please enter item ID.")
+      expect(@io).to receive(:gets).and_return("20")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("Please enter quantity.")
+      expect(@io).to receive(:gets).and_return("20")
+      expect(@io).to receive(:puts).with("Invalid id. No data is updated.")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("Continue to add items? (y/n)")
+      expect(@io).to receive(:gets).and_return("1h23io")
+      expect(@io).to receive(:puts).with("Invalid input. Please enter again:")
+      expect(@io).to receive(:gets).and_return("n")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("----------")
+      expect(@io).to receive(:puts).with("There is total 1 item(s) in Micheal's order.")
+      expect(@io).to receive(:puts).with("Order has been successfully created!")
+      expected_quit(@io)
+      @app.run
     end
   end
 end

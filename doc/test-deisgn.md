@@ -149,6 +149,44 @@ repo.is_enough_stock?(1, 30) # => true
 ```ruby
 # file: spec/application_spec.rb
 
+context "#list_items" do
+  # 1
+  # prints out items correctly and handles invalid input
+end
+
+context "#list_orders" do
+  # 2
+  # prints out orders correctly
+end
+
+context "#create_item" do
+  # 3
+  # creates a new item and handles invalid inputs
+end
+
+context "#update_price" do
+  # 4
+  # updates price of an item and handles invalid inputs
+
+  # 5
+  # displays error message while entering an invalid ID
+end
+
+context "#update_stock" do
+  # 6
+  # adds stock of an item and handles invalid inputs
+
+  # 7
+  # removes stock of an item
+
+  # 8
+  # displays error message while entering an invalid ID
+end
+
+context "#create_order" do
+  # 9
+  # creates an order and handle invalid inputs
+end
 
 
 ```

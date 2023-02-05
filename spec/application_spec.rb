@@ -26,6 +26,8 @@ describe Application do
   def expected_quit(io)
     expect(io).to receive(:puts).with("")
     expect(io).to receive(:puts).with("Do you want to continue the programme? (y/n)")
+    expect(io).to receive(:gets).and_return("!q4928==")
+    expect(@io).to receive(:puts).with("Invalid input. Please enter again:")
     expect(io).to receive(:gets).and_return("n")
   end
 
@@ -117,7 +119,7 @@ describe Application do
   end
 
   context "#update_price" do
-    it "updates price of an item" do
+    it "updates price of an item and handles invalid inputs" do
       expected_starter(@io)
       expected_menu(@io)
       expect(@io).to receive(:gets).and_return("3")
@@ -169,7 +171,7 @@ describe Application do
   end
 
   context "#update_stock" do
-    it "adds stock of an item" do
+    it "adds stock of an item and handles invalid inputs" do
       expected_starter(@io)
       expected_menu(@io)
       expect(@io).to receive(:gets).and_return("4")
@@ -179,12 +181,18 @@ describe Application do
       expect(@io).to receive(:puts).with("Please enter the following details:")
       expect(@io).to receive(:puts).with("")
       expect(@io).to receive(:puts).with("1. Do you want to add or remove? (+/-)")
+      expect(@io).to receive(:gets).and_return("qwrhio!@#&*(")
+      expect(@io).to receive(:puts).with("Invalid input. Please enter again.")
       expect(@io).to receive(:gets).and_return("+")
       expect(@io).to receive(:puts).with("")
       expect(@io).to receive(:puts).with("2. Item's ID:")
+      expect(@io).to receive(:gets).and_return("qwrhio!@#&*(")
+      expect(@io).to receive(:puts).with("Invalid input. Please enter again.")
       expect(@io).to receive(:gets).and_return("1")
       expect(@io).to receive(:puts).with("")
       expect(@io).to receive(:puts).with("3. How many do you want to add?")
+      expect(@io).to receive(:gets).and_return("qwrhio!@#&*(")
+      expect(@io).to receive(:puts).with("Invalid input. Please enter again.")
       expect(@io).to receive(:gets).and_return("20")
       expect(@io).to receive(:puts).with("")
       expect(@io).to receive(:puts).with("----------")
@@ -249,7 +257,67 @@ describe Application do
   end
 
   context "#create_order" do
-    it "creates an order" do
+    it "creates an order and handle invalid inputs" do
+      expected_starter(@io)
+      expected_menu(@io)
+      expect(@io).to receive(:gets).and_return("6")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("Create a new order")
+      expect(@io).to receive(:puts).with("----------")
+      expect(@io).to receive(:puts).with("Please enter the following details:")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("1. What is the customer's name?")
+      expect(@io).to receive(:gets).and_return("micheal")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("----------")
+      expect(@io).to receive(:puts).with("There is 0 item(s) in Micheal's order.")
+      expect(@io).to receive(:puts).with("----------")
+      expect(@io).to receive(:puts).with("Please enter item ID.")
+      expect(@io).to receive(:gets).and_return("1")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("Please enter quantity.")
+      expect(@io).to receive(:gets).and_return("20")
+      expect(@item_repo).to receive(:enough_stock?).with(1, 20).and_return(true)
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("Continue to add items? (y/n)")
+      expect(@io).to receive(:gets).and_return("y")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("----------")
+      expect(@io).to receive(:puts).with("There is 1 item(s) in Micheal's order.")
+      expect(@io).to receive(:puts).with("----------")
+      expect(@io).to receive(:puts).with("Please enter item ID.")
+      expect(@io).to receive(:gets).and_return("5")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("Please enter quantity.")
+      expect(@io).to receive(:gets).and_return("21")
+      expect(@item_repo).to receive(:enough_stock?).with(5, 21).and_return(false)
+      expect(@io).to receive(:puts).with("Sorry, there is no enough stock for this item.")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("Continue to add items? (y/n)")
+      expect(@io).to receive(:gets).and_return("y")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("----------")
+      expect(@io).to receive(:puts).with("There is 1 item(s) in Micheal's order.")
+      expect(@io).to receive(:puts).with("----------")
+      expect(@io).to receive(:puts).with("Please enter item ID.")
+      expect(@io).to receive(:gets).and_return("20")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("Please enter quantity.")
+      expect(@io).to receive(:gets).and_return("20")
+      expect(@item_repo).to receive(:enough_stock?).with(20, 20).and_raise("Invalid id. No data is updated.")
+      expect(@io).to receive(:puts).with("Invalid id. No data is updated.")
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("Continue to add items? (y/n)")
+      expect(@io).to receive(:gets).and_return("1h23io")
+      expect(@io).to receive(:puts).with("Invalid input. Please enter again:")
+      expect(@io).to receive(:gets).and_return("n")
+      expect(@order_repo).to receive(:create_order).with("Micheal", [{ item_id: 1, quantity: 20 }], @item_repo)
+      expect(@io).to receive(:puts).with("")
+      expect(@io).to receive(:puts).with("----------")
+      expect(@io).to receive(:puts).with("There is total 1 item(s) in Micheal's order.")
+      expect(@io).to receive(:puts).with("Order has been successfully created!")
+      expected_quit(@io)
+      @app.run
     end
   end
 end

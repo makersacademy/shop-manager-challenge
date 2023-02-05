@@ -120,6 +120,7 @@ class Application
     @io = io
     @order_repo = order_repo
     @item_repo = item_repo
+    @options = [ (...) ] # an array of strings
   end
 
   def run
@@ -134,12 +135,31 @@ class Application
     #     4 = update stock of an item
     #     5 = list all orders
     #     6 = create a new order
-    #     7 = quit
     # 4. execute action
-    # 5. loop back to step 1
+    # 5. ask the user if they want to stay:
+    #     - loop back to step 1 if yes
+    #     - quit the programme if no
   end
 
   private
+
+  def print_options
+    # prints out all options in terminal
+  end
+
+  def filter_input(input, regex)
+    # filter user inputs by a Regex pattern
+    # returns a string
+  end
+
+  def choice
+    # asks the user for a choice
+  end
+
+  def continue?
+    # asks the user if they want to continue
+    # returns boolean
+  end
 
   def list_items
     # prints out list of items on terminal
@@ -175,7 +195,7 @@ class Application
     #   loop:
     #     2. item id
     #     3. qty (can't be 0)
-    #     4. check stock by calling 'is_enough_stock?'
+    #     4. check stock by calling 'enough_stock?'
     #     4. print out message & go back to 2 if there is no enough stock
     #     5. continue or done?
     #   end
