@@ -77,9 +77,9 @@ class Application
   def list_items
     @io.puts ""
     @io.puts "Here is the list of shop items:"
-    @item_repository.all.each{
-      |item|
-      puts "#{item.id}. #{item.item_name}"
+    @item_repository.all.each_with_index{
+      |item, index|
+      puts "#{index+1}. #{item.item_name} - ID: #{item.id}"
     }
   end
 
@@ -114,9 +114,9 @@ class Application
   def list_orders
     @io.puts ""
     @io.puts "Here is the list of all orders:"
-    @order_repository.all.each{
-      |order|
-      puts "#{order.id}. Made on #{order.order_date} by #{order.customer_name}"
+    @order_repository.all.each_with_index{
+      |order, index|
+      puts "#{index+1}. Made on #{order.order_date} by #{order.customer_name} - ID: #{order.id}"
     }
   end
 
