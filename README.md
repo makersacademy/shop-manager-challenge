@@ -44,20 +44,21 @@ This system is able to:
 
 - [Shop Manager Challenge](#shop-manager-challenge)
   - [Table of Contents](#table-of-contents)
-  - [Phase 1: Requirements \& Planning](#phase-1-requirements--planning)
+  - [📝 Phase 1: Requirements \& Planning](#-phase-1-requirements--planning)
     - [User Stories](#user-stories)
-    - [Goals](#goals)
+    - [🎯 Goals](#-goals)
     - [Database Diagram](#database-diagram)
-  - [Phase 2: Class \& Test design](#phase-2-class--test-design)
+  - [⚙️ Phase 2: Class \& Test design](#️-phase-2-class--test-design)
     - [Classes](#classes)
     - [Tests](#tests)
-  - [Phase 3: Getting Started](#phase-3-getting-started)
+  - [🎉 Phase 3: Getting Started](#-phase-3-getting-started)
     - [Install gems](#install-gems)
     - [Run tests](#run-tests)
-  - [Dependencies](#dependencies)
-  - [Contributors](#contributors)
+    - [Start the programme](#start-the-programme)
+  - [🪄 Dependencies](#-dependencies)
+  - [🎖️ Contributors](#️-contributors)
 
-## Phase 1: Requirements & Planning
+## 📝 Phase 1: Requirements & Planning
 
 ### User Stories
 
@@ -96,7 +97,7 @@ I want to be able to create a new order.
 
 ---
 
-### Goals
+### 🎯 Goals
 
 Here are the goals I'd like to achieve about this project:
 
@@ -119,7 +120,7 @@ A joint table `orders_items` is served as a bridge between `items` and `orders` 
 
 All the seeds that were used for testing are put inside [this folder](seeds).
 
-## Phase 2: Class & Test design
+## ⚙️ Phase 2: Class & Test design
 
 ### Classes
 
@@ -129,7 +130,7 @@ All class deisgns can be viewed in [this doc](doc/class-design.md).
 
 All test designs can be viewed in [this doc](doc/test-deisgn.md).
 
-## Phase 3: Getting Started
+## 🎉 Phase 3: Getting Started
 
 > Before running any commands, please make sure `Ruby` has been installed in your local environment. Otherwise, please follow the instructions on [Ruby offical website](https://www.ruby-lang.org/en/downloads/).
 
@@ -153,13 +154,34 @@ rspec
 rspec spec/{FILE NAME}_spec.rb
 ```
 
-## Dependencies
+A coverage report will be automatically generated under `./coverage` in HTML format.
+
+### Start the programme
+
+Open `app.rb` and scroll to the bottom. You have to uncomment the following codes and run `ruby app.rb` in terminal.
+
+```ruby
+
+# The lines below will be executed only while running 'ruby app.rb'
+if __FILE__ == $0
+  app = Application.new(
+    "shop_manager",
+    Kernel,
+    OrderRepository.new,
+    ItemRepository.new
+  )
+  app.run
+end
+
+```
+
+## 🪄 Dependencies
 
 - Ruby ~3.0.2
 - pg ~1.3.5
 - rubocop ~1.2
 - RSpec ~3.1.0
 
-## Contributors
+## 🎖️ Contributors
 
 - [@terryhycheng](https://github.com/terryhycheng/)
