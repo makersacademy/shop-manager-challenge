@@ -35,8 +35,5 @@ describe ItemRepository do
         name: "mash potato"
       )
     )
-
-    end
+  end
 end
-
-
