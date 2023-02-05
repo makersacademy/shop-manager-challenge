@@ -29,6 +29,19 @@ class OrderRepository
 
   def create(order)
     DatabaseConnection.connection.transaction do
+      # Create new order in database
+      order_id = self.new_order(order)
+      # Link items to orders and decrease quantity in stock
+      order.items.each do |item| # => ["Apple", 2]
+      self.item_to_order(item,order_id)
+      end
+    end
+    return nil
+  end
+
+  private
+  
+  def new_order(order)
       # Create new order in orders table
       sql = 'INSERT INTO orders (customer_name, placed_date) VALUES ($1,$2) RETURNING id;'
       params = [order.customer_name,order.placed_date]
@@ -36,8 +49,10 @@ class OrderRepository
       result_set = DatabaseConnection.exec_params(sql,params)
 
       order_id = result_set[0]['id'].to_i
+      return order_id
+  end
 
-      order.items.each do |item| # => ["Apple", 2]
+  def item_to_order(item,order_id)
         # extract item id
         item_sql = 'SELECT id, quantity FROM items WHERE name = $1;'
         item_result = DatabaseConnection.exec_params(item_sql,[item[0]])
@@ -64,8 +79,5 @@ class OrderRepository
         # p updated_quantity
         update_sql = 'UPDATE items SET quantity = $1 WHERE name = $2;'
         DatabaseConnection.exec_params(update_sql,[updated_quantity,item[0]])
-      end
-    end
-    return nil
   end
 end
