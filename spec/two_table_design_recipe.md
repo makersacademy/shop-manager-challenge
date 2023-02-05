@@ -104,7 +104,7 @@ Replace the relevant bits in this example with your own:
 `
 1. Can one order have many items? NO
 2. Can one stock/item have many orders? YES
--> Therefore,
+-> 
 -> An item/stock HAS MANY orders
 -> An order BELONGS TO an item/stock
 -> Therefore, the foreign key is on the orders table.
@@ -133,17 +133,18 @@ CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
   customer text,
   item text,
-  order_date,
+  order_date text,
 -- The foreign key name is always {other_table_singular}_id
   stock_id int,
-  constraint fk_artist foreign key(stock_id)
-    references(id)
-    on delete cascade
+  constraint fk_stock foreign key(stock_id)
+  references stocks(id)
 );
 
 ```
 
 ## 5. Create the tables.
+
+
 
 ```bash
 psql -h 127.0.0.1 database_name < albums_table.sql
