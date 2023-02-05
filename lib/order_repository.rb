@@ -1,4 +1,5 @@
-require './lib/order.rb'
+require_relative 'order.rb'
+require './app'
 
 class OrderRepository
 
