@@ -1,5 +1,5 @@
-# require 'simplecov'
-# require 'simplecov-console'
+require 'simplecov'
+require 'simplecov-console'
 
 require_relative '../lib/database_connection'
 
@@ -7,12 +7,12 @@ require_relative '../lib/database_connection'
 # (its name should end with '_test')
 DatabaseConnection.connect('shop_manager_test')
 
-# SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-#   SimpleCov::Formatter::Console,
+SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
+  SimpleCov::Formatter::Console,
 #   # Want a nice code coverage website? Uncomment this next line!
 #   # SimpleCov::Formatter::HTMLFormatter
-# ])
-# SimpleCov.start
+])
+SimpleCov.start
 
 RSpec.configure do |config|
   config.after(:suite) do

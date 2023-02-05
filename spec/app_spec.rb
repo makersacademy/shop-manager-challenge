@@ -92,5 +92,8 @@ describe Application do
     expect(@io).to receive(:puts).with("New Order Created.").ordered
   end
 
-
+  it 'puts an invalid selection' do 
+    expect(@io).to receive(:gets).and_return("8")
+    expect(@io).to receive(:puts).with("That's not a valid option.")
+  end 
 end 
