@@ -18,8 +18,8 @@ customer | date | item_id
 
 TRUNCATE TABLE orders RESTART IDENTITY; 
 
-INSERT INTO orders (customer, date, item_id) VALUES ('Dai Jones', '30/01/2023', '1');
-INSERT INTO orders (customer, date, item_id) VALUES ('Bobby Price', '02/04/2023', '2');
+INSERT INTO orders (customer, date, item_id) VALUES ('Dai Jones', '01/30/2023', '1');
+INSERT INTO orders (customer, date, item_id) VALUES ('Bobby Price', '02/03/2023', '2');
 ```
 
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
