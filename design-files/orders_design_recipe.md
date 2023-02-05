@@ -120,7 +120,7 @@ orders[1].date # =>  '03/02/2023'
 orders[1].item_id # => '2'
 
 # 2
-# Create an item
+# Create an order
 
 repo = OrderRepository.new
 
