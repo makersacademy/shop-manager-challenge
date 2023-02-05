@@ -25,7 +25,11 @@ describe OrderRepository do
   it 'returns an array of information about each ordered item from an order, given the order id' do
     repo = OrderRepository.new
 
-    items_ordered = repo.view_order(1)
+    item_details = repo.view_order(1)[0]
+    items_ordered = repo.view_order(1)[1]
+
+    expect(item_details.customer_name).to eq 'Ryan Lai'
+    expect(item_details.order_date).to eq '12-07-2001'
 
     expect(items_ordered.length).to eq 2
     expect(items_ordered.first.item_name).to eq '叉烧包'
@@ -55,6 +59,56 @@ describe OrderRepository do
   it 'creates a new order in the orders table, allowing the user to add one item of specified quantity to the new order' do
     repo = OrderRepository.new
 
+    order = Order.new
+    order.customer_name = 'Usagi'
+    order.order_date = '12-12-2023'
     
+    item_ids = [5]
+    item_quantities = [5]
+
+    repo.create(order, item_ids, item_quantities)
+
+    new_order_details = repo.view_order(4)[0]
+
+    expect(order.customer_name).to eq 'Usagi'
+    expect(order.order_date).to eq '12-12-2023'
+
+    new_order_item = repo.view_order(4)[1][0]
+
+    expect(new_order_item.item_name).to eq 'Beef Teriyaki Burger'
+    expect(new_order_item.order_quantity).to eq '5'
+
   end
+
+  it 'creates a new order in the orders table, allowing the user to add multiple items of specified quantities to the new order' do
+    repo = OrderRepository.new
+
+    order = Order.new
+    order.customer_name = 'Usagi'
+    order.order_date = '12-12-2023'
+    
+    item_ids = [5, 4]
+    item_quantities = [5, 2]
+
+    repo.create(order, item_ids, item_quantities)
+
+    new_order_details = repo.view_order(4)[0]
+
+    expect(order.customer_name).to eq 'Usagi'
+    expect(order.order_date).to eq '12-12-2023'
+
+    new_order_item = repo.view_order(4)[1][0]
+
+    expect(new_order_item.item_name).to eq 'Asam Laksa'
+    expect(new_order_item.order_quantity).to eq '2'
+    expect(new_order_item.price).to eq '24'
+
+    new_order_item = repo.view_order(4)[1][1]
+
+    expect(new_order_item.item_name).to eq 'Beef Teriyaki Burger'
+    expect(new_order_item.order_quantity).to eq '5'
+    expect(new_order_item.price).to eq '200'
+
+  end
+
 end

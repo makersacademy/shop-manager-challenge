@@ -40,7 +40,8 @@ INSERT INTO orders (customer_name, order_date) VALUES('Ryan Lai', '12-07-2001');
 INSERT INTO orders (customer_name, order_date) VALUES('Emma Copsey', '28-09-2000');
 INSERT INTO orders (customer_name, order_date) VALUES('Alain Lai', '04-02-1971');
 
-INSERT INTO items_orders (item_id, order_id, order_quantity) VALUES(1, 1, 1);
+INSERT INTO items_orders (item_id, order_id, order_quantity) VALUES(1, 1, 2);
+INSERT INTO items_orders (item_id, order_id, order_quantity) VALUES(4, 1, 1);
 INSERT INTO items_orders (item_id, order_id, order_quantity) VALUES(2, 2, 1);
 INSERT INTO items_orders (item_id, order_id, order_quantity) VALUES(3, 3, 1);
 

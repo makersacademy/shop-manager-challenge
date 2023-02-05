@@ -15,6 +15,7 @@ class ItemRepository
     result_set.each{
       |record|
       item = Item.new
+      item.id = record['id']
       item.item_name = record['item_name']
       item.unit_price = record['unit_price']
       item.quantity = record['quantity']
