@@ -81,7 +81,7 @@ class OrderRepository
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, customer, date FROM orders;
+    # SELECT id, customer, date, item_id FROM orders;
     # Returns an array of Order objects.
   end
 
