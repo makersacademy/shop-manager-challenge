@@ -1,20 +1,68 @@
-Shop Manager Project
-=================
+# Shop Manager Challenge
 
-* Feel free to use Google, your notes, books, etc. but work on your own
-* If you refer to the solution of another coach or student, please put a link to that in your README
-* If you have a partial solution, **still check in a partial solution**
-* You must submit a pull request to this repo with your code next Monday morning
+This is a Ruby-based program to manage a shop's database, which is the 2nd solo project from Makers coding bootcamp.
 
-Challenge:
--------
+**Demo**
 
-Please start by [forking this repo](https://github.com/makersacademy/shop-manager-challenge/fork), then clone your fork to your local machine. Work into that directory.
+```
+Welcome to the shop management program!
 
-We are going to write a small terminal program allowing the user to manage a shop database containing some items and orders.
+What do you want to do?
+  1 = list all shop items
+  2 = create a new item
+  3 = update an item's price
+  4 = update stock of an item
+  5 = list all orders
+  6 = create a new order
 
-User stories:
--------
+1 [enter]
+
+Here's a list of all shop items:
+
+  1. Super Shark Vacuum Cleaner - Unit price: 99 - Quantity: 30
+  2. Makerspresso Coffee Machine - Unit price: 69 - Quantity: 15
+
+Do you want to continue the programme? (y/n)
+y
+
+(...)
+```
+
+**Features**
+
+This system is able to:
+
+- ✅ Provide an interactive interface in terminal
+- ✅ List out all items
+- ✅ List out all orders
+- ✅ Create a new item
+- ✅ Create a new order
+- ✅ Change an item's stock (add/remove)
+- ✅ Change an item's price
+
+## Table of Contents
+
+- [Shop Manager Challenge](#shop-manager-challenge)
+  - [Table of Contents](#table-of-contents)
+  - [📝 Phase 1: Requirements \& Planning](#-phase-1-requirements--planning)
+    - [User Stories](#user-stories)
+    - [🎯 Goals](#-goals)
+    - [Database Diagram](#database-diagram)
+  - [⚙️ Phase 2: Class \& Test design](#️-phase-2-class--test-design)
+    - [Classes](#classes)
+    - [Tests](#tests)
+  - [🎉 Phase 3: Getting Started](#-phase-3-getting-started)
+    - [Install gems](#install-gems)
+    - [Run tests](#run-tests)
+    - [Start the programme](#start-the-programme)
+  - [🪄 Dependencies](#-dependencies)
+  - [🎖️ Contributors](#️-contributors)
+
+## 📝 Phase 1: Requirements & Planning
+
+### User Stories
+
+These are given by Makers as a starting point of the challenge. Instruction details can be viewed from [this doc](doc/instructions.md).
 
 ```
 As a shop manager
@@ -39,56 +87,101 @@ I want to assign each order to their corresponding item.
 
 As a shop manager
 So I can know which orders were made
-I want to know on which date an order was placed. 
+I want to know on which date an order was placed.
 
 As a shop manager
 So I can manage orders
 I want to be able to create a new order.
-```
-
-Here's an example of the terminal output your program should generate (yours might be slightly different — that's totally OK):
 
 ```
-Welcome to the shop management program!
 
-What do you want to do?
-  1 = list all shop items
-  2 = create a new item
-  3 = list all orders
-  4 = create a new order
+---
 
-1 [enter]
+### 🎯 Goals
 
-Here's a list of all shop items:
+Here are the goals I'd like to achieve about this project:
 
- #1 Super Shark Vacuum Cleaner - Unit price: 99 - Quantity: 30
- #2 Makerspresso Coffee Machine - Unit price: 69 - Quantity: 15
- (...)
+- A well-structured interactive terminal interface
+- Order can handle multiple items instead of just one
+- 95%+ test coverage (by using `RSpec`)
+- Making good documentation of the programme
+
+---
+
+### Database Diagram
+
+Database planning is the key of this project as every class design will be based on this.
+
+A joint table `orders_items` is served as a bridge between `items` and `orders` tables to maintain the many-to-many relationship.
+
+![db-diagram](assets/db-diagram-sms-rev.png)
+
+**Seeds**
+
+All the seeds that were used for testing are put inside [this folder](seeds).
+
+## ⚙️ Phase 2: Class & Test design
+
+### Classes
+
+All class deisgns can be viewed in [this doc](doc/class-design.md).
+
+### Tests
+
+All test designs can be viewed in [this doc](doc/test-deisgn.md).
+
+## 🎉 Phase 3: Getting Started
+
+> Before running any commands, please make sure `Ruby` has been installed in your local environment. Otherwise, please follow the instructions on [Ruby offical website](https://www.ruby-lang.org/en/downloads/).
+
+### Install gems
+
+`Gemfile` is ready in this project. Details of each gem can be found [here](Gemfile). Just run the following command and everything you need to run this programme will be installed.
+
+```
+bundle
 ```
 
-Technical Approach:
------
+### Run tests
 
-In this unit, you integrated a database by using the `PG` gem, and test-driving and building Repository classes. You can continue to use this approach when building this challenge.
+`RSpec` is the testing library of this programmer. Runing the following commands to run the test(s).
 
-[You'll also need to mock IO](https://github.com/makersacademy/golden-square/blob/main/mocking_bites/05_unit_testing_terminal_io_bite.md) in your integration or unit tests, since the program will ask for user input.
+```sh
+# run all tests
+rspec
 
-Notes on test coverage
-----------------------
+# run a single test
+rspec spec/{FILE NAME}_spec.rb
+```
 
-Please ensure you have the following **AT THE TOP** of your spec_helper.rb in order to have test coverage stats generated
-on your pull request:
+A coverage report will be automatically generated under `./coverage` in HTML format.
+
+### Start the programme
+
+Open `app.rb` and scroll to the bottom. You have to uncomment the following codes and run `ruby app.rb` in terminal.
 
 ```ruby
-require 'simplecov'
-require 'simplecov-console'
 
-SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
-  SimpleCov::Formatter::Console,
-  # Want a nice code coverage website? Uncomment this next line!
-  # SimpleCov::Formatter::HTMLFormatter
-])
-SimpleCov.start
+# The lines below will be executed only while running 'ruby app.rb'
+if __FILE__ == $0
+  app = Application.new(
+    "shop_manager",
+    Kernel,
+    OrderRepository.new,
+    ItemRepository.new
+  )
+  app.run
+end
+
 ```
 
-You can see your test coverage when you run your tests. If you want this in a graphical form, uncomment the `HTMLFormatter` line and see what happens!
+## 🪄 Dependencies
+
+- Ruby ~3.0.2
+- pg ~1.3.5
+- rubocop ~1.2
+- RSpec ~3.1.0
+
+## 🎖️ Contributors
+
+- [@terryhycheng](https://github.com/terryhycheng/)
