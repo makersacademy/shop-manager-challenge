@@ -30,5 +30,23 @@ RSpec.describe OrderRepository do
     expect(orders[1].date).to eq('2023-02-03')
     expect(orders[1].item_id).to eq('2')
     end
+
+    it 'creates a new order' do
+      
+      repo = OrderRepository.new
+
+      order = Order.new
+      order.customer = 'Annalise Keating'
+      order.date = '02/05/2023'
+      order.item_id = '1'
+
+      repo.create(order)
+
+      order = repo.all
+      last_order = order.last
+      expect(last_order.customer).to eq('Annalise Keating')
+      expect(last_order.date).to eq('2023-02-05')
+      expect(last_order.item_id).to eq('1')
+    end
   end
 end  
