@@ -69,8 +69,8 @@ Remember to **always** have the primary key `id` as a first column. Its type wil
 Table: items
 id: SERIAL
 name: text
-unit_price: num
-quantity: num
+unit_price: int
+quantity: int
 
 Table: orders
 id: SERIAL
@@ -119,8 +119,8 @@ Replace the relevant bits in this example with your own:
 CREATE TABLE items (
   id SERIAL PRIMARY KEY,
   name text,
-  unit_price num,
-  quantity num
+  unit_price int,
+  quantity int
 );
 
 -- Then the table with the foreign key.
