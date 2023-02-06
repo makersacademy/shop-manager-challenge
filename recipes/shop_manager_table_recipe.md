@@ -135,5 +135,5 @@ CREATE TABLE items_orders (
 ## 5. Create the tables.
 
 ```bash
-psql -h 127.0.0.1 database_name < shop_manager.sql
+psql -h 127.0.0.1 shop_manager < ./seeds/shop_manager.sql
 ```
