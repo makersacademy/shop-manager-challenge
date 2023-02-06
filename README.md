@@ -47,8 +47,8 @@ bundle
 To run the program, open `app.rb` and uncomment the following lines of code before running `ruby app.rb` in your terminal.
 
 ```
+```
 ```ruby
-# the below will be executed when running 'ruby app.rb'
 if __FILE__ == $0
    app = Application.new(
     'shop_manager',
