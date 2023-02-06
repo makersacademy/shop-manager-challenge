@@ -1,9 +1,6 @@
 Shop Manager Project
 =================
 
-Challenge:
--------
-
 A challenge by Makers Academy, [forked from this repo](https://github.com/makersacademy/shop-manager-challenge/fork).
 
 This challenge involves writing a small terminal program that allows the user to manage a shop database containing some items and orders.
