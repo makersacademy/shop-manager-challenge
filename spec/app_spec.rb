@@ -16,7 +16,7 @@ RSpec.describe Application do
     @item_repo = double :item_repo, all:[@item]
     @order = double :order, id:1, customer_name:'customer_1', date:'2023-01-10 14:10:05', item_id:1
     @order_repo = double :order_repo, all:[@order]
-    @app = Application.new('shop_manager',@io,@item_repo,@order_repo)
+    @app = Application.new('shop_manager_test',@io,@item_repo,@order_repo)
 
     expect(@io).to receive(:puts).with("Welcome to the shop manager program!")
     expect(@io).to receive(:puts).with("What do you want to do?")
@@ -60,5 +60,16 @@ RSpec.describe Application do
     expect(@io).to receive(:gets).and_return("1")
     expect(@io).to receive(:puts).with("New order: customer name customer_4 - date " + Time.now.strftime("%Y-%m-%d %H:%M:%S") + " - item_id 1")
     @app.run
+  end
+
+  it "raises error when user input is not a number between 1-4" do
+    expect(@io).to receive(:gets).and_return('invalid')
+    expect(@io).to receive(:puts).with("Invalid input. Please enter a number from 1-4 or 'Q' to exit the program")
+    @app.run
+  end
+
+  it "exits the program when the user enters 'Q'" do
+    expect(@io).to receive(:gets).and_return('Q')
+    expect { @app.run }.to raise_error SystemExit
   end
 end
