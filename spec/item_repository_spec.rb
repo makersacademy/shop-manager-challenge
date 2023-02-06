@@ -45,4 +45,22 @@ RSpec.describe ItemRepository do
     expect(item.unit_price.to_i).to eq 2
     expect(item.quantity.to_i).to eq 100
   end
+
+  it "creates a new item" do
+    repo = ItemRepository.new
+  
+    new_item = Item.new
+    new_item.name = 'bread'
+    new_item.unit_price = 2
+    new_item.quantity = 120
+  
+    repo.create(new_item)
+  
+    items = repo.all
+  
+    expect(items.last.id.to_i).to eq 3
+    expect(items.last.name).to eq 'bread'
+    expect(items.last.unit_price.to_i).to eq 2
+    expect(items.last.quantity.to_i).to eq 120
+  end
 end
