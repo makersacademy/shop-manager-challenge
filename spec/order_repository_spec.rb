@@ -97,13 +97,13 @@ describe OrderRepository do
     expect(order.customer_name).to eq 'Usagi'
     expect(order.order_date).to eq '12-12-2023'
 
-    new_order_item = repo.view_order(4)[1][0]
+    new_order_item = repo.view_order(4)[1][1]
 
     expect(new_order_item.item_name).to eq 'Asam Laksa'
     expect(new_order_item.order_quantity).to eq '2'
     expect(new_order_item.price).to eq '24'
 
-    new_order_item = repo.view_order(4)[1][1]
+    new_order_item = repo.view_order(4)[1][0]
 
     expect(new_order_item.item_name).to eq 'Beef Teriyaki Burger'
     expect(new_order_item.order_quantity).to eq '5'
