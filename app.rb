@@ -148,9 +148,23 @@ class Application
     @io.puts "Please type the ID of an item that was ordered:"
 
     while true
-      item_id = @io.gets.chomp
-      @io.puts "How many units of this item would you like to order?"
-      item_quantity = @io.gets.chomp
+
+      while true 
+        item_id = @io.gets.chomp
+        @io.puts "How many units of this item would you like to order?"
+        item_quantity = @io.gets.chomp
+        quantity_in_stock = @item_repository.find(item_id).quantity
+        if quantity_in_stock >= item_quantity
+          break
+        else
+          @io.puts "There are not enough of this item left in stock..."
+          sleep(1)
+          @io.puts "Please try again."
+          sleep(1)
+          @io.puts "Please type the ID of an item that was ordered:"
+        end
+      end
+      
       item_ids.push(item_id)
       item_quantities.push(item_quantity)
 
@@ -171,6 +185,10 @@ class Application
 
     @order_repository.create(order_details, item_ids, item_quantities)
     @io.puts "Order successfully created."
+  end
+
+  def not_enough_stock?
+
   end
 
 end
