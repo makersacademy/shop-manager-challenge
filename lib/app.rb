@@ -57,6 +57,11 @@ class Application
 
       new_entry.create(new_order)
       @io.puts "New order: customer name #{new_order.customer_name} - date #{new_order.date} - item_id #{new_order.item_id}"
+    
+    elsif input == 'Q'
+      break
+    else
+      @io.puts "Invalid input. Please enter a number from 1-4 or 'Q' to exit the program"
     end
   end
   end
