@@ -69,8 +69,8 @@ The program also mocks IO in the integration & unit tests, since the program ask
 Notes on test coverage
 ----------------------
 
-The following is located **AT THE TOP** of your spec_helper.rb in order to have test coverage stats generated
-on my pull request to Makers Academy:
+The following is located **AT THE TOP** of the spec_helper.rb in order to have test coverage stats generated
+when I submitted a pull request to Makers Academy:
 
 ```ruby
 require 'simplecov'
