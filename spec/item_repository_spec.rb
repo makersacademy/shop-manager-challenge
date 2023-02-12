@@ -11,38 +11,33 @@ describe ItemRepository do
     reset_items_table
   end
 
-  # (your tests will go here).
+  it "#all returns all items" do
+    repo = ItemRepository.new
+    items = repo.all
+
+    expect(items.length).to eq 2
+    expect(items[0].id).to eq 1
+    expect(items[0].name).to eq 'Bread'
+    expect(items[0].unit_price).to eq '1.00'
+    expect(items[0].quantity).to eq '20'
+
+    expect(items[1].id).to eq 2
+    expect(items[1].name).to eq 'Ham'
+    expect(items[1].unit_price).to eq '3.00'
+    expect(items[1].quantity).to eq '30'
+  end
+
+  it "#find returns a single item" do
+    repo = ItemRepository.new
+    items = repo.find(1)
+
+    expect(items.id).to eq 1
+    expect(items.name).to eq 'Bread'
+    expect(items.unit_price).to eq '1.00'
+    expect(items.quantity).to eq '20'
+  end
+
 end
-
-# # EXAMPLES
-
-# # 1
-# # Get all items
-# repo = ItemRepository.new
-# items = repo.all
-
-# items.length # =>  2
-# items[0].id # =>  1
-# items[0].name # =>  'Bread'
-# items[0].unit_price # =>  '1.00'
-# items[0].quantity # =>  '20'
-
-# items[1].id # =>  2
-# items[1].name # =>  'Ham'
-# items[1].unit_price # =>  '3.00'
-# items[1].quantity # =>  '30'
-
-
-# # 2
-# # Get a single item
-# repo = ItemRepository.new
-# items = repo.find(1)
-
-# items.id # =>  1
-# items.name # =>  'Bread'
-# items.unit_price # =>  '1.00'
-# items.quantity # =>  '20'
-
 
 # # 3 
 # # Create a new item
@@ -58,7 +53,6 @@ end
 # item.length # =>  3
 # repo.all.last.name # => 'Jam'
 
-
 # # 4
 # # Delete an item
 # repo = ItemRepository.new
@@ -67,7 +61,6 @@ end
 
 # repo.all # => 1
 # repo.all.first.id # => 2
-
 
 # # 5
 # # Update an item 

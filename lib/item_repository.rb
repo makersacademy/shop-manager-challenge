@@ -1,21 +1,37 @@
+require "item"
+
 class ItemRepository
 
-  # Selecting all records
-  # No arguments
   def all
-    # Executes the SQL query:
-    # SELECT id, name, unit_price, quantity FROM items;
+    sql = 'SELECT id, name, unit_price, quantity FROM items;'
+    result_set = DatabaseConnection.exec_params(sql,[])
 
-    # Returns an array of Items objects.
+    items = []
+    result_set.each do |smth|
+      item = Item.new
+      item.id = smth['id'].to_i
+      item.name = smth['name']
+      item.unit_price = smth['unit_price']
+      item.quantity = smth['quantity']
+      items << item
+    end
+
+    return items
   end
 
-  # Gets a single item by its ID
-  # One argument: the id (number)
   def find(id)
-    # Executes the SQL query:
-    # SELECT id, name, unit_price, quantity FROM items WHERE id = $1;
+    sql = 'SELECT id, name, unit_price, quantity FROM items WHERE id = $1;'
+    params = [id]
+    result_set = DatabaseConnection.exec_params(sql,params)[0]
 
-    # Returns a single Item object.
+    item = Item.new
+    item.id = result_set['id'].to_i
+    item.name = result_set['name']
+    item.unit_price = result_set['unit_price']
+    item.quantity = result_set['quantity']
+
+    return item
+
   end
 
   def create(item)

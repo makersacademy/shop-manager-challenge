@@ -14,8 +14,6 @@ describe OrderRepository do
   # (your tests will go here).
 end
 
-
-
 # EXAMPLES
 
 # # 1
@@ -34,7 +32,6 @@ end
 # orders[1].order_date # =>  '2023-02-12'
 # orders[1].item_id # =>  '2'
 
-
 # # 2
 # # Get a single order
 # repo = OrderRepository.new
@@ -44,7 +41,6 @@ end
 # order.customer_name # =>  'Amber'
 # order.order_date # =>  '2023-02-13'
 # order.item_id # =>  '1'
-
 
 # # 3 
 # # Create a new order
@@ -60,7 +56,6 @@ end
 # order.length # => 3
 # repo.all.last.customer_name # => 'Mark'
 
-
 # # 4
 # # Delete an order
 # repo = OrderRepository.new
@@ -69,7 +64,6 @@ end
 
 # repo.all # => 1
 # repo.all.first.id # => 2
-
 
 # # 5
 # # Update an order 

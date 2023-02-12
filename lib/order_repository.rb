@@ -1,3 +1,5 @@
+require "order"
+
 class OrderRepository
 
   # Selecting all records
