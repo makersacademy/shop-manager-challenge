@@ -5,7 +5,6 @@ class ItemRepository
   def all
     sql = 'SELECT id, name, unit_price, quantity FROM items;'
     result_set = DatabaseConnection.exec_params(sql,[])
-
     items = []
     result_set.each do |smth|
       item = Item.new
@@ -15,7 +14,6 @@ class ItemRepository
       item.quantity = smth['quantity']
       items << item
     end
-
     return items
   end
 
@@ -46,7 +44,6 @@ class ItemRepository
     sql = 'DELETE FROM items WHERE id = $1;'
     params = [id]
     DatabaseConnection.exec_params(sql,params)
-
   end
 
   def update(item)
