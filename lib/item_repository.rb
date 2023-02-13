@@ -35,21 +35,25 @@ class ItemRepository
   end
 
   def create(item)
-    # Executes the SQL query:
-    # INSERT INTO items (name, unit_price, quantity) VALUES ($1, $2, $3);
-
-    # creates an item object and doesn't return anything
+    sql = 'INSERT INTO items (name, unit_price, quantity) VALUES ($1, $2, $3);'
+    params = [item.name,item.unit_price,item.quantity]
+    DatabaseConnection.exec_params(sql,params)
+    
+    return nil
   end
 
   def delete(id)
-    # Executes the SQL query:
-    # DELETE FROM items WHERE id = $1;
+    sql = 'DELETE FROM items WHERE id = $1;'
+    params = [id]
+    DatabaseConnection.exec_params(sql,params)
 
-    # deletes an item
   end
 
   def update(item)
-    # Executes the SQL query:
-    # UPDATE items SET name = $1, unit_price = $2, quantity = $3 WHERE id = $4;
+    sql = 'UPDATE items SET name = $1, unit_price = $2, quantity = $3 WHERE id = $4;'
+    params = [item.name, item.unit_price, item.quantity, item.id]
+    DatabaseConnection.exec_params(sql, params)
+
+    return nil
   end
 end
