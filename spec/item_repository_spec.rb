@@ -29,7 +29,7 @@ describe ItemRepository do
 
   it "#find returns a single item" do
     repo = ItemRepository.new
-    items = repo.find_item(1)
+    items = repo.find(1)
 
     expect(items.id).to eq 1
     expect(items.name).to eq 'Bread'
@@ -45,7 +45,7 @@ describe ItemRepository do
     item.unit_price = '1.50'
     item.quantity = '25'
 
-    repo.create_item(item)
+    repo.create(item)
 
     expect(repo.all.length).to eq 3
     expect(repo.all.last.name).to eq 'Jam'
@@ -53,8 +53,8 @@ describe ItemRepository do
 
   it "#delete an item" do
     repo = ItemRepository.new
-    item = repo.find_item(1)
-    repo.delete_item(item.id)
+    item = repo.find(1)
+    repo.delete(item.id)
 
     expect(repo.all.length).to eq 1
     expect(repo.all.first.id).to eq 2
@@ -62,8 +62,8 @@ describe ItemRepository do
 
   it "#delete raises and error if there are no items to delete" do
     repo = ItemRepository.new
-    item = repo.find_item(1)
-    repo.delete_item(item.id)
+    item = repo.find(1)
+    repo.delete(item.id)
 
     expect(repo.all.length).to eq 1
     expect(repo.all.first.id).to eq 2
@@ -71,15 +71,15 @@ describe ItemRepository do
 
   it "#update an item" do
     repo = ItemRepository.new
-    item = repo.find_item(1)
+    item = repo.find(1)
 
     item.name = 'Bagle'
     item.unit_price = '1.50'
     item.quantity = '25'
 
-    repo.update_item(item)
+    repo.update(item)
 
-    updated_item = repo.find_item(1)
+    updated_item = repo.find(1)
     expect(updated_item.name).to eq 'Bagle'
     expect(updated_item.unit_price).to eq '1.50'
     expect(updated_item.quantity).to eq '25'
