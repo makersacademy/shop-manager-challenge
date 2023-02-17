@@ -4,17 +4,7 @@ class OrderRepository
   def all
     sql_query = 'SELECT id, customer_name, order_date, item_id FROM orders;'
     result_set = DatabaseConnection.exec_params(sql_query,[])
-    orders = []
-    result_set.each do |ord|
-      order = Order.new
-      order.id = ord['id'].to_i
-      order.customer_name = ord['customer_name']
-      order.order_date = ord['order_date']
-      order.item_id = ord['item_id']
-      orders << order
-    end
-
-    return orders
+    result_set.map { |record| record_to_order(record) }
   end
 
   def find(id)
@@ -47,5 +37,16 @@ class OrderRepository
     sql_query = 'UPDATE orders SET customer_name = $1, order_date = $2, item_id = $3 WHERE id = $4;'
     params = [order.customer_name, order.order_date, order.item_id, order.id]
     DatabaseConnection.exec_params(sql_query,params)
+  end
+
+  private
+
+  def record_to_order(record)
+    order = Order.new
+    order.id = record['id'].to_i
+    order.customer_name = record['customer_name']
+    order.order_date = record['order_date']
+    order.item_id = record['item_id']
+    return order
   end
 end

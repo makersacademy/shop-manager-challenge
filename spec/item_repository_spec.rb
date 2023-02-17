@@ -1,14 +1,14 @@
-require "item_repository"
+require_relative "../lib/item_repository"
 
-def reset_items_table
+def reset_shop_table
   seed_sql = File.read('spec/seeds_shop.sql')
   connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_test' })
   connection.exec(seed_sql)
 end
 
-describe ItemRepository do
+RSpec.describe ItemRepository do
   before(:each) do 
-    reset_items_table
+    reset_shop_table
   end
 
   it "#all returns all items" do

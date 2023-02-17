@@ -1,14 +1,14 @@
 require_relative "../lib/order_repository"
 
-def reset_orders_table
+def reset_shop_table
   seed_sql = File.read('spec/seeds_shop.sql')
   connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_test' })
   connection.exec(seed_sql)
 end
 
-describe OrderRepository do
+RSpec.describe OrderRepository do
   before(:each) do 
-    reset_orders_table
+    reset_shop_table
   end
 
   it "#all returns all orders" do
@@ -37,8 +37,7 @@ describe OrderRepository do
     expect(order.item_id).to eq '1'
   end
 
-
-  it "creates a new order" do
+  it "#create a new order" do
     repo = OrderRepository.new
     order = Order.new
     order.id = 3
@@ -51,7 +50,7 @@ describe OrderRepository do
     expect(repo.all.last.customer_name).to eq 'Mark'
   end
 
-  it "deletes an order" do
+  it "#delete an order" do
     repo = OrderRepository.new
     order = repo.find(1)
     repo.delete(order.id)
@@ -60,7 +59,7 @@ describe OrderRepository do
     expect(repo.all.first.id).to eq 2
   end
 
-  it "updates an order" do
+  it "#update an order" do
     repo = OrderRepository.new
     order = repo.find(1)
 
