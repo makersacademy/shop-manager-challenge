@@ -37,28 +37,14 @@ I want to be able to create a new order.
 
 # 2. Installation
 
-_Clone this repo and run the following commands in your terminal_
+_Clone this repo and run the following command in your terminal. Ensure you have installed Ruby first._
 
 ```
-# make sure you have first installed Ruby
 bundle
 ```
 
 To run the program, open `app.rb` and uncomment the following lines of code before running `ruby app.rb` in your terminal.
 
-```
-```
-```ruby
-if __FILE__ == $0
-   app = Application.new(
-    'shop_manager',
-     Kernel,
-     ItemRepository.new,
-     OrderRepository.new
-   )
-   app.run
-end
-```
 
 ## Technologies used
 
