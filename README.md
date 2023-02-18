@@ -43,7 +43,7 @@ _Clone this repo and run the following command in your terminal. Ensure you have
 bundle
 ```
 
-To run the program, open `app.rb` and uncomment the following lines of code before running `ruby app.rb` in your terminal.
+To run the program, open `app.rb` and run `ruby app.rb` in your terminal.
 
 
 ## Technologies used
