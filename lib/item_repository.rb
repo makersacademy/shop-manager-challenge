@@ -6,7 +6,7 @@ class ItemRepository
     sql_query = 'SELECT id, name, unit_price, quantity FROM items;'
     result_set = DatabaseConnection.exec_params(sql_query,[])
     result_set.map { |record| record_to_item(record) }
-    
+
     # items = []
     # result_set.each do |record|
     #   item = Item.new
@@ -31,7 +31,6 @@ class ItemRepository
     item.quantity = result_set['quantity']
 
     return item
-
   end
 
   def create(item)
