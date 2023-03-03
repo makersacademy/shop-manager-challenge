@@ -168,19 +168,19 @@ items[1].quantity # =>  '1'
 repo = ItemsRepository.new
 
 item = Items.new
-item.item_name = "jamespates4"
-item.price = "What I had for supper"
-item.quantity = "false"
+item.item_name = "Oranges"
+item.price = "2.01"
+item.quantity = "5"
 
 repo.create(item)
 
 items = repo.all
 
 last_item = items.last
-last_item.item_name # => "jamespates4"
-last_item.price # => "What I had for supper"
-last_item.quantity # => "false"
-
+item.item_name # => "Oranges"
+item.price # => "2.01"
+item.quantity # => "5"
+  
 ```
 
 Encode this example as a test.

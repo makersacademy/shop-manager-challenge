@@ -30,7 +30,7 @@ describe OrdersRepository do
     expect(orders[1].item_id).to eq ('1')
   end
 
-  it "creates a new order item" do
+  it "Creates a new order item" do
     repo = OrdersRepository.new
 
     order = Orders.new

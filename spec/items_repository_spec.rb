@@ -32,17 +32,17 @@ describe ItemsRepository do
     repo = ItemsRepository.new
 
     item = Items.new
-    item.item_name = "jamespates4"
-    item.price = "What I had for supper"
-    item.quantity = "false"
+    item.item_name = "Oranges"
+    item.price = "2.01"
+    item.quantity = "5"
 
     repo.create(item)
 
     items = repo.all
 
     last_item = items.last
-    expect(last_item.item_name).to eq ("jamespates4")
-    expect(last_item.price).to eq ("What I had for supper")
-    expect(last_item.quantity).to eq ("false")
+    expect(last_item.item_name).to eq ("Oranges")
+    expect(last_item.price).to eq ("2.01")
+    expect(last_item.quantity).to eq ("5")
   end
 end
