@@ -27,4 +27,22 @@ describe ItemsRepository do
     expect(items[1].price).to eq  ('0.45')
     expect(items[1].quantity).to eq  ('1')
   end
+
+  it "Creates an item object" do
+    repo = ItemsRepository.new
+
+    item = Items.new
+    item.item_name = "jamespates4"
+    item.price = "What I had for supper"
+    item.quantity = "false"
+
+    repo.create(item)
+
+    items = repo.all
+
+    last_item = items.last
+    expect(last_item.item_name).to eq ("jamespates4")
+    expect(last_item.price).to eq ("What I had for supper")
+    expect(last_item.quantity).to eq ("false")
+  end
 end
