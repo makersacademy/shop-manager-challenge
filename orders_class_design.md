@@ -178,7 +178,6 @@ last_order.customer_name # => "Ann Pates"
 last_order.order_date # => '2023-02-03'
 last_order.item_id # => "2"
 
-
 ```
 
 Encode this example as a test.
