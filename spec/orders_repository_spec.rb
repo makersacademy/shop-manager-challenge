@@ -17,16 +17,17 @@ describe OrdersRepository do
 
     orders = repo.all
 
-    orders.length # =>  2
+    expect(orders.length).to eq 2
 
-    expect(orders[0].id).to eq (1)
-    expect(orders[0].customer_name).to eq ('james pates')
+    expect(orders[0].id).to eq ('1')
+    expect(orders[0].customer_name).to eq ('jamespates')
     expect(orders[0].order_date).to eq ('2023-03-03')
     expect(orders[0].item_id).to eq ('1')
 
-    expect(orders[1].id).to eq (1)
-    expect(orders[1].customer_name).to eq ('james pates')
+    expect(orders[1].id).to eq ('2')
+    expect(orders[1].customer_name).to eq ('jamespates')
     expect(orders[1].order_date).to eq ('2023-03-01')
     expect(orders[1].item_id).to eq ('1')
   end
+
 end

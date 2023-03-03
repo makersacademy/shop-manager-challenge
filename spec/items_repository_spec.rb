@@ -10,3 +10,5 @@ describe ItemsRepository do
   before(:each) do 
     reset_items_table
   end
+
+end
