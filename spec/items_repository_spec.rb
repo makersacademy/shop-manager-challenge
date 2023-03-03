@@ -18,13 +18,13 @@ describe ItemsRepository do
     expect(items.length).to eq  2
 
     expect(items[0].id).to eq  ('1')
-    expect(items[0].item_name).to eq  ('Apples ')
+    expect(items[0].item_name).to eq  ('Apples')
     expect(items[0].price).to eq  ('0.99')
     expect(items[0].quantity).to eq  ('2')
 
     expect(items[1].id).to eq  ('2')
     expect(items[1].item_name).to eq  ('Pears')
-    expect(items[1].price).to eq  ('May 2022')
-    expect(items[1].quantity).to eq  ('April 2022')
+    expect(items[1].price).to eq  ('0.45')
+    expect(items[1].quantity).to eq  ('1')
   end
 end

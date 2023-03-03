@@ -158,8 +158,8 @@ items[0].quantity # =>  '2'
 
 items[1].id # =>  2
 items[1].item_name # =>  'Pears'
-items[1].price # =>  'May 2022'
-items[1].quantity # =>  'April 2022'
+items[1].price # =>  '0.45'
+items[1].quantity # =>  '1'
 
 
 # 2
