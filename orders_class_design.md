@@ -8,15 +8,13 @@ If the table is already created in the database, you can skip this step.
 
 Otherwise, [follow this recipe to design and create the SQL schema for your table](./single_table_design_recipe_template.md).
 
-*In this template, we'll use an example table `students`*
-
 ```
 # EXAMPLE
 
-Table: items
+Table: orders
 
 Columns:
-id | item_name | price | quantity | order_id
+id | customer_name | order_date |
 ```
 
 ## 2. Create Test SQL seeds
@@ -61,16 +59,16 @@ Usually, the Model class name will be the capitalised table name (single instead
 
 ```ruby
 # EXAMPLE
-# Table name: items
+# Table name: orders
 
 # Model class
-# (in lib/item.rb)
-class Item
+# (in lib/orders.rb)
+class Orders
 end
 
 # Repository class
-# (in lib/student_repository.rb)
-class ItemsRepository
+# (in lib/order_repository.rb)
+class OrdersRepository
 end
 ```
 
@@ -80,25 +78,24 @@ Define the attributes of your Model class. You can usually map the table columns
 
 ```ruby
 # EXAMPLE
-# Table name: items
+# Table name: orders
 
 # Model class
-# (in lib/items.rb)
+# (in lib/order.rb)
 
-class Items
+class Orders
 
   # Replace the attributes by your own columns.
-  attr_accessor :id, :item_name, :price, :quantity
+  attr_accessor :id, :customer_name, :order_date, :item_id
 end
 
 # The keyword attr_accessor is a special Ruby feature
 # which allows us to set and get attributes on an object,
 # here's an example:
 #
-# item = Item.new
-# item.item_name = 'Oranges'
-# item.price = '2.30'
-# item.quantity = '30'
+# order = Order.new
+# order.customer_name = 'Ann Pates'
+# order.order_date = '2023-02-28'
 ```
 
 *You may choose to test-drive this class, but unless it contains any more logic than the example above, it is probably not needed.*
@@ -111,23 +108,23 @@ Using comments, define the method signatures (arguments and return value) and wh
 
 ```ruby
 # EXAMPLE
-# Table name: items
+# Table name: orders
 
 # Repository class
-# (in lib/items_repository.rb)
+# (in lib/orders_repository.rb)
 
-class ItemsRepository
+class OrdersRepository
 
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, item_name, price, quantity FROM items;
+    # SELECT id, customer_name, order_date, item_id FROM orders;
   end
 
-  def create(item)
+  def create(order)
     #executes the sql query
-    #INSERT INTO items (item_name, price, quantity) VALUES ($1, $2, $3)
+    #INSERT INTO orders (customer_name, order_date, item_id) VALUES ($1, $2, $3)
     #returns nil
   end
 end
@@ -143,43 +140,44 @@ These examples will later be encoded as RSpec tests.
 # EXAMPLES
 
 # 1
-# Get all items
+# Get all Orders
 
-repo = ItemsRepository.new
+repo = OrdersRepository.new
 
-items = repo.all
+orders = repo.all
 
-items.length # =>  2
+orders.length # =>  2
 
-items[0].id # =>  1
-items[0].item_name # =>  'Apples '
-items[0].price # =>  '0.99'
-items[0].quantity # =>  '2'
+orders[0].id # =>  1
+orders[0].customer_name # =>  'james pates'
+orders[0].order_date # =>  '2023-03-03'
+orders[0].item_id # =>  '1'
 
-items[1].id # =>  2
-items[1].item_name # =>  'Pears'
-items[1].price # =>  'May 2022'
-items[1].quantity # =>  'April 2022'
-
+orders[1].id # =>  1
+orders[1].customer_name # =>  'james pates'
+orders[1].order_date # =>  '2023-03-01'
+orders[1].item_id # =>  '1'
 
 # 2
-# Creates a single item object
+# Creates a single order object
 
-repo = ItemsRepository.new
+repo = OrdersRepository.new
 
-item = Items.new
-item.item_name = "jamespates4"
-item.price = "What I had for supper"
-item.quantity = "false"
+order = Orders.new
+orders.customer_name = 'Ann Pates'
+orders.order_date = '2023-02-03'
+orders.item_id = '2'
 
-repo.create(item)
 
-items = repo.all
+repo.create(order)
 
-last_item = items.last
-last_item.item_name # => "jamespates4"
-last_item.price # => "What I had for supper"
-last_item.quantity # => "false"
+orders = repo.all
+
+last_order = orders.last
+last_order.customer_name # => "Ann Pates"
+last_order.order_date # => '2023-02-03'
+last_order.item_id # => "2"
+
 
 ```
 
@@ -202,7 +200,7 @@ def reset_items_table
   connection.exec(seed_sql)
 end
 
-describe ItemsRepository do
+describe ItemRepository do
   before(:each) do 
     reset_items_table
   end

@@ -96,14 +96,14 @@ You'll then be able to say that:
 Replace the relevant bits in this example with your own:
 
 ```
-1. Can one order have many items? YES
-2. Can one item have many orders? NO
+1. Can one item have many orders? YES
+2. Can one order have many items? NO
 
 -> Therefore,
--> An order HAS MANY items
--> An item BELONGS TO an order
+-> An item HAS MANY orders
+-> An order BELONGS TO an item
 
--> Therefore, the foreign key is on the items table.
+-> Therefore, the foreign key is on the orders table.
 ```
 
 *If you can answer YES to the two questions, you'll probably have to implement a Many-to-Many relationship, which is more complex and needs a third table (called a join table).*
@@ -117,22 +117,22 @@ Replace the relevant bits in this example with your own:
 -- Replace the table name, columm names and types.
 
 -- Create the table without the foreign key first.
-CREATE TABLE orders (
-  id SERIAL PRIMARY KEY,
-  customer_name text,
-  order_date date
-);
-
--- Then the table with the foreign key.
 CREATE TABLE items (
   id SERIAL PRIMARY KEY,
   item_name text,
   price numeric,
-  quantity int,
--- The foreign key name is always {order}_id
-  order_id int,
-  constraint fk_order foreign key(order_id)
-    references orders(id)
+  quantity int
+);
+
+-- Then the table with the foreign key.
+CREATE TABLE orders (
+  id SERIAL PRIMARY KEY,
+  customer_name text,
+  order_date date,
+-- The foreign key name is always {item}_id
+  item_id int,
+  constraint fk_item foreign key(item_id)
+    references items(id)
     on delete cascade
 );
 
