@@ -29,6 +29,4 @@ class OrdersRepository
     params = [order.customer_name, order.order_date, order.item_id]
     DatabaseConnection.exec_params(sql, params)
   end
-
-
 end
