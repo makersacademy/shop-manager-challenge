@@ -30,4 +30,21 @@ describe OrdersRepository do
     expect(orders[1].item_id).to eq ('1')
   end
 
+  it "creates a new order item" do
+    repo = OrdersRepository.new
+
+    order = Orders.new
+    order.customer_name = 'Ann Pates'
+    order.order_date = '2023-02-03'
+    order.item_id = '2'
+    
+    repo.create(order)
+    
+    orders = repo.all
+    
+    last_order = orders.last
+    last_order.customer_name # => "Ann Pates"
+    last_order.order_date # => '2023-02-03'
+    last_order.item_id # => "2"
+  end
 end
