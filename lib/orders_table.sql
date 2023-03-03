@@ -13,7 +13,8 @@ CREATE TABLE items (
   id SERIAL PRIMARY KEY,
   name TEXT,
   price FLOAT,
-  order_id int,
+  quantity INT,
+  order_id INT,
   constraint fk_order foreign key(order_id)
     references orders(id)
     on delete cascade

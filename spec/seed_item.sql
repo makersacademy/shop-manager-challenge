@@ -1,4 +1,4 @@
-TRUNCATE TABLE items, items_orders RESTART IDENTITY;
+TRUNCATE TABLE items RESTART IDENTITY;
 
 INSERT INTO items (name, price, quantity) VALUES ('item1', 66.50, 70);
 
