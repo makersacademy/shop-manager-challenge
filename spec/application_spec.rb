@@ -30,4 +30,14 @@ RSpec.describe Application do
     app.choose_option
   end
 
+ it "gets a list of shop orders when user selelects option 3" do
+    order1 = instance_double("Order", id: 1, customer_name: "James Pates", order_date: "2023-03-02", item_id: "1")
+    order2 = instance_double("Order", id: 2, customer_name: "Ann Pates", order_date: "2023-03-01", item_id: "2")
+    allow(order_repo).to receive(:all).and_return([order1, order2])
+    allow(io).to receive(:puts)
+    expect(io).to receive(:gets).and_return("2\n") # stub gets method to return "1\n"
+    expect(io).to receive(:puts).with("1 - James Pates - 2023-03-02 - 1")
+    expect(io).to receive(:puts).with("2 - Ann Pates - 2023-03-01 - 2")
+    app.choose_option
+  end
 end
