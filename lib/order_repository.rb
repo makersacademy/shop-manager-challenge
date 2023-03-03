@@ -16,7 +16,9 @@ class OrderRepository
     orders
   end
 
-  def create
-
+  def create(order)
+    sql = 'INSERT INTO orders (customer, date) VALUES ($1, $2)'
+    params = [order.customer, order.date]
+    DatabaseConnection.exec_params(sql, params)
   end
 end
