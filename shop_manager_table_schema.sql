@@ -128,7 +128,7 @@ CREATE TABLE items (
   id SERIAL PRIMARY KEY,
   item_name text,
   price numeric,
-  quantity int
+  quantity int,
 -- The foreign key name is always {order}_id
   order_id int,
   constraint fk_order foreign key(order_id)
