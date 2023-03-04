@@ -12,7 +12,7 @@ class OrderRepository
       order.id = record['id'].to_i
       order.customer = record['customer']
       order.date = record['date']
-      order.item_id = record['item_id']
+      order.item_id = record['item_id'].to_i
       orders << order
     end
     orders
