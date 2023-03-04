@@ -35,8 +35,8 @@ Nouns:
 items, name, price, quantity, 
 orders, item, date,customer_name
 
-Verbs: create (new item)(new order)
-Keep list (of orders)
+Verbs: create (insert a new item)(insert a new order)
+Keep list (Select items and orders)
 
 2. Infer the Table Name and Columns
 Put the different nouns in this table. Replace the example with your own nouns.

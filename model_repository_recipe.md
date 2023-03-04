@@ -19,96 +19,167 @@ If seed data is provided (or you already created it), you can skip this step.
 -- so we can start with a fresh state.
 -- (RESTART IDENTITY resets the primary key)
 
-TRUNCATE TABLE items RESTART IDENTITY; 
-TRUNCATE TABLE orders RESTART IDENTITY;
+# TRUNCATE TABLE items RESTART IDENTITY; 
+# TRUNCATE TABLE orders RESTART IDENTITY;
 
 -- Below this line there should only be `INSERT` statements.
 -- Replace these statements with your own seed data.
 
-INSERT INTO items (name, price, quantity) VALUES ('Carbonara', 10, 2);
-INSERT INTO orders (date, customer_name, item_id) VALUES (05/02/2023, 'Paolo', 1);
+# INSERT INTO items (name, price, quantity) VALUES ('Carbonara', 10, 2);
+# INSERT INTO orders (date, customer_name, item_id) VALUES (05/02/2023, 'Paolo', 1);
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
 
 psql -h 127.0.0.1 shop_manager_test < spec/test_seeds.sql
 3. Define the class names
 Usually, the Model class name will be the capitalised table name (single instead of plural). The same name is then suffixed by Repository for the Repository class name.
 
-# EXAMPLE
-# Table name: students
+--# EXAMPLE
+--# Table name: students 
+--# Model class
+--# (in lib/student.rb)
+--class Student
+--end
 
+# Table name: items
 # Model class
-# (in lib/student.rb)
-class Student
+# (in lib/item.rb)
+class Item
+end
+
+# Table name: orders
+# Model class
+# (in lib/order.rb)
+class Order
+end
+
+
+--# Repository class
+--# (in lib/student_repository.rb)
+--class StudentRepository
+--end
+
+# Repository class
+# (in lib/item_repository.rb)
+class ItemRepository
 end
 
 # Repository class
-# (in lib/student_repository.rb)
-class StudentRepository
+# (in lib/order_repository.rb)
+class OrderRepository
 end
+
 4. Implement the Model class
 Define the attributes of your Model class. You can usually map the table columns to the attributes of the class, including primary and foreign keys.
 
-# EXAMPLE
-# Table name: students
+--# EXAMPLE
+--# Table name: students
 
+--# Model class
+--# (in lib/student.rb)
+
+--class Student
+
+--  # Replace the attributes by your own columns.
+ -- attr_accessor :id, :name, :cohort_name
+--end
+
+# Table name: items
 # Model class
-# (in lib/student.rb)
-
-class Student
-
-  # Replace the attributes by your own columns.
-  attr_accessor :id, :name, :cohort_name
+# (in lib/item.rb)
+class Item
+  attr_accessor :id, :name, :price, :quantity 
 end
 
-# The keyword attr_accessor is a special Ruby feature
-# which allows us to set and get attributes on an object,
-# here's an example:
-#
-# student = Student.new
-# student.name = 'Jo'
-# student.name
-You may choose to test-drive this class, but unless it contains any more logic than the example above, it is probably not needed.
+# Table name: orders
+# Model class
+# (in lib/order.rb)
+class Order
+  attr_accessor :id, :date, :customer_name, :item_id
+end
 
 5. Define the Repository Class interface
 Your Repository class will need to implement methods for each "read" or "write" operation you'd like to run against the database.
 
 Using comments, define the method signatures (arguments and return value) and what they do - write up the SQL queries that will be used by each method.
 
-# EXAMPLE
-# Table name: students
+--# EXAMPLE
+--# Table name: students
+--# Repository class
+--# (in lib/student_repository.rb)
 
+--class StudentRepository
+
+  --# Selecting all records
+  --# No arguments
+  --def all
+    --# Executes the SQL query:
+    --# SELECT id, name, cohort_name FROM students;
+
+    --# Returns an array of Student objects.
+  --end
+
+  --# Gets a single record by its ID
+  --# One argument: the id (number)
+  --def find(id)
+    --# Executes the SQL query:
+    --# SELECT id, name, cohort_name FROM students WHERE id = $1;
+
+    --# Returns a single Student object.
+  --end
+
+  --# Add more methods below for each operation you'd like to implement.
+  --# def create(student)
+  --# end
+
+  --# def update(student)
+  --# end
+
+  --# def delete(student)
+  --# end
+
+  # Table name: items
 # Repository class
-# (in lib/student_repository.rb)
+# (in lib/item_repository.rb)
+class ItemRepository
+  # Selecting all records
+  # No arguments
+  def all
+    # Executes the SQL query:
+    # SELECT id, name, price, quantity FROM items;
 
-class StudentRepository
+    # Returns an array of Items objects.
+  end
+
+  # def create(item)
+    # Executes the SQL query:
+    # sql = 'INSERT INTO items (name, price, quantity) VALUES ($1, $2, $3)';
+    # DataConnection.exec_params(sql, [item.name, item.price, item.quantity])
+
+    # it does not return anything
+  # end
+end
+
+  # Table name: orders
+# Repository class
+# (in lib/order_repository.rb)
+
+class OrderRepository
 
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students;
+    # SELECT id, date, customer_name, item_id FROM orders;
 
-    # Returns an array of Student objects.
+    # Returns an array of Order objects.
   end
 
-  # Gets a single record by its ID
-  # One argument: the id (number)
-  def find(id)
+  # def create(order)
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students WHERE id = $1;
+    # sql = 'INSERT INTO orders (date, customer_name, item_id) VALUES ($1, $2, $3)';
+    # DataConnection.exec_params(sql, [order.date, order.customer_name, order.item_id])
 
-    # Returns a single Student object.
-  end
-
-  # Add more methods below for each operation you'd like to implement.
-
-  # def create(student)
-  # end
-
-  # def update(student)
-  # end
-
-  # def delete(student)
+    # it does not return anything
   # end
 end
 6. Write Test Examples
@@ -135,19 +206,45 @@ students[1].id # =>  2
 students[1].name # =>  'Anna'
 students[1].cohort_name # =>  'May 2022'
 
-# 2
-# Get a single student
+# Get all items
 
-repo = StudentRepository.new
+repo = ItemRepository.new
 
-student = repo.find(1)
+items = repo.all
 
-student.id # =>  1
-student.name # =>  'David'
-student.cohort_name # =>  'April 2022'
+items.length # =>  2
 
-# Add more examples for each method
-Encode this example as a test.
+items[0].id # =>  1
+items[0].name # =>  'Carbonara'
+items[0].price # =>  10
+items[0].quantity # => 2
+
+items[1].id # =>  2
+items[1].name # =>  'Milk'
+items[1].price # =>  2
+items[1].quantity # => 3
+
+# 3
+# Get all orders
+
+repo = OrderRepository.new
+
+order = repo.all
+
+order.length # =>  2
+
+order[0].id # =>  1
+order[0].date # =>  '2023-02-06'
+order[0].customer_name # =>  'Paolo'
+order[0].item_id # => 1
+
+order[1].id # =>  2
+order[1].date # =>  '2023-02-21'
+order[1].customer_name # =>  'Anna'
+order[1].item_id # => 2
+
+
+
 
 7. Reload the SQL seeds before each test run
 Running the SQL code present in the seed file will empty the table and re-insert the seed data.
