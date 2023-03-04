@@ -41,7 +41,7 @@ Keep list (of orders)
 2. Infer the Table Name and Columns
 Put the different nouns in this table. Replace the example with your own nouns.
 
-items, name, price, quantity, 
+items, name, price, quantity 
 orders, item_id, date, customer_name
 
 
