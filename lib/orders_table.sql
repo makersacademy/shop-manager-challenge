@@ -1,21 +1,21 @@
 
 -- file: order_table.sql
 
-
-CREATE TABLE orders (
-  id SERIAL PRIMARY KEY,
-  customer TEXT,
-  date DATE
-);
-
--- Then the table with the foreign key first.
-CREATE TABLE items (
+CREATE TABLE items(
   id SERIAL PRIMARY KEY,
   name TEXT,
   price FLOAT,
-  quantity INT,
-  order_id INT,
-  constraint fk_order foreign key(order_id)
-    references orders(id)
+  quantity INT
+);
+
+CREATE TABLE orders(
+  id SERIAL PRIMARY KEY,
+  customer TEXT,
+  date DATE,
+  item_id INT,
+  constraint fk_item foreign key(item_id)
+    references items(id)
     on delete cascade
 );
+
+

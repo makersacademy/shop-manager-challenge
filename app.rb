@@ -20,13 +20,38 @@ class Application
 
   def run
     @io.puts "Welcome to the shop managment program!"
-    # loop do
+    loop do
     @io.puts "What do you want to do?  
   1 = List all shop items  
   2 = Create a new item  
   3 = List all orders  
   4 = Create a new order"
-    # end
+    input = @io.gets.chomp
+    break if input.empty?
+    input_cases(input)
+    end
+  end
+
+  def input_cases(input)
+    case input
+    when "1"
+      @io.puts format_items_list
+    when "2"
+      
+    when "3"
+
+    when "4"
+    end
+  end
+
+  def format_items_list
+    items = @item_repository.all
+    format_string_array = []
+    items.each_with_index do |item, index|
+      str = "#{index + 1} - #{item.name} - Price: #{item.price} - Quantity #{item.quantity}"
+      format_string_array << str
+    end
+    format_string_array
   end
 end
 
