@@ -40,7 +40,7 @@ class Application
     when "2"
       create_new_item
     when "3"
-
+      @io.puts format_orders_list
     when "4"
     end
   end
@@ -64,6 +64,22 @@ class Application
     @io.puts "Please enter the item quantity:"
     item.quantity = @io.gets.chomp
     @item_repository.create(item)
+  end
+
+  def format_orders_list
+    orders = @order_repository.all
+    format_string_array = []
+    orders.each_with_index do |order, index|
+      str = "#{index + 1} - Customer: #{order.customer} - Date: #{order.date} - Item: #{get_item_by_id(order.item_id)}"
+      format_string_array << str
+    end
+    format_string_array
+  end
+
+  def get_item_by_id(id)
+    sql = 'SELECT name FROM items WHERE id = $1'
+    result = DatabaseConnection.exec_params(sql, [id])
+    item_name = result[0]['name']
   end
 end
 

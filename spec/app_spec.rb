@@ -41,6 +41,29 @@ describe Application do
       expect(io).to receive(:gets).and_return("")
       app.run
     end
+
+    it "puts's list of all order after 3 is inputted" do
+      io = double :kernel
+      app = Application.new(
+        'shop_manager_test',
+        io,
+        ItemRepository.new,
+        OrderRepository.new
+      )
+      expect(io).to receive(:puts).with("Welcome to the shop managment program!")
+      allow(io).to receive(:puts).with(
+      "What do you want to do?  
+  1 = List all shop items  
+  2 = Create a new item  
+  3 = List all orders  
+  4 = Create a new order")
+      expect(io).to receive(:gets).and_return("3")
+      expect(io).to receive(:puts).with ["1 - Customer: Ayoub - Date: 2022-07-23 - Item: item1", 
+        "2 - Customer: Makers - Date: 2023-01-16 - Item: item2", 
+        "3 - Customer: Alice - Date: 2023-02-13 - Item: item3"]
+      expect(io).to receive(:gets).and_return("")
+      app.run
+    end
   end
 
   context "format_items_list method" do
@@ -51,7 +74,9 @@ describe Application do
         ItemRepository.new,
         OrderRepository.new
       )
-      expect(app.format_items_list).to eq ["1 - item1 - Price: 66.5 - Quantity: 70", "2 - item2 - Price: 33.25 - Quantity: 35", "3 - item3 - Price: 5.99 - Quantity: 300"]
+      expect(app.format_items_list).to eq ["1 - item1 - Price: 66.5 - Quantity: 70", 
+        "2 - item2 - Price: 33.25 - Quantity: 35", 
+        "3 - item3 - Price: 5.99 - Quantity: 300"]
     end
   end  
 
@@ -83,7 +108,9 @@ describe Application do
         ItemRepository.new,
         OrderRepository.new
       )
-      expect(app.format_orders_list).to eq ["1 - item1 - Price: 66.5 - Quantity: 70", "2 - item2 - Price: 33.25 - Quantity: 35", "3 - item3 - Price: 5.99 - Quantity: 300"]
+      expect(app.format_orders_list).to eq ["1 - Customer: Ayoub - Date: 2022-07-23 - Item: item1", 
+        "2 - Customer: Makers - Date: 2023-01-16 - Item: item2", 
+        "3 - Customer: Alice - Date: 2023-02-13 - Item: item3"]
     end
   end
 end
