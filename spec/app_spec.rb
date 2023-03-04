@@ -74,4 +74,16 @@ describe Application do
       expect(repo.all.length).to eq 4
     end
   end
+
+  context "format_orders_list" do
+    it "returns orders list" do
+      app = Application.new(
+        'shop_manager_test',
+        Kernel,
+        ItemRepository.new,
+        OrderRepository.new
+      )
+      expect(app.format_orders_list).to eq ["1 - item1 - Price: 66.5 - Quantity: 70", "2 - item2 - Price: 33.25 - Quantity: 35", "3 - item3 - Price: 5.99 - Quantity: 300"]
+    end
+  end
 end
