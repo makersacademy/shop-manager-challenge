@@ -1,4 +1,5 @@
-require "order"
+require_relative "order"
+require_relative "database_connection"
 
 class OrderRepository
   def all

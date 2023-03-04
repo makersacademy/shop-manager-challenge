@@ -2,6 +2,7 @@
 
 require_relative './lib/item_repository'
 require_relative './lib/order_repository'
+require_relative './lib/item'
 
 class Application
 
@@ -37,7 +38,7 @@ class Application
     when "1"
       @io.puts format_items_list
     when "2"
-      
+      create_new_item
     when "3"
 
     when "4"
@@ -52,6 +53,17 @@ class Application
       format_string_array << str
     end
     format_string_array
+  end
+
+  def create_new_item
+    item = Item.new
+    @io.puts "Please enter the item name:"
+    item.name = @io.gets.chomp
+    @io.puts "Please enter the item's price:"
+    item.price = @io.gets.chomp
+    @io.puts "Please enter the item quantity:"
+    item.quantity = @io.gets.chomp
+    @item_repository.create(item)
   end
 end
 
