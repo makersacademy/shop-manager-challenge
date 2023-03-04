@@ -105,5 +105,7 @@ CREATE TABLE orders (
     references items(id)
     on delete cascade
 );
+
 5. Create the tables.
-psql -h 127.0.0.1 database_name < albums_table.sql
+psql -h 127.0.0.1 shop_manager < spec/seeds.sql
+psql -h 127.0.0.1 shop_manager_test < spec/seeds.sql
