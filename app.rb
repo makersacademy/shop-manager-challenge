@@ -48,7 +48,7 @@ class Application
     items = @item_repository.all
     format_string_array = []
     items.each_with_index do |item, index|
-      str = "#{index + 1} - #{item.name} - Price: #{item.price} - Quantity #{item.quantity}"
+      str = "#{index + 1} - #{item.name} - Price: #{item.price} - Quantity: #{item.quantity}"
       format_string_array << str
     end
     format_string_array
@@ -57,7 +57,7 @@ end
 
 if __FILE__ == $0
   app = Application.new(
-    'music_library',
+    'shop_manager',
     Kernel,
     ItemRepository.new,
     OrderRepository.new

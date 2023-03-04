@@ -4,7 +4,7 @@ describe Application do
   it "puts's user prompts and breaks loop with no input" do
     io = double :kernel
     app = Application.new(
-      'music_library',
+      'shop_manager_test',
       io,
       ItemRepository.new,
       OrderRepository.new
@@ -20,14 +20,14 @@ describe Application do
     app.run
   end
 
-  it "puts list of items" do
-    io = double :kernel
+  it "returns list of items" do
     app = Application.new(
-      'music_library',
-      io,
+      'shop_manager_test',
+      Kernel,
       ItemRepository.new,
       OrderRepository.new
     )
-    expect(io).to receive(:puts).with 
+    expect(app.format_items_list).to eq ["1 - item1 - Price: 66.5 - Quantity: 70", "2 - item2 - Price: 33.25 - Quantity: 35", "3 - item3 - Price: 5.99 - Quantity: 300"]
+    
   end
 end
