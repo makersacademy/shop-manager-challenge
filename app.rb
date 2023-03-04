@@ -3,6 +3,8 @@
 require_relative './lib/item_repository'
 require_relative './lib/order_repository'
 require_relative './lib/item'
+require_relative './lib/order'
+require 'date'
 
 class Application
 
@@ -26,7 +28,8 @@ class Application
   1 = List all shop items  
   2 = Create a new item  
   3 = List all orders  
-  4 = Create a new order"
+  4 = Create a new order
+  5 = Exit program"
     input = @io.gets.chomp
     break if input.empty?
     input_cases(input)
@@ -42,17 +45,20 @@ class Application
     when "3"
       @io.puts format_orders_list
     when "4"
+      create_new_order
+    when "5"
+      exit
     end
   end
 
   def format_items_list
     items = @item_repository.all
-    format_string_array = []
+    format_string_array = ["\n"]
     items.each_with_index do |item, index|
       str = "#{index + 1} - #{item.name} - Price: #{item.price} - Quantity: #{item.quantity}"
       format_string_array << str
     end
-    format_string_array
+    format_string_array << "\n"
   end
 
   def create_new_item
@@ -68,18 +74,28 @@ class Application
 
   def format_orders_list
     orders = @order_repository.all
-    format_string_array = []
+    format_string_array = ["\n"]
     orders.each_with_index do |order, index|
       str = "#{index + 1} - Customer: #{order.customer} - Date: #{order.date} - Item: #{get_item_by_id(order.item_id)}"
       format_string_array << str
     end
-    format_string_array
+    format_string_array << "\n"
   end
 
   def get_item_by_id(id)
     sql = 'SELECT name FROM items WHERE id = $1'
     result = DatabaseConnection.exec_params(sql, [id])
     item_name = result[0]['name']
+  end
+
+  def create_new_order
+    order = Order.new
+    @io.puts "Please enter the customer's name:"
+    order.customer = @io.gets.chomp
+    order.date = Date.today.strftime('%Y-%m-%d')
+    @io.puts "Please enter the ordered item's id:"
+    order.item_id = @io.gets.chomp
+    @order_repository.create(order)
   end
 end
 

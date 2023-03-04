@@ -16,7 +16,8 @@ describe Application do
   1 = List all shop items  
   2 = Create a new item  
   3 = List all orders  
-  4 = Create a new order")
+  4 = Create a new order
+  5 = Exit program")
       expect(io).to receive(:gets).and_return("")
       app.run
     end
@@ -35,9 +36,14 @@ describe Application do
   1 = List all shop items  
   2 = Create a new item  
   3 = List all orders  
-  4 = Create a new order")
+  4 = Create a new order
+  5 = Exit program")
       expect(io).to receive(:gets).and_return("1")
-      expect(io).to receive(:puts).with ["1 - item1 - Price: 66.5 - Quantity: 70", "2 - item2 - Price: 33.25 - Quantity: 35", "3 - item3 - Price: 5.99 - Quantity: 300"]
+      expect(io).to receive(:puts).with ["\n",
+        "1 - item1 - Price: 66.5 - Quantity: 70", 
+        "2 - item2 - Price: 33.25 - Quantity: 35", 
+        "3 - item3 - Price: 5.99 - Quantity: 300",
+      "\n"]
       expect(io).to receive(:gets).and_return("")
       app.run
     end
@@ -56,11 +62,14 @@ describe Application do
   1 = List all shop items  
   2 = Create a new item  
   3 = List all orders  
-  4 = Create a new order")
+  4 = Create a new order
+  5 = Exit program")
       expect(io).to receive(:gets).and_return("3")
-      expect(io).to receive(:puts).with ["1 - Customer: Ayoub - Date: 2022-07-23 - Item: item1", 
+      expect(io).to receive(:puts).with ["\n",
+        "1 - Customer: Ayoub - Date: 2022-07-23 - Item: item1", 
         "2 - Customer: Makers - Date: 2023-01-16 - Item: item2", 
-        "3 - Customer: Alice - Date: 2023-02-13 - Item: item3"]
+        "3 - Customer: Alice - Date: 2023-02-13 - Item: item3",
+        "\n"]
       expect(io).to receive(:gets).and_return("")
       app.run
     end
@@ -74,14 +83,16 @@ describe Application do
         ItemRepository.new,
         OrderRepository.new
       )
-      expect(app.format_items_list).to eq ["1 - item1 - Price: 66.5 - Quantity: 70", 
+      expect(app.format_items_list).to eq ["\n",
+        "1 - item1 - Price: 66.5 - Quantity: 70", 
         "2 - item2 - Price: 33.25 - Quantity: 35", 
-        "3 - item3 - Price: 5.99 - Quantity: 300"]
+        "3 - item3 - Price: 5.99 - Quantity: 300",
+        "\n"]
     end
   end  
 
-  context "create_new_item method and inserts to db" do
-    it "prints prompts for user" do
+  context "create_new_item method" do
+    it "prints prompts for user and inserts to db" do
       io = double :kernel
       app = Application.new(
         'shop_manager_test',
@@ -108,9 +119,29 @@ describe Application do
         ItemRepository.new,
         OrderRepository.new
       )
-      expect(app.format_orders_list).to eq ["1 - Customer: Ayoub - Date: 2022-07-23 - Item: item1", 
+      expect(app.format_orders_list).to eq ["\n", 
+        "1 - Customer: Ayoub - Date: 2022-07-23 - Item: item1", 
         "2 - Customer: Makers - Date: 2023-01-16 - Item: item2", 
-        "3 - Customer: Alice - Date: 2023-02-13 - Item: item3"]
+        "3 - Customer: Alice - Date: 2023-02-13 - Item: item3",
+        "\n"]
+    end
+  end
+
+  context "create_new_order method" do
+    it "prints prompts to user and adds order to db" do
+      io = double :kernel
+      app = Application.new(
+        'shop_manager_test',
+        io,
+        ItemRepository.new,
+        repo = OrderRepository.new
+      )
+      expect(io).to receive(:puts).with "Please enter the customer's name:"
+      expect(io).to receive(:gets).and_return("Ahmed")
+      expect(io).to receive(:puts).with "Please enter the ordered item's id:"
+      expect(io).to receive(:gets).and_return("3")
+      app.create_new_order
+      expect(repo.all.length).to eq 4
     end
   end
 end
