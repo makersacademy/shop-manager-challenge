@@ -55,13 +55,13 @@ describe Application do
     end
   end  
 
-  context "create_new_item method" do
+  context "create_new_item method and inserts to db" do
     it "prints prompts for user" do
       io = double :kernel
       app = Application.new(
         'shop_manager_test',
         io,
-        ItemRepository.new,
+        repo = ItemRepository.new,
         OrderRepository.new
       )
       expect(io).to receive(:puts).with "Please enter the item name:"
@@ -71,6 +71,7 @@ describe Application do
       expect(io).to receive(:puts).with "Please enter the item quantity:"
       expect(io).to receive(:gets).and_return("50")
       app.create_new_item
+      expect(repo.all.length).to eq 4
     end
   end
 end
