@@ -187,25 +187,26 @@ Write Ruby code that defines the expected behaviour of the Repository class, fol
 
 These examples will later be encoded as RSpec tests.
 
-# EXAMPLES
+--# EXAMPLES
 
-# 1
-# Get all students
+--# 1
+--# Get all students
 
-repo = StudentRepository.new
+--repo = StudentRepository.new
 
-students = repo.all
+--students = repo.all
 
-students.length # =>  2
+--students.length # =>  2
 
-students[0].id # =>  1
-students[0].name # =>  'David'
-students[0].cohort_name # =>  'April 2022'
+--students[0].id # =>  1
+--students[0].name # =>  'David'
+--students[0].cohort_name # =>  'April 2022'
 
-students[1].id # =>  2
-students[1].name # =>  'Anna'
-students[1].cohort_name # =>  'May 2022'
+--students[1].id # =>  2
+--students[1].name # =>  'Anna'
+--students[1].cohort_name # =>  'May 2022'
 
+# 1 
 # Get all items
 ```ruby
 repo = ItemRepository.new
