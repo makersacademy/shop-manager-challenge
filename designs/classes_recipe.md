@@ -1,4 +1,4 @@
-# {{TABLE NAME}} Model and Repository Classes Design Recipe
+# {{items & orders} Model and Repository Classes Design Recipe
 
 _Copy this recipe template to design and implement Model and Repository classes for a database table._
 
@@ -115,7 +115,7 @@ class ItemRepository
     # INSERT INTO items (item_name, unit_price, quantity) VALUES($1, $2, $3);
     # Put string showing successful completion
 
-    # Returns nothing
+    # Returns item object
   end
 end
 
@@ -137,7 +137,7 @@ class OrderRepository
     # INSERT INTO orders (customer_name, order_date, item_id) VALUES($1, $2, $3);
     # Put string showing successful completion
 
-    # Returns nothing
+    # Returns order object
   end
 end
 ```
@@ -149,61 +149,105 @@ Write Ruby code that defines the expected behaviour of the Repository class, fol
 These examples will later be encoded as RSpec tests.
 
 ```ruby
-# EXAMPLES
+# file: spec/item_repository_spec.rb
+
+# Before hook
+  @repo = ItemRepository.new
 
 # 1
-# Get all students
+# lists all shop items
 
-repo = StudentRepository.new
+items = @repo.list_all_items
 
-students = repo.all
+items.length # =>  4
 
-students.length # =>  2
+items[0].id # =>  1
+items[0].item_name # =>  'Jollof rice'
+items[0].unit_price # =>  5.50
+items[0].quantity # =>  200
 
-students[0].id # =>  1
-students[0].name # =>  'David'
-students[0].cohort_name # =>  'April 2022'
-
-students[1].id # =>  2
-students[1].name # =>  'Anna'
-students[1].cohort_name # =>  'May 2022'
+items[1].id # =>  2
+items[1].item_name # =>  'Playstation 5'
+items[1].unit_price # =>  479.99
+items[1].quantity # =>  30
 
 # 2
-# Get a single student
+# creates a new item
 
-repo = StudentRepository.new
+new_item = @repo.create_new_item
+all_items = @repo.list_all_items
 
-student = repo.find(1)
+all_items # => includes have_attributes of new_item
 
-student.id # =>  1
-student.name # =>  'David'
-student.cohort_name # =>  'April 2022'
 
-# Add more examples for each method
+# file: spec/order_repository_spec.rb
+
+# Before hook
+  @repo = OrderRepository.new
+
+# 1
+# lists all order
+
+orders = @repo.list_all_orders
+
+orders.length # =>  5
+
+orders[2].id # =>  3
+orders[2].customer_name # =>  'Monica Geller'
+orders[2].order_date # =>  '1997-10-10'
+orders[2].item_id # =>  1
+
+orders[3].id # =>  4
+orders[3].customer_name # =>  'Ted Moseby'
+orders[3].order_date # =>  '2006-10-10'
+orders[3].item_id # =>  3
+
+# 2
+# creates a new order
+
+new_order = @repo.create_new_order
+all_orders = @repo.list_all_orders
+
+all_orders # => includes have_attributes of new_order
 ```
 
 Encode this example as a test.
 
 ## 7. Reload the SQL seeds before each test run
 
-Running the SQL code present in the seed file will empty the table and re-insert the seed data.
-
-This is so you get a fresh table contents every time you run the test suite.
-
 ```ruby
-# EXAMPLE
 
-# file: spec/student_repository_spec.rb
+# file: spec/item_repository_spec.rb
 
-def reset_students_table
-  seed_sql = File.read('spec/seeds_students.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'students' })
+def reset_items_table
+# may need to reference differently as seed is in schema instead of spec
+  seed_sql = File.read('schema/items_orders_seeds.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'items' })
   connection.exec(seed_sql)
 end
 
-describe StudentRepository do
-  before(:each) do 
-    reset_students_table
+describe ItemRepository do
+  before do 
+    reset_items_table
+  end
+
+  # (your tests will go here).
+end
+
+
+# file: spec/order_repository_spec.rb
+
+def reset_orders_table
+# may need to reference differently as seed is in schema instead of spec
+  seed_sql = File.read('schema/orders_orders_seeds.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'orders' })
+  connection.exec(seed_sql)
+end
+
+describe OrderRepository do
+  before do 
+    reset_orders_table
+    @repo = ItemRepository.new
   end
 
   # (your tests will go here).
