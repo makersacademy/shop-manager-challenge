@@ -123,37 +123,41 @@ Write Ruby code that defines the expected behaviour of the Repository class, fol
 These examples will later be encoded as RSpec tests.
 
 ```ruby
-# EXAMPLES
-
 # 1
-# Get all students
+# Get all items
 
-repo = StudentRepository.new
+repo = ItemRepository.new
 
-students = repo.all
+items = repo.all
 
-students.length # =>  2
+items.length # => 3
 
-students[0].id # =>  1
-students[0].name # =>  'David'
-students[0].cohort_name # =>  'April 2022'
+items[0].name # => 'Super Shark Vacuum Cleaner'
+items[0].price # => 99
+items[0].quantity # => 30
 
-students[1].id # =>  2
-students[1].name # =>  'Anna'
-students[1].cohort_name # =>  'May 2022'
+items[1].name # => 'Makerspresso Coffee Machine'
+items[1].price # => 69
+items[1].quantity # => 15
 
-# 2
-# Get a single student
+items[2].name # => 'Toastie Maker'
+items[2].price # => 30
+items[2].quantity # => 60
 
-repo = StudentRepository.new
+# 2 
+# Creates a single item
 
-student = repo.find(1)
+repo = ItemRepository.new
 
-student.id # =>  1
-student.name # =>  'David'
-student.cohort_name # =>  'April 2022'
+item = Item.new
+item.name = 'Ice Cream Maker'
+item.price = 50
+item.quantity = 20
 
-# Add more examples for each method
+repo.create(item)
+
+items = repo.all # => items should contain the new item
+
 ```
 
 Encode this example as a test.
