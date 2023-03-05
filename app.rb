@@ -31,17 +31,29 @@ class Application
     4 = create a new order"
     choice = @io.gets.chomp
 
-    if choice == '1'
+    case choice
+    when "1"
+      @io.puts "Here's a list of all shop items:"
       repo = ItemRepository.new
       items = repo.all
-      @io.puts "Here's a list of all shop items:"
       items.each do |record|
         id = record.id
         name = record.name
         price = record.price
         quantity = record.quantity
         @io.puts "##{id} #{name} - Unit Price: #{price} - Quantity: #{quantity}"
-      end     
+      end   
+    when "3"
+      @io.puts "Here's a list of all orders:"
+      repo = OrderRepository.new
+      orders = repo.all
+      orders.each do |record|
+        id = record.id
+        name = record.customer_name
+        date = record.order_date
+        item_id = record.item_id
+        @io.puts "##{id} Name: #{name} - Date: #{date} - Item ID: #{item_id}"
+      end
     end 
     
     # Use `@io.puts` or `@io.gets` to

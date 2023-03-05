@@ -1,7 +1,17 @@
 require './app'
 
+def reset_tables
+  seed_sql = File.read('spec/seeds_items_orders.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
+  connection.exec(seed_sql)
+end
+
 RSpec.describe Application do
   
+  before(:each) do 
+    reset_tables
+  end
+
   it "asks the user for input and lists all items when asked" do
     io = double :io
 
@@ -25,5 +35,55 @@ RSpec.describe Application do
     )
     app.run
   end 
+
+  it "asks the user for input and lists all orders when asked" do
+    io = double :io
+
+    expect(io).to receive(:puts).with("Welcome to the shop management program!")
+    expect(io).to receive(:puts).with("What do you want to do?
+    1 = list all shop items
+    2 = create a new item
+    3 = list all orders
+    4 = create a new order")
+    expect(io).to receive(:gets).and_return("3")
+    expect(io).to receive(:puts).with("Here's a list of all orders:")
+    expect(io).to receive(:puts).with("#1 Name: Customer1 - Date: 2023-01-01 - Item ID: 1")
+    expect(io).to receive(:puts).with("#2 Name: Customer2 - Date: 2023-01-10 - Item ID: 2")
+    expect(io).to receive(:puts).with("#3 Name: Customer3 - Date: 2023-01-20 - Item ID: 3")
+    
+    app = Application.new(
+      'shop_manager_test',
+      io,
+      ItemRepository.new,
+      OrderRepository.new
+    )
+    app.run
+  end
+
+  it "asks the user for input and creates an item when asked" do
+    io = double :io
+
+    expect(io).to receive(:puts).with("Welcome to the shop management program!")
+    expect(io).to receive(:puts).with("What do you want to do?
+    1 = list all shop items
+    2 = create a new item
+    3 = list all orders
+    4 = create a new order")
+    expect(io).to receive(:gets).and_return("2")
+    expect(io).to receive(:puts).with("What is the name of the item?")
+    expect(io).to receive(:gets).and_return("Ice Cream Maker")
+    expect(io).to receive(:puts).with("What is the price of the item?")
+    expect(io).to receive(:gets).and_return("50")
+    expect(io).to receive(:puts).with("What is the quantity of the item?")
+    expect(io).to receive(:gets).and_return("20")
+
+    app = Application.new(
+      'shop_manager_test',
+      io,
+      ItemRepository.new,
+      OrderRepository.new
+    )
+    app.run
+  end
 
 end
