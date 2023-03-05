@@ -1,32 +1,42 @@
-
+require_relative 'order'
 class OrderRepository
 
     # Selecting all records
     # No arguments
     def all
       # Executes the SQL query:
-      #
-  
-      # Returns an array of Order objects.
+      result_set = DatabaseConnection.exec_params('SELECT id, customer_name,the_date FROM order ')
+      items = []
+      result_set.each do |a_item|
+        item = Item.new
+        item.id = a_item['id']
+        item.item_name = a_item['item_name']
+        item.unit_price = a_item['unit_price']
+        item.quantity = a_item['quantity']
+        item.order_id = a_item['order_id']
+        items << item
+      end
+      return items
+      # Returns an array of Item objects.
     end
   
     # Gets a single record by its ID
     # One argument: the id (number)
     def find(id)
       # Executes the SQL query:
-      
+     
   
-      # Returns a single Order object.
+      # Returns a single Item object.
     end
   
     # Add more methods below for each operation you'd like to implement.
   
-    # def create(order)
+    # def create(item)
     # end
   
-    # def update(order)
+    # def update(item)
     # end
   
-    # def delete(order)
+    # def delete(item)
     # end
   end
