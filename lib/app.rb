@@ -32,9 +32,11 @@ class Application
 
     case option
       when "1"
-          list_all_shop_items
+        list_all_shop_items
+      when "2"
+        create_new_shop_item
       when "3"
-          list_all_shop_orders
+        list_all_shop_orders
     end
   end
 
@@ -43,6 +45,18 @@ class Application
      @io.puts "#{item.id} - #{item.item_name} - #{item.price} - #{item.quantity}"
     end
   end
+
+    def create_new_shop_item
+      @io.puts "Enter item name:"
+      item_name = @io.gets.chomp
+      @io.puts "Enter item price:"
+      price = @io.gets.chomp
+      @io.puts "Enter item quantity:"
+      quantity = @io.gets.chomp
+      item = Items.new(item_name: item_name, price: price, quantity: quantity)
+      @item_repository.create(item)
+      @io.puts "Item added"
+    end
 
   def list_all_shop_orders
     @order_repository.all.each do |order|

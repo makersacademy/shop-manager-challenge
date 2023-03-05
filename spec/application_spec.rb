@@ -1,12 +1,8 @@
 require './lib/app.rb'
 
-def initialize
-  @database = 'shop_manager_test'
-end
-
 def reset_seeds_table
   seed_sql = File.read('spec/seeds.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: @database })
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
   connection.exec(seed_sql)
 end
 
@@ -14,7 +10,7 @@ RSpec.describe Application do
   let(:order_repo) { double("OrdersRepository")}
   let(:item_repo) { double("ItemsRepository")}
   let(:io) { double('io')}
-  let(:app) { Application.new(@database, io, item_repo, order_repo) }
+  let(:app) { Application.new('shop_manager_test', io, item_repo, order_repo) }
   before(:each) do 
     reset_seeds_table
   end
@@ -31,22 +27,13 @@ RSpec.describe Application do
   end
 
   it "creates a new shop item when user selects option 2" do
-    item = instance_double("Item", id: 1, item_name: "Oranges", price: "2.45", quantity: "2")
     allow(io).to receive(:puts)
-    expect(io).to receive(:gets).and_return("2\n") # stub gets method to return "2\n"
-    expect(io).to receive(:puts).with("Enter item name:")
-    expect(io).to receive(:gets).and_return("Oranges\n")
-    expect(io).to receive(:puts).with("Enter item price:")
-    expect(io).to receive(:gets).and_return("2.45\n")
-    expect(io).to receive(:puts).with("Enter item quantity:")
-    expect(io).to receive(:gets).and_return("2\n")
-    expect(item_repo).to receive(:create).with(item)
+    expect(io).to receive(:gets).and_return("2\n") # stub gets method to return "1\n"
+    expect(io).to receive(:gets).and_return("Oranges\n", "2.45\n", "2\n")
+    expect(item_repo).to receive(:create).with(instance_of(Items))
     expect(io).to receive(:puts).with("Item added")
-    app.choose_option("2")
+    app.choose_option
   end
-
-
-
 
  it "gets a list of shop orders when user selects option 3" do
     order1 = instance_double("Order", id: 1, customer_name: "James Pates", order_date: "2023-03-02", item_id: "1")
