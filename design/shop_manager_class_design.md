@@ -132,7 +132,7 @@ class OrderRepository
   end
 
   def all
-    # Returns the customer order.
+    # Returns the customer orders.
   end
 
   def create_order(customer_name, order_date)

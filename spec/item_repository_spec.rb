@@ -40,4 +40,16 @@ describe ItemRepository do
       expect(items[3].quantity).to eq '500'
     end
   end
+
+  context '#create_item' do
+    it 'creates a new item' do
+      repo = ItemRepository.new
+      repo.create('celery', '2.25', '125')
+      items = repo.all
+      expect(items[5].id).to eq '6'
+      expect(items[5].name).to eq 'celery'
+      expect(items[5].unit_price).to eq '2.25'
+      expect(items[5].quantity).to eq '125'
+    end
+  end
 end
