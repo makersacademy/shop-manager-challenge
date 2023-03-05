@@ -37,9 +37,9 @@ I want to be able to create a new order.
 ```
 Nouns:
 
-item, name, unit price, quantity
+item_name, name, unit_price, quantity
 
-order, customer name, item, date
+order, customer_name, item, date
 ```
 
 ## 2. Infer the Table Name and Columns
@@ -48,16 +48,16 @@ Put the different nouns in this table. Replace the example with your own nouns.
 
 | Record                | Properties          |
 | --------------------- | ------------------  |
-| posts                 | title, content
-| tags                  | name
+| items                 | item_name, unit_price, quantity
+| orders                  | customer_name, item, date
 
-1. Name of the first table (always plural): `posts` 
+1. Name of the first table (always plural): `items` 
 
-    Column names: `title`, `content`
+    Column names: `item_name`, `unit_price`, `quantity`
 
-2. Name of the second table (always plural): `tags` 
+2. Name of the second table (always plural): `orders` 
 
-    Column names: `name`
+    Column names: `customer_name`, `item`, `date`
 
 ## 3. Decide the column types.
 
@@ -68,24 +68,26 @@ Most of the time, you'll need either `text`, `int`, `bigint`, `numeric`, or `boo
 Remember to **always** have the primary key `id` as a first column. Its type will always be `SERIAL`.
 
 ```
-# EXAMPLE:
 
-Table: posts
+Table: items
 id: SERIAL
-title: text
-content: text
+item_name: text
+unit_price: float
+quantity: int
 
-Table: tags
+Table: orders
 id: SERIAL
-name: text
+customer_name: text
+item: text
+date: date
 ```
 
 ## 4. Design the Many-to-Many relationship
 
 Make sure you can answer YES to these two questions:
 
-1. Can one [TABLE ONE] have many [TABLE TWO]? (Yes/No)
-2. Can one [TABLE TWO] have many [TABLE ONE]? (Yes/No)
+1. Can one items have many orders? (Yes/No) Yes, sort of.
+2. Can one orders have many items? (Yes/No) Yes
 
 ```
 # EXAMPLE
@@ -103,38 +105,36 @@ The join table usually contains two columns, which are two foreign keys, each on
 The naming convention is `table1_table2`.
 
 ```
-# EXAMPLE
-
-Join table for tables: posts and tags
-Join table name: posts_tags
-Columns: post_id, tag_id
+Join table for tables: items and orders
+Join table name: items_orders
+Columns: item_id, order_id
 ```
 
 ## 4. Write the SQL.
 
 ```sql
--- EXAMPLE
--- file: posts_tags.sql
-
--- Replace the table name, columm names and types.
+-- file: items_orders.sql
 
 -- Create the first table.
-CREATE TABLE posts (
+CREATE TABLE items (
   id SERIAL PRIMARY KEY,
-  title text,
-  content text
+  item_name text,
+  unit_price float,
+  quantity int
 );
 
 -- Create the second table.
-CREATE TABLE tags (
+CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
-  name text
+  customer_name text
+  item text
+  date date
 );
 
 -- Create the join table.
-CREATE TABLE posts_tags (
-  post_id int,
-  tag_id int,
+CREATE TABLE items_orders (
+  item_id int,
+  order_id int,
   constraint fk_post foreign key(post_id) references posts(id) on delete cascade,
   constraint fk_tag foreign key(tag_id) references tags(id) on delete cascade,
   PRIMARY KEY (post_id, tag_id)
@@ -145,7 +145,7 @@ CREATE TABLE posts_tags (
 ## 5. Create the tables.
 
 ```bash
-psql -h 127.0.0.1 database_name < posts_tags.sql
+psql -h 127.0.0.1 shop_manager_challenge < items_orders.sql
 ```
 
 <!-- BEGIN GENERATED SECTION DO NOT EDIT -->
