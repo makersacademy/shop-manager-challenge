@@ -49,6 +49,11 @@ INSERT INTO orders (customer_name, the_date) VALUES ('David', '2022');
 INSERT INTO orders (customer_name, the_date) VALUES ('Anna', '2024');
 INSERT INTO orders (customer_name, the_date) VALUES ('Davinder', '1987');
 INSERT INTO orders (customer_name, the_date) VALUES ('Annad', '2000');
+
+INSERT INTO items (item_name, unit_price, order_id ) VALUES ('glue', '3', 1);
+INSERT INTO items (item_name, unit_price, order_id ) VALUES ('paper', '2', 2);
+INSERT INTO items (item_name, unit_price, order_id ) VALUES ('tv', '247', 3);
+INSERT INTO items (item_name, unit_price, order_id ) VALUES ('chocolate', '2000', 4);
 ```
 
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
