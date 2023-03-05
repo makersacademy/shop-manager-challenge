@@ -18,5 +18,15 @@ RSpec.describe OrderRepository do
         orders = repo.all
         expect(orders.first.customer_name).to eq ("David")
     end
+    it 'returns what the last customer name is' do
+        repo = OrderRepository.new
+        orders = repo.all
+        expect(orders.last.customer_name).to eq ("Annad")
+    end
+    it 'returns what the first date is' do
+        repo = OrderRepository.new
+        orders = repo.all
+        expect(orders.first.the_date).to eq ("2022")
+    end
 
 end
