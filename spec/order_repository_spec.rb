@@ -28,5 +28,14 @@ RSpec.describe OrderRepository do
         orders = repo.all
         expect(orders.first.the_date).to eq ("2022")
     end
+    it 'returns what the last date is' do
+        repo = OrderRepository.new
+        orders = repo.all
+        expect(orders.last.the_date).to eq ("2000")
+    end
+
+    it "creates new order" do
+        repo =  OrderRepository.new
+  
 
 end
