@@ -13,5 +13,10 @@ RSpec.describe OrderRepository do
         items = repo.all
         expect(items.length).to eq (4)
     end
+    it 'returns what the first customer name is' do
+        repo = OrderRepository.new
+        orders = repo.all
+        expect(orders.first.customer_name).to eq ("David")
+    end
 
 end
