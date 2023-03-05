@@ -1,8 +1,8 @@
 shared_context "doubles setup" do
 
-  let(:record) { double :Record }
+  let(:kernel) {spy(double :Kernel)}
 
-  let(:itemRepo) { double :ItemRepo }
+  let(:itemRepo) { spy(double :ItemRepo) }
   let(:item1) { double :Item, id: 1, name: 'Xbox series X', price: 399, quantity: 20 }
   let(:item2) { double :Item, id: 2, name: 'Dell Monitor 4K', price: 499, quantity: 25 }
   let(:item3) { double :Item, id: 3, name: 'Macbook Air', price: 1249, quantity: 30 }
@@ -11,7 +11,7 @@ shared_context "doubles setup" do
   # New item
   let(:item6) { double :Item, id: 6, name: 'GoPro 11', price: 400, quantity: 45 }
 
-  let(:orderRepo) { double :orderRepo }
+  let(:orderRepo) { spy(double :orderRepo) }
   let(:order1) { double :Order, id: 1, date: '2023-03-01', customer: 'Jim', items: [item1, item4] }
   let(:order2) { double :Order, id: 2, date: '2023-02-01', customer: 'Tim', items: [item2, item3] }
   let(:order3) { double :Order, id: 3, date: '2023-01-01', customer: 'Kim', items: [item5, item3] }

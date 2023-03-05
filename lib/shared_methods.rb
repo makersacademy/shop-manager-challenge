@@ -16,4 +16,5 @@ module Record
     item.quantity = record["quantity"].to_i
     return item
   end
+  
 end

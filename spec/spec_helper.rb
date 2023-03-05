@@ -2,7 +2,7 @@ require 'simplecov'
 require 'simplecov-console'
 require "database_connection"
 
-DatabaseConnection.connect("shop_database_test")
+DatabaseConnection.connect("shop_database")
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
   SimpleCov::Formatter::Console,
