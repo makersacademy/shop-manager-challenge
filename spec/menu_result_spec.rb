@@ -31,4 +31,37 @@ RSpec.describe MenuResult do
     menu = MenuResult.new(io)
     menu.list_orders
   end
+
+  it 'create a new item' do
+    io = double :io
+    expect(io).to receive(:puts).with("Insert name:")
+    expect(io).to receive(:gets).and_return('coffee')
+    expect(io).to receive(:puts).with("Insert unit price:")
+    expect(io).to receive(:gets).and_return('3')
+    expect(io).to receive(:puts).with("Insert quantity:")
+    expect(io).to receive(:gets).and_return('10')
+
+    menu = MenuResult.new(io)
+    menu.create_item
+    connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
+    result = connection.exec('SELECT * FROM items WHERE id = 3;')
+    expect(result[0]['name']).to eq('coffee')
+  end
+
+  it 'create a new order' do
+    io = double :io
+    expect(io).to receive(:puts).with("Insert date:")
+    expect(io).to receive(:gets).and_return('2023-02-15')
+    expect(io).to receive(:puts).with("Insert Customer name:")
+    expect(io).to receive(:gets).and_return('Gino')
+    expect(io).to receive(:puts).with("Insert Item id:")
+    expect(io).to receive(:gets).and_return('2')
+
+    menu = MenuResult.new(io)
+    menu.create_order
+    connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
+    result = connection.exec('SELECT * FROM orders WHERE id = 3;')
+    expect(result[0]['customer_name']).to eq('Gino')
+  end
+
 end

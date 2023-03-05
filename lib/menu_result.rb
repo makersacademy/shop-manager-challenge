@@ -20,4 +20,30 @@ class MenuResult
       @io.puts "##{order.id}: #{order.date}, Customer: #{order.customer_name}, Item id: #{order.item_id}"
     end
   end
+
+  def create_item
+    item = Item.new
+    @io.puts("Insert name:")
+    item.name = @io.gets.chomp
+    @io.puts("Insert unit price:")
+    item.price = @io.gets.chomp
+    @io.puts("Insert quantity:")
+    item.quantity = @io.gets.chomp
+    item_repository = ItemRepository.new
+    item_repository.create(item)
+  end
+
+  def create_order
+    order = Order.new
+    @io.puts("Insert date:")
+    order.date = @io.gets.chomp
+    @io.puts("Insert Customer name:")
+    order.customer_name = @io.gets.chomp
+    @io.puts("Insert Item id:")
+    order.item_id = @io.gets.chomp
+    order_repository = OrderRepository.new
+    order_repository.create(order)
+  end
+    
+  
 end
