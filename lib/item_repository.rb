@@ -7,18 +7,14 @@ class ItemRepository
   end
   
   def list_all_items
-    sql = 'SELECT * FROM items;'
-    items = DatabaseConnection.exec_params(sql, [])
-
+    sql = 'SELECT * FROM items;'; items = DatabaseConnection.exec_params(sql, [])
+    
     all_items = []
 
     items.each do |item|
-      item_object = Item.new
-      item_object.id = item['id']
-      item_object.item_name = item['item_name']
-      item_object.unit_price = item['unit_price']
-      item_object.quantity = item['quantity']
-
+      item_object = Item.new 
+      item_object.id = item['id']; item_object.item_name = item['item_name'] 
+      item_object.unit_price = item['unit_price']; item_object.quantity = item['quantity']
       all_items << item_object
     end
 
@@ -38,9 +34,7 @@ class ItemRepository
     sql = 'INSERT INTO items (item_name, unit_price, quantity) VALUES($1, $2, $3);'
     params = [item_name, unit_price, quantity]
 
-    DatabaseConnection.exec_params(sql, params)
-
-    @terminal_io.puts 'Item successfully created!'
+    DatabaseConnection.exec_params(sql, params); @terminal_io.puts 'Item successfully created!'
 
     return nil
   end

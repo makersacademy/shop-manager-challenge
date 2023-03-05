@@ -2,10 +2,10 @@ require 'order'
 require 'order_repository'
 
 def reset_orders_table
-    seed_sql = File.read('schema/items_orders_seeds.sql')
-    connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_test' })
-    connection.exec(seed_sql)
-  end
+  seed_sql = File.read('schema/items_orders_seeds.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_test' })
+  connection.exec(seed_sql)
+end
   
 describe OrderRepository do
   before do 

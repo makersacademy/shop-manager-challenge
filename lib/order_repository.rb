@@ -7,18 +7,14 @@ class OrderRepository
   end
 
   def list_all_orders
-    sql = 'SELECT * FROM orders;'
-    orders = DatabaseConnection.exec_params(sql, [])
+    sql = 'SELECT * FROM orders;'; orders = DatabaseConnection.exec_params(sql, [])
 
     all_orders = []
 
     orders.each do |order|
       order_object = Order.new
-      order_object.id = order['id']
-      order_object.customer_name = order['customer_name']
-      order_object.order_date = order['order_date']
-      order_object.item_id = order['item_id']
-
+      order_object.id = order['id']; order_object.customer_name = order['customer_name']
+      order_object.order_date = order['order_date']; order_object.item_id = order['item_id']
       all_orders << order_object
     end
     
@@ -40,9 +36,7 @@ class OrderRepository
     sql = 'INSERT INTO orders (customer_name, order_date, item_id) VALUES($1, $2, $3);'
     params = [customer_name, order_date, item_id]
 
-    DatabaseConnection.exec_params(sql, params)
-
-    @terminal_io.puts 'Order successfully created!'
+    DatabaseConnection.exec_params(sql, params); @terminal_io.puts 'Order successfully created!'
 
     return nil
   end

@@ -2,9 +2,9 @@ require 'item'
 require 'item_repository'
 
 def reset_items_table
-    seed_sql = File.read('schema/items_orders_seeds.sql')
-    connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_test' })
-    connection.exec(seed_sql)
+  seed_sql = File.read('schema/items_orders_seeds.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_test' })
+  connection.exec(seed_sql)
 end
 
 describe ItemRepository do
@@ -47,7 +47,6 @@ describe ItemRepository do
 
     expect(@terminal_io).to receive(:puts).with('Item successfully created!')
     new_item = @repo.create_new_item
-
 
     all_items = @repo.list_all_items
 
