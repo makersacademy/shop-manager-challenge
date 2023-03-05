@@ -12,12 +12,7 @@ class OrderRepository
     result_set = DatabaseConnection.exec_params(sql, [])
 
     result_set.each do |record|
-      order = Order.new
-      order.id = record['id'].to_i
-      order.customer_name = record['customer_name']
-      order.order_date = record['order_date']
-      order.item_id = record['item_id'].to_i
-      orders << order
+      orders << record_to_order_object(record)
     end
     # Returns an array of Order objects.
     return orders
@@ -32,6 +27,19 @@ class OrderRepository
 
     DatabaseConnection.exec_params(sql, sql_params)
     # Does not return a value
+  end
+
+  private
+
+  def record_to_order_object(record)
+    order = Order.new
+
+    order.id = record['id'].to_i
+    order.customer_name = record['customer_name']
+    order.order_date = record['order_date']
+    order.item_id = record['item_id'].to_i
+
+    return order
   end
 
 end
