@@ -1,4 +1,4 @@
-# {{items & orders} Model and Repository Classes Design Recipe
+# {{items & orders}} Model and Repository Classes Design Recipe
 
 _Copy this recipe template to design and implement Model and Repository classes for a database table._
 
@@ -98,6 +98,11 @@ end
 # (in lib/item_repository.rb)
 
 class ItemRepository
+  # Creates instance varaible for kernel
+  def initialize(terminal_io) # One argument - double
+    # instance variable for terminal_io
+  end
+
   # Selecting all records
   # No arguments
   def list_all_items
@@ -115,11 +120,17 @@ class ItemRepository
     # INSERT INTO items (item_name, unit_price, quantity) VALUES($1, $2, $3);
     # Put string showing successful completion
 
-    # Returns item object
+    # Returns nothing
   end
 end
 
 class OrderRepository
+
+  # Creates instance varaible for kernel
+  def initialize(terminal_io) # One argument - double
+    # instance variable for terminal_io
+  end
+
   # Selecting all records
   # No arguments
   def list_all_orders
@@ -137,7 +148,7 @@ class OrderRepository
     # INSERT INTO orders (customer_name, order_date, item_id) VALUES($1, $2, $3);
     # Put string showing successful completion
 
-    # Returns order object
+    # Returns nothing
   end
 end
 ```
@@ -173,6 +184,16 @@ items[1].quantity # =>  30
 
 # 2
 # creates a new item
+terminal_io = double :terminal_io
+
+# What is the name of the item?
+terminal_io # expect to receive :gets and return 'Samsung Galxy Fold 6' ordered
+
+# What is the unit price of #{item_name}?
+terminal_io # expect to receive :gets and return 1649
+
+# How many #{item_name} items do you have?
+terminal_io # expect to receive :gets and return 900
 
 new_item = @repo.create_new_item
 all_items = @repo.list_all_items
@@ -186,7 +207,7 @@ all_items # => includes have_attributes of new_item
   @repo = OrderRepository.new
 
 # 1
-# lists all order
+# lists all orders
 
 orders = @repo.list_all_orders
 
@@ -204,6 +225,17 @@ orders[3].item_id # =>  3
 
 # 2
 # creates a new order
+
+terminal_io = double :terminal_io
+
+# What is the name of the customer?
+terminal_io # expect to receive :gets and return 'Samuel Badru' ordered
+
+# What is the order date (YYYY-MM-DD format)?
+terminal_io # expect to receive :gets and return 2023-09-27
+
+# What is the item id for this order?
+terminal_io # expect to receive :gets and return 4
 
 new_order = @repo.create_new_order
 all_orders = @repo.list_all_orders
@@ -229,6 +261,7 @@ end
 describe ItemRepository do
   before do 
     reset_items_table
+    @repo = ItemRepository.new
   end
 
   # (your tests will go here).
@@ -238,8 +271,7 @@ end
 # file: spec/order_repository_spec.rb
 
 def reset_orders_table
-# may need to reference differently as seed is in schema instead of spec
-  seed_sql = File.read('schema/orders_orders_seeds.sql')
+  seed_sql = File.read('schema/items_orders_seeds.sql')
   connection = PG.connect({ host: '127.0.0.1', dbname: 'orders' })
   connection.exec(seed_sql)
 end
@@ -247,7 +279,7 @@ end
 describe OrderRepository do
   before do 
     reset_orders_table
-    @repo = ItemRepository.new
+    @repo = OrderRepository.new
   end
 
   # (your tests will go here).
