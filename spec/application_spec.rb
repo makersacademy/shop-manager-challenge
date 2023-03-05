@@ -28,7 +28,7 @@ RSpec.describe Application do
 
   it "creates a new shop item when user selects option 2" do
     allow(io).to receive(:puts)
-    expect(io).to receive(:gets).and_return("2\n") # stub gets method to return "1\n"
+    expect(io).to receive(:gets).and_return("2\n")
     expect(io).to receive(:gets).and_return("Oranges\n", "2.45\n", "2\n")
     expect(item_repo).to receive(:create).with(instance_of(Items))
     expect(io).to receive(:puts).with("Item added")
@@ -43,6 +43,15 @@ RSpec.describe Application do
     expect(io).to receive(:gets).and_return("3\n") # stub gets method to return "1\n"
     expect(io).to receive(:puts).with("1 - James Pates - 2023-03-02 - 1")
     expect(io).to receive(:puts).with("2 - Ann Pates - 2023-03-01 - 2")
+    app.choose_option
+  end
+
+  it "creates a new shop order when user selects option 4" do
+    allow(io).to receive(:puts)
+    expect(io).to receive(:gets).and_return("4\n")
+    expect(io).to receive(:gets).and_return("James Pates\n", "2023-03-01\n", "2\n")
+    expect(order_repo).to receive(:create).with(instance_of(Orders))
+    expect(io).to receive(:puts).with("Order added")
     app.choose_option
   end
 end

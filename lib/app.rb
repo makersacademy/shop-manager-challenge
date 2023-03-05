@@ -37,6 +37,8 @@ class Application
         create_new_shop_item
       when "3"
         list_all_shop_orders
+      when "4"
+        create_new_shop_order
     end
   end
 
@@ -62,5 +64,17 @@ class Application
     @order_repository.all.each do |order|
       @io.puts "#{order.id} - #{order.customer_name} - #{order.order_date} - #{order.item_id}"
     end
+  end
+
+  def create_new_shop_order
+    @io.puts "Enter Customer name:"
+    customer_name = @io.gets.chomp
+    @io.puts "Enter Order Date:"
+    order_date = @io.gets.chomp
+    @io.puts "Enter item_id:"
+    item_id = @io.gets.chomp
+    order = Orders.new(customer_name: customer_name, order_date: order_date, item_id: item_id)
+    @order_repository.create(order)
+    @io.puts "Order added"
   end
 end
