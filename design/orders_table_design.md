@@ -124,39 +124,39 @@ These examples will later be encoded as RSpec tests.
 
 ```ruby
 # 1
-# Get all items
+# Get all orders
 
-repo = ItemRepository.new
+repo = OrderRepository.new
 
-items = repo.all
+orders = repo.all
 
-items.length # => 3
+orders.length # => 3
 
-items[0].name # => 'Super Shark Vacuum Cleaner'
-items[0].price # => 99
-items[0].quantity # => 30
+orders[0].customer_name # => 'Customer1'
+orders[0].order_date # => '01-Jan-2023'
+orders[0].item_id # => 1
 
-items[1].name # => 'Makerspresso Coffee Machine'
-items[1].price # => 69
-items[1].quantity # => 15
+orders[1].customer_name # => 'Customer2'
+orders[1].order_date # => '10-Jan-2023'
+orders[1].item_id # => 2
 
-items[2].name # => 'Toastie Maker'
-items[2].price # => 30
-items[2].quantity # => 60
+orders[2].customer_name # => 'Customer3'
+orders[2].order_date # => '20-Jan-2023'
+orders[2].item_id # => 3
 
 # 2 
-# Creates a single item
+# Creates a single order
 
-repo = ItemRepository.new
+repo = OrderRepository.new
 
-item = Item.new
-item.name = 'Ice Cream Maker'
-item.price = 50
-item.quantity = 20
+order = Order.new
+order.customer_name = 'Customer4'
+order.order_date = '25-Jan-2023'
+order.item_id = 3
 
-repo.create(item)
+repo.create(order)
 
-items = repo.all # => items should contain the new item
+orders = repo.all # => orders should contain the new order
 
 ```
 
