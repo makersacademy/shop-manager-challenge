@@ -1,5 +1,5 @@
-TRUNCATE TABLE orders RESTART IDENTITY;
-TRUNCATE TABLE items RESTART IDENTITY;  -- replace with your own table name.
+TRUNCATE TABLE orders, items RESTART IDENTITY;
+ -- replace with your own table name.
 --this is so our table is emptied between each test run,
 -- so we can start with a fresh state.
 -- Below this line there should only be `INSERT` statements.
