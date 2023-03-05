@@ -1,3 +1,5 @@
+require 'database_connection'
+DatabaseConnection.connect('order_items_test')
 require 'simplecov'
 require 'simplecov-console'
 
