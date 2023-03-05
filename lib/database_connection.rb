@@ -1,5 +1,4 @@
 # file: lib/database_connection.rb
-
 require 'pg'
 
 # This class is a thin "wrapper" around the
