@@ -177,7 +177,7 @@ class OrderRepository
   # def create(order)
     # Executes the SQL query:
     # sql = 'INSERT INTO orders (date, customer_name, item_id) VALUES ($1, $2, $3)';
-    # DataConnection.exec_params(sql, [order.date, order.customer_name, order.item_id])
+    # DatabaseConnection.exec_params(sql, [order.date, order.customer_name, order.item_id])
 
     # it does not return anything
   # end
@@ -235,7 +235,7 @@ item.price = 3
 item.quantity = 10
 
 repo.create(item) # Performs the INSERT query
-all_items = repo.all # => # Performs a SELECT query to get all records 
+items = repo.all # => # Performs a SELECT query to get all records 
 #all_items should contain the item 'Coffee' created above.
 ```
 
@@ -267,7 +267,7 @@ order.customer_name = 'Gino'
 order.item_id = 3
 
 repo.create(order) # Performs the INSERT query
-all_orders = repo.all # => # Performs a SELECT query to get all records 
+orders = repo.all # => # Performs a SELECT query to get all records 
 #all_orders should contain the order '' created above.
 ```
 
