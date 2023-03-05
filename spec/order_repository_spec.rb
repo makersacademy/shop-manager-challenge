@@ -26,9 +26,6 @@ RSpec.describe OrderRepository do
       expect(order[1].customer_name).to eq('Anna')
       expect(order[1].item_id).to eq(2)
     end
-
-
-
-
   end
 end
+
