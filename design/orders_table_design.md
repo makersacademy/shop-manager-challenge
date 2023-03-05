@@ -30,9 +30,9 @@ INSERT INTO items (name, price, quantity) VALUES ('Super Shark Vacuum Cleaner', 
 INSERT INTO items (name, price, quantity) VALUES ('Makerspresso Coffee Machine', 69, 15);
 INSERT INTO items (name, price, quantity) VALUES ('Toastie Maker', 30, 60);
 
-INSERT INTO orders (customer_name, order_date, item_id) VALUES ('Customer1', '01-Jan-2023', 1);
-INSERT INTO orders (customer_name, order_date, item_id) VALUES ('Customer2', '10-Jan-2023', 2);
-INSERT INTO orders (customer_name, order_date, item_id) VALUES ('Customer3', '20-Jan-2023', 3);
+INSERT INTO orders (customer_name, order_date, item_id) VALUES ('Customer1', '2023-01-01', 1);
+INSERT INTO orders (customer_name, order_date, item_id) VALUES ('Customer2', '2023-01-10', 2);
+INSERT INTO orders (customer_name, order_date, item_id) VALUES ('Customer3', '2023-01-20', 3);
 
 ```
 
@@ -133,15 +133,15 @@ orders = repo.all
 orders.length # => 3
 
 orders[0].customer_name # => 'Customer1'
-orders[0].order_date # => '01-Jan-2023'
+orders[0].order_date # => '2023-01-01'
 orders[0].item_id # => 1
 
 orders[1].customer_name # => 'Customer2'
-orders[1].order_date # => '10-Jan-2023'
+orders[1].order_date # => '2023-01-10'
 orders[1].item_id # => 2
 
 orders[2].customer_name # => 'Customer3'
-orders[2].order_date # => '20-Jan-2023'
+orders[2].order_date # => '2023-01-20'
 orders[2].item_id # => 3
 
 # 2 
@@ -151,7 +151,7 @@ repo = OrderRepository.new
 
 order = Order.new
 order.customer_name = 'Customer4'
-order.order_date = '25-Jan-2023'
+order.order_date = '2023-01-25'
 order.item_id = 3
 
 repo.create(order)
@@ -170,17 +170,17 @@ This is so you get a fresh table contents every time you run the test suite.
 
 ```ruby
 
-# file: spec/item_repository_spec.rb
+# file: spec/order_repository_spec.rb
 
-def reset_items_table
+def reset_orders_table
   seed_sql = File.read('spec/seeds_items_orders.sql')
   connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
   connection.exec(seed_sql)
 end
 
-describe ItemRepository do
+describe OrderRepository do
   before(:each) do 
-    reset_items_table
+    reset_orders_table
   end
 
   # (your tests will go here).

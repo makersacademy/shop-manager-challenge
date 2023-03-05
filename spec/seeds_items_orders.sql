@@ -13,6 +13,6 @@ INSERT INTO items (name, price, quantity) VALUES ('Super Shark Vacuum Cleaner', 
 INSERT INTO items (name, price, quantity) VALUES ('Makerspresso Coffee Machine', 69, 15);
 INSERT INTO items (name, price, quantity) VALUES ('Toastie Maker', 30, 60);
 
-INSERT INTO orders (customer_name, order_date, item_id) VALUES ('Customer1', '01-Jan-2023', 1);
-INSERT INTO orders (customer_name, order_date, item_id) VALUES ('Customer2', '10-Jan-2023', 2);
-INSERT INTO orders (customer_name, order_date, item_id) VALUES ('Customer3', '20-Jan-2023', 3);
+INSERT INTO orders (customer_name, order_date, item_id) VALUES ('Customer1', '2023-01-01', 1);
+INSERT INTO orders (customer_name, order_date, item_id) VALUES ('Customer2', '2023-01-10', 2);
+INSERT INTO orders (customer_name, order_date, item_id) VALUES ('Customer3', '2023-01-20', 3);
