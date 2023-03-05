@@ -1,4 +1,5 @@
 require 'items_repository'
+require 'items'
 
 
 RSpec.describe ItemsRepository do 
@@ -24,6 +25,23 @@ RSpec.describe ItemsRepository do
             expect(result.first.quantity).to eq 756
 
           end
+        end
+
+        describe "create method" do
+          it 'adds a new item' do
+            item = Items.new
+            item.name = "Football"
+            item.price = 10
+            item.quantity = 120 
+
+            repo = ItemsRepository.new
+            repo.create(item)
+            result = repo.all
+
+            expect(result.last.name).to eq 'Football'
+            expect(result.last.price).to eq 10
+            expect(result.last.quantity).to eq 120
+          end 
         end
 
 
