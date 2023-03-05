@@ -34,7 +34,7 @@ Overall, happy with this project, it was quite straightforward and starting to g
 ### Notes on how to make this better when I get some spare time.
 
 
-1. Add full CRUD functionality (update & create)
+1. Add full CRUD functionality (update & delete)
 2. Add in error handling
 3. Refactor some of the longer methods, consider using private methods.
 
