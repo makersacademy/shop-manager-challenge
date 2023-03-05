@@ -1,10 +1,13 @@
+require 'item'
+require_relative 'item'
+require_relative 'database_connection'
 class ItemRepository
 
     # Selecting all records
     # No arguments
     def all
       # Executes the SQL query:
-      result_set = DatabaseConnection.exec_params('SELECT id, item_name, unit_price, quantity, order_id')
+      result_set = DatabaseConnection.exec_params('SELECT id, item_name, unit_price, quantity, order_id FROM items;',[])
       items = []
       result_set.each do |a_item|
         item = Item.new
