@@ -14,7 +14,7 @@ RSpec.describe ItemRepository do
   
     it 'returns two items' do
       repo = ItemRepository.new
-      items = repo.all.sort_by(&:name)
+      items = repo.all.sort_by(&:id)
 
       expect(items.length).to eq(2)
       
@@ -27,7 +27,21 @@ RSpec.describe ItemRepository do
       expect(items[1].name).to eq('Milk')
       expect(items[1].price).to eq(2)
       expect(items[1].quantity).to eq(3)
-    
+    end
+
+    it 'contains the new item' do
+      repo = ItemRepository.new
+      item = Item.new
+      item.name = 'Coffee'
+      item.price = 3
+      item.quantity = 10
+
+      repo.create(item) 
+      items = repo.all.sort_by(&:id)
+      expect(items[2].id).to eq(3)
+      expect(items[2].name).to eq('Coffee')
+      expect(items[2].price).to eq(3)
+      expect(items[2].quantity).to eq(10)
     end
   end
 

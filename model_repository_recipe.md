@@ -153,7 +153,7 @@ class ItemRepository
   # def create(item)
     # Executes the SQL query:
     # sql = 'INSERT INTO items (name, price, quantity) VALUES ($1, $2, $3)';
-    # DataConnection.exec_params(sql, [item.name, item.price, item.quantity])
+    # DatabaseConnection.exec_params(sql, [item.name, item.price, item.quantity])
 
     # it does not return anything
   # end
