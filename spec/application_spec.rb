@@ -1,4 +1,4 @@
-require './lib/app.rb'
+require './lib/app'
 
 def reset_seeds_table
   seed_sql = File.read('spec/seeds.sql')
@@ -7,9 +7,9 @@ def reset_seeds_table
 end
 
 RSpec.describe Application do
-  let(:order_repo) { double("OrdersRepository")}
-  let(:item_repo) { double("ItemsRepository")}
-  let(:io) { double('io')}
+  let(:order_repo) { double("OrdersRepository") }
+  let(:item_repo) { double("ItemsRepository") }
+  let(:io) { double('io') }
   let(:app) { Application.new('shop_manager_test', io, item_repo, order_repo) }
   before(:each) do 
     reset_seeds_table
@@ -35,7 +35,7 @@ RSpec.describe Application do
     app.choose_option
   end
 
- it "gets a list of shop orders when user selects option 3" do
+  it "gets a list of shop orders when user selects option 3" do
     order1 = instance_double("Order", id: 1, customer_name: "James Pates", order_date: "2023-03-02", item_id: "1")
     order2 = instance_double("Order", id: 2, customer_name: "Ann Pates", order_date: "2023-03-01", item_id: "2")
     allow(order_repo).to receive(:all).and_return([order1, order2])
@@ -54,4 +54,5 @@ RSpec.describe Application do
     expect(io).to receive(:puts).with("Order added")
     app.choose_option
   end
+
 end
