@@ -1,8 +1,8 @@
-require_relative 'lib/recipes_directory_repository'
+require_relative 'lib/shop_manager_challenge_repository'
 require_relative 'lib/database_connection'
 
-DatabaseConnection.connect('recipes_directory_test')
+DatabaseConnection.connect('shop_manager_challenge_test')
 
-RecipeRepository.new.all.each do |tired|
+ShopManager.new.all.each do |tired|
   p tired 
 end

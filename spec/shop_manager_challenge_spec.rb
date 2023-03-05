@@ -1,11 +1,11 @@
-# file: spec/recipes_directory_repository_spec.rb
-require "recipes_directory_repository"
+# file: spec/shop_manager_challenge_repository_spec.rb
+require "shop_manager_challenge_repository"
 
-RSpec.describe RecipeRepository do
+RSpec.describe ShopManagerRepository do
 
   def reset_recipes_table
-    seed_sql = File.read('spec/seeds_recipes.sql')
-    connection = PG.connect({ host: '127.0.0.1', dbname: 'recipes_directory_test' })
+    seed_sql = File.read('spec/seeds_shop_manager.sql')
+    connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_challenge_test' })
     connection.exec(seed_sql)
   end
 
@@ -15,7 +15,7 @@ RSpec.describe RecipeRepository do
 
 
   it "returns all recipes" do
-    repo = RecipeRepository.new
+    repo = ShopManager.new
     recipes = repo.all
   
     expect(recipes.length).to eq(2)
@@ -35,7 +35,7 @@ RSpec.describe RecipeRepository do
   # Get a single recipe
   
   it "returns single recipe" do
-    repo = RecipeRepository.new
+    repo = ShopManager.new
     recipes = repo.find(1)
   
     expect(recipes.id).to eq('1')

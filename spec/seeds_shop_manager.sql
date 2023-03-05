@@ -1,5 +1,5 @@
 -- EXAMPLE
--- (file: spec/seeds_recipes.sql)
+-- (file: spec/seeds_shop_manager.sql)
 
 -- Write your SQL seed here. 
 
@@ -7,10 +7,10 @@
 -- so we can start with a fresh state.
 -- (RESTART IDENTITY resets the primary key)
 
-TRUNCATE TABLE recipes RESTART IDENTITY; -- replace with your own table name.
+TRUNCATE TABLE items RESTART IDENTITY; -- replace with your own table name.
 
 -- Below this line there should only be `INSERT` statements.
 -- Replace these statements with your own seed data.
 
-INSERT INTO recipes (name, cooking_time, rating) VALUES ('Dumplings', '45', '4');
-INSERT INTO recipes (name, cooking_time, rating) VALUES ('Duck Ragu', '120', '5');
+INSERT INTO items (item_name, unit_price, quantity) VALUES ('Deck chairs', '40', '4');
+INSERT INTO items (item_name, unit_price, quantity) VALUES ('Seat cushions', '10', '6');
