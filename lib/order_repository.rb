@@ -5,18 +5,16 @@ class OrderRepository
     # No arguments
     def all
       # Executes the SQL query:
-      result_set = DatabaseConnection.exec_params('SELECT id, customer_name,the_date FROM order ')
-      items = []
-      result_set.each do |a_item|
-        item = Item.new
-        item.id = a_item['id']
-        item.item_name = a_item['item_name']
-        item.unit_price = a_item['unit_price']
-        item.quantity = a_item['quantity']
-        item.order_id = a_item['order_id']
-        items << item
+      result_set = DatabaseConnection.exec_params('SELECT id, customer_name,the_date FROM orders;',[])
+      orders = []
+      result_set.each do |a_order|
+        order = Order.new
+        order.id = a_order['id']
+        order.customer_name= a_order['customer_name']
+        order.the_date= a_order['the_date']
+        orders << order
       end
-      return items
+      return orders
       # Returns an array of Item objects.
     end
   
