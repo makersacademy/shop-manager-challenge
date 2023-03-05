@@ -68,17 +68,18 @@ Usually, the Model class name will be the capitalised table name (single instead
 
 ```ruby
 # EXAMPLE
-# Table name: students
+# Table name: orders
 
 # Model class
 # (in lib/student.rb)
-class Student
+class Order
 end
+
+class Item
 
 # Repository class
 # (in lib/student_repository.rb)
-class StudentRepository
-end
+
 ```
 
 ## 4. Implement the Model class
@@ -87,15 +88,20 @@ Define the attributes of your Model class. You can usually map the table columns
 
 ```ruby
 # EXAMPLE
-# Table name: students
+# Table name: orders
 
 # Model class
-# (in lib/student.rb)
+# (in lib/order.rb)
 
-class Student
+class Order
 
   # Replace the attributes by your own columns.
-  attr_accessor :id, :name, :cohort_name
+  attr_accessor :id, :customer_name, :the_date
+end
+class Item
+
+  # Replace the attributes by your own columns.
+  attr_accessor :id, :item_name, :unit_price, :quantity, :order_id
 end
 
 # The keyword attr_accessor is a special Ruby feature
@@ -122,7 +128,7 @@ Using comments, define the method signatures (arguments and return value) and wh
 # Repository class
 # (in lib/student_repository.rb)
 
-class StudentRepository
+class OrderRepository
 
   # Selecting all records
   # No arguments
@@ -169,30 +175,46 @@ These examples will later be encoded as RSpec tests.
 
 repo = StudentRepository.new
 
-students = repo.all
+orders = repo.all
 
-students.length # =>  2
+orders.length # =>  4s
 
-students[0].id # =>  1
-students[0].name # =>  'David'
-students[0].cohort_name # =>  'April 2022'
+orders.first.id # =>  1
+orders.last.customer_name # => '
+orders.first.the_date 
 
-students[1].id # =>  2
-students[1].name # =>  'Anna'
-students[1].cohort_name # =>  'May 2022'
+repo = orderRepository.new
+
+order = repo.find(3)
+
+order.id # =>  3
+order.name # =>  'David'
+order.cohort_name # =>  '2022'
+
+# Add more examples for each method
+
+repo = itemRepository.new
+
+items = repo.all
+
+items.length # =>  4
+
+items.first.id # =>  1
+items.last.unit_price # =>  'David'
+items.first.quantity # =>  'April 2022'
+
+repo = orderRepository.new
+
+item = repo.find(2)
+
+item.id # =>  2
+item.name # =>  'tv'
+item.unit_price # =>  '202'
+item.quantity
 
 # 2
 # Get a single student
 
-repo = StudentRepository.new
-
-student = repo.find(1)
-
-student.id # =>  1
-student.name # =>  'David'
-student.cohort_name # =>  'April 2022'
-
-# Add more examples for each method
 ```
 
 Encode this example as a test.
