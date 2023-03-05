@@ -207,7 +207,7 @@ students[1].name # =>  'Anna'
 students[1].cohort_name # =>  'May 2022'
 
 # Get all items
-
+```ruby
 repo = ItemRepository.new
 
 items = repo.all
@@ -223,10 +223,24 @@ items[1].id # =>  2
 items[1].name # =>  'Milk'
 items[1].price # =>  2
 items[1].quantity # => 3
+```
+# 2 
+# Create one item
+```ruby
+repo = ItemRepository.new
+item = Item.new
+item.name = 'Coffee'
+item.price = 3
+item.quantity = 10
+
+repo.create(item) # Performs the INSERT query
+all_items = repo.all # => # Performs a SELECT query to get all records 
+#all_items should contain the item 'Coffee' created above.
+```
 
 # 3
 # Get all orders
-
+```ruby
 repo = OrderRepository.new
 
 order = repo.all
@@ -242,8 +256,19 @@ order[1].id # =>  2
 order[1].date # =>  '2023-02-21'
 order[1].customer_name # =>  'Anna'
 order[1].item_id # => 2
+```
+# Create one order
+```ruby
+repo = OrderRepository.new
+order = Order.new
+order.date = '2023/02/25'
+order.customer_name = 'Gino'
+order.item_id = 3
 
-
+repo.create(order) # Performs the INSERT query
+all_orders = repo.all # => # Performs a SELECT query to get all records 
+#all_orders should contain the order '' created above.
+```
 
 
 7. Reload the SQL seeds before each test run
@@ -251,22 +276,56 @@ Running the SQL code present in the seed file will empty the table and re-insert
 
 This is so you get a fresh table contents every time you run the test suite.
 
-# EXAMPLE
+--# EXAMPLE
 
-# file: spec/student_repository_spec.rb
+--# file: spec/student_repository_spec.rb
 
-def reset_students_table
-  seed_sql = File.read('spec/seeds_students.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'students' })
+--def reset_students_table
+ -- seed_sql = File.read('spec/seeds_students.sql')
+ -- connection = PG.connect({ host: '127.0.0.1', dbname: 'students' })
+  --connection.exec(seed_sql)
+--end
+
+--describe StudentRepository do
+  --before(:each) do 
+   -- reset_students_table
+  --end
+
+  --# (your tests will go here).
+--end
+
+# file: spec/item_repository_spec.rb
+
+def reset_items_table
+  seed_sql = File.read('spec/test_seeds.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
   connection.exec(seed_sql)
 end
 
-describe StudentRepository do
+describe ItemRepository do
   before(:each) do 
-    reset_students_table
+    reset_items_table
   end
 
   # (your tests will go here).
 end
+
+# file: spec/order_repository_spec.rb
+
+def reset_orders_table
+  seed_sql = File.read('spec/test_seeds.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
+  connection.exec(seed_sql)
+end
+
+describe OrderRepository do
+  before(:each) do 
+    reset_orders_table
+  end
+
+  # (your tests will go here).
+end
+
+
 8. Test-drive and implement the Repository class behaviour
 After each test you write, follow the test-driving process of red, green, refactor to implement the behaviour.
