@@ -18,6 +18,11 @@ RSpec.describe ItemRepository do
         items = repo.all
         expect(items.first.unit_price).to eq ("3")
     end
+    it 'returns what the last unit price is' do
+        repo = ItemRepository.new
+        items = repo.all
+        expect(items.first.unit_price).to eq ("3")
+    end
     it 'returns what the first unit price is' do
         repo = ItemRepository.new
         items = repo.all
