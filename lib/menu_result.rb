@@ -1,4 +1,4 @@
-require 'item_repository'
+require_relative 'item_repository'
 
 class MenuResult
   def initialize(io)
@@ -44,6 +44,4 @@ class MenuResult
     order_repository = OrderRepository.new
     order_repository.create(order)
   end
-    
-  
 end
