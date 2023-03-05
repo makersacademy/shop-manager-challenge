@@ -1,3 +1,3 @@
 class Items
-    attr_accessor :id, :title, :release_year, :artist_id
+    attr_accessor :id, :name, :price, :quantity
 end

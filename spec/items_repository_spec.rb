@@ -13,5 +13,22 @@ RSpec.describe ItemsRepository do
         before(:each) do 
           reset_table
         end
-  
+        
+        describe "all method" do 
+          it "lists all items" do
+            repo = ItemsRepository.new
+            result=repo.all
+            expect(result.first.id).to eq 1
+            expect(result.first.name).to eq 'Basketball'
+            expect(result.first.price).to eq 13.5
+            expect(result.first.quantity).to eq 756
+
+          end
+        end
+
+
+
+
+
+      end 
 end 
