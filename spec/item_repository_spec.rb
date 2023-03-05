@@ -1,3 +1,5 @@
+require 'item_repository'
+
 RSpec.describe ItemRepository do
     def reset_items_table
         seed_sql = File.read('spec/seeds.sql')
