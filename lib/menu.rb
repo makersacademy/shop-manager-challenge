@@ -11,4 +11,11 @@ class Menu
     @io.puts('3 = list all orders')
     @io.puts('4 = create a new order')
   end
+
+  def get_result
+    result = @io.gets.chomp
+    fail 'Invalid number' if !['1', '2', '3', '4'].include?(result)
+    return result
+  end
+
 end
