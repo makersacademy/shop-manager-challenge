@@ -34,8 +34,11 @@ class Application
     case choice
     when "1"
       @io.puts "Here's a list of all shop items:"
+
       repo = ItemRepository.new
+
       items = repo.all
+
       items.each do |record|
         id = record.id
         name = record.name
@@ -43,10 +46,32 @@ class Application
         quantity = record.quantity
         @io.puts "##{id} #{name} - Unit Price: #{price} - Quantity: #{quantity}"
       end   
+
+    when "2"
+      @io.puts "What is the name of the item?"
+      name = @io.gets.chomp
+      @io.puts "What is the price of the item?"
+      price = @io.gets.chomp.to_i
+      @io.puts "What is the quantity of the item?"
+      quantity = @io.gets.chomp.to_i
+
+      repo = ItemRepository.new
+
+      item = Item.new
+      item.name = name
+      item.price = price
+      item.quantity = quantity
+      repo.create(item)
+
+      @io.puts "Item has been added"
+
     when "3"
       @io.puts "Here's a list of all orders:"
+
       repo = OrderRepository.new
+
       orders = repo.all
+
       orders.each do |record|
         id = record.id
         name = record.customer_name
@@ -54,10 +79,26 @@ class Application
         item_id = record.item_id
         @io.puts "##{id} Name: #{name} - Date: #{date} - Item ID: #{item_id}"
       end
+
+    when "4"
+      @io.puts "What is the name of the customer?"
+      name = @io.gets.chomp
+      @io.puts "What is the order date?"
+      date = @io.gets.chomp
+      @io.puts "What is the item ID?"
+      item_id = @io.gets.chomp.to_i
+
+      repo = OrderRepository.new
+
+      order = Order.new
+      order.customer_name = name
+      order.order_date = date
+      order.item_id = item_id
+
+      repo.create(order)
+      
+      @io.puts "Order has been added"
     end 
-    
-    # Use `@io.puts` or `@io.gets` to
-    # write output and ask for user input.
   end
 end
 
@@ -74,4 +115,3 @@ if __FILE__ == $0
   )
   app.run
 end
-
