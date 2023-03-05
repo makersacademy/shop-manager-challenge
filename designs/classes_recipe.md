@@ -43,91 +43,102 @@ psql -h 127.0.0.1 shop_test < schema/items_orders_seeds.sql
 Usually, the Model class name will be the capitalised table name (single instead of plural). The same name is then suffixed by `Repository` for the Repository class name.
 
 ```ruby
-# EXAMPLE
-# Table name: students
+# Table name: items
 
 # Model class
-# (in lib/student.rb)
-class Student
+# (in lib/item.rb)
+class Item
 end
 
 # Repository class
-# (in lib/student_repository.rb)
-class StudentRepository
+# (in lib/item_repository.rb)
+class ItemRepository
 end
-```
 
-## 4. Implement the Model class
-
-Define the attributes of your Model class. You can usually map the table columns to the attributes of the class, including primary and foreign keys.
-
-```ruby
-# EXAMPLE
-# Table name: students
+# Table name: orders
 
 # Model class
-# (in lib/student.rb)
-
-class Student
-
-  # Replace the attributes by your own columns.
-  attr_accessor :id, :name, :cohort_name
+# (in lib/order.rb)
+class Order
 end
 
-# The keyword attr_accessor is a special Ruby feature
-# which allows us to set and get attributes on an object,
-# here's an example:
-#
-# student = Student.new
-# student.name = 'Jo'
-# student.name
+# Repository class
+# (in lib/order_repository.rb)
+class OrderRepository
+end
 ```
 
-*You may choose to test-drive this class, but unless it contains any more logic than the example above, it is probably not needed.*
-
-## 5. Define the Repository Class interface
-
-Your Repository class will need to implement methods for each "read" or "write" operation you'd like to run against the database.
-
-Using comments, define the method signatures (arguments and return value) and what they do - write up the SQL queries that will be used by each method.
+## 4. Implement the Model classes
 
 ```ruby
-# EXAMPLE
-# Table name: students
+# Table name: items
+
+# Model class
+# (in lib/item.rb)
+class Item
+  attr_accessor :id, :item_name, :unit_price, :quantity
+end
+
+# Table name: orders
+
+# Model class
+# (in lib/order.rb)
+class Order
+  attr_accessor :customer_name, :order_date, :item_id
+end
+```
+
+## 5. Define the Repository Class interfaces
+
+```ruby
+
+# Table name: items
 
 # Repository class
-# (in lib/student_repository.rb)
+# (in lib/item_repository.rb)
 
-class StudentRepository
-
+class ItemRepository
   # Selecting all records
   # No arguments
-  def all
+  def list_all_items
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students;
+    # SELECT * FROM items;
 
-    # Returns an array of Student objects.
+    # Returns an array of Item objects.
   end
 
-  # Gets a single record by its ID
-  # One argument: the id (number)
-  def find(id)
-    # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students WHERE id = $1;
+  # Creates a new item and inserts it into items table
+  # No arguments
+  def create_new_item
+    # Use gets to prompt user for necessary item attributes
+    # Once item is created executes the SQL query:
+    # INSERT INTO items (item_name, unit_price, quantity) VALUES($1, $2, $3);
+    # Put string showing successful completion
 
-    # Returns a single Student object.
+    # Returns nothing
+  end
+end
+
+class OrderRepository
+  # Selecting all records
+  # No arguments
+  def list_all_orders
+    # Executes the SQL query:
+    # SELECT * FROM orders;
+
+    # Returns an array of order objects.
   end
 
-  # Add more methods below for each operation you'd like to implement.
+  # Creates a new order and inserts it into orders table
+  # No arguments
+  def create_new_order
+    # Use gets to prompt user for necessary order attributes
+    # Once order is created executes the SQL query:
+    # INSERT INTO orders (customer_name, order_date, item_id) VALUES($1, $2, $3);
+    # Put string showing successful completion
 
-  # def create(student)
-  # end
-
-  # def update(student)
-  # end
-
-  # def delete(student)
-  # end
+    # Returns nothing
+  end
 end
 ```
 
