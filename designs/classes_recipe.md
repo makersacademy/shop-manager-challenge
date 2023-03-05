@@ -14,33 +14,28 @@ _Copy this recipe template to design and implement Model and Repository classes 
 
 ## 2. Create Test SQL seeds
 
-Your tests will depend on data stored in PostgreSQL to run.
-
-If seed data is provided (or you already created it), you can skip this step.
-
 ```sql
--- EXAMPLE
--- (file: spec/seeds_{table_name}.sql)
+-- (file: schema/items_orders_seeds.sql)
+-- needs to truncate orders first as sql can't truncate a table (items) referenced in a foreign key constraint
+TRUNCATE TABLE items, orders RESTART IDENTITY;
 
--- Write your SQL seed here. 
+INSERT INTO items (item_name, unit_price, quantity) 
+VALUES ('Jollof rice', 5.50, 200),
+       ('Playstation 5', 479.99, 30),
+       ('Standing desk', 200, 400),
+       ('Cereal', 3.20, 500);
 
--- First, you'd need to truncate the table - this is so our table is emptied between each test run,
--- so we can start with a fresh state.
--- (RESTART IDENTITY resets the primary key)
-
-TRUNCATE TABLE students RESTART IDENTITY; -- replace with your own table name.
-
--- Below this line there should only be `INSERT` statements.
--- Replace these statements with your own seed data.
-
-INSERT INTO students (name, cohort_name) VALUES ('David', 'April 2022');
-INSERT INTO students (name, cohort_name) VALUES ('Anna', 'May 2022');
+INSERT INTO orders (customer_name, order_date, item_id) 
+VALUES ('Sasuke Uchiha', '2023-03-04', 4),
+       ('Ross Geller', '1999-10-10', 1),
+       ('Monica Geller', '1997-10-10', 1),
+       ('Ted Moseby', '2006-10-10', 3), 
+       ('Barney Stintson', '2007-05-27', 2);
 ```
 
-Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
-
 ```bash
-psql -h 127.0.0.1 your_database_name < seeds_{table_name}.sql
+psql -h 127.0.0.1 shop < schema/items_orders_seeds.sql
+psql -h 127.0.0.1 shop_test < schema/items_orders_seeds.sql
 ```
 
 ## 3. Define the class names
