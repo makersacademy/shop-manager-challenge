@@ -10,12 +10,20 @@ class OrderRepository
       result_set.each do |a_order|
         order = Order.new
         order.id = a_order['id']
-        order.customer_name= a_order['customer_name']
-        order.the_date= a_order['the_date']
+        order.customer_name = a_order['customer_name']
+        order.the_date = a_order['the_date']
         orders << order
       end
       return orders
       # Returns an array of Item objects.
+    end
+    def create(order)
+      sql = 'INSERT INTO
+        orders (customer_name, the_date)
+        VALUES($1, $2);'
+        sql_params = [order.customer_name, order.the_date]
+        DatabaseConnection.exec_params(sql, sql_params)
+        return nil
     end
   
     # Gets a single record by its ID
