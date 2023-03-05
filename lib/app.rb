@@ -33,12 +33,20 @@ class Application
     case option
       when "1"
           list_all_shop_items
+      when "3"
+          list_all_shop_orders
     end
   end
 
   def list_all_shop_items
     @item_repository.all.each do |item|
      @io.puts "#{item.id} - #{item.item_name} - #{item.price} - #{item.quantity}"
+    end
+  end
+
+  def list_all_shop_orders
+    @order_repository.all.each do |order|
+      @io.puts "#{order.id} - #{order.customer_name} - #{order.order_date} - #{order.item_id}"
     end
   end
 end
