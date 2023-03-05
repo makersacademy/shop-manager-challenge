@@ -7,7 +7,7 @@ RSpec.describe ItemRepository do
     end
     before(:each) do 
         reset_items_table
-      end
+    end
     it 'returns length of table' do
         repo = ItemRepository.new
         items = repo.all
