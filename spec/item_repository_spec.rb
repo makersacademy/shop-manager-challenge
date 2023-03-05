@@ -1,5 +1,4 @@
 require 'item_repository'
-
 RSpec.describe ItemRepository do
     def reset_items_table
         seed_sql = File.read('spec/seeds.sql')
@@ -9,10 +8,10 @@ RSpec.describe ItemRepository do
     before(:each) do 
         reset_items_table
       end
-    it '' do
+    it 'returns length of table' do
         repo = ItemRepository.new
         items = repo.all
-        expect(items.length).to eq ('4')
+        expect(items.length).to eq (4)
     end
 
 end
