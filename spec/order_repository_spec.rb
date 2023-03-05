@@ -6,7 +6,12 @@ RSpec.describe OrderRepository do
         connection.exec(seed_sql)
     end
     before(:each) do 
-        rest_orders_table
+        reset_orders_table
+    end
+    it 'returns length of table' do
+        repo = OrderRepository.new
+        items = repo.all
+        expect(items.length).to eq (4)
     end
 
 end
