@@ -4,7 +4,9 @@ RSpec.describe ItemRepository do
         connection = PG.connect({ host: '127.0.0.1', dbname: 'order_items_test' })
         connection.exec(seed_sql)
     end
-
+    before(:each) do 
+        reset_items_table
+      end
     it '' do
         repo = ItemRepository.new
         items = repo.all
