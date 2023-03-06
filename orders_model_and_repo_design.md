@@ -56,16 +56,16 @@ Usually, the Model class name will be the capitalised table name (single instead
 
 ```ruby
 # EXAMPLE
-# Table name: students
+# Table name: order
 
 # Model class
-# (in lib/student.rb)
-class Student
+# (in lib/order.rb)
+class Order
 end
 
 # Repository class
-# (in lib/student_repository.rb)
-class StudentRepository
+# (in lib/order_repository.rb)
+class OrderRepository
 end
 ```
 
@@ -80,10 +80,10 @@ Define the attributes of your Model class. You can usually map the table columns
 # Model class
 # (in lib/student.rb)
 
-class Student
+class Order
 
   # Replace the attributes by your own columns.
-  attr_accessor :id, :name, :cohort_name
+  attr_accessor :id, :customer_name, :order_date, :item_id
 end
 
 # The keyword attr_accessor is a special Ruby feature
@@ -105,41 +105,37 @@ Using comments, define the method signatures (arguments and return value) and wh
 
 ```ruby
 # EXAMPLE
-# Table name: students
+# Table name: orders
 
 # Repository class
-# (in lib/student_repository.rb)
+# (in lib/order_repository.rb)
 
-class StudentRepository
+class OrderRepository
 
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students;
+    # SELECT id, customer_name, order_date, item_id FROM orders;
 
-    # Returns an array of Student objects.
+    # Returns an array of Item objects.
   end
 
   # Gets a single record by its ID
   # One argument: the id (number)
   def find(id)
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students WHERE id = $1;
+    # SELECT id, customer_name, order_date, item_id FROM orders WHERE id = $1;
 
-    # Returns a single Student object.
+    # Returns a single Item object.
   end
 
-  # Add more methods below for each operation you'd like to implement.
+ def create(item)
+    # Executes the SQL query:
+    # INSERT INTO orders (customer_name, order_date, item_id) VALUES ($1, $2, $3)
 
-  # def create(student)
-  # end
-
-  # def update(student)
-  # end
-
-  # def delete(student)
-  # end
+    #adds an Order object to the orders table
+  end
 end
 ```
 
@@ -153,34 +149,52 @@ These examples will later be encoded as RSpec tests.
 # EXAMPLES
 
 # 1
-# Get all students
+# Get all orders
 
-repo = StudentRepository.new
+repo = OrderRepository.new
 
-students = repo.all
+orders = repo.all
 
-students.length # =>  2
+orders.length # =>  2
 
-students[0].id # =>  1
-students[0].name # =>  'David'
-students[0].cohort_name # =>  'April 2022'
+orders[0].id # =>  1
+orders[0].customer_name # =>  'David'
+orders[0].order_date # => "2022-08-10"
+orders[0].item_id #=> 1
 
-students[1].id # =>  2
-students[1].name # =>  'Anna'
-students[1].cohort_name # =>  'May 2022'
+orders[1].id # =>  2
+orders[1].customer_name # =>  'Anna'
+orders[1].order_date # =>  "2022-09-12"
+orders[1].item_id #=> 2
+
 
 # 2
 # Get a single student
 
-repo = StudentRepository.new
+repo = OrderRepository.new
 
-student = repo.find(1)
+order = repo.find(2)
 
-student.id # =>  1
-student.name # =>  'David'
-student.cohort_name # =>  'April 2022'
+order.id # =>  2
+order.customer_name # =>  'Anna'
+order.order_date # =>  "2022-09-12"
+order.item_id #=> 2
 
-# Add more examples for each method
+#3
+# creates a new order
+
+repo = ItemRepository.new
+item = Item.new
+order.customer_name = "Hilda"
+order.order_date 6/3/23
+order.item_id 1
+
+repo.create(order)
+orders = repo.all
+last_order = orders.last
+last_order.customer_name #=> "Hilda"
+last_order.order_date #=> "2023-03-06"
+last_order.item_id # => 1
 ```
 
 Encode this example as a test.
