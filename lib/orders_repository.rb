@@ -1,4 +1,4 @@
-require 'orders'
+require_relative './orders'
 class OrdersRepository
     def all
         sql = 'SELECT * FROM orders;'
@@ -6,14 +6,13 @@ class OrdersRepository
         result_set = DatabaseConnection.exec_params(sql, []) 
     
         orders =[]
-    
+        p orders
         result_set.each do |records|
           order = Orders.new
           order.id = records['id'].to_i
           order.customer_name = records['customer_name']
           order.order_date = records['order_date']
           order.item_id = records['item_id'].to_i
-    
           orders << order
         end
         

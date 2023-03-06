@@ -29,13 +29,10 @@ RSpec.describe ItemsRepository do
 
         describe "create method" do
           it 'adds a new item' do
-            item = Items.new
-            item.name = "Football"
-            item.price = 10
-            item.quantity = 120 
+            fake_item = double :fake_item, name: "Football", price: 10, quantity: 120
 
             repo = ItemsRepository.new
-            repo.create(item)
+            repo.create(fake_item)
             result = repo.all
 
             expect(result.last.name).to eq 'Football'
@@ -43,10 +40,5 @@ RSpec.describe ItemsRepository do
             expect(result.last.quantity).to eq 120
           end 
         end
-
-
-
-
-
       end 
 end 

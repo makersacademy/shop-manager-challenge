@@ -4,6 +4,8 @@ require 'orders'
 
 RSpec.describe OrdersRepository do 
 
+   repo = OrdersRepository.new
+
     def reset_table
         seed_sql = File.read('spec/seed_orders.sql')
         connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_challenge_test', password: 'a' })
@@ -13,11 +15,13 @@ RSpec.describe OrdersRepository do
       describe OrdersRepository do
         before(:each) do 
           reset_table
+        
+          
         end
+       
 
         describe "all method" do 
           it "lists all orders" do
-            repo = OrdersRepository.new
             result=repo.all
             expect(result.first.id).to eq 1
             expect(result.first.customer_name).to eq 'Henry Smith'
@@ -28,16 +32,10 @@ RSpec.describe OrdersRepository do
         end
 
         describe "create method" do
-          it 'adds a new order' do
-            order = Orders.new
-            order.customer_name = "Sarah Makers"
-            order.order_date = "1997-05-28"
-            order.item_id = 1 
-
-            repo = OrdersRepository.new
-            repo.create(order)
+          it 'adds a new order' do  
+            fake_order = double :fake_order, customer_name: "Sarah Makers", order_date: "1997-05-28", item_id: '1'
+            repo.create(fake_order)
             result = repo.all
-
             expect(result.last.customer_name).to eq "Sarah Makers"
             expect(result.last.order_date).to eq "1997-05-28"
             expect(result.last.item_id).to eq 1

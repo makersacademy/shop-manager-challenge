@@ -1,4 +1,6 @@
-require 'items'
+require_relative './items'
+
+require_relative './database_connection'
 
 class ItemsRepository
   def all
@@ -14,10 +16,8 @@ class ItemsRepository
       item.name = records['name']
       item.price = records['price'].to_f
       item.quantity = records['quantity'].to_i
-
       items << item
     end
-    
     return items
   end 
 
