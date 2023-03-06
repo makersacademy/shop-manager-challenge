@@ -75,8 +75,7 @@ class Application
   end
 
   # this method is used once by both 
-  # item manager at line 137 
-  # and order manager at line 110
+  # item and order manager
   def _get_user_input
     while true
       input = _prompt.to_i
