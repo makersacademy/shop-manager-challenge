@@ -1,4 +1,4 @@
-require 'item'
+require_relative 'item'
 class ItemRepository
   def all
     sql = 'SELECT id, name, unit_price, quantity FROM items;'

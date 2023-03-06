@@ -47,7 +47,7 @@ RSpec.describe ItemRepository do
     items = repo.all
     last_item = items.last
     expect(last_item.name).to eq "Truncate Truffles"
-    expect(last_item.unit_price).to eq  40
-    expect(last_item.quantity).to eq  16
+    expect(last_item.unit_price).to eq 40
+    expect(last_item.quantity).to eq 16
   end
 end
