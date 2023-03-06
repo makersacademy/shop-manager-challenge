@@ -36,21 +36,27 @@ The Order Manager can:
  - find and print, in a formatted form, an order along with the items sold
  - create a new order with items sold and automatically create links in the join table
  - update partially or entirely an existing order (date, customer name and/or items sold)
+ - update items remaining stock when they are added to a new order
  - delete an existing order
  - print a feedback message when a task has been successfully executed
 
-Exception handled:
+Exceptions handled:
 
- - invalid input - most invalid input will prompt the user for a new answer
+ - most invalid input will prompt the user for a new answer
  - find method with id not found - the user will be prompt for a new order id
  - create a new order with non-valid items among valid ones - 
    non-valid items will be ignored, creation will be processed without them
    and a message "n items not found were ignored" will be printed.
  
-Known issues:
+Need to be fixed:
 
- - updating list of items of an order with non-valid items -> will empty the list
- - entering wrong format for date -> cause program crash
+ - create method - adding multiple times the same item to the item list -> will cause a program crash
+ - create and update methods - entering a non-valid format for date -> will cause a program crash
+ - update method - entering non-existent item ids in list of item update prompt -> will empty the list
+ - update method - selecting a non-existent order -> will cause a program crash
+ - update method - selecting a order with an empty list of items -> will cause a program crash
+ - "0 items not found was ignored" dont need be displayed
+ -
 ```
 ```
 The Item Manager can:
@@ -58,16 +64,18 @@ The Item Manager can:
  - find and print an item, just the item, in the formatted form
  - find and print, in the formatted form, an item with linked orders
  - create and automatcally add a new item
- - update partially or entirely an existing item (name, price or/and quantity)
+ - update partially or entirely an existing item (name, price and/or quantity)
  - delete an existing item
  - print a feedback message when a task has been successfully executed
  
-Exception handled:
+Exceptions handled:
  
- - invalid input - most invalid input will prompt the user for a new answer
+ -  most invalid input will prompt the user for a new answer
  - find method with unknown id - the user will be ask for a new item id
+ - 
  
-Known issues:
+Need to be fixed:
+ - update method - selecting a non-existent item -> will cause a program crash
  -
 ```
 
@@ -82,6 +90,7 @@ General known issues:
  
 Update log:
 ----------
+ - 06-03-2023 - general program refactoring
  - 06-03-2023 - initial release
 
 The Challenge

@@ -3,17 +3,26 @@ require_relative "./order"
 require_relative "./shared_methods"
 
 class ItemRepository
+
+  #-----------------
+  # ALL
+  #-----------------
+
   def all
     sql = 'SELECT id AS "itemID", * FROM items;'
     result = DatabaseConnection.exec_params(sql, [])
 
     items = []
     result.each do |record|
-      items << Record.to_item(record)
+      items << Record.to_item(record) # method in ./shared_methods.rb
     end
     
     return items
   end
+
+  #-----------------
+  # FIND
+  #-----------------
 
   def find(id)
     sql = 'SELECT id AS "itemID", * FROM items WHERE id = $1;'
@@ -21,6 +30,10 @@ class ItemRepository
 
     return Record.to_item(result[0])
   end
+
+  #-----------------
+  # FIND WITH ORDERS
+  #-----------------
 
   def find_with_orders(id)
     sql = _sql_for_find_method
@@ -34,11 +47,19 @@ class ItemRepository
     return item
   end
 
+  #-----------------
+  # CREATE
+  #-----------------
+
   def create(item)
     sql = "INSERT INTO items (name, price, quantity) VALUES($1, $2, $3);"
     sql_params = [item.name, item.price, item.quantity]
     DatabaseConnection.exec_params(sql, sql_params)
   end
+
+  #-----------------
+  # UPDATE
+  #-----------------
 
   def update(item)
     sql = "UPDATE items SET name = $1, price = $2, quantity = $3 WHERE id = $4;"
@@ -46,10 +67,18 @@ class ItemRepository
     DatabaseConnection.exec_params(sql, sql_params)
   end
 
+  #-----------------
+  # DELETE
+  #-----------------
+
   def delete(id)
     sql = 'DELETE FROM items WHERE id = $1;'
     DatabaseConnection.exec_params(sql, [id])
   end
+
+  #-----------------
+  # PRIVATE METHODS
+  #-----------------
 
   private
 

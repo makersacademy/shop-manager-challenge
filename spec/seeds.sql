@@ -1,12 +1,10 @@
-TRUNCATE TABLE orders RESTART IDENTITY CASCADE; 
+TRUNCATE TABLE orders, items RESTART IDENTITY CASCADE; 
 
 INSERT INTO orders (date, customer) VALUES ('2023-03-01', 'Jim');
 INSERT INTO orders (date, customer) VALUES ('2023-02-01', 'Tim');
 INSERT INTO orders (date, customer) VALUES ('2023-01-01', 'Kim');
 INSERT INTO orders (date, customer) VALUES ('2022-12-01', 'Lim');
 INSERT INTO orders (date, customer) VALUES ('2022-11-01', 'Yim');
-
-TRUNCATE TABLE items RESTART IDENTITY CASCADE; 
 
 INSERT INTO items (name, price, quantity) VALUES ('Xbox series X', 399, 20);
 INSERT INTO items (name, price, quantity) VALUES ('Dell Monitor 4K', 499, 25);

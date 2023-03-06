@@ -3,10 +3,10 @@ module OrderManager
   private
 
   # ---------------------
-  # CRUD METHODS PROCESS
+  # MAIN MENU PROCESS
   # ---------------------
 
-  def _execute_order_process(selected)
+  def _execute_order_option(selected)
     case selected
     when 1
       _all_process_for_order_manager
@@ -34,7 +34,7 @@ module OrderManager
     _show "ALL ORDERS"
     _show "------------"
     @order_repository.all.each do |order|
-      _format_order(order)
+      _format_order(order) # method in FIND METHOD PROCESS
       _show
     end
   end
@@ -48,10 +48,10 @@ module OrderManager
     _show "Which order?"
     _show "------------"
     order = _get_order
-    _format_order(order)
+    _format_order(order) # method a couple of lines below
   end
 
-  # GET ORDER FOR FIND METHODS
+  # GET ORDER METHOD FOR 'FIND'
   # also checks if order exist
 
   def _get_order
@@ -69,7 +69,7 @@ module OrderManager
     return order
   end
 
-  # FORMATTING METHOD FOR FIND METHODS
+  # FORMAT METHOD FOR 'FIND' AND 'ALL' PROCESS
 
   def _format_order(order)
     _show "------------"
@@ -79,7 +79,7 @@ module OrderManager
     _show "Customer: #{order.customer}"
     _show "Item#{_add_s_if_plural(order.items)} purchased:"
 
-    order.items.map do |item|
+    order.items.map do |item| # format list of linked items
       _show "- #{item.name}: £#{item.price}"
     end
   end
@@ -93,7 +93,7 @@ module OrderManager
     _show "---------"
     _show "NEW ORDER"
     _show "---------"
-    order = _prompt_all_attributes_for_new_order(new_order) # method at end of page in SHARED METHOD
+    order = _prompt_all_order_attributes_for(new_order) # method at end of page in SHARED METHOD
     @order_repository.create(order)
     _show
     _show "Order successfully created."
@@ -107,15 +107,16 @@ module OrderManager
     _show "------------"
     _show "Which order?"
     _show "------------"
+    
     id = _prompt("Enter the order ID").to_i
-    order = @order_repository.find(id)
-    attribute_to_update = _prompt_update_order_options
-    _update_method_for_order_manager(order, attribute_to_update)
-    @order_repository.update(order)
+    order_to_update = @order_repository.find(id)
+    attribute_to_update = _show_order_attribute_options
+    _processing_order_update_with(order_to_update, attribute_to_update)
+    @order_repository.update(order_to_update)
     _show "Order successfully updated."
   end
 
-  def _prompt_update_order_options
+  def _show_order_attribute_options
     _show "-----------------"
     _show "Which attributes?"
     _show "-----------------"
@@ -124,20 +125,20 @@ module OrderManager
     _show " 3 - list of items"
     _show " 4 - all of the above"
 
-    return _get_user_input
+    return _attribute_selected # method can be found in SHARED METHOD in app.rb file
 
   end
 
-  def _update_method_for_order_manager(order, attribute_to_update)
+  def _processing_order_update_with(order_to_update, attribute_to_update)
     case attribute_to_update
     when 1
-      _prompt_for_order_date(order)
+      _prompt_date_for(order_to_update)
     when 2
-      _prompt_for_order_customer_name(order)
+      _prompt_customer_name_for(order_to_update)
     when 3
-      _prompt_for_order_list_of_items(order)
+      _prompt_items_list_for(order_to_update)
     when 4
-      _prompt_all_attributes_for_new_order(order)
+      _prompt_all_order_attributes_for(order_to_update)
     end
   end
 
@@ -158,24 +159,24 @@ module OrderManager
   # SHARED METHODS
   # ---------------------
 
-  def _prompt_all_attributes_for_new_order(order)
-    _prompt_for_order_date(order)
-    _prompt_for_order_customer_name(order)
-    _prompt_for_order_list_of_items(order)
-    return order
+  def _prompt_all_order_attributes_for(new_order)
+    _prompt_date_for(new_order)
+    _prompt_customer_name_for(new_order)
+    _prompt_items_list_for(new_order)
+    return new_order
   end
 
-  def _prompt_for_order_date(order)
-    order.date = _prompt "Please enter the date (YYYY-MM-DD):"
+  def _prompt_date_for(new_order)
+    new_order.date = _prompt "Please enter the date (YYYY-MM-DD):"
   end
 
-  def _prompt_for_order_customer_name(order)
-    order.customer = _prompt "Please enter the customer name:"
+  def _prompt_customer_name_for(new_order)
+    new_order.customer = _prompt "Please enter the customer name:"
   end
 
-  def _prompt_for_order_list_of_items(order)
+  def _prompt_items_list_for(new_order)
     item_ids = _prompt "Please enter ID of items purchased (separate with , no spaces):"
-    order.items = _add_items_into_order(item_ids)
+    new_order.items = _add_items_to_order_given(item_ids)
   end
 
   # Helper method for method above - 
@@ -183,12 +184,12 @@ module OrderManager
   # it fetches the items purchased by the customer 
   # and push them in the order.items attributes
   # ignore items not found
-  def _add_items_into_order(item_ids_str)
+  def _add_items_to_order_given(item_ids)
     items = []
     counter = 0
     
-    item_ids_arr = item_ids_str.split(",").map(&:to_i)
-    ids_to_objects = item_ids_arr.each do |item_id| 
+    arr_of_int = item_ids.split(",").map(&:to_i)
+    int_to_objects = arr_of_int.each do |item_id| 
       begin
         item = @item_repository.find(item_id)
       rescue

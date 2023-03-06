@@ -23,7 +23,7 @@ class Application
     _show "What would you like to manage?"
     _show " 1 - Orders"
     _show " 2 - Items"
-    user_choice = _order_or_item? # will return 'order' or 'item'
+    user_choice = _order_or_item?
     _show_main_menu_for(user_choice)
   end
 
@@ -31,7 +31,7 @@ class Application
 
   def _order_or_item?
     while true
-      orders_or_items = _prompt.to_i # will return 1 or 2
+      orders_or_items = _prompt.to_i
       return "order" if orders_or_items == 1
       return "item" if orders_or_items == 2
       _show "Sorry, option not available"
@@ -40,26 +40,26 @@ class Application
     end
   end
 
-  def _show_main_menu_for(user_choice) # Argument is either the string 'order' or 'item'
+  def _show_main_menu_for(order_or_item)
     _show "-------------"
-    _show "#{user_choice.upcase} MANAGER"
+    _show "#{order_or_item.upcase} MANAGER"
     _show "-------------"
 
-    selected = _prompt_options_for(user_choice) # an integer
-    _execute_order_process(selected) if user_choice == "order"
-    _execute_item_process(selected) if user_choice == "item"
+    selected = _main_menu_options_for(order_or_item)
+    _execute_order_option(selected) if order_or_item == "order"
+    _execute_item_option(selected) if order_or_item == "item"
   end
 
-  def _prompt_options_for(user_choice) # Argument is either the string 'order' or 'item'
+  def _main_menu_options_for(order_or_item)
     _show "What would you like to do?"
-    _show " 1 - see all #{user_choice}s"     # 
-    _show " 2 - find an #{user_choice}"      # 
-    _show " 3 - create a new #{user_choice}" # either 'order' or 'item'
-    _show " 4 - update an #{user_choice}"    # 
-    _show " 5 - delete an #{user_choice}"    # 
+    _show " 1 - see all #{order_or_item}s"
+    _show " 2 - find an #{order_or_item}"
+    _show " 3 - create a new #{order_or_item}" 
+    _show " 4 - update an #{order_or_item}"
+    _show " 5 - delete an #{order_or_item}"
     _show
     _show " 9 - switch manager"
-    _prompt.to_i # returns an integer
+    _prompt.to_i
   end
 
   # ---------------------
@@ -76,15 +76,21 @@ class Application
 
   # this method is used once by both 
   # item and order manager
-  def _get_user_input
+  # in UPDATE METHOD CONTEXT
+  def _attribute_selected 
     while true
       input = _prompt.to_i
       is_valid = input.positive? && input <= 4
+
       return input if is_valid
+
       _show("Sorry, choice not available. Try again.")
     end
   end
 
+  # this method is used once by both 
+  # item and order manager
+  # in MAIN OPTION PROCESS
   def _wrong_input_process_for(user_choice)
     _show "Sorry, option not available. Try again."
     _show_main_menu_for(user_choice)

@@ -3,10 +3,10 @@ module ItemManager
   private
 
   # ---------------------
-  # CRUD METHODS PROCESS
+  # MAIN MENU PROCESS
   # ---------------------
 
-  def _execute_item_process(selected)
+  def _execute_item_option(selected)
     case selected
     when 1
       _all_process_for_item_manager
@@ -34,7 +34,7 @@ module ItemManager
     _show "ALL ITEMS"
     _show "------------"
     @item_repository.all.each do |item|
-      _format_item(item)
+      _format_item(item) # method in FIND METHOD PROCESS
       _show
     end
   end
@@ -44,9 +44,9 @@ module ItemManager
   # ---------------------
 
   def _find_process_for_item_manager
-    find_mode = _which_find? # 'just the item' or 'item with orders'
-    _find_method_for_item_manager if find_mode == "just the item"
-    _find_with_orders_for_item_manager if find_mode == "item with orders"
+    find_mode = _which_find? # 'item' or 'item with orders'
+    _find_item if find_mode == "just the item"
+    _find_with_orders if find_mode == "item with orders"
   end
 
   def _which_find?
@@ -63,25 +63,25 @@ module ItemManager
     _which_find? # calls the method again if invalid input
   end
 
-  def _find_method_for_item_manager
+  def _find_item
     _show "--------------"
     _show "Which item?"
     _show "--------------"
     find = lambda { |id| @item_repository.find(id) }
     item = _get_item_with(find)
-    _format_item(item)
+    _format_item(item) # method a couple of lines below
   end
 
-  def _find_with_orders_for_item_manager
+  def _find_with_orders
     _show "--------------"
     _show "Which item?"
     _show "--------------"
     find_with_orders = lambda { |id| @item_repository.find_with_orders(id) }
     item = _get_item_with(find_with_orders)
-    _format_item_with_orders(item)
+    _format_item_with_orders(item) # method a couple of lines below
   end
 
-  # GET ITEM FOR FIND METHODS
+  # GET ITEM METHOD FOR FIND AND FIND WITH ORDERS METHOD
   # also checks if item exist
 
   def _get_item_with(lambda)
@@ -99,7 +99,7 @@ module ItemManager
     return item
   end
 
-  # FORMATTING METHOD FOR FIND METHODS
+  # FORMAT METHOD FOR FIND AND ALL METHODS
 
   def _format_item(item)
     _show "------------"
@@ -114,6 +114,7 @@ module ItemManager
     _format_item(item)
     _show
     _show "ORDER#{_add_s_if_plural(item.orders)}:".upcase
+
     item.orders.map do |order| # format list of linked orders
       _show "\##{order.id} - date: #{order.date} - customer: #{order.customer}"
     end
@@ -128,7 +129,7 @@ module ItemManager
     _show "---------"
     _show "NEW ITEM"
     _show "---------"
-    item = _prompt_all_attributes_for_new_item(new_item) # method at end of page in SHARED METHOD
+    item = _prompt_all_item_attributes_for(new_item) # method at end of page in SHARED METHOD
     @item_repository.create(item)
     _show "Order successfully created."
   end
@@ -141,15 +142,16 @@ module ItemManager
     _show "------------"
     _show "Which item?"
     _show "------------"
+
     id = _prompt("Enter the item ID").to_i
-    item = @item_repository.find(id)
-    attribute_to_update = _prompt_for_update_item_options
-    _update_selected_attrbutes(item, attribute_to_update)
-    @item_repository.update(item)
+    item_to_update = @item_repository.find(id)
+    attribute_to_update = _show_item_attribute_options
+    _processing_item_update_with(item_to_update, attribute_to_update)
+    @item_repository.update(item_to_update)
     _show "Order successfully updated."
   end
 
-  def _prompt_for_update_item_options
+  def _show_item_attribute_options
     _show "-----------------"
     _show "Which attributes?"
     _show "-----------------"
@@ -158,20 +160,20 @@ module ItemManager
     _show " 3 - item remaining stock"
     _show " 4 - all of the above"
 
-    return _get_user_input
+    return _attribute_selected  # method can be found in SHARED METHOD in app.rb file
 
   end
 
-  def _update_selected_attrbutes(item, attribute_to_update)
+  def _processing_item_update_with(item_to_update, attribute_to_update)
     case attribute_to_update
     when 1
-      _prompt_for_item_name(item)
+      _prompt_item_name_for(item_to_update)
     when 2
-      _prompt_for_item_price(item)
+      _prompt_item_price_for(item_to_update)
     when 3
-      _prompt_for_item_quantity(item)
+      _prompt_item_quantity_for(item_to_update)
     when 4
-      _prompt_all_attributes_for_new_item(item)
+      _prompt_all_item_attributes_for(item_to_update)
     end
   end
 
@@ -192,22 +194,22 @@ module ItemManager
   # SHARED METHODS
   # ---------------------
 
-  def _prompt_for_item_name(item)
-    item.name = _prompt "What is the item name?"
+  def _prompt_item_name_for(new_item)
+    new_item.name = _prompt "What is the item name?"
   end
 
-  def _prompt_for_item_price(item)
-    item.price = _prompt("What is its selling price?").to_i
+  def _prompt_item_price_for(new_item)
+    new_item.price = _prompt("What is its selling price?").to_i
   end
 
-  def _prompt_for_item_quantity(item)
-    item.quantity = _prompt("How many in stock?").to_i
+  def _prompt_item_quantity_for(new_item)
+    new_item.quantity = _prompt("How many in stock?").to_i
   end
 
-  def _prompt_all_attributes_for_new_item(item)
-    _prompt_for_item_name(item)
-    _prompt_for_item_price(item)
-    _prompt_for_item_quantity(item)
-    return item
+  def _prompt_all_item_attributes_for(new_item)
+    _prompt_item_name_for(new_item)
+    _prompt_item_price_for(new_item)
+    _prompt_item_quantity_for(new_item)
+    return new_item
   end
 end
