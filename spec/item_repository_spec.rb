@@ -57,25 +57,32 @@ describe ItemRepository do
   end
 
   describe "find_with_orders" do
+
+    def orders_arr_length(id)
+      item = subject.find_with_orders(id) 
+      item_with_order = item.orders
+      return item_with_order.length
+    end
+    
     it "should returns a list of 3 orders which contains an Xbox" do
-      result = subject.find_with_orders(1)
-      expect(result.length).to eq 3
+      result = orders_arr_length(1)   
+      expect(result).to eq 3
     end
     it "should returns a list of 2 orders which contains a Dell Monitor" do
-      result = subject.find_with_orders(2)
-      expect(result.length).to eq 2
+      result = orders_arr_length(2)
+      expect(result).to eq 2
     end
     it "should returns a list of 3 orders which contains a MacBook Air" do
-      result = subject.find_with_orders(3)
-      expect(result.length).to eq 3
+      result = orders_arr_length(3)
+      expect(result).to eq 3
     end
     it "should returns a list of 3 orders which contains a LG TV" do
-      result = subject.find_with_orders(4)
-      expect(result.length).to eq 3
+      result = orders_arr_length(4) 
+      expect(result).to eq 3
     end
     it "should returns a list of 3 orders which contains an Ipad" do
-      result = subject.find_with_orders(5)
-      expect(result.length).to eq 3
+      result = orders_arr_length(5)
+      expect(result).to eq 3
     end
   end
 

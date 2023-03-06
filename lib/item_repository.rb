@@ -11,9 +11,8 @@ class ItemRepository
     result.each do |record|
       items << Record.to_item(record)
     end
-
+    
     return items
-
   end
 
   def find(id)
@@ -27,12 +26,12 @@ class ItemRepository
     sql = _sql_for_find_method
     result = DatabaseConnection.exec_params(sql, [id])
 
-    orders = []
-    result.each do |record|
-      orders << Record.to_order(record)
-    end
+    record = result.first
+    item = Record.to_item(record)
 
-    return orders
+    result.each { |record| item.orders << Record.to_order(record) }
+
+    return item
   end
 
   def create(item)
@@ -55,7 +54,8 @@ class ItemRepository
   private
 
   def _sql_for_find_method
-    return 'SELECT orders.id, orders.date, orders.customer 
+    return 'SELECT items.id AS "itemID", items.name, items.price, items.quantity,
+                   orders.id, orders.date, orders.customer 
               FROM orders 
               JOIN orders_items ON orders_items.order_id = orders.id
               JOIN items ON orders_items.item_id = items.id

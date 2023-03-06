@@ -7,30 +7,24 @@ class OrderRepository
     sql = 'SELECT * FROM orders;'
     result = DatabaseConnection.exec_params(sql, [])
     
-    # converts hash to order objects with no items
     orders = []
     result.each { |record| orders << Record.to_order(record) }
 
-    # adds items to order objects
     orders.map! { |order| find(order.id) }
 
     return orders
-
   end
 
   def find(id)
     sql = _sql_for_find_method
     result = DatabaseConnection.exec_params(sql, [id])
 
-    # converts hash to order object
     record = result.first
     order = Record.to_order(record)
 
-    # add items into the order.items array
     result.each { |record| order.items << Record.to_item(record) }
 
     return order
-
   end
 
   def create(order)

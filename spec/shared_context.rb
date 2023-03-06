@@ -1,6 +1,6 @@
 shared_context "doubles setup" do
 
-  let(:kernel) {spy(double :Kernel)}
+  let(:kernel) { spy(double :Kernel) }
 
   let(:itemRepo) { spy(double :ItemRepo) }
   let(:item1) { double :Item, id: 1, name: 'Xbox series X', price: 399, quantity: 20 }
