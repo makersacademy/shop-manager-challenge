@@ -66,6 +66,7 @@ Here's a list of all shop items:
  (...)
 ```
 
+
 Technical Approach:
 -----
 

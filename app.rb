@@ -59,7 +59,6 @@ class Application
     _show " 5 - delete an #{user_choice}"    # 
     _show
     _show " 9 - switch manager"
-    _show " 0 - exit program"
     _prompt.to_i # returns an integer
   end
 
