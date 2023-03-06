@@ -1,5 +1,7 @@
 require 'simplecov'
 require 'simplecov-console'
+require 'database_connection'
+
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
   SimpleCov::Formatter::Console,
@@ -16,8 +18,6 @@ RSpec.configure do |config|
   end
 end
 
-require 'database_connection'
-
 # Make sure this connects to your test database
 # (its name should end with '_test')
-DatabaseConnection.connect('your_database_name_test')
+DatabaseConnection.connect('shop_manager')

@@ -31,7 +31,7 @@ If seed data is provided (or you already created it), you can skip this step.
 -- so we can start with a fresh state.
 -- (RESTART IDENTITY resets the primary key)
 
-TRUNCATE TABLE items, orders, items_orders RESTART IDENTITY; -- replace with your own table name.
+TRUNCATE TABLE items, orders RESTART IDENTITY; -- replace with your own table name.
 
 -- Below this line there should only be `INSERT` statements.
 -- Replace these statements with your own seed data.
@@ -41,18 +41,11 @@ INSERT INTO items (name, unit_price, item_quantity) VALUES ('Foundation', 42, 40
 INSERT INTO items (name, unit_price, item_quantity) VALUES ('Lipstick', 19, 15);
 INSERT INTO items (name, unit_price, item_quantity) VALUES ('Blusher', 22, 10);
 
-INSERT INTO orders (customer_name, order_date) VALUES ('Cindy', '2023-03-05');
-INSERT INTO orders (customer_name, order_date) VALUES ('Lucy', '2023-03-03');
-INSERT INTO orders (customer_name, order_date) VALUES ('Jane', '2023-03-01');
+INSERT INTO orders (customer_name, order_date, item_id) VALUES ('Cindy', '2023-03-05', 2);
+INSERT INTO orders (customer_name, order_date, item_id) VALUES ('Lucy', '2023-03-03', 2);
+INSERT INTO orders (customer_name, order_date), item_id VALUES ('Jane', '2023-03-01', 1);
+INSERT INTO orders (customer_name, order_date), item_id VALUES ('Alex', '2023-03-01', 4);
 
-INSERT INTO items_orders (item_id, order_id) VALUES (1, 3);
-INSERT INTO items_orders (item_id, order_id) VALUES (1, 2);
-INSERT INTO items_orders (item_id, order_id) VALUES (2, 2);
-INSERT INTO items_orders (item_id, order_id) VALUES (3, 1);
-INSERT INTO items_orders (item_id, order_id) VALUES (3, 3);
-INSERT INTO items_orders (item_id, order_id) VALUES (2, 1);
-INSERT INTO items_orders (item_id, order_id) VALUES (4, 1);
-INSERT INTO items_orders (item_id, order_id) VALUES (4, 3);
 
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
 
@@ -91,15 +84,15 @@ end
 Define the attributes of your Model class. You can usually map the table columns to the attributes of the class, including primary and foreign keys.
 
 # EXAMPLE
-# Table name: students
+# Table name: items
 
 # Model class
-# (in lib/student.rb)
+# (in lib/item.rb)
 
-class Student
+class Item
 
   # Replace the attributes by your own columns.
-  attr_accessor :id, :name, :cohort_name
+  attr_accessor :id, :name, :unit_price, :item_quantity
 end
 
 # The keyword attr_accessor is a special Ruby feature
@@ -118,32 +111,32 @@ Your Repository class will need to implement methods for each "read" or "write" 
 Using comments, define the method signatures (arguments and return value) and what they do - write up the SQL queries that will be used by each method.
 
 # EXAMPLE
-# Table name: students
+# Table name: items
 
 # Repository class
-# (in lib/student_repository.rb)
+# (in lib/item_repository.rb)
 
-class StudentRepository
+class ItemRepository
 
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students;
+    # SELECT id, name, unit_price, item_quantity FROM items;
 
-    # Returns an array of Student objects.
+    # Returns an array of Item objects.
   end
 
   # Gets a single record by its ID
   # One argument: the id (number)
   def find(id)
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students WHERE id = $1;
+    # SELECT id, name, unit_price, item_quantity FROM items WHERE id = $1;
 
-    # Returns a single Student object.
+    # Returns a single Album object.
   end
 
-  # Add more methods below for each operation you'd like to implement.
+  # RUN OUT OF TIME. WILL IMPLEMENT THE BELOW SOON.
 
   # def create(student)
   # end
@@ -163,32 +156,36 @@ These examples will later be encoded as RSpec tests.
 # EXAMPLES
 
 # 1
-# Get all students
+# Get all items
 
-repo = StudentRepository.new
+repo = ItemRepository.new
 
-students = repo.all
+items = repo.all
 
-students.length # =>  2
+items.length # =>  4
 
-students[0].id # =>  1
-students[0].name # =>  'David'
-students[0].cohort_name # =>  'April 2022'
+items[0].id # =>  1
+items[0].name # =>  'Mascara'
+items[0].unit_price # =>  9
+items[0].item_quantity # =>  30
 
-students[1].id # =>  2
-students[1].name # =>  'Anna'
-students[1].cohort_name # =>  'May 2022'
+
+items[1].id # =>  2
+items[1].name # =>  'Foundation'
+items[1].unit_price # =>  42
+items[1].item_quantity # =>  40
 
 # 2
-# Get a single student
+# Get a single item
 
-repo = StudentRepository.new
+repo = ItemRepository.new
 
-student = repo.find(1)
+item = repo.find(1)
 
-student.id # =>  1
-student.name # =>  'David'
-student.cohort_name # =>  'April 2022'
+item.id # =>  1
+item.name # =>  'Mascara'
+items.unit_price # =>  9
+items.item_quantity # =>  30
 
 # Add more examples for each method
 Encode this example as a test.
