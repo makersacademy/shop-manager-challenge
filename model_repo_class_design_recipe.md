@@ -62,17 +62,30 @@ psql -h 127.0.0.1 shop_manager < spec/seeds_items_orders.sql
 Usually, the Model class name will be the capitalised table name (single instead of plural). The same name is then suffixed by Repository for the Repository class name.
 
 # EXAMPLE
-# Table name: students
+# Table name: items
 
 # Model class
-# (in lib/student.rb)
-class Student
+# (in lib/item.rb)
+class Item
 end
 
 # Repository class
-# (in lib/student_repository.rb)
-class StudentRepository
+# (in lib/item_repository.rb)
+class ItemRepository
 end
+
+# Table name: orders
+
+# Model class
+# (in lib/order.rb)
+class Order
+end
+
+# Repository class
+# (in lib/order_repository.rb)
+class OrderRepository
+end
+
 4. Implement the Model class
 
 Define the attributes of your Model class. You can usually map the table columns to the attributes of the class, including primary and foreign keys.
