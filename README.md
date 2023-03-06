@@ -5,7 +5,7 @@ I took this challenge very seriously and build an entire program out of it.
 
 I chose a many-to-many relationship between orders and items. One order can have many items and one item can also be found in many orders.
 
-Currently, the program works pretty well. It still lacks some features such as input validity check but most of invalid inputs has been handled and it should run smoothly as long as the user follows the instructions.
+Currently, the program works pretty well. It still lacks some features such as input validity check but most of invalid inputs has been handled and it should run smoothly as long as the user follows the instructions and interact with existing data in database. Unfortunately there is no manual 'exit program' option for now for testing purposes.
 
 If you happen to play around with the program, any feedbacks or bugs report will be highly appreciated :D I will be working on polishing this program as soon as I can find some spare time.
 
@@ -50,11 +50,11 @@ Exceptions handled:
  
 Need to be fixed:
 
- - create method - adding multiple times the same item to the item list -> will cause a program crash
- - create and update methods - entering a non-valid format for date -> will cause a program crash
- - update method - entering non-existent item ids in list of item update prompt -> will empty the list
- - update method - selecting a non-existent order -> will cause a program crash
- - update method - selecting a order with an empty list of items -> will cause a program crash
+ - create method - adding multiple times the same item to the item list -> program crash
+ - create and update methods - entering a non-valid format for date -> program crash
+ - update method - entering non-existent item ids in list of item update prompt -> empty the list
+ - update method - selecting a non-existent order -> program crash
+ - update method - selecting a order with an empty list of items -> program crash
  - "0 items not found was ignored" dont need be displayed
  -
 ```
@@ -70,12 +70,12 @@ The Item Manager can:
  
 Exceptions handled:
  
- -  most invalid input will prompt the user for a new answer
+ - most invalid input will prompt the user for a new answer
  - find method with unknown id - the user will be ask for a new item id
  - 
  
 Need to be fixed:
- - update method - selecting a non-existent item -> will cause a program crash
+ - update method - selecting a non-existent item -> program crash
  -
 ```
 
