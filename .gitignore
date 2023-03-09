@@ -1,7 +1,7 @@
+DESIGN_tables.md
+DESIGN_Classes.md
 /**/.DS_Store
 /coverage
 
 # Local cache of Rubocop remote config
 .rubocop-*
-DESIGN_Classes.md
-DESIGN_tables.md
