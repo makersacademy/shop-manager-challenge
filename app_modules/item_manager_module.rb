@@ -30,12 +30,12 @@ module ItemManager
   # ---------------------
 
   def _all_process_for_item_manager
-    _show "------------"
-    _show "ALL ITEMS"
-    _show "------------"
+    _puts "------------"
+    _puts "ALL ITEMS"
+    _puts "------------"
     @item_repository.all.each do |item|
       _format_item(item) # method in FIND METHOD PROCESS
-      _show
+      _puts
     end
   end
 
@@ -50,11 +50,11 @@ module ItemManager
   end
 
   def _which_find?
-    _show "--------------"
-    _show "Just the item?"
-    _show "--------------"
-    _show " 1 - just the item"
-    _show " 2 - the item with linked orders"
+    _puts "--------------"
+    _puts "Just the item?"
+    _puts "--------------"
+    _puts " 1 - just the item"
+    _puts " 2 - the item with linked orders"
 
     selected_mode = _prompt.to_i
     return "just the item" if selected_mode == 1
@@ -64,21 +64,23 @@ module ItemManager
   end
 
   def _find_item
-    _show "--------------"
-    _show "Which item?"
-    _show "--------------"
+    _show_header
     find = lambda { |id| @item_repository.find(id) }
     item = _get_item_with(find)
     _format_item(item) # method a couple of lines below
   end
 
   def _find_with_orders
-    _show "--------------"
-    _show "Which item?"
-    _show "--------------"
+    _show_header
     find_with_orders = lambda { |id| @item_repository.find_with_orders(id) }
     item = _get_item_with(find_with_orders)
     _format_item_with_orders(item) # method a couple of lines below
+  end
+
+  def _show_header
+    _puts "--------------"
+    _puts "Which item?"
+    _puts "--------------"
   end
 
   # GET ITEM METHOD FOR FIND AND FIND WITH ORDERS METHOD
@@ -90,8 +92,8 @@ module ItemManager
       begin
         item = lambda.call(id)
       rescue
-        _show
-        _show "Sorry, this item doesn't exist. Try again."
+        _puts
+        _puts "Sorry, this item doesn't exist. Try again."
         next
       end
       break
@@ -102,21 +104,21 @@ module ItemManager
   # FORMAT METHOD FOR FIND AND ALL METHODS
 
   def _format_item(item)
-    _show "------------"
-    _show "ITEM \##{item.id}"
-    _show "------------"
-    _show "Item: #{item.name}" 
-    _show "Price: £#{item.price}"
-    _show "Quantity: #{item.quantity}"
+    _puts "------------"
+    _puts "ITEM \##{item.id}"
+    _puts "------------"
+    _puts "Item: #{item.name}" 
+    _puts "Price: £#{item.price}"
+    _puts "Quantity: #{item.quantity}"
   end
 
   def _format_item_with_orders(item)
     _format_item(item)
-    _show
-    _show "ORDER#{_add_s_if_plural(item.orders)}:".upcase
+    _puts
+    _puts "ORDER#{_add_s_if_plural(item.orders)}:".upcase
 
     item.orders.map do |order| # format list of linked orders
-      _show "\##{order.id} - date: #{order.date} - customer: #{order.customer}"
+      _puts "\##{order.id} - date: #{order.date} - customer: #{order.customer}"
     end
   end
 
@@ -126,12 +128,12 @@ module ItemManager
 
   def _create_process_for_item_manager
     new_item = Item.new
-    _show "---------"
-    _show "NEW ITEM"
-    _show "---------"
+    _puts "---------"
+    _puts "NEW ITEM"
+    _puts "---------"
     item = _prompt_all_item_attributes_for(new_item) # method at end of page in SHARED METHOD
     @item_repository.create(item)
-    _show "Order successfully created."
+    _puts "Order successfully created."
   end
 
   # ---------------------
@@ -139,26 +141,26 @@ module ItemManager
   # ---------------------
 
   def _update_process_for_item_manager
-    _show "------------"
-    _show "Which item?"
-    _show "------------"
+    _puts "------------"
+    _puts "Which item?"
+    _puts "------------"
 
     id = _prompt("Enter the item ID").to_i
     item_to_update = @item_repository.find(id)
     attribute_to_update = _show_item_attribute_options
     _processing_item_update_with(item_to_update, attribute_to_update)
     @item_repository.update(item_to_update)
-    _show "Order successfully updated."
+    _puts "Order successfully updated."
   end
 
   def _show_item_attribute_options
-    _show "-----------------"
-    _show "Which attributes?"
-    _show "-----------------"
-    _show " 1 - item name"
-    _show " 2 - item price"
-    _show " 3 - item remaining stock"
-    _show " 4 - all of the above"
+    _puts "-----------------"
+    _puts "Which attributes?"
+    _puts "-----------------"
+    _puts " 1 - item name"
+    _puts " 2 - item price"
+    _puts " 3 - item remaining stock"
+    _puts " 4 - all of the above"
 
     return _attribute_selected  # method can be found in SHARED METHOD in app.rb file
 
@@ -182,12 +184,12 @@ module ItemManager
   # ---------------------
 
   def _delete_process_for_item_manager
-    _show "------------"
-    _show "Which order?"
-    _show "------------"
+    _puts "------------"
+    _puts "Which order?"
+    _puts "------------"
     item_id = _prompt("Enter the order ID").to_i
     @item_repository.delete(item_id)
-    _show "Item successfully deleted."
+    _puts "Item successfully deleted."
   end
 
   # ---------------------

@@ -30,12 +30,12 @@ module OrderManager
   # ---------------------
 
   def _all_process_for_order_manager
-    _show "------------"
-    _show "ALL ORDERS"
-    _show "------------"
+    _puts "------------"
+    _puts "ALL ORDERS"
+    _puts "------------"
     @order_repository.all.each do |order|
       _format_order(order) # method in FIND METHOD PROCESS
-      _show
+      _puts
     end
   end
 
@@ -44,9 +44,9 @@ module OrderManager
   # ---------------------
 
   def _find_process_for_order_manager
-    _show "------------"
-    _show "Which order?"
-    _show "------------"
+    _puts "------------"
+    _puts "Which order?"
+    _puts "------------"
     order = _get_order
     _format_order(order) # method a couple of lines below
   end
@@ -60,8 +60,8 @@ module OrderManager
       begin
         order = @order_repository.find(id)
       rescue
-        _show
-        _show "Sorry, this order doesn't exist. Try again."
+        _puts
+        _puts "Sorry, this order doesn't exist. Try again."
         next
       end
       break
@@ -72,15 +72,15 @@ module OrderManager
   # FORMAT METHOD FOR 'FIND' AND 'ALL' PROCESS
 
   def _format_order(order)
-    _show "------------"
-    _show "ORDER \##{order.id}"
-    _show "------------"
-    _show "Date: #{order.date}" 
-    _show "Customer: #{order.customer}"
-    _show "Item#{_add_s_if_plural(order.items)} purchased:"
+    _puts "------------"
+    _puts "ORDER \##{order.id}"
+    _puts "------------"
+    _puts "Date: #{order.date}" 
+    _puts "Customer: #{order.customer}"
+    _puts "Item#{_add_s_if_plural(order.items)} purchased:"
 
     order.items.map do |item| # format list of linked items
-      _show "- #{item.name}: £#{item.price}"
+      _puts "- #{item.name}: £#{item.price}"
     end
   end
 
@@ -90,13 +90,13 @@ module OrderManager
 
   def _create_process_for_order_manager
     new_order = Order.new
-    _show "---------"
-    _show "NEW ORDER"
-    _show "---------"
+    _puts "---------"
+    _puts "NEW ORDER"
+    _puts "---------"
     order = _prompt_all_order_attributes_for(new_order) # method at end of page in SHARED METHOD
     @order_repository.create(order)
-    _show
-    _show "Order successfully created."
+    _puts
+    _puts "Order successfully created."
   end
 
   # ---------------------
@@ -104,26 +104,26 @@ module OrderManager
   # ---------------------
 
   def _update_process_for_order_manager
-    _show "------------"
-    _show "Which order?"
-    _show "------------"
+    _puts "------------"
+    _puts "Which order?"
+    _puts "------------"
     
     id = _prompt("Enter the order ID").to_i
     order_to_update = @order_repository.find(id)
     attribute_to_update = _show_order_attribute_options
     _processing_order_update_with(order_to_update, attribute_to_update)
     @order_repository.update(order_to_update)
-    _show "Order successfully updated."
+    _puts "Order successfully updated."
   end
 
   def _show_order_attribute_options
-    _show "-----------------"
-    _show "Which attributes?"
-    _show "-----------------"
-    _show " 1 - date of order"
-    _show " 2 - customer name"
-    _show " 3 - list of items"
-    _show " 4 - all of the above"
+    _puts "-----------------"
+    _puts "Which attributes?"
+    _puts "-----------------"
+    _puts " 1 - date of order"
+    _puts " 2 - customer name"
+    _puts " 3 - list of items"
+    _puts " 4 - all of the above"
 
     return _attribute_selected # method can be found in SHARED METHOD in app.rb file
 
@@ -147,12 +147,12 @@ module OrderManager
   # ---------------------
 
   def _delete_process_for_order_manager
-    _show "------------"
-    _show "Which order?"
-    _show "------------"
+    _puts "------------"
+    _puts "Which order?"
+    _puts "------------"
     order_id = _prompt "Enter the order ID"
     @order_repository.delete(order_id)
-    _show "Order successfully deleted."
+    _puts "Order successfully deleted."
   end
 
   # ---------------------
@@ -198,8 +198,8 @@ module OrderManager
       end
       items << item
     end
-    _show
-    _show "#{counter} item#{counter > 1 ? "s" : ""} not found #{counter > 1 ? "were" : "was"} ignored."
+    _puts
+    _puts "#{counter} item#{counter > 1 ? "s" : ""} not found #{counter > 1 ? "were" : "was"} ignored."
     return items
   end
 end

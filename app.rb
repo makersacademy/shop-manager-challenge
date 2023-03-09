@@ -17,12 +17,12 @@ class Application
   end
 
   def run
-    _show "---------------------------------------"
-    _show "WELCOME TO THE SHOP MANAGEMENT PROGRAM!"
-    _show "---------------------------------------"
-    _show "What would you like to manage?"
-    _show " 1 - Orders"
-    _show " 2 - Items"
+    _puts "---------------------------------------"
+    _puts "WELCOME TO THE SHOP MANAGEMENT PROGRAM!"
+    _puts "---------------------------------------"
+    _puts "What would you like to manage?"
+    _puts " 1 - Orders"
+    _puts " 2 - Items"
     user_choice = _order_or_item?
     _show_main_menu_for(user_choice)
   end
@@ -34,16 +34,16 @@ class Application
       orders_or_items = _prompt.to_i
       return "order" if orders_or_items == 1
       return "item" if orders_or_items == 2
-      _show "Sorry, option not available"
-      _show " 1 - Orders"
-      _show " 2 - Items"
+      _puts "Sorry, option not available"
+      _puts " 1 - Orders"
+      _puts " 2 - Items"
     end
   end
 
   def _show_main_menu_for(order_or_item)
-    _show "-------------"
-    _show "#{order_or_item.upcase} MANAGER"
-    _show "-------------"
+    _puts "-------------"
+    _puts "#{order_or_item.upcase} MANAGER"
+    _puts "-------------"
 
     selected = _main_menu_options_for(order_or_item)
     _execute_order_option(selected) if order_or_item == "order"
@@ -51,21 +51,21 @@ class Application
   end
 
   def _main_menu_options_for(order_or_item)
-    _show "What would you like to do?"
-    _show " 1 - see all #{order_or_item}s"
-    _show " 2 - find an #{order_or_item}"
-    _show " 3 - create a new #{order_or_item}" 
-    _show " 4 - update an #{order_or_item}"
-    _show " 5 - delete an #{order_or_item}"
-    _show
-    _show " 9 - switch manager"
+    _puts "What would you like to do?"
+    _puts " 1 - see all #{order_or_item}s"
+    _puts " 2 - find an #{order_or_item}"
+    _puts " 3 - create a new #{order_or_item}" 
+    _puts " 4 - update an #{order_or_item}"
+    _puts " 5 - delete an #{order_or_item}"
+    _puts
+    _puts " 9 - switch manager"
     _prompt.to_i
   end
 
   # ---------------------
   # SHARED METHODS
   # ---------------------
-  def _show(message = "")
+  def _puts(message = "")
     @io.puts message
   end
 
@@ -84,7 +84,7 @@ class Application
 
       return input if is_valid
 
-      _show("Sorry, choice not available. Try again.")
+      _puts("Sorry, choice not available. Try again.")
     end
   end
 
@@ -92,7 +92,7 @@ class Application
   # item and order manager
   # in MAIN OPTION PROCESS
   def _wrong_input_process_for(user_choice)
-    _show "Sorry, option not available. Try again."
+    _puts "Sorry, option not available. Try again."
     _show_main_menu_for(user_choice)
   end
 
