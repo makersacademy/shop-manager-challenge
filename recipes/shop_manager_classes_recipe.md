@@ -134,11 +134,11 @@ end
 
 # Model class
 # (in lib/order.rb)
-class Item
+class Order
     attr_accessor :id, :customer_name, :date, :items
 
     def initialize
-        @items = []
+        @orders = []
     end
 end
 
@@ -392,7 +392,7 @@ This is so you get a fresh table contents every time you run the test suite.
 # file: spec/student_repository_spec.rb
 
 def reset_tables
-  seed_sql = File.read('spec/seeds_tests.sql')
+  seed_sql = File.read('spec/seeds_shop_manager.sql')
   connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
   connection.exec(seed_sql)
 end
