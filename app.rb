@@ -35,7 +35,7 @@ class Application
     def items
         items_list = ""
         items = @item_repository.all
-        items.each_with_index { |item, i| items_list << " ##{i + 1} - #{item.name}\n" }
+        items.each_with_index { |item, i| items_list << " ##{i + 1} - #{item.name}, price: #{item.price}, quantity: #{item.quantity}\n" }
         return items_list
     end
 
