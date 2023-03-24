@@ -114,14 +114,14 @@ Columns: item_id, order_id
 CREATE TABLE items (
   id SERIAL PRIMARY KEY,
   name text,
-  price money
+  price money,
   quantity int
 );
 
 -- The second table.
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
-  customer_name text
+  customer_name text,
   date date
 );
 
@@ -131,7 +131,7 @@ CREATE TABLE items_orders (
   order_id int,
   constraint fk_item foreign key(item_id) references items(id) on delete cascade,
   constraint fk_order foreign key(order_id) references orders(id) on delete cascade,
-  PRIMARY KEY (post_id, order_id)
+  PRIMARY KEY (item_id, order_id)
 );
 
 ```
