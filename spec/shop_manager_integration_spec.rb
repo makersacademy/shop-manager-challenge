@@ -24,6 +24,7 @@ RSpec.describe 'shop manager integration' do
             expect(io).to receive(:puts).with("What do you want to do?\n 1 = list all shop items\n 2 = create a new item\n 3 = list all orders\n 4 = create a new order\n q = quit").ordered
             expect(io).to receive(:gets).and_return('q').ordered
             expect(io).to receive(:puts).with("Tasks complete").ordered
+            
             app = Application.new('shop_manager_test', io, item_repo, order_repo)
             app.run
         end

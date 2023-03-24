@@ -2,7 +2,7 @@ require_relative "../app"
 
 RSpec.describe Application do
     describe "run method" do
-        it "prints items to the terminal" do
+        it "prints items and orders to the terminal" do
             item = double :fake_item, id: '1', name: 'shirt', price: '£30.00', quantity: 5
             item_repo = double :fake_repo, all: [item]
             order = double :fake_order, id: '1,', customer_name: 'Jack'
