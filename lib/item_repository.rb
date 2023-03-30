@@ -34,6 +34,13 @@ class ItemRepository
     results = DatabaseConnection.exec_params(sql_statement, params)
   end
 
+  def retrieve_item_id_by_name(item_name)
+    ## This method checks the query result. It returns the id
+    ## if item exists in store, otherwise returns false
+    sql_statement = "SELECT * FROM items WHERE name = $1"
+    results = DatabaseConnection.exec_params(sql_statement, [item_name])
+    results.ntuples.zero? ? false : results[0]['id'].to_i
+  end
 
   ### <--- FORMAT METHODS ---> ###
   ### These methods rework the information inside model objects into the required format strings.

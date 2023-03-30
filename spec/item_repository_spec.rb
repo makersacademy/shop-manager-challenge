@@ -43,6 +43,14 @@ describe ItemRepository do
       expect(items.length).to eq 10
       expect(items[-1].id).to eq 11
     end
+
+    it 'retrieves the item id from item name' do
+      expect(repo.retrieve_item_id_by_name("Bread")).to eq 8
+    end
+
+    it 'returns false if there is no such item in database' do
+      expect(repo.retrieve_item_id_by_name("Blanket")).to eq false
+    end
   end
 
   context 'when reformatted' do

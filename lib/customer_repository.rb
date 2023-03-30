@@ -41,6 +41,14 @@ class CustomerRepository
     return results
   end
 
+  def retrieve_customer_by_name(customer_name)
+    ## This method checks the query result. It returns the id
+    ## if customer records exist, returns false if no records exist with that name
+    sql_statement = "SELECT * FROM customers WHERE name = $1"
+    results = DatabaseConnection.exec_params(sql_statement, [customer_name])
+    results.ntuples.zero? ? false : results[0]['id'].to_i
+  end
+
   ### <--- FORMAT METHODS ---> ###
   ### These methods rework the information inside model objects into the required format strings.
   ### They will always return either a single string or an array of strings for the main application to print out.
