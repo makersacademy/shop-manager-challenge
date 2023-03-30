@@ -11,10 +11,10 @@ CREATE TABLE customers (
 );
 
 CREATE TABLE orders (
+  id SERIAL PRIMARY KEY,
   order_time DATE,
   item_id INT,
   customer_id INT,
   CONSTRAINT fk_item_id FOREIGN KEY(item_id) REFERENCES items(id) ON DELETE CASCADE,
-  CONSTRAINT fk_customer_id FOREIGN KEY(customer_id) REFERENCES customers(id) ON DELETE CASCADE,
-  PRIMARY KEY (item_id, customer_id)
+  CONSTRAINT fk_customer_id FOREIGN KEY(customer_id) REFERENCES customers(id) ON DELETE CASCADE
 );
