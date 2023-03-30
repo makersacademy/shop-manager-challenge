@@ -13,14 +13,27 @@ class ItemRepository
     results = DatabaseConnection.exec_params(sql_statement, [])
     results.each { |raw_data|
       item = Item.new
-      item.id = raw_data['id']
+      item.id = raw_data['id'].to_i
       item.name = raw_data['name']
       item.unit_price = raw_data['unit_price'].to_i
-      item.quantity = raw_data['quantity']
+      item.quantity = raw_data['quantity'].to_i
       output << item
     }
   return output
   end
+
+  def add_item(input_parameters)
+    sql_statement = "INSERT INTO items(name, unit_price, quantity) VALUES($1, $2, $3)"
+    params = [input_parameters[:name], input_parameters[:unit_price], input_parameters[:quantity]]
+    results = DatabaseConnection.exec_params(sql_statement, params)
+  end
+
+  def delete_item(id)
+    sql_statement = "DELETE FROM items WHERE id = $1"
+    params = [id.to_i]
+    results = DatabaseConnection.exec_params(sql_statement, params)
+  end
+
 
   ### <--- FORMAT METHODS ---> ###
   ### These methods rework the information inside model objects into the required format strings.
