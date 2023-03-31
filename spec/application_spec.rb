@@ -54,4 +54,11 @@ RSpec.describe Application do
     app = create_app(io)
     app.print_menu
   end
+
+  xit "actions on user selection" do
+    io = double :io
+    app = create_app(io)
+    expect(app).to receive(:print_items)
+    app.do_selection(1)
+  end
 end

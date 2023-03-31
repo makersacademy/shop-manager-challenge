@@ -19,6 +19,7 @@ class Application
 
   # Takes the user's selection and perfoms the appropriate action
   def do_selection(selection)
+    print_items
   end
 
   # Prints the menu
