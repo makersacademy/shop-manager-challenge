@@ -18,6 +18,7 @@ describe OrderRepository do
     expect(result_set.length).to eq 2
     expect(result_set.first.customer_name).to eq "Uncle Bob"
     expect(result_set.first.date).to eq '2022-09-05'
+    expect(result_set.last.id).to eq 2
     expect(result_set.last.date).to eq '2023-02-22'
   end
 
@@ -40,6 +41,6 @@ describe OrderRepository do
     expect(result).to be_a Array
     expect(result.length).to eq 3
     expect(result.first).to eq " #1 MacBookPro - Unit price: 999.99 - Quantity: 50"
-    expect(result.last).to eq " #1 Charger - Unit price: 50.49 - Quantity: 25"
+    expect(result.last).to eq " # Charger - Unit price: 50.49 - Quantity: 25"
   end
 end

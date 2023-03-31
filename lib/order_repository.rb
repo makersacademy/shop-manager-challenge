@@ -9,6 +9,7 @@ class OrderRepository
 
     select_all.each do |row|
       order = Order.new
+      order.id = row['id'].to_i
       order.customer_name = row['customer_name']
       order.date = row['date']
       orders << order
