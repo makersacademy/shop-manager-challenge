@@ -12,7 +12,7 @@ describe OrderRepository do
     reset_tables
   end
 
-  it "returns all orders" do
+  it "returns all orders with their corresponding items" do
     repo = OrderRepository.new
     result_set = repo.all
     expect(result_set.length).to eq 2
@@ -35,12 +35,11 @@ describe OrderRepository do
     expect(result_set[1].date).to eq "2023-02-22"
   end
 
-  xit "returns an array of formatted strings" do
-    repo = ItemRepository.new
-    result = repo.print_all
+  it "returns an array of formatted strings including items for each order" do
+    repo = OrderRepository.new
+    result = repo.print_all_with_items
     expect(result).to be_a Array
-    expect(result.length).to eq 3
-    expect(result.first).to eq " #1 MacBookPro - Unit price: 999.99 - Quantity: 50"
-    expect(result.last).to eq " # Charger - Unit price: 50.49 - Quantity: 25"
+    expect(result.length).to eq 2
+    expect(result.first).to eq " Order #1 - Uncle Bob - 2022-09-05\n   Items:\n     Charger, £50.49\n     Magic Mouse 30.00\n     MacBookPro 999.99"
   end
 end
