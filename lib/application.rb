@@ -38,16 +38,30 @@ class Application
   def print_items
     @io.puts "All items:"
     @item_repository.all.each do |item|
-      @io.puts "#{item.name} - Price: £#{sprintf('%.2f',item.unit_price)} - Quantity: #{item.quantity}"
+      print_item(item)
     end
   end
 
   # prints all the items attached to an order
   def print_items_by_order
+    @io.puts "What order do you want to see the items for?"
+    order_id = @io.gets.chomp.to_i
+    @item_repository.find_by_order(order_id).each do |item|
+      print_item(item)
+    end
   end
 
   # creates an item
   def create_item
+    item = Item.new
+    @io.print "Name: "
+    item.name = @io.gets.chomp
+    @io.print "Price: "
+    item.unit_price = @io.gets.chomp.to_f
+    @io.print "Quantity: "
+    item.quantity = @io.gets.chomp.to_i
+    @item_repository.create(item)
+    @io.puts("Item created!")
   end
 
   # prints all the orders
@@ -60,5 +74,9 @@ class Application
 
   # creates a new item
   def create_order
+  end
+
+  def print_item(item)
+    @io.puts "#{item.name} - Price: £#{sprintf('%.2f',item.unit_price)} - Quantity: #{item.quantity}"
   end
 end

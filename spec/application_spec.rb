@@ -14,14 +14,16 @@ def create_app(io)
   return Application.new(
     'items_orders_test',
     io,
-    ItemRepository.new,
-    OrderRepository.new
+    @item_repository,
+    @order_repository
   )
 end
 
 RSpec.describe Application do
   before(:each) do 
     reset_tables
+    @item_repository = ItemRepository.new
+    @order_repository = OrderRepository.new
   end
 
   it "prints the menu" do
@@ -91,5 +93,64 @@ RSpec.describe Application do
 
     app = create_app(io)
     app.print_items
+  end
+
+  it "prints items by order" do
+    io = double :io
+    expect(io).to receive(:puts)
+      .with("What order do you want to see the items for?")
+        .ordered
+    expect(io).to receive(:gets)
+      .and_return('1')
+        .ordered
+    expect(io).to receive(:puts)
+      .with("Pizza - Price: £9.99 - Quantity: 100")
+        .ordered
+    expect(io).to receive(:puts)
+      .with("Cake - Price: £4.50 - Quantity: 20")
+        .ordered
+    expect(io).to receive(:puts)
+      .with("Chips - Price: £2.50 - Quantity: 50")
+        .ordered
+     expect(io).to receive(:puts)
+      .with("Salad - Price: £0.99 - Quantity: 2")
+        .ordered   
+    app = create_app(io)
+    app.print_items_by_order
+  end
+
+  it "creates an item" do
+    io = double :io
+    expect(io).to receive(:print)
+      .with("Name: ")
+        .ordered
+    expect(io).to receive(:gets)
+      .and_return("Enchilada")
+        .ordered
+    expect(io).to receive(:print)
+      .with("Price: ")
+        .ordered
+    expect(io).to receive(:gets)
+      .and_return("7.99")
+        .ordered
+    expect(io).to receive(:print)
+      .with("Quantity: ")
+        .ordered
+    expect(io).to receive(:gets)
+      .and_return("60")
+        .ordered
+    expect(io).to receive(:puts)
+      .with("Item created!")
+        .ordered
+
+        
+        app = create_app(io)
+        app.create_item
+        
+        new_item = @item_repository.all.last
+        expect(new_item.id).to eq 8
+        expect(new_item.name).to eq "Enchilada"
+        expect(new_item.unit_price).to eq 7.99
+        expect(new_item.quantity).to eq 60
   end
 end
