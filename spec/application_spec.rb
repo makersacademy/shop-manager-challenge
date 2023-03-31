@@ -82,7 +82,8 @@ RSpec.describe Application do
     expect(app).to receive(:create_order).ordered
     app.do_selection('6')
 
-    expect{app.do_selection('7')}.to raise_error(SystemExit)
+    expect(io).to receive(:exit).ordered
+    app.do_selection('7')
   end
 
   it "prints all items" do

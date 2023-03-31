@@ -15,6 +15,10 @@ class Application
 
   # "Runs" the terminal application
   def run
+    # loop do
+    #   print_menu
+    #   selection(@io.gets.chomp)
+    # end
   end
 
   # Takes the user's selection and perfoms the appropriate action
@@ -33,7 +37,7 @@ class Application
     when "6"
       create_order
     when "7"
-      exit
+      @io.exit
     end
   end
 
