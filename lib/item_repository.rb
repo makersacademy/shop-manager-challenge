@@ -3,11 +3,6 @@ require_relative './item'
 
 class ItemRepository
 
-  def select_all
-    # Returns an array of hashes
-    sql = 'SELECT * FROM items'
-    DatabaseConnection.exec_params(sql, [])
-  end
 
   def all
     # Returns an array of Item objects
@@ -42,5 +37,13 @@ class ItemRepository
     end
 
     return formatted_strings
+  end
+
+  private
+
+  def select_all
+    # Returns an array of hashes
+    sql = 'SELECT * FROM items'
+    DatabaseConnection.exec_params(sql, [])
   end
 end

@@ -3,11 +3,6 @@ require_relative './order'
 
 class OrderRepository
 
-  def select_all
-    # Returns an array of hashes
-    sql = 'SELECT * FROM orders'
-    DatabaseConnection.exec_params(sql, [])
-  end
 
   def all
     # Returns an array of Order objects
@@ -30,5 +25,13 @@ class OrderRepository
 
   def print_all
     # Returns an array of strings formatted to print with puts
+  end
+
+  private
+
+  def select_all
+    # Returns an array of hashes
+    sql = 'SELECT * FROM orders'
+    DatabaseConnection.exec_params(sql, [])
   end
 end
