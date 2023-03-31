@@ -1,71 +1,39 @@
-# {{recipes}} Model and Repository Classes Design Recipe
+# {{items}} Model and Repository Classes Design item
 
-_Copy this recipe template to design and implement Model and Repository classes for a database table._
+_Copy this item template to design and implement Model and Repository classes for a database table._
 
 ## 1. Design and create the Table
 
 If the table is already created in the database, you can skip this step.
 
-Otherwise, [follow this recipe to design and create the SQL schema for your table](./single_table_design_recipe_template.md).
+Otherwise, [follow this item to design and create the SQL schema for your table](./single_table_design_item_template.md).
 
-*In this template, we'll use an example table `Recipes`*
+*In this template, we'll use an example table `items`*
 
 ```
 # EXAMPLE
 
-Table: recipes
+Table: items
 
 Columns:
-id | name | avg_cooking_time | rating
+id | name | unit_price | quantity
 ```
-
-## 2. Create Test SQL seeds
-
-Your tests will depend on data stored in PostgreSQL to run.
-
-If seed data is provided (or you already created it), you can skip this step.
-
-```sql
--- EXAMPLE
--- (file: spec/seeds_{table_name}.sql)
-
--- Write your SQL seed here. 
-
--- First, you'd need to truncate the table - this is so our table is emptied between each test run,
--- so we can start with a fresh state.
--- (RESTART IDENTITY resets the primary key)
-
-TRUNCATE TABLE recipes RESTART IDENTITY; -- replace with your own table name.
-
--- Below this line there should only be `INSERT` statements.
--- Replace these statements with your own seed data.
-
-INSERT INTO recipes (name, avg_cooking_time, rating) VALUES ('Pasta', 12, 5);
-INSERT INTO recipes (name, avg_cooking_time, rating) VALUES ('pizza', 2, 4);
-```
-
-Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
-
-```bash
-psql -h 127.0.0.1 recipe_directory_test < seeds_recipes.sql
-```
-
 ## 3. Define the class names
 
 Usually, the Model class name will be the capitalised table name (single instead of plural). The same name is then suffixed by `Repository` for the Repository class name.
 
 ```ruby
 # EXAMPLE
-# Table name: recipes
+# Table name: items
 
 # Model class
-# (in lib/recipe.rb)
-class Recipe
+# (in lib/item.rb)
+class Item
 end
 
 # Repository class
-# (in lib/recipe_repository.rb)
-class RecipeRepository
+# (in lib/item_repository.rb)
+class ItemRepository
 end
 ```
 
@@ -75,15 +43,15 @@ Define the attributes of your Model class. You can usually map the table columns
 
 ```ruby
 # EXAMPLE
-# Table name: recipes
+# Table name: items
 
 # Model class
-# (in lib/recipe.rb)
+# (in lib/item.rb)
 
-class Recipe
+class Item
 
   # Replace the attributes by your own columns.
-  attr_accessor :id, :name, :avg_cooking_time, :rating
+  attr_accessor :id, :name, :unit_price, :quantity
 end
 ```
 
@@ -97,29 +65,51 @@ Using comments, define the method signatures (arguments and return value) and wh
 
 ```ruby
 # EXAMPLE
-# Table name: Recipes
+# Table name: items
 
 # Repository class
-# (in lib/recipe_repository.rb)
+# (in lib/item_repository.rb)
 
-class RecipeRepository
+class ItemRepository
 
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM Recipes;
+    # SELECT * FROM items;
 
-    # Returns an array of Recipe objects.
+    # Returns an array of item objects.
   end
 
-  # Gets a single record by its ID
-  # One argument: the id (number)
-  def find(id)
+  # Adding an item to the table
+  # item: Item - item to add to table
+  def create(item)
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM Recipes WHERE id = $1;
+    # INSERT INTO items (name, unit_price, quantity) VALUES ($1,$2,$3)
 
-    # Returns a single Recipe object.
+    # Returns nil
+  end
+
+  # Find all the items attached to an order
+  # order_id: int - the id of the order to filter by
+  def find_by_order(order_id)
+    # Executes the SQL query:
+  #  SELECT 
+	#   items.id AS "item_id",
+	#   items.name,
+	#   items.unit_price,
+	#   items.quantity,
+	#   orders.id AS "order_id",
+	#   orders.customer_name,
+	#   orders.date
+	# FROM items
+	# JOIN items_orders
+	#   ON items.id = items_orders.item_id
+	# JOIN orders
+	#   ON items_orders.order_id = orders.id
+	# WHERE order_id = 1;
+
+    # Returns an array of item objects. 
   end
 end
 ```
@@ -134,38 +124,50 @@ These examples will later be encoded as RSpec tests.
 # EXAMPLES
 
 # 1
-# Get all Recipes
+# Get all items
 
-repo = RecipeRepository.new
+repo = ItemRepository.new
 
-recipes = repo.all
+items = repo.all
 
-recipes.length # =>  2
+items.length # =>  7
 
-recipes[0].id # =>  1
-recipes[0].name # =>  'Pasta'
-recipes[0].avg_cooking_time # =>  12
-recipes[0].rating # =>  5
-
-recipes[0].id # =>  2
-recipes[0].name # =>  'Pizza'
-recipes[0].avg_cooking_time # =>  2
-recipes[0].rating # =>  4
-
+items.first.id # =>  1
+items.first.name # =>  'Pizza'
+items.first.unit_price # =>  9.99
+items.first.quantity # =>  100
 
 # 2
-# Get a single Recipe
+# Create an item
 
-repo = RecipeRepository.new
+repo = ItemRepository.new
 
-recipe = repo.find(1)
+item = Item.new
+item.name = 'Doughnut'
+item.unit_price = 3.99
+item.quantity = 250
 
-recipes.id # =>  1
-recipes.name # =>  'Pasta'
-recipes.avg_cooking_time # =>  12
-recipes.rating # =>  5
+repo.create(item)
 
-# Add more examples for each method
+created_item = repo.add.last
+created_item.id # => 8
+created_item.name # => 'Doughnut'
+created_item.unit_price # => 3.99
+created_item.quantity # => 250
+
+# 3
+# Find items attached to an order
+
+repo = ItemRepository.new
+
+items = repo.find_by_order(1)
+
+items.length # => 4
+items.first.id # => 1
+items.first.name # => 'Pizza'
+items.first.unit_price # => 9.99
+items.first.quantity # => 100
+
 ```
 
 Encode this example as a test.
@@ -179,17 +181,17 @@ This is so you get a fresh table contents every time you run the test suite.
 ```ruby
 # EXAMPLE
 
-# file: spec/Recipe_repository_spec.rb
+# file: spec/item_repository_spec.rb
 
-def reset_Recipes_table
-  seed_sql = File.read('spec/seeds_Recipes.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'Recipes' })
+def reset_tables
+  seed_sql = File.read('spec/seeds.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'items_orders_test' })
   connection.exec(seed_sql)
 end
 
-describe RecipeRepository do
+describe ItemRepository do
   before(:each) do 
-    reset_Recipes_table
+    reset_tables
   end
 
   # (your tests will go here).
