@@ -172,4 +172,23 @@ RSpec.describe Application do
     app = create_app(io)
     app.print_orders
   end
+
+  it "prints orders by item" do
+    io = double :io
+    expect(io).to receive(:puts)
+      .with("What item do you want to see the orders for?")
+        .ordered
+    expect(io).to receive(:gets)
+      .and_return('1')
+        .ordered
+    expect(io).to receive(:puts)
+      .with('Sam - 2023-03-31')
+        .ordered
+    expect(io).to receive(:puts)
+      .with('Jim - 2023-04-22')
+        .ordered
+
+    app = create_app(io)
+    app.print_orders_by_item
+  end
 end

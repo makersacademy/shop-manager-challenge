@@ -74,6 +74,11 @@ class Application
 
   # prints all orders that have an item
   def print_orders_by_item
+    @io.puts "What item do you want to see the orders for?"
+    item_id = @io.gets.chomp.to_i
+    @order_repository.find_by_item(item_id).each do |order|
+      print_order(order)
+    end
   end
 
   # creates a new item
