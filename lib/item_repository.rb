@@ -3,13 +3,13 @@ require_relative './item'
 
 class ItemRepository
 
-
   def all
     # Returns an array of Item objects
     items = []
 
     select_all.each do |row|
       item = Item.new
+      item.id = row['id'].to_i
       item.name = row['name']
       item.unit_price = row['unit_price'].to_f.round(2)
       item.quantity = row['quantity'].to_i
@@ -32,7 +32,7 @@ class ItemRepository
     # Returns an array of strings formatted to print with puts
     formatted_strings = []
     select_all.each do |row|
-      fstring = " #1 #{row['name']} - Unit price: #{row['unit_price']} - Quantity: #{row['quantity']}"
+      fstring = " ##{row['id']} #{row['name']} - Unit price: #{row['unit_price']} - Quantity: #{row['quantity']}"
       formatted_strings << fstring
     end
 

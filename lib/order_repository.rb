@@ -3,7 +3,6 @@ require_relative './order'
 
 class OrderRepository
 
-
   def all
     # Returns an array of Order objects
     orders = []

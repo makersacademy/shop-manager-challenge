@@ -39,6 +39,6 @@ describe ItemRepository do
     expect(result).to be_a Array
     expect(result.length).to eq 3
     expect(result.first).to eq " #1 MacBookPro - Unit price: 999.99 - Quantity: 50"
-    expect(result.last).to eq " #1 Charger - Unit price: 50.49 - Quantity: 25"
+    expect(result.last).to eq " #3 Charger - Unit price: 50.49 - Quantity: 25"
   end
 end
