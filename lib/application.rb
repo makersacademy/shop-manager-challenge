@@ -36,6 +36,10 @@ class Application
 
   # prints all the items
   def print_items
+    @io.puts "All items:"
+    @item_repository.all.each do |item|
+      @io.puts "#{item.name} - Price: £#{sprintf('%.2f',item.unit_price)} - Quantity: #{item.quantity}"
+    end
   end
 
   # prints all the items attached to an order
@@ -55,6 +59,6 @@ class Application
   end
 
   # creates a new item
-  def print_items
+  def create_order
   end
 end

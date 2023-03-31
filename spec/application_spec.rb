@@ -61,4 +61,35 @@ RSpec.describe Application do
     expect(app).to receive(:print_items)
     app.do_selection(1)
   end
+
+  it "prints all items" do
+    io = double :io
+    expect(io).to receive(:puts)
+      .with('All items:')
+        .ordered
+    expect(io).to receive(:puts)
+      .with("Pizza - Price: £9.99 - Quantity: 100")
+        .ordered
+    expect(io).to receive(:puts)
+      .with("Cake - Price: £4.50 - Quantity: 20")
+        .ordered
+    expect(io).to receive(:puts)
+      .with("Chips - Price: £2.50 - Quantity: 50")
+        .ordered
+    expect(io).to receive(:puts)
+      .with("Burger - Price: £8.49 - Quantity: 12")
+        .ordered
+    expect(io).to receive(:puts)
+      .with("Salad - Price: £0.99 - Quantity: 2")
+        .ordered
+    expect(io).to receive(:puts)
+      .with("Hotdog - Price: £12.50 - Quantity: 99")
+        .ordered
+    expect(io).to receive(:puts)
+      .with("Spagbol - Price: £19.99 - Quantity: 59")
+        .ordered
+
+    app = create_app(io)
+    app.print_items
+  end
 end
