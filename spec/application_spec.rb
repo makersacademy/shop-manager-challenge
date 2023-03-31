@@ -191,4 +191,32 @@ RSpec.describe Application do
     app = create_app(io)
     app.print_orders_by_item
   end
+
+  it "creates an order" do 
+    io = double :io
+    expect(io).to receive(:print)
+      .with("Name: ")
+        .ordered
+    expect(io).to receive(:gets)
+      .and_return("Jeremy")
+        .ordered
+    expect(io).to receive(:print)
+      .with("Date: ")
+        .ordered
+    expect(io).to receive(:gets)
+      .and_return("2023-05-01")
+        .ordered
+    expect(io).to receive(:puts)
+      .with("Order created!")
+        .ordered
+
+    app = create_app(io)
+    app.create_order
+
+    created_order = @order_repository.all.last
+    expect(created_order.id).to eq 4
+    expect(created_order.customer_name).to eq 'Jeremy'
+    expect(created_order.date).to eq '2023-05-01'
+
+  end
 end

@@ -83,6 +83,14 @@ class Application
 
   # creates a new item
   def create_order
+    order = Order.new
+    @io.print "Name: "
+    order.customer_name = @io.gets.chomp
+    @io.print "Date: "
+    order.date = @io.gets.chomp
+
+    @order_repository.create(order)
+    @io.puts "Order created!"
   end
 
   def print_item(item)
