@@ -1,21 +1,29 @@
 require "item.rb"
 
 class ItemRepository
-  # Select all items
-  # No arguments
   def all
-    # Executes the SQL query:
-    # SELECT id, name, unit_price, quantity FROM items;
+    items = []
+    sql = "SELECT id, name, unit_price, quantity FROM items;"
+    result_set = DatabaseConnection.exec_params(sql, [])
 
-    # Returns an array of Item objects.
+    result_set.each do |record|
+      item = Item.new
+      item.id = record["id"]
+      item.name = record["name"]
+      item.unit_price = record["unit_price"]
+      item.quantity = record["quantity"]
+
+      items << item
+    end
+
+    return items
   end
 
-  # Insert a new item
-  # One argument
-  def create(item) # an item object
-    # Executes the SQL query:
-    # INSERT INTO items (name, unit_price, quantity) VALUES ($1, $2, $3);
-
-    # Returns nothing
+  def create(item)
+    sql = "INSERT INTO items (name, unit_price, quantity) VALUES ($1, $2, $3);"
+    params = [item.name, item.unit_price, item.quantity]
+    
+    DatabaseConnection.exec_params(sql, params)
+    return nil
   end
 end

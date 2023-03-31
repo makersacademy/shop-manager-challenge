@@ -1,4 +1,4 @@
-TRUNCATE TABLE items RESTART IDENTITY;
+TRUNCATE TABLE items RESTART IDENTITY CASCADE;
 
 INSERT INTO items (name, unit_price, quantity) values('Apple MacBook Air', 999.00, 25);
 INSERT INTO items (name, unit_price, quantity) values('Samsung Galaxy S23', 899.00, 10);

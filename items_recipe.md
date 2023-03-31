@@ -137,7 +137,7 @@ items.first.unit_price # => 999.00
 items.first.quantity # => 25
 
 # 2
-# Creates a new item
+# Create a new item and check how many
 repo = ItemRepository.new
 
 item = Item.new
@@ -148,9 +148,23 @@ item.quantity = 7
 repo.create(item)
 
 all_items = repo.all
-all_items.legnth # => 4
+all_items.length # => 4
 
-# The all_items array should contain the new Item object
+# 3
+# Create a new item and check the last insert
+repo = ItemRepository.new
+
+item = Item.new
+item.name = "Apple Watch"
+item.unit_price = 419.00
+item.quantity = 12
+
+repo.create(item)
+
+all_items = repo.all
+all_items.last.name # => "Apple Watch"
+all_items.last.unit_price # => "419.00"
+all_items.last.quantity # => "12"
 ```
 
 Encode this example as a test.
