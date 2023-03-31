@@ -1,5 +1,6 @@
 require 'item'
 require 'item_repository'
+require 'order'
 
 def reset_tables
   seed_sql = File.read('spec/seeds.sql')
