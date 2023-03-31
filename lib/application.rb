@@ -13,35 +13,12 @@ class Application
     @order_repository = order_repository
   end
 
+  # "Runs" the terminal application
   def run
-    # "Runs" the terminal application
-    # so it can ask the user to enter some input
-    # and then decide to run the appropriate action
-    # or behaviour.
-
-    print_menu
-    selection = @io.gets.chomp
-    case selection
-    when "1"
-      # print items
-    when "2"
-      # print items by order
-    when "3"
-      # creates an item
-    when "4"
-      # print order
-    when "5"
-      # print orders with item
-    when "6"
-      # create an order
-    else
-      # not valid
-    end
   end
 
   # Takes the user's selection and perfoms the appropriate action
   def do_selection(selection)
-
   end
 
   # Prints the menu
@@ -61,8 +38,7 @@ class Application
   end
 
   # prints all the items attached to an order
-  # order_id: int - representing the order the user wants to inspect
-  def print_items_by_order(order_id)
+  def print_items_by_order
   end
 
   # creates an item
@@ -74,8 +50,7 @@ class Application
   end
 
   # prints all orders that have an item
-  # item_id: int - representing the item the user wants to view orders containing it
-  def print_orders_by_item(item_id)
+  def print_orders_by_item
   end
 
   # creates a new item
