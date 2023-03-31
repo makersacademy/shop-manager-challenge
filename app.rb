@@ -15,6 +15,8 @@ class Application
 
   def run
     show "Welcome to shop manager"
+    ## Run method is kept as light as possible to be able to test individual 
+    ## methods without having to go through terminal to test them
     loop do
       user_choice = ask_for_choice
       loop do
@@ -52,7 +54,11 @@ class Application
     end
   end
 
-  ### IO Methods ###
+  ### <--- UI METHODS --- > ###
+  ## These methods handle the terminal UI interface
+  ## They print out messages / handle user inputs
+  ## They are tested separate to the main run method to prevent
+  ## integration tests getting too repetitive with terminal output expectations
 
   def ask_for_choice
     show ""
@@ -66,7 +72,14 @@ class Application
     show "9 to exit program"
     return @io.gets.chomp
   end
-  
+
+  def print_neat(input)
+    input.each {|row| show(row)}
+  end
+
+  ### <--- VALIDATOR METHODS --- > ###
+  ## These methods receive input from users and make sure they are valid to prevent errors when program runs
+
   def ask_for_customer_information
     customer_name = prompt "What is the customer name?"
     customer_id = @customer_repository.retrieve_customer_by_name(customer_name)
@@ -102,7 +115,6 @@ class Application
     item_quantity = integer_validator
     return {name: item_name, unit_price: item_price, quantity: item_quantity}
   end
-  ### Helper methods ###
 
   def user_input_validated(input)
     [1,2,3,4,5,6,9].include?(input.to_i) ? input.to_i : false
@@ -118,6 +130,10 @@ class Application
     return value
   end
 
+  ### <--- HELPER METHODS --- > ###
+  ## These methods help prevent test errors that might arise from forgetting the @io before puts in the code
+  ## Lets face it, we've all been there :)
+
   def show(message)
     @io.puts(message)
   end
@@ -126,16 +142,12 @@ class Application
     @io.puts(message)
     return @io.gets.chomp
   end
-
-  def print_neat(input)
-    input.each {|row| show(row)}
-  end
 end
 
 
 if __FILE__ == $0
   app = Application.new(
-    'shop_manager_test',
+    'shop_manager',
     Kernel,
     CustomerRepository.new,
     ItemRepository.new,

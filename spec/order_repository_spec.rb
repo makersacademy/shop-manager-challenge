@@ -41,6 +41,7 @@ describe OrderRepository do
   end 
 
   context 'when reformatted' do
+    ### This section checks methods which format object into strings ###
     it 'returns the list of all orders alongside their time, content and customer info in a string array' do
       ## Returns the array sorted by descending date order
       orders = repo.order_list

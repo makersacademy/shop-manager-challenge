@@ -22,6 +22,7 @@ describe Application do
 
   context 'when checked for UI messages' do
     it 'displays a choice menu to user and returns their result' do
+      expect(io).to receive(:puts).with("")
       expect(io).to receive(:puts).with("What would you like to do? Choose one from below")
       expect(io).to receive(:puts).with("1 to list all items with their prices.")
       expect(io).to receive(:puts).with("2 to list all items with their stock quantities")

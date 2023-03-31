@@ -4,8 +4,6 @@ class CustomerRepository
 
   ### <--- DB METHODS --- > ###
   ### This section includes methods which interact directly with database.
-  ### These methods always return objects (either single objects or in an array)
-  ### Mapping of database information into these objects occur in these methods.
 
   def orders_of_customer(customer_name)
     sql_statement = "SELECT orders.id, order_time, items.name FROM orders
@@ -13,7 +11,6 @@ class CustomerRepository
     JOIN customers on customers.id = orders.customer_id
     WHERE customers.name = $1
     ORDER BY order_time DESC"
-    output = []
     results = DatabaseConnection.exec_params(sql_statement, [customer_name])
     return results
   end

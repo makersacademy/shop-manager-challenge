@@ -40,7 +40,6 @@ class OrderRepository
     sql_statement = "INSERT INTO orders(order_time, item_id, customer_id) VALUES ($1, $2, $3)"
     params = [date, input_parameters[:item_id], input_parameters[:customer_id]]
     results = DatabaseConnection.exec_params(sql_statement, params)
-    return results
   end
 
   ### <--- FORMAT METHODS ---> ###

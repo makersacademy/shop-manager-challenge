@@ -4,8 +4,6 @@ class ItemRepository
 
   ### <--- DB METHODS --- > ###
   ### This section includes methods which interact directly with database.
-  ### These methods always return objects (either single objects or in an array)
-  ### Mapping of database information into these objects occur in these methods.
 
   def all
     sql_statement = "SELECT * FROM items"
