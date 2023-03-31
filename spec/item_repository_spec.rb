@@ -24,5 +24,22 @@ describe ItemRepository do
     expect(items.first.unit_price).to eq 9.99
     expect(items.first.quantity).to eq 100
   end
-  # (your tests will go here).
+  
+  it "creates an item" do
+    repo = ItemRepository.new
+
+    item = Item.new
+    item.name = 'Doughnut'
+    item.unit_price = 3.99
+    item.quantity = 250
+
+    repo.create(item)
+
+    created_item = repo.all.last
+
+    expect(created_item.id).to eq 8
+    expect(created_item.name).to eq 'Doughnut'
+    expect(created_item.unit_price).to eq 3.99
+    expect(created_item.quantity).to eq 250
+  end
 end

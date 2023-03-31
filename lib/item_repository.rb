@@ -27,9 +27,12 @@ class ItemRepository
   # item: Item - item to add to table
   def create(item)
     # Executes the SQL query:
-    # INSERT INTO items (name, unit_price, quantity) VALUES ($1,$2,$3)
+    sql = 'INSERT INTO items (name, unit_price, quantity) VALUES ($1,$2,$3)'
+    sql_params = [item.name,item.unit_price,item.quantity]
 
-    # Returns nil
+    DatabaseConnection.exec_params(sql, sql_params)
+
+    return nil
   end
 
   # Find all the items attached to an order
