@@ -1,4 +1,5 @@
 require 'item_repository'
+require 'item'
 
 def reset_tables
   seed_sql = File.read('spec/seeds.sql')
@@ -18,4 +19,18 @@ describe ItemRepository do
     expect(result_set.first.name).to eq "MacBookPro"
     expect(result_set.last.quantity).to eq 25
   end
+
+  it "inserts an item into the DB table with #create" do
+    repo = ItemRepository.new
+    item = Item.new
+    item.name, item.unit_price, item.quantity = "Toothbrush", 3.99, 30
+    repo.create(item)
+    result_set = repo.all
+    expect(result_set.length).to eq 4
+    expect(result_set.first.name).to eq "MacBookPro"
+    expect(result_set.last.quantity).to eq 30
+    expect(result_set.last.unit_price).to eq 3.99
+    expect(result_set.last.name).to eq "Toothbrush"
+  end
+
 end
