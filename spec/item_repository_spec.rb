@@ -24,7 +24,7 @@ describe ItemRepository do
     repo = ItemRepository.new
     item = Item.new
     item.name, item.unit_price, item.quantity = "Toothbrush", 3.99, 30
-    repo.create(item)
+    expect(repo.create(item)).to eq nil
     result_set = repo.all
     expect(result_set.length).to eq 4
     expect(result_set.first.name).to eq "MacBookPro"
@@ -40,7 +40,6 @@ describe ItemRepository do
     expect(result).to be_a Array
     expect(result.length).to eq 3
     expect(result.first).to eq " #1 MacBookPro - Unit price: 999.99 - Quantity: 50"
-
 
   end
 

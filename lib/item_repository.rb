@@ -29,15 +29,18 @@ class ItemRepository
     sql = 'INSERT INTO items (name, unit_price, quantity) VALUES ($1, $2, $3)'
     params = [item.name, item.unit_price, item.quantity]
     DatabaseConnection.exec_params(sql, params)
+    return nil
     # Returns nil
   end
 
-  # def print_all
-  #   # Returns an array of strings formatted to print with puts
-  #   sql = 'SELECT * FROM items'
-  #   result_set = DatabaseConnection.exec_params(sql, [])
-  #   formatted_strings = []
-  # " #1 MacBookPro - Unit price: 999.99 - Quantity: 50"
+  def print_all
+    # Returns an array of strings formatted to print with puts
+    formatted_strings = []
+    select_all.each do |row|
+      fstring = " #1 #{row['name']} - Unit price: #{row['unit_price']} - Quantity: #{row['quantity']}"
+      formatted_strings << fstring
+    end
 
-  # end
+    return formatted_strings
+  end
 end
