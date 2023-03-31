@@ -25,9 +25,12 @@ class OrderRepository
   # order: Order - order to add to table
   def create(order)
     # Executes the SQL query:
-    # INSERT INTO orders (customer_name, date) VALUES ($1,$2)
+    sql = 'INSERT INTO orders (customer_name, date) VALUES ($1,$2)'
+    sql_params = [order.customer_name, order.date]
+    
+    DatabaseConnection.exec_params(sql, sql_params)
 
-    # Returns nil
+    return nil
   end
 
   # Find all the orders attached to an item

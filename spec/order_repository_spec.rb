@@ -24,4 +24,19 @@ describe OrderRepository do
     expect(orders.first.customer_name).to eq 'Sam'
     expect(orders.first.date).to eq '2023-03-31'
   end
+
+  it "creates an order" do
+    repo = OrderRepository.new
+
+    order = Order.new
+    order.customer_name = 'Laura'
+    order.date = '2023-04-01'
+
+    repo.create(order)
+
+    created_order = repo.all.last
+    expect(created_order.id).to eq 4
+    expect(created_order.customer_name).to eq 'Laura'
+    expect(created_order.date).to eq '2023-04-01'
+  end
 end
