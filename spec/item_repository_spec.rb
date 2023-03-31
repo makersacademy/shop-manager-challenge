@@ -43,4 +43,16 @@ describe ItemRepository do
     expect(created_item.unit_price).to eq 3.99
     expect(created_item.quantity).to eq 250
   end
+
+  it "finds items associated to an order" do
+    repo = ItemRepository.new
+
+    items = repo.find_by_order(1)
+
+    expect(items.length).to eq 4
+    expect(items.first.id).to eq 1
+    expect(items.first.name).to eq 'Pizza'
+    expect(items.first.unit_price).to eq 9.99
+    expect(items.first.quantity).to eq 100
+  end
 end
