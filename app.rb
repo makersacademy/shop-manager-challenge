@@ -17,13 +17,14 @@ class Application
     show "Welcome to shop manager"
     ## Run method is kept as light as possible to be able to test individual 
     ## methods without having to go through terminal to test them
-    loop do
+    app_running = true
+    while app_running
       user_choice = ask_for_choice
       loop do
         break if user_input_validated(user_choice)
         user_choice = prompt "Invalid input, please try again."
       end
-      apply_selection(user_input_validated(user_choice))
+      app_running = false if apply_selection(user_input_validated(user_choice)) == 'exit'
     end
   end
 
@@ -52,7 +53,7 @@ class Application
         @order_repository.add_order(parameters)
         show "Order added successfully, returning to main menu."
       when 9
-        exit
+        return 'exit'
     end
   end
 

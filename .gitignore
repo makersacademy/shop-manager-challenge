@@ -1,6 +1,5 @@
 /**/.DS_Store
 /coverage
-/spec/full_run_test.rb
 
 # Local cache of Rubocop remote config
 .rubocop-*
