@@ -22,17 +22,17 @@ describe OrderRepository do
     expect(result_set.last.date).to eq '2023-02-22'
   end
 
-  xit "inserts an item into the DB table with #create" do
-    repo = ItemRepository.new
-    item = Item.new
-    item.name, item.unit_price, item.quantity = "Toothbrush", 3.99, 30
-    expect(repo.create(item)).to eq nil
+  it "inserts an item into the DB table with #create" do
+    repo = OrderRepository.new
+    order = Order.new
+    order.customer_name, order.date = "Matz", '2023-01-01'
+    expect(repo.create(order)).to eq nil
     result_set = repo.all
-    expect(result_set.length).to eq 4
-    expect(result_set.first.name).to eq "MacBookPro"
-    expect(result_set.last.quantity).to eq 30
-    expect(result_set.last.unit_price).to eq 3.99
-    expect(result_set.last.name).to eq "Toothbrush"
+    expect(result_set.length).to eq 3
+    expect(result_set.first.customer_name).to eq "Uncle Bob"
+    expect(result_set.last.customer_name).to eq "Matz"
+    expect(result_set.last.date).to eq "2023-01-01"
+    expect(result_set[1].date).to eq "2023-02-22"
   end
 
   xit "returns an array of formatted strings" do
