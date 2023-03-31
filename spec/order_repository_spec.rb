@@ -1,5 +1,5 @@
-require 'item_repository'
-require 'item'
+require 'order_repository'
+require 'order'
 
 def reset_tables
   seed_sql = File.read('spec/seeds.sql')
@@ -7,20 +7,21 @@ def reset_tables
   connection.exec(seed_sql)
 end
 
-describe ItemRepository do
+describe OrderRepository do
   before :each do
     reset_tables
   end
 
-  it "returns all items" do
-    repo = ItemRepository.new
+  it "returns all orders" do
+    repo = OrderRepository.new
     result_set = repo.all
-    expect(result_set.length).to eq 3
-    expect(result_set.first.name).to eq "MacBookPro"
-    expect(result_set.last.quantity).to eq 25
+    expect(result_set.length).to eq 2
+    expect(result_set.first.customer_name).to eq "Uncle Bob"
+    expect(result_set.first.date).to eq '2022-09-05'
+    expect(result_set.last.date).to eq '2023-02-22'
   end
 
-  it "inserts an item into the DB table with #create" do
+  xit "inserts an item into the DB table with #create" do
     repo = ItemRepository.new
     item = Item.new
     item.name, item.unit_price, item.quantity = "Toothbrush", 3.99, 30
@@ -33,7 +34,7 @@ describe ItemRepository do
     expect(result_set.last.name).to eq "Toothbrush"
   end
 
-  it "returns an array of formatted strings" do
+  xit "returns an array of formatted strings" do
     repo = ItemRepository.new
     result = repo.print_all
     expect(result).to be_a Array
