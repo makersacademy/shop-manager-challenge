@@ -1,4 +1,4 @@
--- file: albums_table.sql
+-- file: /Users/christoplisek/Projects_Makers/Datab/spec/seeds_shop_manager.sql
 
 CREATE TABLE items (
   id SERIAL PRIMARY KEY,
@@ -8,7 +8,7 @@ CREATE TABLE items (
 );
 
 -- Then the table with the foreign key first.
-CREATE TABLE posts (
+CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
   customer text,
   date date,
@@ -18,3 +18,4 @@ CREATE TABLE posts (
     references items(id)
     on delete cascade
 );
+

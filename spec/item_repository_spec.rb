@@ -1,6 +1,6 @@
 # file: spec/item_repository_spec.rb
 
-requie 'item_repository'
+require './lib/item_repository'
 
 def reset_item_table
     seed_sql = File.read('spec/seeds_shop_manager_test.sql')
@@ -11,5 +11,16 @@ end
 describe ItemRepository do
     before(:each) do 
         reset_item_table
+    end
+
+    it 'tests the the all method' do 
+        repo = ItemRepository.new
+        item = repo.all
+
+        expect(item.length).to eq 2
+        expect(item[1].id).to eq '2'
+        expect(item[1].name).to eq 'glue'  
+        expect(item[1].price).to eq '2.99'
+        expect(item[1].quantity).to eq '5'
     end
 end
