@@ -26,6 +26,11 @@ class CustomerRepository
     results.ntuples.zero? ? false : results[0]['id'].to_i
   end
 
+  def add_customer(customer_name)
+    sql_statement = "INSERT INTO customers(name) VALUES($1)"
+    results = DatabaseConnection.exec_params(sql_statement, [customer_name])
+  end
+
   ### <--- FORMAT METHODS ---> ###
   ### These methods rework the information inside model objects into the required format strings.
   ### They will always return either a single string or an array of strings for the main application to print out.

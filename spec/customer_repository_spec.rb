@@ -21,6 +21,11 @@ describe CustomerRepository do
     it 'returns false if customer does not exist in database' do
       expect(repo.retrieve_customer_by_name("Customer_10")).to eq false
     end
+
+    it 'adds a new customer to database' do
+      repo.add_customer("Customer_6")
+      expect(repo.retrieve_customer_by_name("Customer_6")).to eq 6
+    end
   end
 
   context 'when reformatted' do
