@@ -149,7 +149,7 @@ item.quantity = 250
 
 repo.create(item)
 
-created_item = repo.add.last
+created_item = repo.all.last
 created_item.id # => 8
 created_item.name # => 'Doughnut'
 created_item.unit_price # => 3.99
