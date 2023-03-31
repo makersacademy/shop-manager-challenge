@@ -1,0 +1,385 @@
+# social_network Deign Recipe (DR)
+
+## project setup
+
+```bash
+rvm get stable
+rvm use ruby --latest --install --default
+gem install bundler
+bundle init
+bundle add rspec
+rspec --init
+mkdir lib
+bundle add pg
+touch lib/database_connection.rb
+touch spec/seeds.sql
+touch app.rb
+```
+### DatabaseConnection class
+
+```ruby
+  # file: lib/database_connection.rb
+  require 'pg'
+  # This class is a thin "wrapper" around the
+  # PG library. We'll use it in our project to interact
+  # with the database using SQL.
+  class DatabaseConnection
+    # This method connects to PostgreSQL using the 
+    # PG gem. We connect to 127.0.0.1, and select
+    # the database name given in argument.
+    def self.connect(database_name)
+      @connection = PG.connect({ host: '127.0.0.1', dbname: database_name })
+    end
+    # This method executes an SQL query 
+    # on the database, providing some optional parameters
+    # (you will learn a bit later about when to provide these parameters).
+    def self.exec_params(query, params)
+      if @connection.nil?
+        raise 'DatabaseConnection.exec_params: Cannot run a SQL query as the connection to'\
+        'the database was never opened. Did you make sure to call first the method '\
+        '`DatabaseConnection.connect` in your app.rb file (or in your tests spec_helper.rb)?'
+      end
+      @connection.exec_params(query, params)
+    end
+  end
+```
+### Add connect method to the spec/helper.rb
+
+```ruby
+  # file: spec/spec_helper.rb
+
+  require 'database_connection'
+
+  # Make sure this connects to your test database
+  # (its name should end with '_test')
+  DatabaseConnection.connect('your_database_name_test')
+```
+
+## 1. Design and create the Table
+
+### Extract nouns from the user stories or specification
+
+As a shop manager
+So I can know which items I have in stock
+I want to keep a list of my shop items with their name and unit price.
+
+As a shop manager
+So I can know which items I have in stock
+I want to know which quantity (a number) I have for each item.
+
+As a shop manager
+So I can manage items
+I want to be able to create a new item.
+
+As a shop manager
+So I can know which orders were made
+I want to keep a list of orders with their customer name.
+
+As a shop manager
+So I can know which orders were made
+I want to assign each order to their corresponding item.
+
+As a shop manager
+So I can know which orders were made
+I want to know on which date an order was placed. 
+
+As a shop manager
+So I can manage orders
+I want to be able to create a new order.
+
+```
+(nouns)
+
+shop_item, item_name, price, item_quantity, list_of_orders, customer_name, order_id, order_date
+```
+
+## 2. Infer the Table Name and Columns
+
+Put the different nouns in this table. Replace the example with your own nouns.
+
+| Record                | Properties          |
+| --------------------- | ------------------  |
+| item                  | name, price, quantity
+| order                 | customer, date, item_id 
+
+1. Name of the first table (always plural): `items` 
+
+    Column names: `name`, `price`, `quantity`
+
+2. Name of the second table (always plural): `orders` 
+
+    Column names: `customer`, `date`, `item_id`
+
+## 3. Decide the column types.
+
+```
+Table: items
+id: SERIAL
+name: text
+price: float
+quantity: int
+
+Table: orders
+id: SERIAL
+customer: text
+date: date
+item_id: int
+```
+
+## 4. Decide on The Tables Relationship
+
+Most of the time, you'll be using a **one-to-many** relationship, and will need a **foreign key** on one of the two tables.
+
+To decide on which one, answer these two questions:
+
+1. Can one ITEMS have many ORDERS? (Yes)
+2. Can one ORDERS have many ITEMS? (No)
+
+You'll then be able to say that:
+
+1. **[ITEMS] has many [ORDERS]**
+2. And on the other side, **[ORDERS] belongs to [ITEMS]**
+3. In that case, the foreign key is in the table [ORDERS]
+
+Replace the relevant bits in this example with your own:
+
+## 4. Write the SQL.
+
+```sql
+-- file: albums_table.sql
+-- Replace the table name, columm names and types.
+-- Create the table without the foreign key first.
+CREATE TABLE items (
+  id SERIAL PRIMARY KEY,
+  name text,
+  price float,
+  quantity int
+);
+
+-- Then the table with the foreign key first.
+CREATE TABLE posts (
+  id SERIAL PRIMARY KEY,
+  customer text,
+  date date,
+-- The foreign key name is always {other_table_singular}_id
+  item_id int,
+  constraint fk_item foreign key(item_id)
+    references items(id)
+    on delete cascade
+);
+
+```
+
+## 5. Create the tables.
+
+```bash
+1 createdb shop_manager
+2 createdb shop_manager_test
+```
+
+```bash
+psql -h 127.0.0.1 shop_manager < seeds_shop_manager.sql
+psql -h 127.0.0.1 shop_manager_test < seeds_shop_manager_test.sql
+```
+
+## Make test Database for spec file
+
+Test Database Name: seeds_social_network_test.sql
+
+```sql
+
+# table names: 'items'
+TRUNCATE TABLE items RESTART IDENTITY; 
+
+INSERT INTO items ('name', 'price', 'quantity') VALUES ('hammer', 5.99, 10);
+INSERT INTO items ('name', 'price', 'quantity') VALUES ('glue', 2.99, 5);
+
+# table names: 'orders'
+TRUNCATE TABLE table_name RESTART IDENTITY; 
+
+INSERT INTO table_name ('customer', 'date', 'item_id') VALUES ('chris', '08-Jan-1999', 1);
+INSERT INTO table_name ('customer', 'date', 'item_id') VALUES ('tom', '09-Jan-2003', 1);
+
+```
+
+## 3. Define the class names
+
+Usually, the Model class name will be the capitalised table name (single instead of plural). The same name is then suffixed by `Repository` for the Repository class name.
+
+```ruby
+Table name: items
+
+# Model class
+# (in lib/item.rb)
+class Item
+end
+
+# Repository class
+# (in lib/item_repository.rb)
+class ItemRepository
+end
+```
+```ruby
+Table name: orders
+
+# Model class
+# (in lib/order.rb)
+class Order
+end
+
+# Repository class
+# (in lib/order_repository.rb)
+class OrderRepository
+end
+```
+## 4. Implement the Model class
+
+```ruby
+Table name: items
+# Model class
+# (in lib/item.rb)
+class Item
+  attr_accessor :id, :name, :price, :quantity
+end
+
+Table name: orders
+# Model class
+# (in lib/order.rb)
+class Order
+  attr_accessor :id, :customer, :date, :item_id
+end
+```
+
+## 5. Define the Repository Class interface
+
+```ruby
+Table name: items
+# Repository class
+# (in lib/iteem_repository.rb)
+class StudentRepository
+  def all
+    sql = 'SELECT id, name, price, quantity FROM items;'
+    result = DatabaseConnection.exec_params(sql,[])
+  end
+
+  def find(id)
+    sql = 'SELECT id, name, price, quantity FROM items; WHERE id = $1;'
+    params = [id]
+    result = DatabaseConnection.exec_params(sql, params)
+  end
+
+  def create(item)
+    sql = 'INSERT INTO items (name, price, quantity) VALUES ($1, $2, $3);'
+    params = [item.username, item.price, item.quantity]
+    result = DatabaseConnection.exec_params(sql, params)
+  end
+
+  def delete(id)
+    sql = 'DELETE FROM items WHERE (id = $1);'
+    params = [id]
+    result = DatabaseConnection.exec_params(sql, params)
+  end
+
+  def update(update)
+    sql = 'UPDATE items SET (quantity = $1) WHERE (id = $2);'
+    params = [update.quantity, update.id]
+    result = DatabaseConnection.exec_pramas(sql, params)
+  end
+end
+```
+
+## 6. Write Test Examples
+
+Write Ruby code that defines the expected behaviour of the Repository class, following your design from the table written in step 5.
+
+```ruby
+
+# 1
+repo = UserAccountRepository.new
+user = repo.all
+
+user.length # =>  
+user[0].id # =>  
+user[0].username # =>  
+user[0].email # =>  
+
+# 2
+repo = UserAccountRepository.new
+user = repo.find(1)
+
+user.id # => 
+user.username # => 
+user.email # => 
+
+# 3
+repo = UserAccountRepository.new
+
+user = UserAccount.new
+user.username = 'Chris'
+user.email = 'chris@gmail.com'
+
+repo.create(user)
+
+all_users = repo.all
+
+all_users.last.username # => 'Chris'
+all_users.last.email # => 'chris@gmail.com'
+
+# 4
+repo = UserAccountRepository.new
+
+delete_id = 1
+repo.delete(delete_id)
+
+all_user = repo.all
+all_user.length # => 1
+all_user.first.id # => 2
+
+# 5
+repo = UserAccountRepository.new
+
+user = repo.find(1)
+
+user.username = 'Toppy'
+user.email = 'chris@gmail.com'
+
+repo.update(user)
+
+new_user = repo.find(1)
+
+
+```
+## 7. Reload the SQL seeds before each test run
+
+```ruby
+
+# file: spec/item_repository_spec.rb
+
+def reset_user_account_table
+  seed_sql = File.read('spec/seeds_shop_manager_test.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
+  connection.exec(seed_sql)
+end
+
+describe UserAccountRepository do
+  before(:each) do 
+    reset_user_accounts_table
+  end
+
+  # (your tests will go here).
+end
+```
+
+## 8. Test-drive and implement the Repository class behaviour
+
+_After each test you write, follow the test-driving process of red, green, refactor to implement the behaviour._
+
+<!-- BEGIN GENERATED SECTION DO NOT EDIT -->
+
+---
+
+**How was this resource?**  
+[😫](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy%2Fdatabases&prefill_File=resources%2Frepository_class_recipe_template.md&prefill_Sentiment=😫) [😕](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy%2Fdatabases&prefill_File=resources%2Frepository_class_recipe_template.md&prefill_Sentiment=😕) [😐](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy%2Fdatabases&prefill_File=resources%2Frepository_class_recipe_template.md&prefill_Sentiment=😐) [🙂](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy%2Fdatabases&prefill_File=resources%2Frepository_class_recipe_template.md&prefill_Sentiment=🙂) [😀](https://airtable.com/shrUJ3t7KLMqVRFKR?prefill_Repository=makersacademy%2Fdatabases&prefill_File=resources%2Frepository_class_recipe_template.md&prefill_Sentiment=😀)  
+Click an emoji to tell us.
+
+<!-- END GENERATED SECTION DO NOT EDIT -->
