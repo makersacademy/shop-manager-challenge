@@ -77,8 +77,8 @@ order_date: text
 ```
 # EXAMPLE
 
-1. Can one artist have many albums? YES
-2. Can one album have many artists? NO
+1. Can one item have many orders? NO
+2. Can one order have many items? YES
 
 -> Therefore,
 -> An artist HAS MANY albums
