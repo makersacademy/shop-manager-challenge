@@ -81,6 +81,22 @@ describe Application do
       expect(app.ask_for_item_parameters_to_insert).to eq parameters
     end
 
+    it 'returns a hash of information to pass into database if validated' do
+      expect(i_repo).to receive(:retrieve_item_id_by_name).with("Table").and_return(true)
+      expect(i_repo).to receive(:retrieve_item_id_by_name).with("Chair").and_return(false)
+      expect(io).to receive(:puts).with("What is the item name?")
+      expect(io).to receive(:gets).and_return("Table")
+      expect(io).to receive(:puts).with("Item with the same name already exists!")
+      expect(io).to receive(:puts).with("What is the item name?")
+      expect(io).to receive(:gets).and_return("Chair")
+      expect(io).to receive(:puts).with("What is the item price?")
+      expect(io).to receive(:gets).and_return("4")
+      expect(io).to receive(:puts).with("How many items do you have in stock?")
+      expect(io).to receive(:gets).and_return("100")
+      parameters = {name: "Chair", unit_price: 4, quantity: 100}
+      expect(app.ask_for_item_parameters_to_insert).to eq parameters
+    end
+
     it 'returns the item id when passed in the item name' do
       expect(io).to receive(:puts).with("What would you like to order?")
       expect(i_repo).to receive(:retrieve_item_id_by_name).with("Table").and_return(3)

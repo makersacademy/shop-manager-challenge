@@ -81,7 +81,7 @@ describe Application do
       app.apply_selection(4)
     end
 
-    it 'retrusn an error message if customer does not exist' do
+    it 'returns an error message if customer does not exist' do
       expect(io).to receive(:puts).with("What is the customer name?")
       expect(io).to receive(:gets).and_return("Customer_6")
       expect(io).to receive(:puts).with("Sorry, no such customer exists.")
@@ -100,7 +100,7 @@ describe Application do
       expect(io).to receive(:puts).with("Item added successfully, returning to main menu.")
       app.apply_selection(5)
     end
-    
+
     it 'adds an order based on user input' do
       expect(io).to receive(:puts).with("What is the customer name?")
       expect(io).to receive(:gets).and_return("Customer_6")
@@ -111,6 +111,10 @@ describe Application do
       expect(io).to receive(:gets).and_return("Chicken")
       expect(io).to receive(:puts).with("Order added successfully, returning to main menu.")
       app.apply_selection(6)
+    end
+
+    it 'exits' do
+      app.apply_selection(9)
     end
   end
 end
