@@ -1,3 +1,3 @@
 class Item
-  attr_accessor :id, :name, :date, :quantity
+  attr_accessor :id, :name, :unit_price, :quantity
 end
