@@ -12,5 +12,17 @@ describe ItemRepository do
     reset_tables
   end
 
+  it "finds all items" do
+    repo = ItemRepository.new
+
+    items = repo.all
+
+    expect(items.length).to eq 7
+
+    expect(items.first.id).to eq 1
+    expect(items.first.name).to eq 'Pizza'
+    expect(items.first.unit_price).to eq 9.99
+    expect(items.first.quantity).to eq 100
+  end
   # (your tests will go here).
 end

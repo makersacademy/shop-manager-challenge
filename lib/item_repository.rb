@@ -4,9 +4,23 @@ class ItemRepository
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT * FROM items;
+    sql = "SELECT * FROM items;"
 
-    # Returns an array of item objects.
+    result_set = DatabaseConnection.exec_params(sql, [])
+
+    items = []
+
+    result_set.each do |record|
+      item = Item.new
+      item.id = record['id'].to_i
+      item.name = record['name']
+      item.unit_price = record['unit_price'].to_f
+      item.quantity = record['quantity'].to_i
+
+      items << item
+    end
+
+    return items
   end
 
   # Adding an item to the table
