@@ -13,4 +13,15 @@ describe OrderRepository do
     reset_tables
   end
 
+  it "finds all order" do
+    repo = OrderRepository.new
+
+    orders = repo.all
+
+    expect(orders.length).to eq 3
+
+    expect(orders.first.id).to eq 1
+    expect(orders.first.customer_name).to eq 'Sam'
+    expect(orders.first.date).to eq '2023-03-31'
+  end
 end
