@@ -3,13 +3,17 @@ require_relative './item'
 
 class ItemRepository
 
+  def select_all
+    # Returns an array of hashes
+    sql = 'SELECT * FROM items'
+    DatabaseConnection.exec_params(sql, [])
+  end
+
   def all
     # Returns an array of Item objects
-    sql = 'SELECT * FROM items'
-    result_set = DatabaseConnection.exec_params(sql, [])
     items = []
 
-    result_set.each do |row|
+    select_all.each do |row|
       item = Item.new
       item.name = row['name']
       item.unit_price = row['unit_price'].to_f.round(2)
@@ -28,7 +32,12 @@ class ItemRepository
     # Returns nil
   end
 
-  def print_all
-    # Returns an array of strings formatted to print with puts
-  end
+  # def print_all
+  #   # Returns an array of strings formatted to print with puts
+  #   sql = 'SELECT * FROM items'
+  #   result_set = DatabaseConnection.exec_params(sql, [])
+  #   formatted_strings = []
+  # " #1 MacBookPro - Unit price: 999.99 - Quantity: 50"
+
+  # end
 end

@@ -52,6 +52,8 @@ class Application
       item.quantity = item_quantity
       @item_repository.create(item)
     when 3
+      @io.puts "Here's a list of all shop items:"
+      @io.puts " "
       @io.puts (@order_repository.print_all)
     else 
       @io.puts "Enter the cumstomer name for the order:"

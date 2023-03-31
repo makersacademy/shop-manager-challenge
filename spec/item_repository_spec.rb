@@ -33,4 +33,15 @@ describe ItemRepository do
     expect(result_set.last.name).to eq "Toothbrush"
   end
 
+
+  it "returns an array of formatted strings" do
+    repo = ItemRepository.new
+    result = repo.print_all
+    expect(result).to be_a Array
+    expect(result.length).to eq 3
+    expect(result.first).to eq " #1 MacBookPro - Unit price: 999.99 - Quantity: 50"
+
+
+  end
+
 end
