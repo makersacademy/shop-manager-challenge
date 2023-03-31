@@ -123,8 +123,7 @@ class Application
 
   # Prints a single item
   def print_item(item)
-    @io.puts 
-    "#{item.name} - Price: £#{sprintf('%.2f',item.unit_price)} - Quantity: #{item.quantity}"
+    @io.puts "#{item.name} - Price: £#{sprintf('%.2f',item.unit_price)} - Quantity: #{item.quantity}"
   end
 
   # Prints a single order
