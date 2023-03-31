@@ -1,16 +1,14 @@
 require 'item_repository'
 
-def reset_items_table
+def reset_all_tables
   connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
-  seed_sql = File.read('spec/seeds_items.sql')
-  connection.exec(seed_sql)
-  seed_sql = File.read('spec/seeds_orders.sql')
+  seed_sql = File.read('spec/seeds_all.sql')
   connection.exec(seed_sql)
 end
 
 describe ItemRepository do
   before(:each) do 
-    reset_items_table
+    reset_all_tables
   end
   let(:repo) { ItemRepository.new }
 
@@ -50,6 +48,10 @@ describe ItemRepository do
 
     it 'returns false if there is no such item in database' do
       expect(repo.retrieve_item_id_by_name("Blanket")).to eq false
+    end
+
+    it 'returns false if item quantity is 0 even if item exists' do
+      expect(repo.retrieve_item_id_by_name("Cheese")).to eq false
     end
   end
 
