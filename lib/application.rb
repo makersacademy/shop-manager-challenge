@@ -66,6 +66,10 @@ class Application
 
   # prints all the orders
   def print_orders
+    @io.puts "All orders:"
+    @order_repository.all.each do |order|
+      print_order(order)
+    end
   end
 
   # prints all orders that have an item
@@ -78,5 +82,9 @@ class Application
 
   def print_item(item)
     @io.puts "#{item.name} - Price: £#{sprintf('%.2f',item.unit_price)} - Quantity: #{item.quantity}"
+  end
+
+  def print_order(order)
+    @io.puts "#{order.customer_name} - #{order.date}"
   end
 end

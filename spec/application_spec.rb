@@ -144,13 +144,32 @@ RSpec.describe Application do
         .ordered
 
         
-        app = create_app(io)
-        app.create_item
-        
-        new_item = @item_repository.all.last
-        expect(new_item.id).to eq 8
-        expect(new_item.name).to eq "Enchilada"
-        expect(new_item.unit_price).to eq 7.99
-        expect(new_item.quantity).to eq 60
+    app = create_app(io)
+    app.create_item
+    
+    new_item = @item_repository.all.last
+    expect(new_item.id).to eq 8
+    expect(new_item.name).to eq "Enchilada"
+    expect(new_item.unit_price).to eq 7.99
+    expect(new_item.quantity).to eq 60
+  end
+
+  it "prints all orders" do
+    io = double :io
+    expect(io).to receive(:puts)
+      .with('All orders:')
+        .ordered
+    expect(io).to receive(:puts)
+      .with('Sam - 2023-03-31')
+        .ordered
+    expect(io).to receive(:puts)
+      .with('Bob - 2023-02-28')
+        .ordered
+    expect(io).to receive(:puts)
+      .with('Jim - 2023-04-22')
+        .ordered
+
+    app = create_app(io)
+    app.print_orders
   end
 end
