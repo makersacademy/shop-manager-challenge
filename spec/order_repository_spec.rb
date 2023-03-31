@@ -39,4 +39,15 @@ describe OrderRepository do
     expect(created_order.customer_name).to eq 'Laura'
     expect(created_order.date).to eq '2023-04-01'
   end
+
+  it "finds order associated with an item" do
+    repo = OrderRepository.new
+
+    orders = repo.find_by_item(1)
+
+    expect(orders.length).to eq 2
+    expect(orders.first.id).to eq 1
+    expect(orders.first.customer_name).to eq 'Sam'
+    expect(orders.first.date).to eq '2023-03-31'
+  end
 end
