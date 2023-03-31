@@ -52,16 +52,37 @@ RSpec.describe Application do
     expect(io).to receive(:puts)
       .with('6 - Create a new order')
         .ordered
+    expect(io).to receive(:puts)
+      .with('7 - Exit')
+        .ordered
 
     app = create_app(io)
     app.print_menu
   end
 
-  xit "actions on user selection" do
+  it "actions on user selection" do
     io = double :io
     app = create_app(io)
-    expect(app).to receive(:print_items)
-    app.do_selection(1)
+
+    expect(app).to receive(:print_items).ordered
+    app.do_selection('1')
+
+    expect(app).to receive(:print_items_by_order).ordered
+    app.do_selection('2')
+
+    expect(app).to receive(:create_item).ordered
+    app.do_selection('3')
+
+    expect(app).to receive(:print_orders).ordered
+    app.do_selection('4')
+
+    expect(app).to receive(:print_orders_by_item).ordered
+    app.do_selection('5')
+
+    expect(app).to receive(:create_order).ordered
+    app.do_selection('6')
+
+    expect{app.do_selection('7')}.to raise_error(SystemExit)
   end
 
   it "prints all items" do
@@ -217,6 +238,5 @@ RSpec.describe Application do
     expect(created_order.id).to eq 4
     expect(created_order.customer_name).to eq 'Jeremy'
     expect(created_order.date).to eq '2023-05-01'
-
   end
 end

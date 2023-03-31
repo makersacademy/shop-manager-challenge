@@ -19,7 +19,22 @@ class Application
 
   # Takes the user's selection and perfoms the appropriate action
   def do_selection(selection)
-    print_items
+    case selection
+    when "1"
+      print_items
+    when "2"
+      print_items_by_order
+    when "3"
+      create_item
+    when "4"
+      print_orders
+    when "5"
+      print_orders_by_item
+    when "6"
+      create_order
+    when "7"
+      exit
+    end
   end
 
   # Prints the menu
@@ -32,6 +47,7 @@ class Application
     @io.puts "4 - List all orders"
     @io.puts "5 - List all orders that contain a specific item"
     @io.puts "6 - Create a new order"
+    @io.puts "7 - Exit"
   end
 
   # prints all the items
@@ -99,5 +115,9 @@ class Application
 
   def print_order(order)
     @io.puts "#{order.customer_name} - #{order.date}"
+  end
+
+  def exit_prog
+
   end
 end
