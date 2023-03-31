@@ -15,10 +15,11 @@ class Application
 
   # "Runs" the terminal application
   def run
-    # loop do
-    #   print_menu
-    #   selection(@io.gets.chomp)
-    # end
+    loop do
+      print_menu
+      selection = @io.gets.chomp
+      do_selection(selection)
+    end
   end
 
   # Takes the user's selection and perfoms the appropriate action
@@ -54,7 +55,7 @@ class Application
     @io.puts "7 - Exit"
   end
 
-  # prints all the items
+  # Prints all the items
   def print_items
     @io.puts "All items:"
     @item_repository.all.each do |item|
@@ -62,7 +63,7 @@ class Application
     end
   end
 
-  # prints all the items attached to an order
+  # Prints all the items attached to an order
   def print_items_by_order
     @io.puts "What order do you want to see the items for?"
     order_id = @io.gets.chomp.to_i
@@ -71,20 +72,24 @@ class Application
     end
   end
 
-  # creates an item
+  # Creates an item
   def create_item
     item = Item.new
+
     @io.print "Name: "
     item.name = @io.gets.chomp
+
     @io.print "Price: "
     item.unit_price = @io.gets.chomp.to_f
+
     @io.print "Quantity: "
     item.quantity = @io.gets.chomp.to_i
+
     @item_repository.create(item)
     @io.puts("Item created!")
   end
 
-  # prints all the orders
+  # Prints all the orders
   def print_orders
     @io.puts "All orders:"
     @order_repository.all.each do |order|
@@ -92,20 +97,23 @@ class Application
     end
   end
 
-  # prints all orders that have an item
+  # Prints all orders that have an item
   def print_orders_by_item
     @io.puts "What item do you want to see the orders for?"
     item_id = @io.gets.chomp.to_i
+
     @order_repository.find_by_item(item_id).each do |order|
       print_order(order)
     end
   end
 
-  # creates a new item
+  # Creates a new item
   def create_order
     order = Order.new
+
     @io.print "Name: "
     order.customer_name = @io.gets.chomp
+
     @io.print "Date: "
     order.date = @io.gets.chomp
 
@@ -113,15 +121,14 @@ class Application
     @io.puts "Order created!"
   end
 
+  # Prints a single item
   def print_item(item)
-    @io.puts "#{item.name} - Price: £#{sprintf('%.2f',item.unit_price)} - Quantity: #{item.quantity}"
+    @io.puts 
+    "#{item.name} - Price: £#{sprintf('%.2f',item.unit_price)} - Quantity: #{item.quantity}"
   end
 
+  # Prints a single order
   def print_order(order)
     @io.puts "#{order.customer_name} - #{order.date}"
-  end
-
-  def exit_prog
-
   end
 end

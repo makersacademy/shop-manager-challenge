@@ -1,7 +1,6 @@
 class OrderRepository
 
   # Selecting all records
-  # No arguments
   def all
     sql = "SELECT * FROM orders;"
     result_set = DatabaseConnection.exec_params(sql, [])
@@ -23,17 +22,17 @@ class OrderRepository
   # Find all the orders attached to an item
   # item_id: int - the id of the item to filter by
   def find_by_item(item_id)
-   sql =
-    'SELECT
-	    orders.id,
-	    orders.customer_name,
-	    orders.date
-	  FROM items
-	  JOIN items_orders
-	    ON items.id = items_orders.item_id
-	  JOIN orders
-	    ON items_orders.order_id = orders.id
-	  WHERE item_id = $1;'
+    sql =
+      'SELECT 
+        orders.id,
+        orders.customer_name,
+        orders.date 
+      FROM items 
+      JOIN items_orders 
+        ON items.id = items_orders.item_id 
+      JOIN orders 
+        ON items_orders.order_id = orders.id
+      WHERE item_id = $1;'
     sql_params = [item_id]
 
     result_set = DatabaseConnection.exec_params(sql, sql_params)
@@ -41,6 +40,8 @@ class OrderRepository
     return result_set_to_orders(result_set)
   end
 
+  # Converts an SQL result set into a list of orders
+  # result_set: tuple - whats returned when querying a table
   def result_set_to_orders(result_set)
     orders = []
     result_set.each do |record|

@@ -134,9 +134,9 @@ RSpec.describe Application do
     expect(io).to receive(:puts)
       .with("Chips - Price: £2.50 - Quantity: 50")
         .ordered
-     expect(io).to receive(:puts)
-      .with("Salad - Price: £0.99 - Quantity: 2")
-        .ordered   
+    expect(io).to receive(:puts)
+     .with("Salad - Price: £0.99 - Quantity: 2")
+       .ordered   
     app = create_app(io)
     app.print_items_by_order
   end
@@ -239,5 +239,17 @@ RSpec.describe Application do
     expect(created_order.id).to eq 4
     expect(created_order.customer_name).to eq 'Jeremy'
     expect(created_order.date).to eq '2023-05-01'
+  end
+
+  xit "loops when the program is run" do
+    io = double :io
+    expect(io).to receive(:gets).and_return('1').ordered
+    expect(io).to receive(:gets).and_return('4').ordered
+    expect(io).to receive(:gets).and_return('7').ordered
+    expect(io).to receive(:exit).ordered
+    app = create_app(io)
+    expect(app).to receive(:print_items).ordered
+    expect(app).to receive(:print_orders).ordered
+    app.run
   end
 end

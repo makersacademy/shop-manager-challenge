@@ -1,7 +1,6 @@
 class ItemRepository
 
   # Selecting all records
-  # No arguments
   def all
     # Executes the SQL query:
     sql = "SELECT * FROM items;"
