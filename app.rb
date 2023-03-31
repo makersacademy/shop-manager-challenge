@@ -36,17 +36,19 @@ class Application
       when 3
         print_neat(@order_repository.order_list)
       when 4
-        customer_name = prompt "What is the customer name?"
-        if @customer_repository.retrieve_customer_by_name(customer_name) 
-          print_neat(@customer_repository.list_of_items_ordered_by_customer(customer_name))
-        else
-          show "Sorry, no such customer exists."
-        end
+        customer = verify_customer_exists
+        customer[:exists] ? print_neat(@customer_repository.list_of_items_ordered_by_customer(customer[:name])) : show("Sorry, no such customer exists.")
       when 5
         @item_repository.add_item(ask_for_item_parameters_to_insert)
         show "Item added successfully, returning to main menu."
       when 6
-        parameters = {item_id: ask_for_item_information, customer_id: ask_for_customer_information}
+        customer = verify_customer_exists
+        unless customer[:exists]
+          show "Looks like this customer has not shopped here before. Creating a new customer with the name."
+          @customer_repository.add_customer(customer[:name])
+          customer = {id: @customer_repository.retrieve_customer_by_name(customer[:name])}
+        end
+        parameters = {item_id: ask_for_item_information, customer_id: customer[:id]}
         @order_repository.add_order(parameters)
         show "Order added successfully, returning to main menu."
       when 9
@@ -80,15 +82,13 @@ class Application
   ### <--- VALIDATOR METHODS --- > ###
   ## These methods receive input from users and make sure they are valid to prevent errors when program runs
 
-  def ask_for_customer_information
+  def verify_customer_exists
+    ## This method asks the database if a certain customer exists.
+    ## It returns their name and ID and the result of the query in a hash 
     customer_name = prompt "What is the customer name?"
     customer_id = @customer_repository.retrieve_customer_by_name(customer_name)
-    unless customer_id
-      show "Looks like this customer has not shopped here before. Creating new customer with the name."
-      @customer_repository.add_customer(customer_name)
-      customer_id = @customer_repository.retrieve_customer_by_name(customer_name)
-    end
-    return customer_id
+    customer_id ? exists = true : exists = false
+    return {name: customer_name, id: customer_id, exists: exists} 
   end
 
   def ask_for_item_information
@@ -109,10 +109,8 @@ class Application
       break unless @item_repository.retrieve_item_id_by_name(item_name)
       show "Item with the same name already exists!"
     end
-    show "What is the item price?"
-    item_price = integer_validator
-    show "How many items do you have in stock?"
-    item_quantity = integer_validator
+    item_price = integer_validator(prompt("What is the item price?"))
+    item_quantity = integer_validator(prompt("How many items do you have in stock?"))
     return {name: item_name, unit_price: item_price, quantity: item_quantity}
   end
 
@@ -120,14 +118,11 @@ class Application
     [1,2,3,4,5,6,9].include?(input.to_i) ? input.to_i : false
   end
 
-  def integer_validator
-    begin
-      value = Integer(gets.chomp)
-    rescue
-      show "Please enter an integer number:"
-      retry
+  def integer_validator(input)
+    loop do
+      return input.to_i if /^\d+$/.match?(input)
+      input = prompt("Please enter an integer number:")
     end
-    return value
   end
 
   ### <--- HELPER METHODS --- > ###

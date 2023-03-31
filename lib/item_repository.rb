@@ -26,12 +26,6 @@ class ItemRepository
     results = DatabaseConnection.exec_params(sql_statement, params)
   end
 
-  def delete_item(id)
-    sql_statement = "DELETE FROM items WHERE id = $1"
-    params = [id.to_i]
-    results = DatabaseConnection.exec_params(sql_statement, params)
-  end
-
   def retrieve_item_id_by_name(item_name)
     ## This method checks the query result. It returns the id
     ## if item exists in store, otherwise returns false
