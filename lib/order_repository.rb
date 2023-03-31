@@ -18,9 +18,12 @@ class OrderRepository
     return orders
   end
 
-  def create(item)
+  def create(order)
     # Inserts an Order object into the DB
-    # Returns nil
+    sql = 'INSERT INTO orders (customer_name, date) VALUES ($1, $2)'
+    params = [order.customer_name, order.date]
+    DatabaseConnection.exec_params(sql, params)
+    return nil
   end
 
   def print_all
