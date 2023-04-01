@@ -11,17 +11,23 @@ describe ItemRepository do
     reset_items_table
   end
 
-  it "returns three items using the 'all' method" do
+  it "returns all items" do
     repo = ItemRepository.new
     items = repo.all
 
     expect(items.length).to eq 3
+  end
+
+  it "returns the first item" do
+    repo = ItemRepository.new
+    items = repo.all
+
     expect(items.first.name).to eq "Apple MacBook Air"
     expect(items.first.unit_price).to eq "999.00"
     expect(items.first.quantity).to eq "25"
   end
 
-  it "create a new item and check how many" do
+  it "creates a new item and checks how many items there are" do
     repo = ItemRepository.new
 
     item = Item.new
@@ -35,7 +41,7 @@ describe ItemRepository do
     expect(all_items.length).to eq 4
   end
 
-  it "create a new item and check the last insert" do
+  it "creates a new item and checks the last insert" do
     repo = ItemRepository.new
 
     item = Item.new

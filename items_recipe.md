@@ -127,16 +127,22 @@ These examples will later be encoded as RSpec tests.
 ```ruby
 # 1
 # Get all items
-
 repo = ItemRepository.new
 items = repo.all
 
 items.length # => 3
+
+#2
+# Get the first item
+repo = ItemRepository.new
+items = repo.all
+
 items.first.name # => "Apple MacBook Air"
 items.first.unit_price # => 999.00
 items.first.quantity # => 25
 
-# 2
+
+# 3
 # Create a new item and check how many
 repo = ItemRepository.new
 
@@ -150,7 +156,7 @@ repo.create(item)
 all_items = repo.all
 all_items.length # => 4
 
-# 3
+# 4
 # Create a new item and check the last insert
 repo = ItemRepository.new
 

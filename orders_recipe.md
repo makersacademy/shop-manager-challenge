@@ -127,7 +127,6 @@ These examples will later be encoded as RSpec tests.
 ```ruby
 # 1
 # Get all orders
-
 repo = OrderRepository.new
 orders = repo.all
 
@@ -136,6 +135,14 @@ orders.first.customer_name # => "Joe Bloggs"
 orders.first.order_date # => "2023-03-30"
 
 # 2
+# Get the first order
+repo = OrderRepository.new
+orders = repo.all
+
+orders.first.customer_name # => "Joe Bloggs"
+orders.first.order_date # => "2023-03-30"
+
+# 3
 # Create a new order and check how many
 repo = OrderRepository.new
 
@@ -148,7 +155,7 @@ repo.create(order)
 all_orders = repo.all
 all_orders.length # => 4
 
-# 3
+# 4
 # Create a new order and check the last insert
 repo = OrderRepository.new
 

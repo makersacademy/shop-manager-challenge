@@ -1,21 +1,27 @@
 require "order"
 
 class OrderRepository
-  # Select all orders
-  # No arguments
   def all
-    # Executes the SQL query:
-    # SELECT id, customer_name, order_date FROM orders;
+    orders = []
+    sql = "SELECT id, customer_name, order_date FROM orders;"
+    result_set = DatabaseConnection.exec_params(sql, [])
 
-    # Returns an array of Order objects.
+    result_set.each do |record|
+      order = Order.new
+      order.id = record["id"]
+      order.customer_name = record["customer_name"]
+      order.order_date = record["order_date"]
+
+      orders << order
+    end
+
+    return orders
   end
 
-  # Insert a new order
-  # One argument
-  def create(order) # an order object
-    # Executes the SQL query:
-    # INSERT INTO orders (customer_name, order_date) VALUES ($1, $2);
-
-    # Returns nothing
+  def create(order)
+    sql ="INSERT INTO orders (customer_name, order_date) VALUES ($1, $2);"
+    params = [order.customer_name, order.order_date]
+    DatabaseConnection.exec_params(sql, params)
+    return nil
   end
 end
