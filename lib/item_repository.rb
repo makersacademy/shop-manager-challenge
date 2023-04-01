@@ -23,13 +23,21 @@ class ItemRepository
     items
   end
 
-  # Gets a single record by its ID
-  # One argument: the id (number)
   def find(id)
-    # Executes the SQL query:
-    # SELECT id, name, price, quantity FROM items WHERE id = $1;
+    sql = 'SELECT id, name, price, quantity FROM items WHERE id = $1;'
+    params = [id]
 
-    # Returns a single item object.
+    result = DatabaseConnection.exec_params(sql, params)
+
+    result.each do |record|
+      item = Item.new
+      item.id = record['id']
+      item.name = record['name']
+      item.price = record['price']
+      item.quantity = record['quantity']
+      
+      return item
+    end
   end
 
   # Gets all the items in a specific order
