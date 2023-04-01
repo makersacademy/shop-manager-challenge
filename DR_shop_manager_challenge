@@ -274,7 +274,7 @@ class ItemRepository
 
   def create(item)
     sql = 'INSERT INTO items (name, price, quantity) VALUES ($1, $2, $3);'
-    params = [item.username, item.price, item.quantity]
+    params = [item.name, item.price, item.quantity]
     result = DatabaseConnection.exec_params(sql, params)
   end
 
@@ -296,7 +296,7 @@ end
 
 Write Ruby code that defines the expected behaviour of the Repository class, following your design from the table written in step 5.
 
-#REPEAT BASE ON TABLES MAIN PROGRAM WANTS TO EQUIRY DATA!!!
+# REPEAT BASE ON TABLES MAIN PROGRAM WANTS TO EQUIRY DATA!!!
 
 number of tables 2 (items) & (orders)
 
@@ -324,7 +324,7 @@ item[0].quantity # => 5
 # 3
 repo = ItemRepository.new
 
-item = ItemAccount.new
+item = Item.new
 item.name = 'pencil'
 item.price = 1.99
 item.quantity = 1
@@ -362,7 +362,7 @@ updated_item.price # => 8.99
 ```
 ## 7. Reload the SQL seeds before each test run
 
-#REPEAT BASE ON TABLES MAIN PROGRAM WANTS TO EQUIRY DATA!!!
+# REPEAT BASE ON TABLES MAIN PROGRAM WANTS TO EQUIRY DATA!!!
 
 number of tables 2 (items) & (orders)
 
