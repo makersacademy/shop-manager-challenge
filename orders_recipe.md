@@ -1,14 +1,14 @@
-# Items Model and Repository Classes Design Recipe
+# Orders Model and Repository Classes Design Recipe
 
 _Copy this recipe template to design and implement Model and Repository classes for a database table._
 
 ## 1. Design and create the Table
 
 ```
-Table: items
+Table: orders
 
 Columns:
-id | name | unit_price | quantity
+id | customer_name | order_date
 ```
 
 ## 2. Create Test SQL seeds
@@ -18,7 +18,7 @@ Your tests will depend on data stored in PostgreSQL to run.
 If seed data is provided (or you already created it), you can skip this step.
 
 ```sql
--- (file: spec/seeds_items.sql)
+-- (file: spec/seeds_orders.sql)
 
 -- Write your SQL seed here. 
 
@@ -26,14 +26,14 @@ If seed data is provided (or you already created it), you can skip this step.
 -- so we can start with a fresh state.
 -- (RESTART IDENTITY resets the primary key)
 
-TRUNCATE TABLE items RESTART IDENTITY CASCADE;
+TRUNCATE TABLE orders RESTART IDENTITY CASCADE;
 
 -- Below this line there should only be `INSERT` statements.
 -- Replace these statements with your own seed data.
 
-INSERT INTO items (name, unit_price, quantity) values('Apple MacBook Air', 999.00, 25);
-INSERT INTO items (name, unit_price, quantity) values('Samsung Galaxy S23', 899.00, 10);
-INSERT INTO items (name, unit_price, quantity) values('Apple iPad', 499.00, 3);
+INSERT INTO orders (customer_name, order_date) values('Joe Bloggs', '2023-03-30');
+INSERT INTO orders (customer_name, order_date) values('John Smith', '2023-03-31');
+INSERT INTO orders (customer_name, order_date) values('Harry Kane', '2023-04-01');
 
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
 
@@ -46,16 +46,16 @@ psql -h 127.0.0.1 your_database_name < seeds_{table_name}.sql
 Usually, the Model class name will be the capitalised table name (single instead of plural). The same name is then suffixed by `Repository` for the Repository class name.
 
 ```ruby
-# Table name: items
+# Table name: orders
 
 # Model class
-# (in lib/item.rb)
-class Item
+# (in lib/order.rb)
+class Order
 end
 
 # Repository class
-# (in lib/item_repository.rb)
-class ItemRepository
+# (in lib/order_repository.rb)
+class OrderRepository
 end
 ```
 
@@ -64,14 +64,14 @@ end
 Define the attributes of your Model class. You can usually map the table columns to the attributes of the class, including primary and foreign keys.
 
 ```ruby
-# Table name: items
+# Table name: orders
 
 # Model class
-# (in lib/item.rb)
+# (in lib/order.rb)
 
-class Item
+class Order
   # Replace the attributes by your own columns.
-  attr_accessor :id, :name, :unit_price, :quantity
+  attr_accessor :id, :customer_name, :order_date 
 end
 
 # The keyword attr_accessor is a special Ruby feature
@@ -92,26 +92,26 @@ Your Repository class will need to implement methods for each "read" or "write" 
 Using comments, define the method signatures (arguments and return value) and what they do - write up the SQL queries that will be used by each method.
 
 ```ruby
-# Table name: items
+# Table name: orders
 
 # Repository class
-# (in lib/item_repository.rb)
+# (in lib/order_repository.rb)
 
-class ItemRepository
-  # Select all items
+class OrderRepository
+  # Select all orders
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, unit_price, quantity FROM items;
+    # SELECT id, customer_name, order_date FROM orders;
 
-    # Returns an array of Item objects.
+    # Returns an array of Order objects.
   end
 
-  # Insert a new item
+  # Insert a new order
   # One argument
-  def create(item) # an item object
+  def create(order) # an order object
     # Executes the SQL query:
-    # INSERT INTO items (name, unit_price, quantity) VALUES ($1, $2, $3);
+    # INSERT INTO orders (customer_name, order_date) VALUES ($1, $2);
 
     # Returns nothing
   end
@@ -126,45 +126,41 @@ These examples will later be encoded as RSpec tests.
 
 ```ruby
 # 1
-# Get all items
+# Get all orders
 
-repo = ItemRepository.new
-items = repo.all
+repo = OrderRepository.new
+orders = repo.all
 
-items.length # => 3
-items.first.name # => "Apple MacBook Air"
-items.first.unit_price # => 999.00
-items.first.quantity # => 25
+orders.length # => 3
+orders.first.customer_name # => "Joe Bloggs"
+orders.first.order_date # => "2023-03-30"
 
 # 2
-# Create a new item and check how many
-repo = ItemRepository.new
+# Create a new order and check how many
+repo = OrderRepository.new
 
-item = Item.new
-item.name = "Lenovo ChromeBook"
-item.unit_price = 299.99
-item.quantity = 7
+order = Order.new
+order.customer_name = "Lee Mack"
+order.order_date = "2023-04-01"
 
-repo.create(item)
+repo.create(order)
 
-all_items = repo.all
-all_items.length # => 4
+all_orders = repo.all
+all_orders.length # => 4
 
 # 3
-# Create a new item and check the last insert
-repo = ItemRepository.new
+# Create a new order and check the last insert
+repo = OrderRepository.new
 
-item = Item.new
-item.name = "Apple Watch"
-item.unit_price = 419.00
-item.quantity = 12
+order = Order.new
+order.customer_name = "Jimmy Carr"
+order.order_date = "2023-04-01"
 
-repo.create(item)
+repo.create(order)
 
-all_items = repo.all
-all_items.last.name # => "Apple Watch"
-all_items.last.unit_price # => "419.00"
-all_items.last.quantity # => "12"
+all_orders = repo.all
+all_orders.last.customer_name # => "Jimmy Carr"
+all_orders.last.order_date # => "2023-04-01
 ```
 
 Encode this example as a test.
@@ -177,17 +173,17 @@ This is so you get a fresh table contents every time you run the test suite.
 
 ```ruby
 
-# file: spec/item_repository_spec.rb
+# file: spec/order_repository_spec.rb
 
-def reset_items_table
-  seed_sql = File.read('spec/seeds_items.sql')
+def reset_orders_table
+  seed_sql = File.read('spec/seeds_orders.sql')
   connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
   connection.exec(seed_sql)
 end
 
-describe ItemRepository do
+describe OrderRepository do
   before(:each) do 
-    reset_items_table
+    reset_orders_table
   end
 
   # (your tests will go here).
