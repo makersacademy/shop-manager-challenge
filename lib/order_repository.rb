@@ -37,28 +37,12 @@ class OrderRepository
 
       return order
     end
-
-    # Returns a single order object.
   end
-
-  # Add more methods below for each operation you'd like to implement.
 
   def create(order) # needs to assign items to the order using the join table
     sql = 'INSERT INTO orders (customer, date) VALUES ($1, $2);'
     params = [order.customer, order.date]
 
     DatabaseConnection.exec_params(sql, params)
-    # INSERT INTO items_orders (item_id, order_id) VALUES ($4, $5); # will need to loop through item
-    # array and do a new insert for every item
-
-    # when an item is added to the order, need to change the quantity - do this in app.rb?
-    # item_repo = ItemRepository.new
-    # item_repo.update(order.item) # loop through item array
   end
-
-  # def update(order)
-  # end
-
-  # def delete(order)
-  # end
 end
