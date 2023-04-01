@@ -5,7 +5,7 @@ INSERT INTO items (name, price, quantity) VALUES
 ('bread', 3, 30),
 ('cake', 9, 10),
 ('bananas', 4, 100),
-('broccoli', 1, 45)
+('broccoli', 1, 45),
 ('rare item', 1000, 1);
 
 INSERT INTO orders (customer, date) VALUES
