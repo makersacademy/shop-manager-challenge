@@ -67,7 +67,10 @@ class ItemRepository
   # Add more methods below for each operation you'd like to implement.
 
   def create(item)
-  # INSERT INTO items (name, price, quantity) VALUES ($1, $2, $3);
+  sql = 'INSERT INTO items (name, price, quantity) VALUES ($1, $2, $3);'
+  params = [item.name, item.price, item.quantity]
+
+  DatabaseConnection.exec_params(sql, params)
   end
 
   def update(item) # need to update quantity when an item is added to an order
