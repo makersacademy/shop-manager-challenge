@@ -1,4 +1,4 @@
-# {{TABLE NAME}} Model and Repository Classes Design Recipe
+# Orders Model and Repository Classes Design Recipe
 
 _Copy this recipe template to design and implement Model and Repository classes for a database table._
 
@@ -8,15 +8,15 @@ If the table is already created in the database, you can skip this step.
 
 Otherwise, [follow this recipe to design and create the SQL schema for your table](./single_table_design_recipe_template.md).
 
-*In this template, we'll use an example table `students`*
+*In this template, we'll use an example table `orders`*
 
 ```
 # EXAMPLE
 
-Table: students
+Table: orders
 
 Columns:
-id | name | cohort_name
+id | customer | date
 ```
 
 ## 2. Create Test SQL seeds
@@ -35,13 +35,13 @@ If seed data is provided (or you already created it), you can skip this step.
 -- so we can start with a fresh state.
 -- (RESTART IDENTITY resets the primary key)
 
-TRUNCATE TABLE students RESTART IDENTITY; -- replace with your own table name.
+TRUNCATE TABLE orders RESTART IDENTITY; -- replace with your own table name.
 
 -- Below this line there should only be `INSERT` statements.
 -- Replace these statements with your own seed data.
 
-INSERT INTO students (name, cohort_name) VALUES ('David', 'April 2022');
-INSERT INTO students (name, cohort_name) VALUES ('Anna', 'May 2022');
+INSERT INTO orders (name, cohort_name) VALUES ('David', 'April 2022');
+INSERT INTO orders (name, cohort_name) VALUES ('Anna', 'May 2022');
 ```
 
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
@@ -56,16 +56,16 @@ Usually, the Model class name will be the capitalised table name (single instead
 
 ```ruby
 # EXAMPLE
-# Table name: students
+# Table name: orders
 
 # Model class
-# (in lib/student.rb)
-class Student
+# (in lib/order.rb)
+class Order
 end
 
 # Repository class
-# (in lib/student_repository.rb)
-class StudentRepository
+# (in lib/order_repository.rb)
+class OrderRepository
 end
 ```
 
@@ -75,24 +75,25 @@ Define the attributes of your Model class. You can usually map the table columns
 
 ```ruby
 # EXAMPLE
-# Table name: students
+# Table name: orders
 
 # Model class
-# (in lib/student.rb)
+# (in lib/order.rb)
 
-class Student
+class Order
 
   # Replace the attributes by your own columns.
-  attr_accessor :id, :name, :cohort_name
+  attr_accessor :id, :customer, :date, :items
+  @items = [] # this will be an array of Item objects
 end
 
 # The keyword attr_accessor is a special Ruby feature
 # which allows us to set and get attributes on an object,
 # here's an example:
 #
-# student = Student.new
-# student.name = 'Jo'
-# student.name
+# order = order.new
+# order.name = 'Jo'
+# order.name
 ```
 
 *You may choose to test-drive this class, but unless it contains any more logic than the example above, it is probably not needed.*
@@ -105,40 +106,42 @@ Using comments, define the method signatures (arguments and return value) and wh
 
 ```ruby
 # EXAMPLE
-# Table name: students
+# Table name: orders
 
 # Repository class
-# (in lib/student_repository.rb)
+# (in lib/order_repository.rb)
 
-class StudentRepository
+class OrderRepository
 
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students;
+    # SELECT id, customer, date FROM orders;
 
-    # Returns an array of Student objects.
+    # Returns an array of order objects.
   end
 
   # Gets a single record by its ID
   # One argument: the id (number)
   def find(id)
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students WHERE id = $1;
+    # SELECT id, customer, date FROM orders WHERE id = $1;
 
-    # Returns a single Student object.
+    # Returns a single order object.
   end
 
   # Add more methods below for each operation you'd like to implement.
 
-  # def create(student)
+  def create(order) # needs to assign items to the order using the join table
+    # INSERT INTO orders (customer, date, items) VALUES ($1, $2, $3); # items will be an array of Item objects
+    # INSERT INTO items_orders (item_id, order_id) VALUES ($4, $5); # will need to loop through item array and do a new insert for every item
+  end
+
+  # def update(order)
   # end
 
-  # def update(student)
-  # end
-
-  # def delete(student)
+  # def delete(order)
   # end
 end
 ```
@@ -153,32 +156,32 @@ These examples will later be encoded as RSpec tests.
 # EXAMPLES
 
 # 1
-# Get all students
+# Get all orders
 
-repo = StudentRepository.new
+repo = orderRepository.new
 
-students = repo.all
+orders = repo.all
 
-students.length # =>  2
+orders.length # =>  2
 
-students[0].id # =>  1
-students[0].name # =>  'David'
-students[0].cohort_name # =>  'April 2022'
+orders[0].id # =>  1
+orders[0].name # =>  'David'
+orders[0].cohort_name # =>  'April 2022'
 
-students[1].id # =>  2
-students[1].name # =>  'Anna'
-students[1].cohort_name # =>  'May 2022'
+orders[1].id # =>  2
+orders[1].name # =>  'Anna'
+orders[1].cohort_name # =>  'May 2022'
 
 # 2
-# Get a single student
+# Get a single order
 
-repo = StudentRepository.new
+repo = orderRepository.new
 
-student = repo.find(1)
+order = repo.find(1)
 
-student.id # =>  1
-student.name # =>  'David'
-student.cohort_name # =>  'April 2022'
+order.id # =>  1
+order.name # =>  'David'
+order.cohort_name # =>  'April 2022'
 
 # Add more examples for each method
 ```
@@ -194,17 +197,17 @@ This is so you get a fresh table contents every time you run the test suite.
 ```ruby
 # EXAMPLE
 
-# file: spec/student_repository_spec.rb
+# file: spec/order_repository_spec.rb
 
-def reset_students_table
-  seed_sql = File.read('spec/seeds_students.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'students' })
+def reset_orders_table
+  seed_sql = File.read('spec/seeds_orders.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'orders' })
   connection.exec(seed_sql)
 end
 
-describe StudentRepository do
+describe orderRepository do
   before(:each) do
-    reset_students_table
+    reset_orders_table
   end
 
   # (your tests will go here).
