@@ -161,33 +161,42 @@ These examples will later be encoded as RSpec tests.
 
 # 1
 # Get all orders
-
-repo = orderRepository.new
-
+repo = OrderRepository.new
 orders = repo.all
 
-orders.length # =>  2
-
+orders.length # =>  3
 orders[0].id # =>  1
-orders[0].name # =>  'David'
-orders[0].cohort_name # =>  'April 2022'
-
-orders[1].id # =>  2
-orders[1].name # =>  'Anna'
-orders[1].cohort_name # =>  'May 2022'
+orders[0].customer # =>  'Quack Overflow'
+orders[0].date # =>  '04/01/23'
 
 # 2
 # Get a single order
-
-repo = orderRepository.new
-
+repo = OrderRepository.new
 order = repo.find(1)
 
-order.id # =>  1
-order.name # =>  'David'
-order.cohort_name # =>  'April 2022'
+order.id # =>  '1'
+order.customer # =>  'Quack Overflow'
+order.date # =>  '04/01/23'
 
-# Add more examples for each method
+# 3
+# Adds a new order to the database
+new_order = Order.new
+item_repo = ItemRepository.new
+items = item_repo.all
+order_repo = OrderRepository.new
+
+new_order.customer = 'Big Bird'
+new_order.date = '03/29/23'
+new_order.items.push(items[3], items[2])
+
+order_repo.create(new_order)
+orders = order_repo.all
+last_order = orders.last
+
+last_order.id # => '4'
+last_order.customer # => 'Big Bird'
+last_order.date # => '03/29/23'
+last_order.items # => [items[3], items[2]]
 ```
 
 Encode this example as a test.
