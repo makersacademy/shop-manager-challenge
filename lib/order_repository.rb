@@ -4,10 +4,21 @@ class OrderRepository
   # Selecting all records
   # No arguments
   def all
-    # Executes the SQL query:
-    # SELECT id, customer, date FROM orders;
+    sql = 'SELECT id, customer, date FROM orders;'
+    result_set = DatabaseConnection.exec_params(sql, [])
 
-    # Returns an array of order objects.
+    orders = []
+
+    result_set.each do |record|
+      order = Order.new
+      order.id = record['id']
+      order.customer = record['customer']
+      order.date = record['date']
+
+      orders << order
+    end
+
+    orders
   end
 
   # Gets a single record by its ID

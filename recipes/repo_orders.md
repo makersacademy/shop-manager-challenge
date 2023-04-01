@@ -176,7 +176,7 @@ order = repo.find(1)
 
 order.id # =>  '1'
 order.customer # =>  'Quack Overflow'
-order.date # =>  '04/01/23'
+order.date # =>  '2023-04-01'
 
 # 3
 # Adds a new order to the database
@@ -195,7 +195,7 @@ last_order = orders.last
 
 last_order.id # => '4'
 last_order.customer # => 'Big Bird'
-last_order.date # => '03/29/23'
+last_order.date # => '2023-03-29'
 last_order.items # => [items[3], items[2]]
 ```
 

@@ -12,5 +12,13 @@ RSpec.describe OrderRepository do
     reset_orders_table
   end
 
-  
+  it "gets all orders" do
+    repo = OrderRepository.new
+    orders = repo.all
+
+    expect(orders.length).to eq 3
+    expect(orders[0].id).to eq '1'
+    expect(orders[0].customer).to eq 'Quack Overflow'
+    expect(orders[0].date).to eq '2023-04-01'
+  end
 end
