@@ -59,4 +59,14 @@ RSpec.describe ItemRepository do
     expect(last_item.price).to eq '5'
     expect(last_item.quantity).to eq '70'
   end
+
+  it "updates the quantity of an item" do
+    repo = ItemRepository.new
+    item = repo.find(1)
+    item.quantity = 49
+    repo.update(item)
+    updated_item = repo.find(1)
+
+    expect(updated_item.quantity).to eq '49'
+  end
 end

@@ -74,7 +74,10 @@ class ItemRepository
   end
 
   def update(item) # need to update quantity when an item is added to an order
-    # UPDATE items SET quantity = $1 WHERE id = $2;
+    sql = 'UPDATE items SET quantity = $1 WHERE id = $2;'
+    params = [item.quantity, item.id]
+
+    DatabaseConnection.exec_params(sql, params)
   end
 
   def delete(item) # when quantity reaches zero, need to delete item from stock
