@@ -21,4 +21,13 @@ RSpec.describe OrderRepository do
     expect(orders[0].customer).to eq 'Quack Overflow'
     expect(orders[0].date).to eq '2023-04-01'
   end
+
+  it "gets a single order" do
+    repo = OrderRepository.new
+    order = repo.find(1)
+
+    expect(order.id).to eq '1'
+    expect(order.customer).to eq 'Quack Overflow'
+    expect(order.date).to eq '2023-04-01'
+  end
 end

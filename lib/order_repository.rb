@@ -24,8 +24,19 @@ class OrderRepository
   # Gets a single record by its ID
   # One argument: the id (number)
   def find(id)
-    # Executes the SQL query:
-    # SELECT id, customer, date FROM orders WHERE id = $1;
+    sql = 'SELECT id, customer, date FROM orders WHERE id = $1;'
+    params = [id]
+
+    result = DatabaseConnection.exec_params(sql, params)
+
+    result.each do |record|
+      order = Order.new
+      order.id = record['id']
+      order.customer = record['customer']
+      order.date = record['date']
+
+      return order
+    end
 
     # Returns a single order object.
   end
