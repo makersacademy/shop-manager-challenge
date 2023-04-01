@@ -146,7 +146,7 @@ class ItemRepository
     # UPDATE items SET quantity = $1 WHERE id = $2;
   end
 
-  def delete(item) # when quantity reaches zero, need to delete item from stock
+  def delete(id) # when quantity reaches zero, need to delete item from stock
     # DELETE FROM items WHERE id = $1;
   end
 end
@@ -163,33 +163,79 @@ These examples will later be encoded as RSpec tests.
 
 # 1
 # Get all items
-
-repo = itemRepository.new
+repo = ItemRepository.new
 
 items = repo.all
 
-items.length # =>  2
+items.length # =>  6
 
 items[0].id # =>  1
-items[0].name # =>  'David'
-items[0].cohort_name # =>  'April 2022'
-
-items[1].id # =>  2
-items[1].name # =>  'Anna'
-items[1].cohort_name # =>  'May 2022'
+items[0].name # =>  'milk'
+items[0].price # =>  '2'
+items[0].quantity # => '50'
 
 # 2
 # Get a single item
-
-repo = itemRepository.new
+repo = ItemRepository.new
 
 item = repo.find(1)
 
-item.id # =>  1
-item.name # =>  'David'
-item.cohort_name # =>  'April 2022'
+item.id # =>  '1'
+item.name # =>  'milk'
+item.price # =>  '2'
+item.quantity # => '50'
 
-# Add more examples for each method
+# 3
+# Gets all the items in a specific order
+repo = ItemRepository.new
+
+items = repo.find_by_order(3)
+
+items.length # => 3
+items[0].id # => '2'
+items[0].name # => 'bread'
+items[0].price # => '3'
+items[0].quantity # => '30'
+
+# 4
+# Adds a new item to the database
+new_item = Item.new
+new_item.name = 'cereal'
+new_item.price = 5
+new_item.quantity = 70
+
+repo = ItemRepository.new
+repo.create(new_item)
+
+items = repo.all
+last_item = items.last
+
+last_item.id # => '6'
+last_item.name # => 'cereal'
+last_item.price # => '5'
+last_item.quantity # => '70'
+
+# 5
+# Updates the quantity of an item in the database # do logic in app.rb
+repo = ItemRepository.new
+item = repo.find(1)
+item.quantity = 49
+repo.update(item)
+updated_item = repo.find(1)
+
+updated_item.quantity # => '49'
+
+# 6
+# Deletes an item from the database (when it runs out - for integration spec?)
+repo = ItemRepository.new
+repo.delete(6)
+items = repo.all
+
+items.length # => 5
+items.last.id # => '5'
+items.last.name # => 'broccoli'
+items.last.price # => '1'
+items.last.quantity # => '45'
 ```
 
 Encode this example as a test.
