@@ -18,6 +18,7 @@ class Application
     @io.puts "2 - create a new item"
     @io.puts "3 - list all orders"
     @io.puts "4 - create a new order"
+    @io.puts "any other key to exit"
     choice = @io.gets.chomp.to_i
 
     if choice == 1
@@ -53,6 +54,8 @@ class Application
       order.order_date = Time.now.strftime("%Y-%m-%d")
       repo.create(order)
       @io.puts "An order for '#{name}' was created!"
+    else
+      abort("Goodbye!")
     end
   end
 end
