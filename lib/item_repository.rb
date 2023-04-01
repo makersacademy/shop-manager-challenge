@@ -42,7 +42,7 @@ class ItemRepository
 
   # Gets all the items in a specific order
   def find_by_order(order_id) # params for order_id will be $1
-    sql = 'SELECT items.name, items.price
+    sql = 'SELECT items.id, items.name, items.price, items.quantity
     FROM items
     JOIN items_orders ON items_orders.item_id = items.id
     JOIN orders ON items_orders.order_id = orders.id
@@ -55,8 +55,10 @@ class ItemRepository
 
     result_set.each do |record|
       item = Item.new
+      item.id = record['id']
       item.name = record['name']
       item.price = record['price']
+      item.quantity = record['quantity']
 
       items << item
     end

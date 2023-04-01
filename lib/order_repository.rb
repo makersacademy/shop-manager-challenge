@@ -56,20 +56,6 @@ class OrderRepository
     # item_repo.update(order.item) # loop through item array
   end
 
-  def add_item(order_id, item_id)
-    order = self.find(order_id)
-    item_repo = ItemRepository.new
-    item = item_repo.find(item_id)
-
-    order.add_item(item)
-    order.items.each do |item| # items is an array of Item objects
-      join_sql = 'INSERT INTO items_orders (item_id, order_id) VALUES ($1, $2);'
-      join_params = [item_id, order_id]
-
-      DatabaseConnection.exec_params(join_sql, join_params)
-    end
-  end
-
   # def update(order)
   # end
 

@@ -39,7 +39,6 @@ RSpec.describe OrderRepository do
 
     new_order.customer = 'Big Bird'
     new_order.date = '03/29/23'
-    new_order.items = [items[3], items[2]]
 
     order_repo.create(new_order)
     orders = order_repo.all
@@ -60,10 +59,12 @@ RSpec.describe OrderRepository do
     new_order.date = '03/29/23'
 
     order_repo.create(new_order)
-    order_repo.add_item(4, 3)
-    order_repo.add_item(4, 4)
+    order = order_repo.find(4)
+    order.add_item(items[3])
+    order.add_item(items[2])
     orders = order_repo.all
     last_order = orders.last
-    expect(item_repo.find_by_order(4)).to eq [items[3], items[2]]
+    expect(item_repo.find_by_order(4)[0].name).to eq 'cake'
+    expect(item_repo.find_by_order(4)[0].price).to eq '9'
   end
 end
