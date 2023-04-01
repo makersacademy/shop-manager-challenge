@@ -32,4 +32,13 @@ RSpec.describe ItemRepository do
     expect(item.price).to eq '2'
     expect(item.quantity).to eq '50'
   end
+
+  it "gets all the items in a specific order" do
+    repo = ItemRepository.new
+    items = repo.find_by_order(3)
+
+    expect(items.length).to eq 3
+    expect(items[0].name).to eq 'bread'
+    expect(items[0].price).to eq '3'
+  end
 end
