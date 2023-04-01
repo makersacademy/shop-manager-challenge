@@ -30,4 +30,40 @@ RSpec.describe OrderRepository do
     expect(order.customer).to eq 'Quack Overflow'
     expect(order.date).to eq '2023-04-01'
   end
+
+  it "adds a new order to the database" do
+    new_order = Order.new
+    item_repo = ItemRepository.new
+    items = item_repo.all
+    order_repo = OrderRepository.new
+
+    new_order.customer = 'Big Bird'
+    new_order.date = '03/29/23'
+    new_order.items = [items[3], items[2]]
+
+    order_repo.create(new_order)
+    orders = order_repo.all
+    last_order = orders.last
+
+    expect(last_order.id).to eq '4'
+    expect(last_order.customer).to eq 'Big Bird'
+    expect(last_order.date).to eq '2023-03-29'
+  end
+
+  it "adds items to an order" do
+    new_order = Order.new
+    item_repo = ItemRepository.new
+    items = item_repo.all
+    order_repo = OrderRepository.new
+
+    new_order.customer = 'Big Bird'
+    new_order.date = '03/29/23'
+
+    order_repo.create(new_order)
+    order_repo.add_item(4, 3)
+    order_repo.add_item(4, 4)
+    orders = order_repo.all
+    last_order = orders.last
+    expect(item_repo.find_by_order(4)).to eq [items[3], items[2]]
+  end
 end

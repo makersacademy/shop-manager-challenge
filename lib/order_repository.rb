@@ -44,13 +44,30 @@ class OrderRepository
   # Add more methods below for each operation you'd like to implement.
 
   def create(order) # needs to assign items to the order using the join table
-    # INSERT INTO orders (customer, date, items) VALUES ($1, $2, $3); # items will be an array of Item objects
+    sql = 'INSERT INTO orders (customer, date) VALUES ($1, $2);'
+    params = [order.customer, order.date]
+
+    DatabaseConnection.exec_params(sql, params)
     # INSERT INTO items_orders (item_id, order_id) VALUES ($4, $5); # will need to loop through item
     # array and do a new insert for every item
 
     # when an item is added to the order, need to change the quantity - do this in app.rb?
     # item_repo = ItemRepository.new
     # item_repo.update(order.item) # loop through item array
+  end
+
+  def add_item(order_id, item_id)
+    order = self.find(order_id)
+    item_repo = ItemRepository.new
+    item = item_repo.find(item_id)
+
+    order.add_item(item)
+    order.items.each do |item| # items is an array of Item objects
+      join_sql = 'INSERT INTO items_orders (item_id, order_id) VALUES ($1, $2);'
+      join_params = [item_id, order_id]
+
+      DatabaseConnection.exec_params(join_sql, join_params)
+    end
   end
 
   # def update(order)
