@@ -80,7 +80,10 @@ class ItemRepository
     DatabaseConnection.exec_params(sql, params)
   end
 
-  def delete(item) # when quantity reaches zero, need to delete item from stock
-    # DELETE FROM items WHERE id = $1;
+  def delete(id) # when quantity reaches zero, need to delete item from stock
+    sql = 'DELETE FROM items WHERE id = $1;'
+    params = [id]
+
+    DatabaseConnection.exec_params(sql, params)
   end
 end

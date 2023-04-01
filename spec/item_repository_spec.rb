@@ -69,4 +69,16 @@ RSpec.describe ItemRepository do
 
     expect(updated_item.quantity).to eq '49'
   end
+
+  it "deletes an item from the database" do
+    repo = ItemRepository.new
+    repo.delete(6)
+    items = repo.all
+
+    expect(items.length).to eq 5
+    expect(items.last.id).to eq '5'
+    expect(items.last.name).to eq 'broccoli'
+    expect(items.last.price).to eq '1'
+    expect(items.last.quantity).to eq '45'
+  end
 end
