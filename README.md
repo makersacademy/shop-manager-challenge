@@ -36,7 +36,7 @@ So I can manage orders
 I want to be able to create a new order.
 ```
 
-Here's an example of the terminal output your program should generate (yours might be slightly different — that's totally OK):
+Here's an example of the terminal output:
 
 ```
 Welcome to the shop management program!
@@ -54,4 +54,13 @@ Here's a list of all shop items:
  #1 Super Shark Vacuum Cleaner - Unit price: 99 - Quantity: 30
  #2 Makerspresso Coffee Machine - Unit price: 69 - Quantity: 15
  (...)
+
+ Here is the list of orders:
+
+ Order: 1 Date Placed: 2020-05-30 - Customer name: John Brown 
+Items: 
+  1 Ray-Ban Sunglasses - Unit price: 80.0
+  2 Tefal set pans - Unit price: 150.0
+(...)
+
 ```
