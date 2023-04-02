@@ -67,4 +67,15 @@ RSpec.describe OrderRepository do
     expect(item_repo.find_by_order(4)[0].name).to eq 'cake'
     expect(item_repo.find_by_order(4)[0].price).to eq '9'
   end
+
+  it "deletes an order by id" do
+    order_repo = OrderRepository.new
+    order_repo.delete(1)
+    orders = order_repo.all
+    first_order = orders.first
+
+    expect(first_order.id).to eq '2'
+    expect(first_order.customer).to eq 'Scrooge McDuck'
+    expect(first_order.date).to eq '2023-03-31'
+  end
 end

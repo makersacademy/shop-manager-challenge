@@ -4,18 +4,19 @@ require_relative './lib/order_repository'
 
 class Application
   def initialize(database_name, io, item_repository, order_repository)
-    DatabaseConnection.connect('shop_manager')
+    DatabaseConnection.connect(database_name)
     @io = io
     @item_repository = item_repository
     @order_repository = order_repository
   end
 
   def run
-    action_list = "1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n\n"
+    action_list = "1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n5 = quit program\n\n"
     action = nil
+    @io.puts "\nWelcome to the shop management program!\n"
 
     until action == "exit"
-      @io.puts "\nWelcome to the shop management program!\n\nWhat do you want to do?\n#{action_list}"
+      @io.puts "\nWhat do you want to do?\n#{action_list}"
       action = @io.gets.chomp
 
       case action
@@ -40,20 +41,53 @@ class Application
 
         when "3"
           orders = @order_repository.all
+
           orders.each do |order|
-            @io.puts "\n#{order.id}. customer name: #{order.customer} - order date: #{order.date}"
+            @io.puts "\n#{order.id}. customer name: #{order.customer} - order date: #{order.date}\nOrder contents:\n"
+            items = @item_repository.find_by_order(order.id)
+            items.each do |item|
+              @io.puts "#{item.name} - unit price: #{item.price}\n"
+            end
           end
 
         when "4"
+          order = Order.new
+          @io.puts "What is the customer's name?"
+          order.customer = @io.gets.chomp
+          @io.puts "What date was the order made?"
+          order.date = @io.gets.chomp
+          @order_repository.create(order)
+          last_id = @order_repository.all.last.id
+          @created_order = @order_repository.find(last_id)
+          @io.puts "How many items do you want to add to the order?"
+          number = @io.gets.chomp.to_i
+          number.times() do
+            @io.puts "What is the id of the item you want to add?"
+            item_id = @io.gets.chomp
+            item = @item_repository.find(item_id)
+            if item.quantity == '0'
+              @io.puts "That item is out of stock. Item could not be added. Please start again."
+              @order_repository.delete(@created_order.id)
+            else
+              @created_order.add_item(item)
+              item.quantity = item.quantity.to_i - 1
+              @item_repository.update(item)
+              @io.puts "#{item.name} added to order."
+            end
+          end
 
-        when "exit"
+        when "5"
           break
 
         else
-        @io.puts "Invalid input. Please input a number from 1 to 4, or exit to quit the program."
+        @io.puts "Invalid input. Please input a number from 1 to 5."
       end
     end
   end
+
+  # def list_items
+
+  # end
 end
 
 if __FILE__ == $0

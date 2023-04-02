@@ -6,7 +6,7 @@ INSERT INTO items (name, price, quantity) VALUES
 ('cake', 9, 10),
 ('bananas', 4, 100),
 ('broccoli', 1, 45),
-('rare item', 1000, 1);
+('rare item', 1000, 0);
 
 INSERT INTO orders (customer, date) VALUES
 ('Quack Overflow', '04/01/23'),

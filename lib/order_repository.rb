@@ -45,4 +45,11 @@ class OrderRepository
 
     DatabaseConnection.exec_params(sql, params)
   end
+
+  def delete(id)
+    sql = 'DELETE FROM orders WHERE id = $1;'
+    params = [id]
+
+    DatabaseConnection.exec_params(sql, params)
+  end
 end
