@@ -54,6 +54,8 @@ Here's a list of all shop items:
  #1 Super Shark Vacuum Cleaner - Unit price: 99 - Quantity: 30
  #2 Makerspresso Coffee Machine - Unit price: 69 - Quantity: 15
  (...)
+ 
+3 [enter]
 
  Here is the list of orders:
 
