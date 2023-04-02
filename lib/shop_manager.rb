@@ -129,6 +129,7 @@ class ShopManager
   end
 
   def print_all_items(items)
+    puts "Here's a list of all shop items:"
     #1 Super Shark Vacuum Cleaner - Unit price: 99 - Quantity: 30
     items.each do |item|
       puts "Item id: #{item.item_id} - #{item.name} - Unit price: £#{item.unit_price}.00 - Quantity: #{item.quantity}"
@@ -136,6 +137,7 @@ class ShopManager
   end
 
   def print_all_orders(orders)
+    puts "Here's a list of all shop orders:"
     #1 Super Shark Vacuum Cleaner - Unit price: 99 - Quantity: 30
     orders.each do |order|
       puts "Order id: #{order.order_id} - #{order.customer_name} - Item: #{order.item.name} - Price: £#{order.item.unit_price}.00"
