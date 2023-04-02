@@ -1,4 +1,5 @@
-Notes: 
+Note:
+-------
 I did not get to TDD this project as I wished for due to lack of time, it just seemed more important to me at this time to imagine and put in practice a whole shop_manager with the relevant classes, methods and DB access. I will definetly do a lot more on the testing next time. What a lovely jouney it has been to see it work in the end so close to what a real app would do.
 
 
