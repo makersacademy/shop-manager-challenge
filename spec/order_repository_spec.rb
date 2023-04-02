@@ -18,7 +18,7 @@ describe OrderRepository do
     reset_all_table()
   end
 
-  it "should return name and price" do 
+  it "should return data placed and name" do 
     order_repo = OrderRepository.new 
     result = order_repo.all 
     order_1 = Order.new(1,'2020-05-30', 'John Brown')
