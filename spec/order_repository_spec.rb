@@ -31,11 +31,23 @@ RSpec.describe OrderRepository do
     expect(output).to eq customer_names
   end
 
-  it "returns single order information" do
+  it "returns single order information, without items" do
     repo = OrderRepository.new
-    single_item = repo.single_order(2)
+    single_order = repo.single_order(2)
 
-    expect(single_item.customer).to eq "Benjamin Lee"
-    expect(single_item.date_of_order).to eq "2023-04-03"
+    expect(single_order.customer).to eq "Benjamin Lee"
+    expect(single_order.date_of_order).to eq "2023-04-03"
+  end
+
+  it "returns single order, with items" do
+    repo = OrderRepository.new
+    single_order = repo.single_order_with_items(2)
+    ex_items = [
+      "Zenith Smart Watch",
+      "ThunderBolt Energy Drink",
+      "ScentSation Perfume"]
+    expect(single_order.customer).to eq "Benjamin Lee"
+    expect(single_order.date_of_order).to eq "2023-04-03"
+    expect(single_order.order_items).to eq ex_items
   end
 end
