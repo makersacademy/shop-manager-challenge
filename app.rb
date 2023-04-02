@@ -47,7 +47,9 @@ class Application
 
       when 3
         @io.puts "Here's a list of all shop orders:"
-        @order_repository.all.each_with_index { |order, index| @io.puts "##{index + 1} Customer name: #{order.customer_name} - Order Date: #{order.order_date}" }
+        @order_repository.all.each_with_index do |order, index| 
+          @io.puts "##{index + 1} Order ID: #{order.id} - Customer name: #{order.customer_name} - Order date: #{order.order_date} - Item: #{order.item}"
+        end
 
       when 4
         @io.puts "Enter the customer's name:"
@@ -58,7 +60,7 @@ class Application
         order.order_date = Time.now.strftime("%Y-%m-%d")
         @order_repository.create(order)
         @io.puts "An order for '#{name}' was created!"
-        
+
       else
         abort("Goodbye!")
       end
