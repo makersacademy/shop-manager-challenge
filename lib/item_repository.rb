@@ -26,4 +26,13 @@ class ItemRepository
     DatabaseConnection.exec_params(sql, params)
     return nil
   end
+
+  def item_exists?(item_id)
+    sql = "SELECT id FROM items WHERE id = $1;"
+    res = DatabaseConnection.exec_params(sql, [item_id])
+
+    if res.num_tuples.zero?
+      abort("No item with that ID was found.")
+    end
+  end
 end

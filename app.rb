@@ -56,7 +56,8 @@ class Application
         name = @io.gets.chomp
         @io.puts "Enter the item's ID number:"
         item_id = @io.gets.chomp.to_i
-
+        # Check if the item ID exists
+        @item_repository.item_exists?(item_id)
         order = Order.new
         order.customer_name = name
         order.order_date = Time.now.strftime("%Y-%m-%d")
