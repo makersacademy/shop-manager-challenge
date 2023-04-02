@@ -1,5 +1,11 @@
+# file: spec/spec_helper.rb
+
+require 'database_connection'
+
 require 'simplecov'
 require 'simplecov-console'
+
+DatabaseConnection.connect('shop_manager_test')
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
   SimpleCov::Formatter::Console,
