@@ -54,11 +54,13 @@ class Application
       when 4
         @io.puts "Enter the customer's name:"
         name = @io.gets.chomp
+        @io.puts "Enter the item's ID number:"
+        item_id = @io.gets.chomp.to_i
 
         order = Order.new
         order.customer_name = name
         order.order_date = Time.now.strftime("%Y-%m-%d")
-        @order_repository.create(order)
+        @order_repository.create(order, item_id)
         @io.puts "An order for '#{name}' was created!"
 
       else

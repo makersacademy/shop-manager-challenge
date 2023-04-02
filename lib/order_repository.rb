@@ -23,10 +23,16 @@ class OrderRepository
     return orders
   end
 
-  def create(order)
-    sql = "INSERT INTO orders (customer_name, order_date) VALUES ($1, $2);"
+  def create(order, item_id)
+    sql = "INSERT INTO orders (customer_name, order_date) VALUES ($1, $2) RETURNING id;"
     params = [order.customer_name, order.order_date]
-    DatabaseConnection.exec_params(sql, params)
+    result_set = DatabaseConnection.exec_params(sql, params)
+    # Get the last insert id, this is used in the join table. 
+    order_id = result_set.first['id']
+    
+    # Insert a new record in the join table to link the order with an item.
+    sql_join = "INSERT INTO items_orders (item_id, order_id) VALUES ($1, $2)"
+    DatabaseConnection.exec_params(sql_join, [item_id, order_id])
     return nil
   end
 end
