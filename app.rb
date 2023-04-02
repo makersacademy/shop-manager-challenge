@@ -34,12 +34,11 @@ class Application
       @io.puts "Enter the item's quantity:"
       quantity = @io.gets.chomp
 
-      repo = ItemRepository.new
       item = Item.new
       item.name = name
       item.unit_price = unit_price
       item.quantity = quantity
-      repo.create(item)
+      @item_repository.create(item)
       @io.puts "'#{name}' was added to the database!"
     elsif choice == 3
       @io.puts "Here's a list of all shop orders:"
@@ -48,11 +47,10 @@ class Application
       @io.puts "Enter the customer's name:"
       name = @io.gets.chomp
 
-      repo = OrderRepository.new
       order = Order.new
       order.customer_name = name
       order.order_date = Time.now.strftime("%Y-%m-%d")
-      repo.create(order)
+      @order_repository.create(order)
       @io.puts "An order for '#{name}' was created!"
     else
       abort("Goodbye!")
