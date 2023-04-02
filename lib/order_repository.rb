@@ -1,8 +1,6 @@
 require_relative './order'
 
 class OrderRepository
-  # Selecting all records
-  # No arguments
   def all
     sql = 'SELECT id, customer, date FROM orders;'
     result_set = DatabaseConnection.exec_params(sql, [])
@@ -21,8 +19,6 @@ class OrderRepository
     orders
   end
 
-  # Gets a single record by its ID
-  # One argument: the id (number)
   def find(id)
     sql = 'SELECT id, customer, date FROM orders WHERE id = $1;'
     params = [id]
@@ -39,7 +35,7 @@ class OrderRepository
     end
   end
 
-  def create(order) # needs to assign items to the order using the join table
+  def create(order)
     sql = 'INSERT INTO orders (customer, date) VALUES ($1, $2);'
     params = [order.customer, order.date]
 

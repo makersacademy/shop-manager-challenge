@@ -1,9 +1,6 @@
 require_relative './item'
 
 class ItemRepository
-
-  # Selecting all records
-  # No arguments
   def all
     sql = 'SELECT id, name, price, quantity FROM items;'
     result_set = DatabaseConnection.exec_params(sql, [])
@@ -40,8 +37,7 @@ class ItemRepository
     end
   end
 
-  # Gets all the items in a specific order
-  def find_by_order(order_id) # params for order_id will be $1
+  def find_by_order(order_id)
     sql = 'SELECT items.id, items.name, items.price, items.quantity
     FROM items
     JOIN items_orders ON items_orders.item_id = items.id
@@ -65,8 +61,6 @@ class ItemRepository
 
     items
   end
-
-  # Add more methods below for each operation you'd like to implement.
 
   def create(item)
   sql = 'INSERT INTO items (name, price, quantity) VALUES ($1, $2, $3);'

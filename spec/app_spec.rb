@@ -1,5 +1,7 @@
 require_relative '../app'
 
+# could double ItemRepository and OrderRepository as well
+
 def reset_items_table
   seed_sql = File.read('spec/seeds.sql')
   connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })

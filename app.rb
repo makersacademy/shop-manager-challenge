@@ -2,6 +2,8 @@ require_relative 'lib/database_connection'
 require_relative './lib/item_repository'
 require_relative './lib/order_repository'
 
+# Could refactor run method so the logic for each step is pulled out into separate methods
+
 class Application
   def initialize(database_name, io, item_repository, order_repository)
     DatabaseConnection.connect(database_name)
@@ -84,10 +86,6 @@ class Application
       end
     end
   end
-
-  # def list_items
-
-  # end
 end
 
 if __FILE__ == $0

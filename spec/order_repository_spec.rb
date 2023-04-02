@@ -1,5 +1,5 @@
 require 'order_repository'
-require 'item_repository'
+require 'item_repository' # could double ItemRepository here instead of requiring it
 
 def reset_orders_table
   seed_sql = File.read('spec/seeds.sql')
