@@ -24,7 +24,7 @@ class ShopManager
     answer = gets.chomp
     case answer
     when '1'
-      all_items
+      print_all_items(all_items)
     when '2'
       new_item_collect_data
     when '3'
@@ -78,7 +78,7 @@ class ShopManager
     while true do
       puts "Please select you item's id"
       item_id = gets.chomp
-      if item_id.is_a? Integer
+      if item_id.to_i.is_a? Integer
         return_item = items.find { |curr_item| curr_item.item_id == item_id }
         if !return_item.nil?
           item = Item.new(return_item.name, return_item.unit_price, return_item.quantity, return_item.item_id)
@@ -93,11 +93,9 @@ class ShopManager
   def new_order(order)
     # add order to orders table
     query = "INSERT INTO orders(customer_name, item_id) 
-    VALUES('#{order.customer_name}', '#{order.item_id}') RETURNING *;"
-    p @conn_db.exec(query)
-    # if @@ROWCOUNT > 0
-    #   puts "Your order has been placed succesfully, thank you!"
-    # end
+    VALUES('#{order.customer_name}', '#{order.item.item_id}') RETURNING *;"
+    @conn_db.exec(query)
+    puts "Your order has been placed succesfully, thank you!"
   end
 
   private
@@ -111,33 +109,36 @@ class ShopManager
     items = items.map do |item|
       Item.new(item['name'], item['unit_price'], item['quantity'], item['item_id'])
     end
-    print_all_items(items)
+
     items
+  end
+
+  def orders_all
+    query = get_select_query('orders')
+    @conn_db.exec(query)
   end
 
   def all_orders
     items = all_items
-    query = get_select_query('orders')
-    orders = @conn_db.exec(query)
+    orders = orders_all
     orders = orders.map do |order|
-      item = items.find { |curr_item| curr_item.item_id == order.item_id }
+      item = items.find { |curr_item| curr_item.item_id == order['item_id'] }
       Order.new(order["customer_name"], item, order["order_id"])
     end
     print_all_orders(orders)
-    orders
   end
 
   def print_all_items(items)
     #1 Super Shark Vacuum Cleaner - Unit price: 99 - Quantity: 30
     items.each do |item|
-      puts "#{item.item_id} #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
+      puts "Item id: #{item.item_id} - #{item.name} - Unit price: £#{item.unit_price}.00 - Quantity: #{item.quantity}"
     end
   end
 
   def print_all_orders(orders)
     #1 Super Shark Vacuum Cleaner - Unit price: 99 - Quantity: 30
     orders.each do |order|
-      puts order#"#{order.order_id} #{order.customer_name} - Item: #{order.item['name']} - Price: #{order.item.unit_price}"
+      puts "Order id: #{order.order_id} - #{order.customer_name} - Item: #{order.item.name} - Price: £#{order.item.unit_price}.00"
     end
   end
 end
