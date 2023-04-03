@@ -1,4 +1,5 @@
 require 'shop_repository'
+require 'shop_item'
 
 RSpec.describe ShopRepository do
   def reset_shop_table
@@ -43,5 +44,15 @@ RSpec.describe ShopRepository do
     expect(single_item.name).to eq "Zenith Smart Watch"
     expect(single_item.price).to eq 8999
     expect(single_item.qty).to eq 42
+  end
+
+  it "creates new item" do
+    repo = ShopRepository.new
+    new_item = ShopItem.new
+    new_item.name = "Makerspresso Coffee Machine"
+    new_item.price = 690
+    new_item.qty = 15
+    result = repo.create_item(new_item)
+    expect(result).to eq true
   end
 end

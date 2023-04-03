@@ -26,4 +26,11 @@ class ShopRepository
 
     return item
   end
+
+  def create_item(item)
+    params = [item.name, item.price, item.qty]
+    sql = 'INSERT INTO items (name, price, qty) VALUES ($1, $2, $3);'
+    result = DatabaseConnection.exec_params(sql, params)
+    return true
+  end
 end

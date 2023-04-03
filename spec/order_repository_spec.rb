@@ -1,4 +1,5 @@
 require 'order_repository'
+require 'order'
 
 RSpec.describe OrderRepository do
   def reset_shop_table
@@ -31,6 +32,11 @@ RSpec.describe OrderRepository do
     expect(output).to eq customer_names
   end
 
+  it "returns total number of orders" do
+    repo = OrderRepository.new
+    expect(repo.number_of_orders).to eq 5
+  end
+
   it "returns single order information, without items" do
     repo = OrderRepository.new
     single_order = repo.single_order(2)
@@ -49,5 +55,22 @@ RSpec.describe OrderRepository do
     expect(single_order.customer).to eq "Benjamin Lee"
     expect(single_order.date_of_order).to eq "2023-04-03"
     expect(single_order.order_items).to eq ex_items
+  end
+
+  it "creates a new order" do
+    repo = OrderRepository.new
+    new_order = Order.new
+    new_order.customer = 'Sophie Turner'
+    new_order.date_of_order = 'Mar-25-2023'
+    customer_orders = [
+      [6,1],
+      [6,10]
+    ]
+    new_order.order_items = customer_orders
+    result = repo.create_order(new_order)
+    expect(result).to eq true
+    single_order = repo.single_order(6)
+    expect(single_order.customer).to eq "Sophie Turner"
+    expect(repo.single_order_with_items(6).order_items).to eq ['ChocoPop Cereal', 'Plasticoat']
   end
 end
