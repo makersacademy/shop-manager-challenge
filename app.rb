@@ -1,5 +1,7 @@
 require_relative 'lib/shop_repository'
 require_relative 'lib/order_repository'
+require_relative 'lib/shop_item'
+require_relative 'lib/order'
 require_relative 'lib/database_connection'
 
 class Application
@@ -64,7 +66,36 @@ class Application
     return output
   end
 
+  def create_new_item
+    @io.puts "Enter item name:"
+    name = @io.gets.chomp!
+    @io.puts "Enter item price:"
+    price = @io.gets.chomp!
+    @io.puts "Enter item quantity:"
+    qty = @io.gets.chomp!
+    new_item = ShopItem.new
+    new_item.name = name
+    new_item.price = price
+    new_item.qty = qty
+    return new_item
+  end
+
   def run
+    @io.puts "Welcome to the shop management program!"
+    @io.puts "What do you want to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order"
+    selection = @io.gets.chomp!
+    case selection
+      when "1"
+        print_out_all_items
+      when "2"
+        @shop_repository.create_item(create_new_item)
+      when "3"
+        print_out_all_orders
+      when "4"
+        puts "TBC"
+      else
+        puts "i don't understand..."
+    end
     # add_items_to_order  
     # print_out_all_orders
     # print_out_order(@order_repository.all_orders[0].id)
