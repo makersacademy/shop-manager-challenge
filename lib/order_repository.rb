@@ -26,13 +26,25 @@ class OrderRepository
     sql = 'INSERT INTO orders (customer_name, date) VALUES ($1, $2)'
     params = [order.customer_name, order.date]
     DatabaseConnection.exec_params(sql, params)
+    
+    order_id = all.last.id
+    sql = 'INSERT INTO items_orders (item_id, order_id) VALUES ($1, $2)'
+    order.items.each do |item|
+      DatabaseConnection.exec_params(sql, [item.id, order_id])
+    end
+    
     return nil
+  
+    # take the order ID of the last order in the orders table 
+    # (will have to use .all method unless there is a way with less DB requests?)
+    # Insert that order_id into items_orders table along wth each item ID from @items array
+    # Decrement the stock in the items table (should this use an ItemRepository method?)
   end
 
   def print_all_with_items
     # Returns an array of strings formatted to print with puts
     output = []
-    select_all_with_items.map do |order|
+    all_with_items.map do |order|
       output << " Order ##{order.id} - #{order.customer_name} - #{order.date}\n   Items:"
       order.items.each do |item|
         output << "     #{item.name}, £#{item.unit_price}"
@@ -42,9 +54,7 @@ class OrderRepository
 
   end
 
-  private
-
-  def select_all_with_items
+  def all_with_items
     sql = 'SELECT orders.id AS "order_id", customer_name, date, items.name, items.unit_price FROM orders
                   JOIN items_orders ON orders.id = order_id
                   JOIN items ON item_id = items.id;'

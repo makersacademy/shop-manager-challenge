@@ -1,5 +1,6 @@
 require 'order_repository'
 require 'order'
+require 'item'
 
 def reset_tables
   seed_sql = File.read('spec/seeds.sql')
@@ -23,15 +24,21 @@ describe OrderRepository do
   end
 
   it "inserts an item into the DB table with #create" do
-    repo = OrderRepository.new
     order = Order.new
     order.customer_name, order.date = "Matz", '2023-01-01'
-    expect(repo.create(order)).to eq nil
-    result_set = repo.all
+    item_repo = ItemRepository.new
+    # Add one of each item stored in items table into the order
+    item_repo.all.each do |item|
+      order.items << item
+    end
+    order_repo = OrderRepository.new
+    expect(order_repo.create(order)).to eq nil
+    result_set = order_repo.all_with_items
     expect(result_set.length).to eq 3
     expect(result_set.first.customer_name).to eq "Uncle Bob"
     expect(result_set.last.customer_name).to eq "Matz"
     expect(result_set.last.date).to eq "2023-01-01"
+    expect(result_set.last.items.length).to eq 3
     expect(result_set[1].date).to eq "2023-02-22"
   end
 
