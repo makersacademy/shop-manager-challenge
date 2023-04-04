@@ -39,7 +39,12 @@ describe OrderRepository do
     repo = OrderRepository.new
     result = repo.print_all_with_items
     expect(result).to be_a Array
-    expect(result.length).to eq 2
-    expect(result.first).to eq " Order #1 - Uncle Bob - 2022-09-05\n   Items:\n     Charger, £50.49\n     Magic Mouse 30.00\n     MacBookPro 999.99"
+    expect(result.length).to eq 6
+    expect(result.first).to eq " Order #1 - Uncle Bob - 2022-09-05\n   Items:"
+    expect(result[1]).to eq "     Charger, £50.49"
+    expect(result[2]).to eq "     Magic Mouse, £30.00"
+    expect(result[3]).to eq "     MacBookPro, £999.99"
+    expect(result.last).to eq "     Magic Mouse, £30.00"
+    
   end
 end

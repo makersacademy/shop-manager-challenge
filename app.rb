@@ -28,11 +28,8 @@ class Application
 
     while true
       choice = @io.gets.chomp.to_i
-      # break if ['1','2','3','4'].include? choice
-      break if [1..4].include? chomp
+      break if [1,2,3,4].include? choice
     end
-    # choice = choice.to_i
-    # @io.puts choice
     case choice
     when 1
       @io.puts (@item_repository.print_all)
@@ -54,7 +51,7 @@ class Application
     when 3
       @io.puts "Here's a list of all shop items:"
       @io.puts " "
-      @io.puts (@order_repository.print_all)
+      @io.puts (@order_repository.print_all_with_items)
     else 
       @io.puts "Enter the cumstomer name for the order:"
       # add functionality to make program more robust to user input
@@ -74,8 +71,8 @@ if __FILE__ == $0
   app = Application.new(
     'shop_manager',
     Kernel,
-    AlbumRepository.new,
-    ArtistRepository.new
+    ItemRepository.new,
+    OrderRepository.new
   )
   app.run
 end
