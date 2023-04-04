@@ -47,4 +47,8 @@ describe OrderRepository do
     expect(result.last).to eq "     Magic Mouse, £30.00"
     
   end
+
+  it "Creates a new order" do
+
+  end
 end

@@ -45,8 +45,8 @@ class Application
       item_quantity = gets.chomp.to_i
       item = Item.new
       item.name = item_name
-      item.price = item_price
-      item.quantity = item_quantity
+      item.unit_price = item_price.to_f.round(2)
+      item.quantity = item_quantity.to_i
       @item_repository.create(item)
     when 3
       @io.puts "Here's a list of all shop items:"
