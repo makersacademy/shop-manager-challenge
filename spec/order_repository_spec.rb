@@ -40,6 +40,12 @@ describe OrderRepository do
     expect(result_set.last.date).to eq "2023-01-01"
     expect(result_set.last.items.length).to eq 3
     expect(result_set[1].date).to eq "2023-02-22"
+
+    # Now check stock levels have been decremented for each item ordered
+    items = item_repo.all
+    expect(items.first.quantity).to eq 49
+    expect(items.last.quantity).to eq 24
+
   end
 
   it "returns an array of formatted strings including items for each order" do

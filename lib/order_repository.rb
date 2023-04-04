@@ -26,19 +26,17 @@ class OrderRepository
     sql = 'INSERT INTO orders (customer_name, date) VALUES ($1, $2)'
     params = [order.customer_name, order.date]
     DatabaseConnection.exec_params(sql, params)
-    
+    # take the order ID of the last order in the orders table   
     order_id = all.last.id
+    # A lot of DB requests involved here, look to refator and make more performant
+    # Insert that order_id into items_orders table along wth each item ID from @items array
     sql = 'INSERT INTO items_orders (item_id, order_id) VALUES ($1, $2)'
     order.items.each do |item|
       DatabaseConnection.exec_params(sql, [item.id, order_id])
     end
-    
+
     return nil
-  
-    # take the order ID of the last order in the orders table 
-    # (will have to use .all method unless there is a way with less DB requests?)
-    # Insert that order_id into items_orders table along wth each item ID from @items array
-    # Decrement the stock in the items table (should this use an ItemRepository method?)
+    # TODO = Decrement the stock in the items table (should this use an ItemRepository method?)
   end
 
   def print_all_with_items
