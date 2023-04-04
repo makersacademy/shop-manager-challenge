@@ -56,13 +56,28 @@ class Application
       @io.puts "Enter the cumstomer name for the order:"
       # add functionality to make program more robust to user input
       order_name = gets.chomp
-      @io.puts "Enter the date of the order in formatted like this: 12-Mar-2023"
-      # add functionality to make program more robust to user input
-      order_date = gets.chomp
+      # @io.puts "Enter the date of the order in formatted like this: 12-Mar-2023"
+      # order_date = gets.chomp
+      order_date = Date.today.strftime("%Y-%m-%d")
       order = Order.new
       order.customer_name = order_name
       order.date = order_date
+      all_items = @item_repository.all
+      @io.puts "Select the items you'd like to order:"
+      all_items.each do |item|
+        @io.puts " ##{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity available: #{item.quantity}"
+        @io.puts "Quantity:"
+        # TODO: Add robustness against user entering non integers
+        # TODO : Allow the user to oder multiple items
+        # TODO : Prevent the user from ordering too many items
+        quantity = @io.gets.to_i
+        quantity.times { order.items << item }
+      end
+      
       @order_repository.create(order)
+      
+      @io.puts "Order ID: #{ @order_repository.all_with_items.last.id} confirmed!"
+      # TO DO : Display all the items w quantity that were ordered
     end
   end
 end
