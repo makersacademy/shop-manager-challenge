@@ -21,7 +21,7 @@ class ItemRepository
 
   def create(item)
     # Inserts an Item object into the DB
-    sql = 'INSERT INTO items (name, unit_price, quantity) VALUES ($1, $2, $3)'
+    sql = 'INSERT INTO items (name, unit_price, quantity) VALUES ($1, $2, $3);'
     params = [item.name, item.unit_price, item.quantity]
     DatabaseConnection.exec_params(sql, params)
     return nil
@@ -43,7 +43,7 @@ class ItemRepository
 
   def select_all
     # Returns an array of hashes
-    sql = 'SELECT * FROM items'
+    sql = 'SELECT * FROM items;'
     DatabaseConnection.exec_params(sql, [])
   end
 end
