@@ -58,29 +58,57 @@ describe Application do
     app.run  
   end
 
-  it "Lets the user create a new order" do
-    ask_for_user_input
-    expect(kernel).to receive(:gets).and_return("4").ordered
-    expect(kernel).to receive(:puts).with("Enter the customer name for the order:").ordered
-    expect(kernel).to receive(:gets).and_return("Bart").ordered
-    expect(kernel).to receive(:puts).with("Select the items you'd like to order:").ordered
-    expect(kernel).to receive(:puts).with(" #1 MacBookPro - Unit price: 999.99 - Quantity available: 50").ordered
-    expect(kernel).to receive(:puts).with("Quantity:").ordered
-    expect(kernel).to receive(:gets).and_return("1").ordered
-    expect(kernel).to receive(:puts).with(" #2 Magic Mouse - Unit price: 30.0 - Quantity available: 10").ordered
-    expect(kernel).to receive(:puts).with("Quantity:").ordered
-    expect(kernel).to receive(:gets).and_return("1").ordered
-    expect(kernel).to receive(:puts).with(" #3 Charger - Unit price: 50.49 - Quantity available: 25").ordered
-    expect(kernel).to receive(:puts).with("Quantity:").ordered
-    expect(kernel).to receive(:gets).and_return("1").ordered
-    expect(kernel).to receive(:puts).with("Order ID: 3 confirmed!").ordered
-    app.run  
-    orders = OrderRepository.new.all_with_items
-    expect(orders.length).to eq 3
-    expect(orders.first.customer_name).to eq "Uncle Bob"
-    expect(orders.last.customer_name).to eq "Bart"
-    expect(orders.last.date).to eq(Date.today.strftime("%Y-%m-%d"))
-    expect(orders.last.items.length).to eq 3
-    expect(orders.last.items.last.name).to eq "Charger"
+  context "Making an order" do
+    it "Lets the user create a new order with only 1 item" do
+      ask_for_user_input
+      expect(kernel).to receive(:gets).and_return("4").ordered
+      expect(kernel).to receive(:puts).with("Enter the customer name for the order:").ordered
+      expect(kernel).to receive(:gets).and_return("Bart").ordered
+      expect(kernel).to receive(:puts).with("Select the items you'd like to order:").ordered
+      expect(kernel).to receive(:puts).with(" #1 MacBookPro - Unit price: 999.99 - Quantity available: 50").ordered
+      expect(kernel).to receive(:puts).with("Select? Y/N").ordered
+      expect(kernel).to receive(:gets).and_return("n").ordered
+      expect(kernel).to receive(:puts).with(" #2 Magic Mouse - Unit price: 30.0 - Quantity available: 10").ordered
+      expect(kernel).to receive(:puts).with("Select? Y/N").ordered
+      expect(kernel).to receive(:gets).and_return("Y").ordered
+      expect(kernel).to receive(:puts).with(" #3 Charger - Unit price: 50.49 - Quantity available: 25").ordered
+      expect(kernel).to receive(:puts).with("Select? Y/N").ordered
+      expect(kernel).to receive(:gets).and_return("no").ordered
+      expect(kernel).to receive(:puts).with("Order ID: 3 confirmed!").ordered
+      app.run  
+      orders = OrderRepository.new.all_with_items
+      expect(orders.length).to eq 3
+      expect(orders.first.customer_name).to eq "Uncle Bob"
+      expect(orders.last.customer_name).to eq "Bart"
+      expect(orders.last.date).to eq(Date.today.strftime("%Y-%m-%d"))
+      expect(orders.last.items.length).to eq 1
+      expect(orders.last.items.first.name).to eq "Magic Mouse"
+    end
+
+    it "Lets the user create a new order with 1 of each item" do
+      ask_for_user_input
+      expect(kernel).to receive(:gets).and_return("4").ordered
+      expect(kernel).to receive(:puts).with("Enter the customer name for the order:").ordered
+      expect(kernel).to receive(:gets).and_return("Steve-O").ordered
+      expect(kernel).to receive(:puts).with("Select the items you'd like to order:").ordered
+      expect(kernel).to receive(:puts).with(" #1 MacBookPro - Unit price: 999.99 - Quantity available: 50").ordered
+      expect(kernel).to receive(:puts).with("Select? Y/N").ordered
+      expect(kernel).to receive(:gets).and_return("y").ordered
+      expect(kernel).to receive(:puts).with(" #2 Magic Mouse - Unit price: 30.0 - Quantity available: 10").ordered
+      expect(kernel).to receive(:puts).with("Select? Y/N").ordered
+      expect(kernel).to receive(:gets).and_return("Y").ordered
+      expect(kernel).to receive(:puts).with(" #3 Charger - Unit price: 50.49 - Quantity available: 25").ordered
+      expect(kernel).to receive(:puts).with("Select? Y/N").ordered
+      expect(kernel).to receive(:gets).and_return("yes").ordered
+      expect(kernel).to receive(:puts).with("Order ID: 3 confirmed!").ordered
+      app.run  
+      orders = OrderRepository.new.all_with_items
+      expect(orders.length).to eq 3
+      expect(orders.first.customer_name).to eq "Uncle Bob"
+      expect(orders.last.customer_name).to eq "Steve-O"
+      expect(orders.last.date).to eq(Date.today.strftime("%Y-%m-%d"))
+      expect(orders.last.items.length).to eq 3
+      expect(orders.last.items.last.name).to eq "Charger"
+    end
   end
 end

@@ -64,16 +64,12 @@ class Application
       @io.puts "Select the items you'd like to order:"
       all_items.each do |item|
         @io.puts " ##{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity available: #{item.quantity}"
-        @io.puts "Quantity:"
-        # TODO: Add robustness against user entering non integers
-        # TODO : Allow the user to oder multiple items
-        # TODO : Prevent the user from ordering too many items
-        quantity = @io.gets.to_i
-        quantity.times { order.items << item }
+        @io.puts "Select? Y/N"
+        answer = @io.gets.chomp
+        order.items << item if answer.match(/(?i)\by\b|\b(yes)\b/)
       end
       @order_repository.create(order)
       @io.puts "Order ID: #{@order_repository.all_with_items.last.id} confirmed!"
-      # TO DO : Display all the items w quantity that were ordered
     end
   end
 end
