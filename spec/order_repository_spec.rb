@@ -23,7 +23,7 @@ describe OrderRepository do
     expect(result_set.last.date).to eq '2023-02-22'
   end
 
-  it "inserts an item into the DB table with #create" do
+  it "inserts an order into the DB table with #create" do
     order = Order.new
     order.customer_name, order.date = "Matz", '2023-01-01'
     item_repo = ItemRepository.new
@@ -45,20 +45,13 @@ describe OrderRepository do
     items = item_repo.all
     expect(items.first.quantity).to eq 49
     expect(items.last.quantity).to eq 24
-
   end
 
   it "returns an array of formatted strings including items for each order" do
     repo = OrderRepository.new
     result = repo.print_all_with_items
-    expect(result).to be_a Array
-    expect(result.length).to eq 6
-    expect(result.first).to eq " Order #1 - Uncle Bob - 2022-09-05\n   Items:"
-    expect(result[1]).to eq "     Charger, £50.49"
-    expect(result[2]).to eq "     Magic Mouse, £30.00"
-    expect(result[3]).to eq "     MacBookPro, £999.99"
-    expect(result.last).to eq "     Magic Mouse, £30.00"
-    
+    expect(result).to be_a String
+    expect(result).to eq " Order #1 - Uncle Bob - 2022-09-05\n   Items:\n     Charger, £50.49\n     Magic Mouse, £30.00\n     MacBookPro, £999.99\n Order #2 - Linus Torvalds - 2023-02-22\n   Items:\n     Magic Mouse, £30.00\n"
   end
 
   it "Creates a new order" do

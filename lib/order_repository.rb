@@ -49,12 +49,12 @@ class OrderRepository
     # Returns an array of strings formatted to print with puts
     output = []
     all_with_items.map do |order|
-      output << " Order ##{order.id} - #{order.customer_name} - #{order.date}\n   Items:"
+      output << " Order ##{order.id} - #{order.customer_name} - #{order.date}\n   Items:\n"
       order.items.each do |item|
-        output << "     #{item.name}, £#{item.unit_price}"
+        output << "     #{item.name}, £#{item.unit_price}\n"
       end
     end
-    return output
+    return output.join
 
   end
 

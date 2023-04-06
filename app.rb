@@ -36,13 +36,13 @@ class Application
     when 2
       @io.puts "Enter the item name:"
       # add functionality to make program more robust to user input
-      item_name = gets.chomp
+      item_name = @io.gets.chomp
       @io.puts "Enter the item's unit price (A float,to two decimal places):"
       # add functionality to make program more robust to user input
-      item_price = gets.chomp.to_f.round(2)
+      item_price = @io.gets.chomp.to_f.round(2)
       @io.puts "Enter the item's quantity in the inventory:"
       # add functionality to make program more robust to user input
-      item_quantity = gets.chomp.to_i
+      item_quantity = @io.gets.chomp.to_i
       item = Item.new
       item.name = item_name
       item.unit_price = item_price.to_f.round(2)
@@ -55,9 +55,7 @@ class Application
     else 
       @io.puts "Enter the cumstomer name for the order:"
       # add functionality to make program more robust to user input
-      order_name = gets.chomp
-      # @io.puts "Enter the date of the order in formatted like this: 12-Mar-2023"
-      # order_date = gets.chomp
+      order_name = @io.gets.chomp
       order_date = Date.today.strftime("%Y-%m-%d")
       order = Order.new
       order.customer_name = order_name
@@ -73,10 +71,8 @@ class Application
         quantity = @io.gets.to_i
         quantity.times { order.items << item }
       end
-      
       @order_repository.create(order)
-      
-      @io.puts "Order ID: #{ @order_repository.all_with_items.last.id} confirmed!"
+      @io.puts "Order ID: #{@order_repository.all_with_items.last.id} confirmed!"
       # TO DO : Display all the items w quantity that were ordered
     end
   end
