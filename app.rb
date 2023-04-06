@@ -53,7 +53,7 @@ class Application
       @io.puts " "
       @io.puts (@order_repository.print_all_with_items)
     else 
-      @io.puts "Enter the cumstomer name for the order:"
+      @io.puts "Enter the customer name for the order:"
       # add functionality to make program more robust to user input
       order_name = @io.gets.chomp
       order_date = Date.today.strftime("%Y-%m-%d")

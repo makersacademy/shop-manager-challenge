@@ -61,7 +61,7 @@ describe Application do
   it "Lets the user create a new order" do
     ask_for_user_input
     expect(kernel).to receive(:gets).and_return("4").ordered
-    expect(kernel).to receive(:puts).with("Enter the cumstomer name for the order:").ordered
+    expect(kernel).to receive(:puts).with("Enter the customer name for the order:").ordered
     expect(kernel).to receive(:gets).and_return("Bart").ordered
     expect(kernel).to receive(:puts).with("Select the items you'd like to order:").ordered
     expect(kernel).to receive(:puts).with(" #1 MacBookPro - Unit price: 999.99 - Quantity available: 50").ordered
@@ -75,13 +75,12 @@ describe Application do
     expect(kernel).to receive(:gets).and_return("1").ordered
     expect(kernel).to receive(:puts).with("Order ID: 3 confirmed!").ordered
     app.run  
-    orders = OrderRepository.new.all
+    orders = OrderRepository.new.all_with_items
     expect(orders.length).to eq 3
     expect(orders.first.customer_name).to eq "Uncle Bob"
     expect(orders.last.customer_name).to eq "Bart"
     expect(orders.last.date).to eq(Date.today.strftime("%Y-%m-%d"))
-    # TODO - work out how to test the below two lines
-    # expect(orders.last.items.length).to eq 3
-    # expect(orders.last.items.last.name).to eq "Charger"
+    expect(orders.last.items.length).to eq 3
+    expect(orders.last.items.last.name).to eq "Charger"
   end
 end
