@@ -11,8 +11,8 @@ class Application
   #  * the Kernel object as `io` (so we can mock the IO in our tests)
   #  * the AlbumRepository object (or a double of it)
   #  * the ArtistRepository object (or a double of it)
-  def initialize(shop_manager, io, order_repository, item_repository)
-    DatabaseConnection.connect(shop_manager)
+  def initialize(database_name, io, order_repository, item_repository)
+    DatabaseConnection.connect(database_name)
     @io = io
     @order_repository = order_repository
     @item_repository = item_repository
@@ -35,15 +35,36 @@ class Application
 
 
     @io.puts 'Enter your choice: '
-    choice = @io.gets.to_i
+    user_choice = @io.gets.to_i
 
-    if choice == 1
-
+    
+    if user_choice == 1
       @item_repository.all.each do |item|
-          p "##{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
+        puts "##{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
       end
+    else user_choice =~ ['a-zA-Z']
+      puts 'You must enter a number! Please select a number from 1 to 4'
     end
+
   end
+
+  private
+
+  # def choice_options(user_choice)
+  #   if user_choice == 1
+  #     choice_1 = @item_repository.all.each do |item|
+  #       puts "##{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
+  #     return choice_1
+  #     end
+  #   end
+    # elsif user_choice == 2
+
+    # elsif user_choice == 3
+    #   @order_repository.all.each do |order|
+    #     puts "##{order.id} - Customer Name: #{order.customer_name} - Date: #{order.date} - Item ID: #{order.item_id}"
+    #   end
+  # end
+
 end
 
 # Don't worry too much about this if statement. It is basically saying "only

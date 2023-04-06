@@ -7,8 +7,10 @@
 -- Generation Time: 2023-01-09 16:08:50.3990
 -- -------------------------------------------------------------
 
+
 DROP TABLE IF EXISTS "public"."orders";
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
+
 
 DROP TABLE IF EXISTS "public"."items";
 -- This script only contains the table creation statements and does not fully represent the table in the database. It's still missing: indices, triggers. Do not use it as a backup.
@@ -32,6 +34,7 @@ INSERT INTO "public"."items" ("name", "unit_price", "quantity") VALUES
 ('Kettle', 50, 25),
 ('Cooker', 200, 10),
 ('Mug', 20, 2);
+
 
 
 
