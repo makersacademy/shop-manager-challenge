@@ -45,12 +45,9 @@ RSpec.describe OrderRepository do
 
       repo.create(new_order)
 
-      orders = repo.all
-
-      last_order = orders.last
-      expect(last_order.id).to eq "5"
-      expect(last_order.customer_name).to eq "Z"
-      expect(last_order.date_placed).to eq "2023-04-28"
+      expect(repo.all).to include(
+        have_attributes(id: "5", customer_name: "Z", date_placed: "2023-04-28")
+      )
     end
   end
 end
