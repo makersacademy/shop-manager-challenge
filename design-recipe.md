@@ -215,7 +215,7 @@ class OrderRepository
   def create(order)
     # Executes the SQL query:
     # INSERT INTO orders (customer_name, date_placed, shop_item_id)
-    # VALUES ('Bob', '30-04-2023 18:32:02', 2);
+    # VALUES ($1, $2, $3);
 
     # Returns nil, inserts order into db
   end
@@ -267,6 +267,14 @@ expect(repo.all.last.quantity).to eq '5'
 # So I can know which orders were made
 # I want to keep a list of orders with their customer name.
 
+# As a shop manager
+# So I can know which orders were made
+# I want to assign each order to their corresponding item.
+
+# As a shop manager
+# So I can know which orders were made
+# I want to know on which date an order was placed.
+
 # 3
 # Get all orders
 repo = OrderRepository.new
@@ -277,5 +285,25 @@ expect(orders.length).to eq 2
 expect(orders.first.customer_name).to eq 'Sarah'
 expect(orders.first.date_placed).to eq '2023-04-06 12:57:03'
 expect(orders.first.shop_item_id).to eq '1'
+
+# As a shop manager
+# So I can manage orders
+# I want to be able to create a new order.
+
+# 4
+# Create a new order
+
+repo = OrderRepository.new
+order = Order.new
+order.customer_name = 'Bob'
+order.date_placed = '30-04-2023 18:32:02'
+order.shop_item_id = 2
+repo.create(order)
+
+expect(repo.all.length).to eq 3
+expect(repo.all.last.id).to eq '3'
+expect(repo.all.last.customer_name).to eq 'Bob'
+expect(repo.all.last.date_placed).to eq '30-04-2023 18:32:02'
+expect(repo.all.last.shop_item_id).to eq '2'
 
 ```
