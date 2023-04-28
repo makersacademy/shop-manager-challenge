@@ -161,7 +161,7 @@ expect(new_item.stock_quantity).to eq '200'
 repo = ItemRepository.new
 repo.delete(1)
 items = repo.all
-first_item = items.fir
+first_item = items.first
 expect(first_item.id).to eq '2'
 expect(first_item.name).to eq 'Makerspresso Coffee Machine'
 expect(first_item.unit_price).to eq '69'
@@ -171,11 +171,11 @@ expect(first_item.stock_quantity).to eq '15'
 # Update an item with the id as input
 
 repo = ItemRepository.new
-original_item = repo.find(
+original_item = repo.find(1)
 original_item.name, original_item.unit_price, original_item.stock_quantity = 
-  'New Hoover', 149, 1
+  'New Hoover', 149, 100
 repo.update(original_item)
-updated_item = repo.find(
+updated_item = repo.find(1)
 expect(updated_item.id).to eq '1'
 expect(updated_item.name).to eq 'New Hoover'
 expect(updated_item.unit_price).to eq '149'
@@ -195,19 +195,16 @@ This is so you get a fresh table contents every time you run the test suite.
 
 # file: spec/BLANK_repository_spec.rb
 
-RSpec.describe y do
-
-  def reset_artists_table 
-    seed_sql = File.read('spec/seeds_BLANK.sql')
-    connection = PG.connect({ host: '127.0.0.1', dbname: 'BLANK_test' })
+RSpec.describe ItemRepository do
+  def reset_items_table 
+    seed_sql = File.read('spec/seeds_items.sql')
+    connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
     connection.exec(seed_sql)
-  end
+  end  
 
   before(:each) do
-    reset_artists_table
+    reset_items_table
   end
-  # (your tests will go here).
-end
 ```
 
 ## 8. Test-drive and implement the Repository class behaviour
