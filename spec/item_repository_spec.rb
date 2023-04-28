@@ -12,5 +12,22 @@ describe ItemRepository do
     reset_items_table
   end
 
-  # (your tests will go here).
+  describe '#all' do
+    it 'returns an array of item objects for each record on items table' do
+
+    repo = ItemRepository.new
+
+    items = repo.all
+
+    expect(items.first.id).to eq 1
+    expect(items.first.name).to eq 'item one'
+    expect(items.first.price).to eq 1
+    expect(items.first.quantity).to eq 1
+
+    expect(items.last.id).to eq 5
+    expect(items.last.name).to eq 'item five'
+    expect(items.last.price).to eq 5
+    expect(items.last.quantity).to eq 5
+    end
+  end
 end
