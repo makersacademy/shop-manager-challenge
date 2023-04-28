@@ -21,8 +21,15 @@ class ItemRepository
     param = [id]
 
     result = DatabaseConnection.exec_params(query, param)[0]
-    
+
     return create_item_object(result)
+  end
+
+  def create(item)
+    query = 'INSERT INTO items (name, unit_price, quantity) VALUES ($1, $2, $3);'
+    params = [item.name, item.unit_price, item.quantity]
+
+    DatabaseConnection.exec_params(query, params)
   end
 
   private 
@@ -36,5 +43,4 @@ class ItemRepository
 
     return item
   end
-
 end

@@ -113,8 +113,9 @@ class ItemRepository
 
   # Add more methods below for each operation you'd like to implement.
 
-  # def create(item)
-  # end
+  def create(item)
+    # 'INSERT INTO items (name, unit_price, quantity) VALUES ($1, $2, $3);'
+  end
 
   # def update(item)
   # end
@@ -164,7 +165,20 @@ item.name # =>  'Correction tape'
 item.unit_price # =>  '4.95'
 item.quantity # =>  '26'
 
-# Add more examples for each method
+# Creates an item
+
+new_item = Item.new
+new_item.name = 'Protractor'
+new_item.unit_price = '9.99'
+new_item.quantity = '33'
+repo = ItemRepository.new
+repo.create(new_item)
+items = repo.all
+
+items[-1].name # =>  'Protractor'
+items[-1].unit_price # =>  '9.99'
+items[-1].quantity # =>  '33'
+
 ```
 
 Encode this example as a test.

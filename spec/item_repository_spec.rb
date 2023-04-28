@@ -39,4 +39,18 @@ describe ItemRepository do
     expect(item.unit_price).to eq '4.95'
     expect(item.quantity).to eq '26'
   end
+
+  it 'Creates a new item' do
+    new_item = Item.new
+    new_item.name = 'Protractor'
+    new_item.unit_price = '9.99'
+    new_item.quantity = '33'
+    repo = ItemRepository.new
+    repo.create(new_item)
+    items = repo.all
+
+    expect(items[-1].name).to eq 'Protractor'
+    expect(items[-1].unit_price).to eq '9.99'
+    expect(items[-1].quantity).to eq '33'
+  end
 end
