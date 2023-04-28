@@ -100,13 +100,16 @@ class ItemRepository
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students;
+    # SELECT * FROM items;
 
-    # Returns an array of Student objects.
+    # Returns an array of Item objects.
   end
 
-  def create(item)
-
+# Creating a new item
+  def create(item) # item is an instance of the Item class
+    # Executes the SQL query:
+    # INSERT INTO items (name, price, quantity) VALUES ($1, $2, $3);  
+    returns nil
   end
 
 end
@@ -119,6 +122,39 @@ Write Ruby code that defines the expected behaviour of the Repository class, fol
 These examples will later be encoded as RSpec tests.
 
 ```ruby
+# 1 
+
+repo = ItemRepository.new
+
+items = repo.all
+
+item.first.id # => 1
+item.first.name # => 'item one'
+item.first.price # => 1
+item.first.quantity # => 1
+
+item.last.id # => 5
+item.last.name # => 'item five'
+item.last.price # => 5
+item.last.quantity # => 5
+
+
+# 2 
+
+repo = ItemRepository.new
+new_item = Item.new
+
+new_item.name = 'new item'
+new_item.price = 6
+new_item.quantity = 6
+
+repo.create(new_item)
+
+inventory = repo.all
+
+inventory.length # => 6
+inventory.last.id # => 6
+
 
 ```
 
@@ -133,17 +169,17 @@ This is so you get a fresh table contents every time you run the test suite.
 ```ruby
 # EXAMPLE
 
-# file: spec/student_repository_spec.rb
+# file: spec/item_repository-spec.rb
 
-def reset_students_table
-  seed_sql = File.read('spec/seeds_students.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'students' })
+def reset_items_table
+  seed_sql = File.read('spec/seeds_items.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
   connection.exec(seed_sql)
 end
 
-describe StudentRepository do
+describe ItemRepository do
   before(:each) do 
-    reset_students_table
+    reset_items_table
   end
 
   # (your tests will go here).
