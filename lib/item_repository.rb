@@ -1,5 +1,4 @@
 require 'item'
-require 'database_connection'
 
 class ItemRepository
 
