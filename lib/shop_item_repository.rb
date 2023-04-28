@@ -1,0 +1,20 @@
+require_relative './shop_item'
+
+class ShopItemRepository
+  def all
+    sql = 'SELECT id, name, unit_price, quantity FROM shop_items;'
+    
+    result_set = DatabaseConnection.exec_params(sql, [])
+
+    shop_items = []
+    result_set.each do |record|
+      shop_item = ShopItem.new
+      shop_item.id = record['id']
+      shop_item.name = record['name']
+      shop_item.unit_price = record['unit_price']
+      shop_item.quantity = record['quantity']
+      shop_items << shop_item
+    end
+    return shop_items
+  end
+end

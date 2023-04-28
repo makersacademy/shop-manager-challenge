@@ -81,7 +81,9 @@ shop_item_id: int
 2. Can one order have many shop items? NO
 
 **NOTE**
-One order could have many shop items. I have taken from the user story 'I want to assign each order to their corresponding item' and the menu options that this is singular for the purposes of this challenge.
+One order could have many shop items. I have taken from the user story
+'I want to assign each order to their corresponding item' and the menu
+options that this is singular for the purposes of this challenge.
 
 -> Therefore,
 -> A shop item HAS MANY orders
@@ -130,7 +132,9 @@ psql -h 127.0.0.1 shop_manager_test < shop_manager_tables.sql
 ```sql
 -- (file: spec/seeds_shop_manager_test.sql)
 
--- **NOTE** I am creating the test seeds in one file so I can truncate both tables and resolve the error where it cannot truncate a table referenced in a foreign key constraint.
+-- **NOTE** I am creating the test seeds in one file so I can truncate both
+-- tables and resolve the error where it cannot truncate a table referenced
+-- in a foreign key constraint.
 
 TRUNCATE TABLE shop_items, orders RESTART IDENTITY;
 
@@ -216,4 +220,23 @@ class OrderRepository
     # Returns nil, inserts order into db
   end
 end
+```
+
+## 10. Write Test Examples
+
+```ruby
+# As a shop manager
+# So I can know which items I have in stock
+# I want to keep a list of my shop items with their name and unit price.
+
+# 1
+# Get all shop items
+repo = ShopItemsRepository.new
+
+shop_items = repo.all
+
+expect(shop_items.length).to eq 2
+expect(shop_items.first.name).to eq 'Super Shark Vacuum Cleaner'
+expect(shop_items.first.unit_price).to eq '$99.99'
+expect(shop_items.first.quantity).to eq '30'
 ```
