@@ -18,5 +18,4 @@ RSpec.configure do |config|
 end
 
 # Make sure this connects to your test database
-# (its name should end with '_test')
 DatabaseConnection.connect('shop_manager_test')

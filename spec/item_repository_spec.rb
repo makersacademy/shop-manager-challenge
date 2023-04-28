@@ -23,6 +23,16 @@ RSpec.describe ItemRepository do
     expect(items[0].quantity).to eq 20
   end
 
+  it 'finds the first item when given an id of 1' do
+    repo = ItemRepository.new
+    item = repo.find(1)
+    
+    expect(item.id).to eq 1
+    expect(item.name).to eq 'Hoover'
+    expect(item.unit_price).to eq 99.99
+    expect(item.quantity).to eq 20
+  end
+
   it 'adds a new item to the database' do
     repo = ItemRepository.new
 

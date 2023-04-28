@@ -131,6 +131,14 @@ class ItemRepository
 
     # Returns nothing, just updates the database
   end
+
+  # returns a single item object, whose id equal to the given id
+  def find(id)
+    # Executes the SQL query:
+    # 'SELECT * FROM items WHERE id = $1'
+    # with parameters: [id]
+    # returns the item object
+  end
 end
 
 # Table name: orders
@@ -179,9 +187,20 @@ items.length # =>  2
 items[0].id # => 1
 items[0].name # => 'Hoover'
 items[0].unit_price # => 99.99
-items[0].unit_price # => 20
+items[0].quantity # => 20
 
 # 2
+# Finds an item when given an id
+
+repo = ItemRepository.new
+item = repo.find(1)
+
+item.id # => 1
+item.name # => 'Hoover'
+item.unit_price # => 99.99
+item.quantity # => 20
+
+# 3
 # Creates a new item and adds it to database
 
 repo = ItemRepository.new

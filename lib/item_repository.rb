@@ -13,6 +13,14 @@ class ItemRepository
     return items
   end
 
+  def find(id)
+    sql = 'SELECT * FROM items WHERE id = $1'
+    params = [id]
+    result_set = DatabaseConnection.exec_params(sql, params)
+    record = result_set[0]
+    return record_to_item(record)
+  end
+
   def create(item)
     sql = 'INSERT INTO items (name, unit_price, quantity) 
             VALUES ($1, $2, $3);'
