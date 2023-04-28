@@ -29,12 +29,7 @@ RSpec.describe OrderRepository do
       expect(order_2.date_placed).to eq "2023-10-16"
     end
   end
-
-  describe "#all_with_items" do
-    xit "returns a list of all orders with their associated items" do
-    end
-  end
-
+  
   describe "#create" do
     it "creates a new order" do
       repo = OrderRepository.new
