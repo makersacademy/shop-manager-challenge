@@ -22,4 +22,25 @@ RSpec.describe ItemRepository do
     expect(items[0].unit_price).to eq 99.99
     expect(items[0].quantity).to eq 20
   end
+
+  it 'adds a new item to database' do
+    repo = ItemRepository.new
+
+    item = Item.new
+    item.name = 'Bike pump'
+    item.unit_price = 20
+    item.quantity = 3
+    repo.create(item)
+
+    items = repo.all
+
+    expect(items).to include (
+      have_attributes(
+        id: 3,
+        name: 'Bike pump',
+        unit_price: 20,
+        quantity: 3
+      )
+    )
+  end
 end
