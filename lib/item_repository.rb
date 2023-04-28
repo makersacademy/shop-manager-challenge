@@ -5,10 +5,18 @@ class ItemRepository
   # Selecting all records
   # No arguments
   def all
-    # Executes the SQL query:
-    # SELECT * FROM items;
+    items = []
 
-    # Returns an array of Item objects.
+    sql = 'SELECT * FROM items';
+    repo = DatabaseConnection.exec_params(sql, [])
+    
+    repo.each do |record|
+      item = Item.new
+      set_attributes(item, record)
+      items << item
+    end
+
+    items
   end
 
 # Creating a new item
@@ -18,4 +26,13 @@ class ItemRepository
     returns nil
   end
 
+
+  private
+
+  def set_attributes(item, record)
+    item.id = record["id"].to_i
+    item.name = record["name"]
+    item.price = record["price"].to_i
+    item.quantity = record["quantity"].to_i
+  end
 end

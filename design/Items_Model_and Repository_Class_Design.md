@@ -31,7 +31,7 @@ quantity: int
 
 
 ```sql
-TRUNCATE TABLE items, order, items_orders RESTART IDENTITY; 
+TRUNCATE TABLE items, orders, items_orders RESTART IDENTITY; 
 
 INSERT INTO items (name, price, quantity) VALUES 
 ('item_one', 1, 1),
