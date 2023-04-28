@@ -1,14 +1,14 @@
-# Shop Items Model and Repository Classes Design Recipe
+# Shop Orders Model and Repository Classes Design Recipe
 
 
 ## 1. Design and create the Table
 
 
 ```
-Table: items
+Table: orders
 
 Columns:
-id | name | unit_price | quantity
+id | customer_name | date | item_id
 ```
 
 ## 2. Create Test SQL seeds
@@ -18,26 +18,26 @@ Your tests will depend on data stored in PostgreSQL to run.
 If seed data is provided (or you already created it), you can skip this step.
 
 ```sql
--- (file: spec/seeds_items.sql)
+-- (file: spec/seeds_orders.sql)
 
 -- First, you'd need to truncate the table - this is so our table is emptied between each test run,
 -- so we can start with a fresh state.
 -- (RESTART IDENTITY resets the primary key)
 
-TRUNCATE TABLE items, orders RESTART IDENTITY;
+TRUNCATE TABLE orders RESTART IDENTITY;
 
 -- Below this line there should only be `INSERT` statements.
 -- Replace these statements with your own seed data.
 
-INSERT INTO items (name, unit_price, quantity) VALUES ('Cookie Dough', 2.99, 25);
-INSERT INTO items (name, unit_price, quantity) VALUES ('Ice Cream', 1.99, 50);
+INSERT INTO orders (customer_name, date, item_id) VALUES ('Caroline', 27-apr-2023, 1);
+INSERT INTO orders (customer_name, date, item_id) VALUES ('Phil',28-apr-2023 , 2);
 
 ```
 
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
 
 ```bash
-psql -h 127.0.0.1 shop_manager_test < seeds_items.sql
+psql -h 127.0.0.1 shop_manager_test < seeds_orders.sql
 ```
 
 ## 3. Define the class names
@@ -45,16 +45,16 @@ psql -h 127.0.0.1 shop_manager_test < seeds_items.sql
 Usually, the Model class name will be the capitalised table name (single instead of plural). The same name is then suffixed by `Repository` for the Repository class name.
 
 ```ruby
-# Table name: items
+# Table name: orders
 
 # Model class
-# (in lib/item.rb)
-class Item
+# (in lib/order.rb)
+class Order
 end
 
 # Repository class
-# (in lib/item_repository.rb)
-class ItemRepository
+# (in lib/order_repository.rb)
+class OrderRepository
 end
 ```
 
@@ -63,15 +63,14 @@ end
 Define the attributes of your Model class. You can usually map the table columns to the attributes of the class, including primary and foreign keys.
 
 ```ruby
-
-# Table name: items
+# Table name: orders
 
 # Model class
-# (in lib/item.rb)
+# (in lib/order.rb)
 
-class Item
+class Order
   # Replace the attributes by your own columns.
-  attr_accessor :id, :name, :unit_price, :quantity
+  attr_accessor :id, :customer_name, :date, :item_id
 end
 
 # The keyword attr_accessor is a special Ruby feature
@@ -88,34 +87,34 @@ Your Repository class will need to implement methods for each "read" or "write" 
 Using comments, define the method signatures (arguments and return value) and what they do - write up the SQL queries that will be used by each method.
 
 ```ruby
-# Table name: items
+# Table name: orders
 
 # Repository class
-# (in lib/item_repository.rb)
+# (in lib/order_repository.rb)
 
-class ItemRepository
+class OrderRepository
 
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, unit_price, quantity FROM items;
+    # SELECT id, customer_name, date, item_id FROM orders;
 
-    # Returns an array of Item objects.
+    # Returns an array of Order objects.
   end
 
   # Gets a single record by its ID
   # One argument: the id (number)
   def find(id)
     # Executes the SQL query:
-    # SELECT id, name, unit_price, quantity FROM items WHERE id = $1;
+    # SELECT id, customer_name, date, item_id FROM orders WHERE id = $1;
 
-    # Returns a single Item object.
+    # Returns a single Order object.
   end
 
-  def create(item)
+  def create(order)
     # Executes the SQL query:
-    # INSERT INTO items (name, unit_price, quantity) VALUES ($1, $2, $3);
+    # INSERT INTO orders (customer_name, date, item_id) VALUES ($1, $2, $3);
 
     # returns nil
   end
@@ -131,54 +130,54 @@ These examples will later be encoded as RSpec tests.
 
 ```ruby
 # 1
-# Get all items
+# Get all orders
 
-repo = ItemRepository.new
+repo = OrderRepository.new
 
-items = repo.all
+orders = repo.all
 
-items.length # =>  2
+orders.length # =>  2
 
-items[0].id # =>  1
-items[0].name # =>  'Cookie Dough'
-items[0].unit_price # =>  2.99
-items[0].quantity # => 25
+orders[0].id # =>  1
+orders[0].customer_name # =>  'Caroline'
+orders[0].date # =>  '2023-04-27'
+orders[0].item_id # => 1
 
-items[1].id # =>  1
-items[1].name # =>  'Ice Cream'
-items[1].unit_price # =>  1.99
-items[1].quantity # => 50
+orders[1].id # =>  2
+orders[1].customer_name # =>  'Phil'
+orders[1].date # =>  '2023-04-28'
+orders[1].item_id # => 2
+
 
 # 2
-# Get a single item
+# Get a single order
 
-repo = ItemRepository.new
+repo = OrderRepository.new
 
-item = repo.find(1)
+order = repo.find(1)
 
-item.id # =>  1
-item.name # =>  'Cookie Dough'
-item.unit_price # =>  2.99
-item.quantity # => 25
+order.id # =>  1
+order.customer_name # =>  'Caroline'
+order.date # =>  '2023-04-27'
+order.item_id # => 1
 
 # 3
-# creates a new item
-item = Item.new
-item.name = 'Chocolate Chip Cookie'
-item.unit_price =  2.25
-item.quantity = 35
+# creates a new order
+order = Order.new
+order.customer_name = 'Pip'
+order.date = '28-Apr-2023'
+order.item_id = 1
 
-repo = ItemRepository.new
+repo = OrderRepository.new
 
-repo.create(item)
+repo.create(order)
 
-last_item = repo.all.last
+last_order = repo.all.last
 
-last_item.id # =>  3
-last_item.name # =>  'Chocolate Chip Cookie'
-last_item.unit_price # =>  2.25
-last_item.quantity # => 35
-
+last_order.id # =>  3
+last_order.customer_name # =>  'Pip'
+last_order.date # =>  '2023-04-28'
+last_order.item_id # => 1
 
 ```
 
@@ -191,17 +190,17 @@ Running the SQL code present in the seed file will empty the table and re-insert
 This is so you get a fresh table contents every time you run the test suite.
 
 ```ruby
-# file: spec/item_repository_spec.rb
+# file: spec/order_repository_spec.rb
 
-def reset_items_table
-  seed_sql = File.read('spec/seeds_items.sql')
+def reset_orders_table
+  seed_sql = File.read('spec/seeds_orders.sql')
   connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
   connection.exec(seed_sql)
 end
 
-describe ItemRepository do
+describe OrderRepository do
   before(:each) do 
-    reset_items_table
+    reset_orders_table
   end
 
   # (your tests will go here).

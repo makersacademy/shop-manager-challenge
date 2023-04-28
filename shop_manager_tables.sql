@@ -28,5 +28,8 @@ INSERT INTO items (name, unit_price, quantity) VALUES ('Oreo Cookie Pie', 3.99, 
 INSERT INTO items (name, unit_price, quantity) VALUES ('Chocolate Orange Brownie', 3.25, 20);
 
 
+TRUNCATE TABLE orders RESTART IDENTITY;
 
-
+INSERT INTO orders (customer_name, date, item_id) VALUES ('Caroline', '27-Apr-2023', 1);
+INSERT INTO orders (customer_name, date, item_id) VALUES ('Phil','28-Apr-2023' , 2);
+INSERT INTO orders (customer_name, date, item_id) VALUES ('Vass','29-Apr-2023' , 3);
