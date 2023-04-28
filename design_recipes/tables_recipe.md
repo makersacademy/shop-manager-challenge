@@ -43,13 +43,11 @@ Name of the first table (always plural): items
 Column names: name, unit price, quantity
 
 Name of the second table (always plural): orders
-Column names: customer_name, date
+Column names: customer_name, date_placed
 
 3. Decide the column types.
 
 Remember to always have the primary key id as a first column. Its type will always be SERIAL.
-
-# EXAMPLE:
 
 Table: items
 id: SERIAL
@@ -60,7 +58,7 @@ quantity: int
 Table: orders
 id: SERIAL
 customer_name: text
-date: date
+date_placed: date
 
 4. Decide on The Tables Relationship
 Most of the time, you'll be using a one-to-many relationship, and will need a foreign key on one of the two tables.
@@ -78,38 +76,39 @@ Replace the relevant bits in this example with your own:
 
 # EXAMPLE
 
-1. Can one artist have many albums? YES
-2. Can one album have many artists? NO
+1. Can one item have many orders? YES
+2. Can one order have many items? NO
 
 -> Therefore,
--> An artist HAS MANY albums
--> An album BELONGS TO an artist
+-> An item HAS MANY orders
+-> An order BELONGS TO an item
 
--> Therefore, the foreign key is on the albums table.
-If you can answer YES to the two questions, you'll probably have to implement a Many-to-Many relationship, which is more complex and needs a third table (called a join table).
+-> Therefore, the foreign key is on the order table. (as `item_id`)
 
 4. Write the SQL.
--- EXAMPLE
--- file: albums_table.sql
+-- file: shop_tables.sql
 
 -- Replace the table name, columm names and types.
 
 -- Create the table without the foreign key first.
-CREATE TABLE artists (
-  id SERIAL PRIMARY KEY,
-  name text,
+CREATE TABLE items (
+  id: SERIAL PRIMARY KEY,
+  name: text,
+  unit_price: decimal,
+  quantity: int
 );
 
 -- Then the table with the foreign key first.
-CREATE TABLE albums (
+CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
-  title text,
-  release_year int,
--- The foreign key name is always {other_table_singular}_id
-  artist_id int,
-  constraint fk_artist foreign key(artist_id)
+  customer_name text,
+  date_placed: date,
+
+  item_id int,
+  constraint fk_item foreign key(item_id)
     references artists(id)
     on delete cascade
 );
+
 5. Create the tables.
-psql -h 127.0.0.1 database_name < albums_table.sql
+psql -h 127.0.0.1 shop_manager < shop_tables.sql
