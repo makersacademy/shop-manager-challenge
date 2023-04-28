@@ -144,3 +144,76 @@ INSERT INTO shop_items (name, unit_price, quantity) VALUES ('Makerspresso', 69.0
 INSERT INTO orders (customer_name, date_placed, shop_item_id) VALUES ('Sarah', '2023-04-06 12:57:03', 1)
 INSERT INTO orders (customer_name, date_placed, shop_item_id) VALUES ('Fred', '2023-03-12 15:12:42', 2)
 ```
+
+## 8. Define and implement the Model classes
+
+```ruby
+# Table name: shop_items
+
+# Model class
+# (in lib/shop_item.rb)
+class ShopItem
+  attr_accessor :id, :name, :unit_price, :quantity
+end
+
+# Table name: orders
+
+# Model class
+# (in lib/order.rb)
+class Order
+  attr_accessor :id, :customer_name, :date_placed, :shop_item_id
+end
+```
+
+## 9. Define the Repository Class interface
+
+```ruby
+# Table name: shop_items
+# Repository class
+# (in lib/shop_item_repository.rb)
+class ShopItemRepository
+
+  # Selecting all shop_items records
+  # No arguments
+  def all
+    # Executes the SQL query:
+    # SELECT id, name, unit_price, quantity FROM shop_items;
+
+    # Returns an array of ShopItem objects
+  end
+
+  # Create a new item
+  # Takes a ShopItem object as an argument
+  def create(shop_item)
+    # Executes the SQL query:
+    # INSERT INTO shop_items (name, unit_price, quantity)
+    # VALUES ('Dyson Airwrap', 300, 5);
+
+    # Returns nil, inserts shop_item into db
+  end
+end
+
+# Repository class
+# (in lib/shop_item_repository.rb)
+class OrderRepository
+
+  # Selecting all order records
+  # No arguments
+  def all
+    # Executes the SQL query:
+    # SELECT id, customer_name, date_placed, shop_item_id FROM orders;
+
+    # Returns an array of Order objects
+  end
+
+  # Create a new item
+  # Takes an Order object as an argument
+  def create(order)
+    # Executes the SQL query:
+    # INSERT INTO orders (customer_name, date_placed, shop_item_id)
+    # VALUES ('Bob', '30-04-2023 18:32:02', 2);
+
+    # Returns nil, inserts order into db
+  end
+end
+```
