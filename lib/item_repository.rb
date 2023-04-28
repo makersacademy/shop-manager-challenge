@@ -14,7 +14,15 @@ class ItemRepository
     end
 
     return items
+  end
 
+  def find(id)
+    query = 'SELECT * FROM items WHERE id = $1;'
+    param = [id]
+
+    result = DatabaseConnection.exec_params(query, param)[0]
+    
+    return create_item_object(result)
   end
 
   private 

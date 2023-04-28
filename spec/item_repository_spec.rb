@@ -28,4 +28,15 @@ describe ItemRepository do
     expect(items[1].unit_price).to eq '3.25'
     expect(items[1].quantity).to eq '14'
   end
+
+  it 'Finds item by id' do
+    repo = ItemRepository.new
+
+    item = repo.find(1)
+
+    expect(item.id).to eq '1'
+    expect(item.name).to eq 'Correction tape'
+    expect(item.unit_price).to eq '4.95'
+    expect(item.quantity).to eq '26'
+  end
 end

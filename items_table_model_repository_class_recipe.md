@@ -106,7 +106,7 @@ class ItemRepository
   # One argument: the id (number)
   def find(id)
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM items WHERE id = $1;
+    # SELECT * FROM items WHERE id = $1;
 
     # Returns a single Item object.
   end
@@ -159,9 +159,10 @@ repo = ItemRepository.new
 
 item = repo.find(1)
 
-item.id # =>  1
-item.unit_price # =>  'David'
-item.quantity # =>  'April 2022'
+item.id # =>  '1'
+item.name # =>  'Correction tape'
+item.unit_price # =>  '4.95'
+item.quantity # =>  '26'
 
 # Add more examples for each method
 ```
