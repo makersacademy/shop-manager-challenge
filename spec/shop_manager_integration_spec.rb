@@ -77,9 +77,9 @@ describe "shop manager" do
     expect(io).to receive(:puts).with("Here's a list of all orders:").ordered
     expect(io).to receive(:puts).with("\n").ordered
     expect(io).to receive(:puts).with("* Order id: 1 - Customer name: Sarah").ordered
-    expect(io).to receive(:puts).with("  Date placed: 06/04/2023 - Item id: 1").ordered
+    expect(io).to receive(:puts).with("  Order for: Super Shark Vacuum Cleaner - Date placed: 06/04/2023").ordered
     expect(io).to receive(:puts).with("* Order id: 2 - Customer name: Fred").ordered
-    expect(io).to receive(:puts).with("  Date placed: 12/03/2023 - Item id: 2").ordered
+    expect(io).to receive(:puts).with("  Order for: Makerspresso - Date placed: 12/03/2023").ordered
 
     app = Application.new('shop_manager_test', io, ShopItemRepository.new, OrderRepository.new)
     app.run

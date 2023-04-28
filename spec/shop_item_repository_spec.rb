@@ -36,4 +36,13 @@ describe ShopItemRepository do
     expect(repo.all.last.unit_price).to eq '$300.00'
     expect(repo.all.last.quantity).to eq '5'
   end
+
+  it "finds a shop item name by id" do
+    repo = ShopItemRepository.new
+
+    shop_item = repo.find(1)
+    expect(shop_item.name).to eq "Super Shark Vacuum Cleaner"
+    expect(shop_item.unit_price).to eq "$99.99"
+    expect(shop_item.quantity).to eq "30"
+  end
 end

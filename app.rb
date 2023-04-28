@@ -75,8 +75,9 @@ class Application
     @io.puts "\n"
     @order_repository.all.each do |order|
       format_date = DateTime.parse(order.date_placed).strftime '%d/%m/%Y'
+      item_name = @shop_item_repository.find(order.shop_item_id).name
       @io.puts "* Order id: #{order.id} - Customer name: #{order.customer_name}"
-      @io.puts "  Date placed: #{format_date} - Item id: #{order.shop_item_id}"
+      @io.puts "  Order for: #{item_name} - Date placed: #{format_date}"
     end
   end
 

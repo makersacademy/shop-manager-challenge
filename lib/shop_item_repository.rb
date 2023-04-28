@@ -21,6 +21,15 @@ class ShopItemRepository
     DatabaseConnection.exec_params(sql, params)
   end
 
+  def find(id)
+    sql = 'SELECT id, name, unit_price, quantity FROM shop_items WHERE id = $1;'
+    params = [id]
+
+    result_set = DatabaseConnection.exec_params(sql, params)
+    result = result_set[0]
+    create_shop_item(result)
+  end
+
   private
 
   def create_shop_item(record)
