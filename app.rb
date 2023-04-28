@@ -11,6 +11,30 @@ class Application
 
   def run
     @io.puts "Welcome to the shop management program!"
+    @io.puts "What do you want to do?"
+    @io.puts "  1 = list all shop items"
+    @io.puts "  2 = create a new item"
+    @io.puts "  3 = list all orders"
+    @io.puts "  4 = create a new order"
+
+    choice = @io.gets.chomp
+
+    execute(choice)
+    
+  end
+
+  def execute(choice)
+    if choice == "1"
+      @item_repository.all.each do |record|
+        @io.puts "##{record.id} #{record.name} - Unit price: £#{record.unit_price} - Quantity: #{record.quantity}"
+      end
+    elsif choice == "3"
+      @order_repository.all.each do |record|
+        @io.puts "##{record.id} #{record.customer_name} - Date: #{record.date} - Item: #{@item_repository.find(record.item_id).name}"
+      end
+    else
+      
+    end
   end
 
 end
