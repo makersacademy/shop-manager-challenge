@@ -36,7 +36,21 @@ RSpec.describe OrderRepository do
   end
 
   describe "#create" do
-    xit "creates a new order" do
+    it "creates a new order" do
+      repo = OrderRepository.new
+
+      new_order = Order.new
+      new_order.customer_name = "Z"
+      new_order.date_placed = "2023-04-28"
+
+      repo.create(new_order)
+
+      orders = repo.all
+
+      last_order = orders.last
+      expect(last_order.id).to eq "5"
+      expect(last_order.customer_name).to eq "Z"
+      expect(last_order.date_placed).to eq "2023-04-28"
     end
   end
 end
