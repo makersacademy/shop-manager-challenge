@@ -23,7 +23,7 @@ class ItemRepository
   def create(item) # item is an instance of the Item class
     # Executes the SQL query:
     # INSERT INTO items (name, price, quantity) VALUES ($1, $2, $3);  
-    returns nil
+    # returns nil
   end
 
 

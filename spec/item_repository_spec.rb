@@ -14,21 +14,39 @@ describe ItemRepository do
 
   describe '#all' do
     it 'returns an array of item objects for each record on items table' do
+      repo = ItemRepository.new
 
-    repo = ItemRepository.new
+      items = repo.all
 
-    items = repo.all
+      expect(items.first.id).to eq 1
+      expect(items.first.name).to eq 'item_one'
+      expect(items.first.price).to eq 1
+      expect(items.first.quantity).to eq 1
 
-    expect(items.first.id).to eq 1
-    expect(items.first.name).to eq 'item_one'
-    expect(items.first.price).to eq 1
-    expect(items.first.quantity).to eq 1
+      expect(items.last.id).to eq 5
+      expect(items.last.name).to eq 'item_five'
+      expect(items.last.price).to eq 5
+      expect(items.last.quantity).to eq 5
 
-    expect(items.last.id).to eq 5
-    expect(items.last.name).to eq 'item_five'
-    expect(items.last.price).to eq 5
-    expect(items.last.quantity).to eq 5
+    end
 
+    it 'creates a new item object and adds it to the items table' do
+      repo = ItemRepository.new
+      new_item = Item.new
+      
+      new_item.name = 'new item'
+      new_item.price = 6
+      new_item.quantity = 6
+      
+      repo.create(new_item)
+      
+      inventory = repo.all
+      
+      expect(inventory.length).to eq 6
+      expect(inventory.last.id).to eq 6
+      expect(inventory.last.name).to eq 'new item'
+      expect(inventory.last.price).to eq 6
+      expect(inventory.last.quantity).to eq 6
     end
   end
 end
