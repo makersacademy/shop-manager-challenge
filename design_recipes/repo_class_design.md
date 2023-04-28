@@ -88,7 +88,7 @@ Define the attributes of your Model class. You can usually map the table columns
 # (in lib/item.rb)
 
 class Item
-  attr_accessor :name, :unit_price, :quantity
+  attr_accessor :id, :name, :unit_price, :quantity
 end
 
 # Model order
@@ -169,7 +169,7 @@ These examples will later be encoded as RSpec tests.
 
 ## ITEMS
 # 1
-# Get all orders
+# Get all items
 
 repo = ItemRepository.new
 items = repo.all
