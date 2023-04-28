@@ -263,4 +263,19 @@ expect(repo.all.last.name).to eq 'Dyson Airwrap'
 expect(repo.all.last.unit_price).to eq '$300.00'
 expect(repo.all.last.quantity).to eq '5'
 
+# As a shop manager
+# So I can know which orders were made
+# I want to keep a list of orders with their customer name.
+
+# 3
+# Get all orders
+repo = OrderRepository.new
+
+orders = repo.all
+
+expect(orders.length).to eq 2
+expect(orders.first.customer_name).to eq 'Sarah'
+expect(orders.first.date_placed).to eq '2023-04-06 12:57:03'
+expect(orders.first.shop_item_id).to eq '1'
+
 ```
