@@ -191,7 +191,7 @@ class ShopItemRepository
   def create(shop_item)
     # Executes the SQL query:
     # INSERT INTO shop_items (name, unit_price, quantity)
-    # VALUES ('Dyson Airwrap', 300, 5);
+    # VALUES ($1, $2, $3);
 
     # Returns nil, inserts shop_item into db
   end
@@ -229,9 +229,13 @@ end
 # So I can know which items I have in stock
 # I want to keep a list of my shop items with their name and unit price.
 
+# As a shop manager
+# So I can know which items I have in stock
+# I want to know which quantity (a number) I have for each item.
+
 # 1
 # Get all shop items
-repo = ShopItemsRepository.new
+repo = ShopItemRepository.new
 
 shop_items = repo.all
 
@@ -239,4 +243,24 @@ expect(shop_items.length).to eq 2
 expect(shop_items.first.name).to eq 'Super Shark Vacuum Cleaner'
 expect(shop_items.first.unit_price).to eq '$99.99'
 expect(shop_items.first.quantity).to eq '30'
+
+# As a shop manager
+# So I can manage items
+# I want to be able to create a new item.
+
+# 2
+# Create a new shop item
+repo = ShopItemRepository.new
+shop_item = ShopItem.new
+shop_item.name = 'Dyson Airwrap'
+shop_item.unit_price = 300
+shop_item.quantity = 5
+repo.create(shop_item)
+
+expect(repo.all.length).to eq 3
+expect(repo.all.last.id).to eq '3'
+expect(repo.all.last.name).to eq 'Dyson Airwrap'
+expect(repo.all.last.unit_price).to eq '$300.00'
+expect(repo.all.last.quantity).to eq '5'
+
 ```

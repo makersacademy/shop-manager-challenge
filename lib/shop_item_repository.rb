@@ -13,8 +13,16 @@ class ShopItemRepository
     return shop_items
   end
 
+  def create(shop_item)
+    sql = 'INSERT INTO shop_items (name, unit_price, quantity)
+    VALUES ($1, $2, $3);'
+    params = [shop_item.name, shop_item.unit_price, shop_item.quantity]
+
+    DatabaseConnection.exec_params(sql, params)
+  end
+
   private
-  
+
   def create_shop_item(record)
     shop_item = ShopItem.new
     shop_item.id = record['id']

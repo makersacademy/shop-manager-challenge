@@ -21,4 +21,19 @@ describe ShopItemRepository do
     expect(shop_items.first.unit_price).to eq '$99.99'
     expect(shop_items.first.quantity).to eq '30'
   end
+
+  it "creates a new shop item" do
+    repo = ShopItemRepository.new
+    shop_item = ShopItem.new
+    shop_item.name = 'Dyson Airwrap'
+    shop_item.unit_price = 300
+    shop_item.quantity = 5
+    repo.create(shop_item)
+
+    expect(repo.all.length).to eq 3
+    expect(repo.all.last.id).to eq '3'
+    expect(repo.all.last.name).to eq 'Dyson Airwrap'
+    expect(repo.all.last.unit_price).to eq '$300.00'
+    expect(repo.all.last.quantity).to eq '5'
+  end
 end
