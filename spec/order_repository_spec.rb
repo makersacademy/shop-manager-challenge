@@ -18,15 +18,15 @@ RSpec.describe OrderRepository do
 
       expect(orders.length).to eq 4
 
-      order_1 = orders.first
-      expect(order_1.id).to eq "1"
-      expect(order_1.customer_name).to eq "Alice"
-      expect(order_1.date_placed).to eq "2021-02-05"
+      order1 = orders.first
+      expect(order1.id).to eq "1"
+      expect(order1.customer_name).to eq "Alice"
+      expect(order1.date_placed).to eq "2021-02-05"
       
-      order_2 = orders.last
-      expect(order_2.id).to eq "4"
-      expect(order_2.customer_name).to eq "Dom"
-      expect(order_2.date_placed).to eq "2023-10-16"
+      order2 = orders.last
+      expect(order2.id).to eq "4"
+      expect(order2.customer_name).to eq "Dom"
+      expect(order2.date_placed).to eq "2023-10-16"
     end
   end
   
