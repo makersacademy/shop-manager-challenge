@@ -305,5 +305,12 @@ expect(repo.all.last.id).to eq '3'
 expect(repo.all.last.customer_name).to eq 'Bob'
 expect(repo.all.last.date_placed).to eq '30-04-2023 18:32:02'
 expect(repo.all.last.shop_item_id).to eq '2'
-
 ```
+
+## 11. Integration tests
+
+I wasn't sure whether we should test the application class. I have decided to create some integration tests.
+
+## 12. Questions
+
+Is it possible to test lines 106 and 112 in app.rb?

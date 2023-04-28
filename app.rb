@@ -12,7 +12,9 @@ class Application
 
   def run
     @io.puts "Welcome to the shop management program!"
+    @io.puts "\n"
     print_menu
+    @io.puts "\n"
     choice = @io.gets.chomp
     @io.puts "\n"
 
@@ -22,12 +24,11 @@ class Application
   private
 
   def print_menu
-    @io.puts "\nWhat do you want to do?"
+    @io.puts "What do you want to do?"
     @io.puts " 1 = list all shop items"
     @io.puts " 2 = create a new item"
     @io.puts " 3 = list all orders"
     @io.puts " 4 = create a new order"
-    @io.puts "\n"
   end
 
   def run_selected_task(choice)
@@ -41,7 +42,8 @@ class Application
   end
 
   def list_shop_items
-    @io.puts "Here's a list of all shop items: \n\n"
+    @io.puts "Here's a list of all shop items:"
+    @io.puts "\n"
     @shop_item_repository.all.each do |i|
       @io.puts "##{i.id} #{i.name} - Unit price: #{i.unit_price} - Quantity: #{i.quantity}"
     end
@@ -69,7 +71,8 @@ class Application
   end
 
   def list_orders
-    @io.puts "Here's a list of all orders: \n\n"
+    @io.puts "Here's a list of all orders:"
+    @io.puts "\n"
     @order_repository.all.each do |order|
       format_date = DateTime.parse(order.date_placed).strftime '%d/%m/%Y'
       @io.puts "* Order id: #{order.id} - Customer name: #{order.customer_name}"
@@ -95,7 +98,7 @@ class Application
     order.shop_item_id = shop_item_id
 
     @order_repository.create(order)
-    puts "Order added"
+    @io.puts "Order added"
   end
 end
 
