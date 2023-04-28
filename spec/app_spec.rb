@@ -14,8 +14,8 @@ RSpec.describe Application do
   end  
 
   before(:each) do
-    reset_orders_table
     reset_items_table
+    reset_orders_table
   end
 
   context 'When user Selects 1' do
@@ -59,7 +59,8 @@ RSpec.describe Application do
       expect(io).to receive(:puts).with("Welcome to the shop management program!\n \nWhat would you like to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n\n\n\nEnter your choice:").ordered
       expect(io).to receive(:gets).and_return('3').ordered
       expect(io).to receive(:puts).with("\nHere's a list of all orders:\n").ordered
-      expect(io).to receive(:puts).with("test")
+      expect(io).to receive(:puts).with("#1 Customer: Jack Skates - Order date: 2023-04-28 - Item id: 1")
+      expect(io).to receive(:puts).with("#2 Customer: Charlie Kelly - Order date: 2020-08-12 - Item id: 2")
       
 
       app = Application.new('shop_manager_test', io, OrderRepository.new, ItemRepository.new)
