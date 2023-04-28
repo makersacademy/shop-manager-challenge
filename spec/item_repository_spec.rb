@@ -23,7 +23,7 @@ RSpec.describe ItemRepository do
     expect(items[0].quantity).to eq 20
   end
 
-  it 'adds a new item to database' do
+  it 'adds a new item to the database' do
     repo = ItemRepository.new
 
     item = Item.new

@@ -15,7 +15,7 @@ class ItemRepository
 
   def create(item)
     sql = 'INSERT INTO items (name, unit_price, quantity) 
-                  VALUES ($1, $2, $3);'
+            VALUES ($1, $2, $3);'
     params = [item.name,
               item.unit_price,
               item.quantity]
