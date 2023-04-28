@@ -3,8 +3,9 @@ require_relative 'database_connection'
 
 class OrderRepository
   def all
-    sql = 'SELECT id, customer_name, date_placed, item_id
-            FROM orders;'
+    sql = 'SELECT orders.id, orders.customer_name, orders.date_placed,
+          items.id AS item_id, items.name FROM orders JOIN items
+          ON items.id = orders.item_id;'
     result_set = DatabaseConnection.exec_params(sql, [])
 
     orders = []
@@ -33,6 +34,7 @@ class OrderRepository
     order.customer_name = record['customer_name']
     order.date_placed = record['date_placed']
     order.item_id = record['item_id'].to_i
+    order.item_name = record['name']
     return order
   end
 end

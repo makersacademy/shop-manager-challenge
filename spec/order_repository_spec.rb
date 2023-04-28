@@ -37,4 +37,12 @@ RSpec.describe OrderRepository do
       )
     )
   end
+
+  it "finds the order's corresponding item" do
+    repo =  OrderRepository.new
+    orders = repo.all
+    expect(orders[0].item_name).to eq 'Hoover'
+    expect(orders[1].item_name).to eq 'Hoover'
+    expect(orders[2].item_name).to eq 'Bicycle'
+  end
 end

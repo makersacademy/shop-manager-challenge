@@ -151,10 +151,11 @@ class OrderRepository
   # No arguments
   def all
     # Executes SQL query:
-    # SELECT id, customer_name, date_placed, item_id
-    # FROM orders;
+    # SELECT orders.id, orders.customer_name, orders.date_placed,
+    #  items.id, items.name FROM orders JOIN items
+    #  ON items.id = orders.item_id;
 
-    # Returns a list of Order objects (using Order model class)
+    # Returns a list of Order objects - plus the item associated with the order (using Order model class)
   end
 
   # adds a new order to the order table
@@ -223,7 +224,7 @@ item.quantity # => 3
 
 ## ORDERS
 # 1
-# Get all orders
+# Get all orders - including the item.name as well (JOIN)
 
 repo = OrderRepository.new
 orders = repo.all
@@ -234,11 +235,13 @@ orders[0].id # =>  1
 orders[0].customer_name # => 'Louis'
 orders[0].date_placed # => '2022-01-01'
 orders[0].item_id # => 1
+orders[0].item # => 'Hoover'
 
 orders[1].id # =>  2
 orders[1].customer_name # =>  'Lucy'
 orders[1].date_placed # => '2023-01-01'
 orders[1].item_id # => 1
+orders[1].item # => 'Hoover'
 
 # 2
 # Creates a new order and adds it to database
