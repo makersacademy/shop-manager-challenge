@@ -13,7 +13,6 @@ describe OrderRepository do
 
   it 'gets all orders' do
     repo = OrderRepository.new
-    puts "here here"
     orders = repo.all
 
     expect(orders.length).to eq 2
