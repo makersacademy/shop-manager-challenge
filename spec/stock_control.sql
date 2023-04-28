@@ -1,5 +1,4 @@
-TRUNCATE TABLE items, orders, orders_items RESTART IDENTITY;
-
+/*
 -- Create the first table.
 CREATE TABLE IF NOT EXISTS items (
   id SERIAL PRIMARY KEY,
@@ -22,6 +21,8 @@ CREATE TABLE IF NOT EXISTS orders_items (
   constraint fk_items foreign key(item_id) references items(id) on delete cascade,
   constraint fk_orders foreign key(order_id) references orders(id) on delete cascade
 );
+*/
+TRUNCATE TABLE items, orders, orders_items RESTART IDENTITY;
 
 INSERT INTO items 
 (name, unit_price, quantity)

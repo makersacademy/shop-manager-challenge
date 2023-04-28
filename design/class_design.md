@@ -34,6 +34,7 @@ class OrderRepository
   def assign_item(order, item)
     # query = 'INSERT INTO orders_items (order_id, item_id) VALUES ($1, $2);'
     # params = [order.id, item.id]
+    # 
   end
 
   def create(order)
