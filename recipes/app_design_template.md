@@ -1,9 +1,34 @@
-# {{PROBLEM}} Class Design Recipe
+# {{Application}} Class Design Recipe
 
 ## 1. Describe the Problem
 
-_Put or write the user story here. Add any clarifying notes you might have._
+> As a shop manager
+> So I can know which items I have in stock
+> I want to keep a list of my shop items with their name and unit price.
 
+> As a shop manager
+> So I can know which items I have in stock
+> I want to know which quantity (a number) I have for each item.
+
+> As a shop manager
+> So I can manage items
+> I want to be able to create a new item.
+
+> As a shop manager
+> So I can know which orders were made
+> I want to keep a list of orders with their customer name.
+
+> As a shop manager
+> So I can know which orders were made
+> I want to assign each order to their corresponding item.
+
+> As a shop manager
+> So I can know which orders were made
+> I want to know on which date an order was placed. 
+
+> As a shop manager
+> So I can manage orders
+> I want to be able to create a new order.
 ## 2. Design the Class Interface
 
 _Include the initializer and public methods with all parameters and return values._
@@ -11,19 +36,60 @@ _Include the initializer and public methods with all parameters and return value
 ```ruby
 # EXAMPLE
 
-class Reminder
-  def initialize(name) # name is a string
-    # ...
+class Application
+
+  # The Application class initializer
+  # takes four arguments:
+  #  * The database name to call `DatabaseConnection.connect`
+  #  * the Kernel object as `io` (so we can mock the IO in our tests)
+  #  * the ItemRepository object (or a double of it)
+  #  * the OrdertRepository object (or a double of it)
+  def initialize(database_name, io, item_repository, order_repository)
+    DatabaseConnection.connect(database_name)
+    @io = io
+    @item_repository = item_repository
+    @order_repository = order_repository
   end
 
-  def remind_me_to(task) # task is a string
-    # No return value
+  def run
+    # "Runs" the terminal application
+    # so it can ask the user to enter some input
+    # and then decide to run the appropriate action
+    # or behaviour.
+
+    # Use `@io.puts` or `@io.gets` to
+    # write output and ask for user input.
   end
 
-  def remind()
-    # Throws an exception if no task is set
-    # Otherwise, returns a string reminding the user to do the task
+  def list_all_items
+
   end
+
+  def add_new_item
+
+  end
+
+  def list_all_orders
+
+  end
+
+  def add_new_order
+
+  end
+end
+
+# Don't worry too much about this if statement. It is basically saying "only
+# run the following code if this is the main file being run, instead of having
+# been required or loaded by another file.
+# If you want to learn more about __FILE__ and $0, see here: https://en.wikibooks.org/wiki/Ruby_Programming/Syntax/Variables_and_Constants#Pre-defined_Variables
+if __FILE__ == $0
+  app = Application.new(
+    'shop_manager',
+    Kernel,
+    ItemRepository.new,
+    OrderRepository.new
+  )
+  app.run
 end
 ```
 
@@ -34,19 +100,8 @@ _Make a list of examples of how the class will behave in different situations._
 ```ruby
 # EXAMPLE
 
-# 1
-reminder = Reminder("Kay")
-reminder.remind_me_to("Walk the dog")
-reminder.remind() # => "Walk the dog, Kay!"
+#
 
-# 2
-reminder = Reminder("Kay")
-reminder.remind() # fails with "No task set."
-
-# 3
-reminder = Reminder("Kay")
-reminder.remind_me_to("")
-reminder.remind() # => ", Kay!"
 ```
 
 _Encode each example as a test. You can add to the above list as you go._
