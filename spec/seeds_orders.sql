@@ -15,4 +15,4 @@ INSERT INTO orders (customer_name, order_date) VALUES
 
 
 INSERT INTO items_orders (item_id, order_id)
-		VALUES(1, 1), (2, 4), (3, 2), (4, 3), (5, 1);
+		VALUES(1, 1), (2, 4), (3, 3), (4, 3), (5, 1);

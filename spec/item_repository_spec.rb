@@ -81,6 +81,14 @@ describe ItemRepository do
       expect(first_item.id).to eq 1
       expect(last_item.id).to eq 5
     end
+
+    it 'returns nil when no items are assigned to an order' do
+      repo = ItemRepository.new
+
+      expect(repo.find_by_order(2)).to eq nil   
+    end
   end
 
+
+  
 end

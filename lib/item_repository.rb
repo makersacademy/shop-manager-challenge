@@ -57,6 +57,7 @@ class ItemRepository
 
     result_set = DatabaseConnection.exec_params(sql, [order_id]) 
     
+    
     result_set.each do |record|
       item = Item.new
       set_attributes(item, record)
