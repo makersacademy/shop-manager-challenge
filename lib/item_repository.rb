@@ -27,6 +27,12 @@ class ItemRepository
    return nil
   end
 
+# finds all the items on a given order
+  def find_by_order(order_id) 
+    # sql query:
+    # ...
+  end
+
 
   private
 

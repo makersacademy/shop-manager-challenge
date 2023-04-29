@@ -8,10 +8,10 @@ INSERT INTO items (name, price, quantity) VALUES
 ('item_five', 5, 5);
 
 INSERT INTO orders (customer_name, order_date) VALUES	
-('order_one', '2023-10-16'),
-('order_two', '2023-10-16'),
-('order_three', '2023-10-16'),
-('order_four', '2023-10-16');
+('Jeff', '2023-10-16'),
+('John', '2023-11-16'),
+('Jerry', '2023-12-16'),
+('George', '2024-01-16');
 
 
 INSERT INTO items_orders (item_id, order_id)

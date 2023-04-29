@@ -49,10 +49,10 @@ INSERT INTO items (name, price, quantity) VALUES
 ('item_five', 5, 5);
 
 INSERT INTO orders (customer_name, order_date) VALUES	
-('order_one', '2023-10-16'),
-('order_two', '2023-10-16'),
-('order_three', '2023-10-16'),
-('order_four', '2023-10-16');
+('Jeff', '2023-10-16'),
+('John', '2023-11-16'),
+('Jerry', '2023-12-16'),
+('George', '2024-01-16');
 
 
 INSERT INTO items_orders (item_id, order_id)
@@ -110,43 +110,41 @@ Your Repository class will need to implement methods for each "read" or "write" 
 Using comments, define the method signatures (arguments and return value) and what they do - write up the SQL queries that will be used by each method.
 
 ```ruby
-# EXAMPLE
-# Table name: students
+# Table name: orders
 
 # Repository class
-# (in lib/student_repository.rb)
+# (in lib/order_repository.rb)
 
-class StudentRepository
+class OrderRepository
 
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students;
+    # SELECT * FROM orders;
 
-    # Returns an array of Student objects.
+    # Returns an array of order objects.
   end
 
-  # Gets a single record by its ID
-  # One argument: the id (number)
-  def find(id)
+  # creates a new order
+  # returns nothing
+  def create(order)
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students WHERE id = $1;
-
-    # Returns a single Student object.
+    # INSERT INTO order (customer_name, order_date) VALUES ($1, $2);
   end
 
-  # Add more methods below for each operation you'd like to implement.
+  # adds an item to an order. 
+  # fails if item is already on order?
+  def assign_item_to_order(item_id, order_id)
+    # Executes the SQL query:
+    # INSERT INTO items_orders VALUES ($1, $2)
+    # returns nothing.
+  end
 
-  # def create(student)
-  # end
 
-  # def update(student)
-  # end
-
-  # def delete(student)
-  # end
 end
+
+
 ```
 
 ## 6. Write Test Examples
@@ -156,37 +154,79 @@ Write Ruby code that defines the expected behaviour of the Repository class, fol
 These examples will later be encoded as RSpec tests.
 
 ```ruby
-# EXAMPLES
-
 # 1
-# Get all students
+# Get all orders
+repo = OrderRepository.new
 
-repo = StudentRepository.new
+orders = repo.all
 
-students = repo.all
+orders.length => 4
 
-students.length # =>  2
+orders[0].id # => 1
+orders[0].customer_name # => 'Jeff'
+orders[0].order_date # => '2023-10-16'
 
-students[0].id # =>  1
-students[0].name # =>  'David'
-students[0].cohort_name # =>  'April 2022'
+orders[-1].id # => 4
+orders[-1].customer_name # => 'George'
+orders[-1].order_date # => '2024-01-16'
 
-students[1].id # =>  2
-students[1].name # =>  'Anna'
-students[1].cohort_name # =>  'May 2022'
+# 2 
+# create an order
 
-# 2
-# Get a single student
+repo = OrderRepository.new
+new_order = Order.new
 
-repo = StudentRepository.new
+new_order.customer_name = 'Barry'
+new_order.order_date = '2024-02-16'
 
-student = repo.find(1)
+repo.create(new_order)
 
-student.id # =>  1
-student.name # =>  'David'
-student.cohort_name # =>  'April 2022'
+orders = repo.all 
 
-# Add more examples for each method
+orders.length # => 5
+
+latest_order = orders.last
+
+latest_order.id # => 5  
+latest_order.customer_name # => 'Barry'
+latest_order.starting_date # => '2024-02-16'
+
+
+# 3 
+# Assigns an existing item to an order with one item already
+
+order_repo = OrderRepository.new
+
+order_repo.assign_item_to_order(1, 3)
+
+item_repo = ItemRepository.new
+
+items_on_order = item_repo.find_by_order(order_id)
+
+items_on_order.length # => 2
+items_on_order.include?(item_repo.find_by_id(1)) # => true
+
+# 4
+# Assigns an existing item to an empty order
+
+order_repo = OrderRepository.new
+new_order = Order.new
+
+new_order.customer_name = 'Barry'
+new_order.order_date = '2024-02-16'
+
+order_repo.create(new_order)
+
+order_repo.assign_item_to_order(1, 5)
+
+item_repo = ItemRepository.new
+items_on_order = item_repo.find_by_order(order_id)
+
+items_on_order.length # => 1
+items_on_order.first.id # => 1
+
+
+
 ```
 
 Encode this example as a test.
@@ -198,19 +238,18 @@ Running the SQL code present in the seed file will empty the table and re-insert
 This is so you get a fresh table contents every time you run the test suite.
 
 ```ruby
-# EXAMPLE
 
-# file: spec/student_repository_spec.rb
+# file: spec/order_repository_spec.rb
 
-def reset_students_table
-  seed_sql = File.read('spec/seeds_students.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'students' })
+def reset_orders_table
+  seed_sql = File.read('spec/seeds_orders.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
   connection.exec(seed_sql)
 end
 
-describe StudentRepository do
+describe OrderRepository do
   before(:each) do 
-    reset_students_table
+    reset_orders_table
   end
 
   # (your tests will go here).
