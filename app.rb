@@ -28,7 +28,7 @@ class Application
     when 3
       list_all_orders
     when 4
-      create_new_order
+      order_to_create
     end
   end
 
@@ -67,8 +67,20 @@ class Application
     end
   end
 
-  def create_new_order
+  def create_new_order(customer_name, date, item_id)
+    @order_repository.create(customer_name, date, item_id)
+    p "A new order of the item #{item_id} has been created!"
 
+  end
+
+  def order_to_create
+    puts "What is the customer's name of the new order?"
+    customer_name = @io.gets.chomp
+    puts "When has the order been placed? (AAAA-MM-DD)"
+    date = @io.gets
+    puts "What is the item's ID?"
+    item_id = @io.gets.to_i
+    create_new_order(customer_name, date, item_id)
   end
 end
 
