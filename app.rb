@@ -22,6 +22,8 @@ class Application
       display_items
     when "2"
       create_item
+    when "3"
+      display_orders
     end
   end
 
@@ -42,7 +44,7 @@ class Application
     @io.puts "Here's a list of all shop items:"
     @io.puts ""
     @item_repository.all.each do |item|
-      @io.puts "##{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
+      @io.puts " ##{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
     end
   end
 
@@ -55,6 +57,17 @@ class Application
     @io.puts "Item quantity:"
     item.quantity = @io.gets.chomp.to_i
     @item_repository.create(item)
+  end
+
+  def display_orders
+    @io.puts "Here's a list of all the orders:"
+    @io.puts ""
+    @order_repository.all.each do |order|
+      @io.puts " ##{order.id} #{order.customer_name} placed an order on #{order.date_placed} for a #{order.item_name}"
+    end
+  end
+
+  def create_order
   end
 end
 

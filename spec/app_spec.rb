@@ -26,8 +26,8 @@ RSpec.describe Application do
     expect(io).to receive(:puts).with ""
     expect(io).to receive(:puts).with "Here's a list of all shop items:"
     expect(io).to receive(:puts).with ""
-    expect(io).to receive(:puts).with "#1 Balloon - Unit price: 2.99 - Quantity: 5"
-    expect(io).to receive(:puts).with "#2 Animal - Unit price: 3 - Quantity: 1"
+    expect(io).to receive(:puts).with " #1 Balloon - Unit price: 2.99 - Quantity: 5"
+    expect(io).to receive(:puts).with " #2 Animal - Unit price: 3 - Quantity: 1"
     
     app = Application.new(
       'shop_manager_test', io, 
@@ -61,6 +61,30 @@ RSpec.describe Application do
     expect(io).to receive(:gets).and_return "3"
 
     expect(item_repo).to receive(:create).with(item)
+
+    app = Application.new(
+      'shop_manager_test', io, 
+      item_repo, order_repo, 
+      item_class, order_class
+    )
+    app.run
+  end
+
+  it 'prints all the orders' do
+    order = double(:order, id: 1, customer_name: "Lucy", date_placed: '2023-01-01', item_name: "Bicycle")
+    item_repo = double(:item_repository)
+    order_repo = double(:order_repository, all: [order])
+    item_class = double(:item_class)
+    order_class = double(:order_class)
+
+    io = double(:io)
+    test_introduction(io)
+
+    expect(io).to receive(:gets).and_return "3"
+    expect(io).to receive(:puts).with ""
+    expect(io).to receive(:puts).with "Here's a list of all the orders:"
+    expect(io).to receive(:puts).with ""
+    expect(io).to receive(:puts).with " #1 Lucy placed an order on 2023-01-01 for a Bicycle"
 
     app = Application.new(
       'shop_manager_test', io, 
