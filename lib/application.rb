@@ -1,5 +1,6 @@
-require_relative 'item_repository.rb'
-require_relative 'order_repository.rb'
+require_relative 'item_repository'
+require_relative 'order_repository'
+require_relative 'database_connection'
 
 class Application
 
@@ -39,7 +40,7 @@ class Application
   def process(input)
     case input
     when '1'
-      #...
+      puts_formatted_item_list
     when '2'
       #...
     when '3'
@@ -52,5 +53,15 @@ class Application
       #...
     end
   end
+
+  def puts_formatted_item_list
+    formatted_string = ""
+    @item_repository.all.each_with_index do |item, i|
+      item_string = "#{i+1} #{item.name} - Unit price: #{item.price} - Quantity: #{item.quantity}\n"
+      formatted_string << item_string
+    end
+    @io.puts formatted_string
+  end
+
 
 end

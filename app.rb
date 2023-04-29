@@ -1,4 +1,5 @@
-require_relative 'lib/database_connection'
-require_relative 'lib/application.rb'
+require_relative 'lib/application'
 
-DatabaseConnection.connect('shop_manager')
+app = Application.new('shop_manager_test')
+
+app.run

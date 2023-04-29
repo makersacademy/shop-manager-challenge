@@ -74,8 +74,7 @@ RSpec.describe 'shop manager integration' do
         expect(io_dbl).to receive(:gets)
         .and_return("1\n").ordered
         expect(io_dbl).to receive(:puts)
-        .with( "#1 item_one - Unit price: 1 Quantity: 1\n#2 item_two - Unit price: 2 Quantity: 2\n#3 item_three - Unit price: 3 Quantity: 3\n#4 item_four - Unit price: 4 Quantity: 4\n#5 item_five - Unit price: 5 Quantity: 5")
-
+        .with( "1 item_one - Unit price: 1 - Quantity: 1\n2 item_two - Unit price: 2 - Quantity: 2\n3 item_three - Unit price: 3 - Quantity: 3\n4 item_four - Unit price: 4 - Quantity: 4\n5 item_five - Unit price: 5 - Quantity: 5\n").ordered
         app.run
       end
     end  
