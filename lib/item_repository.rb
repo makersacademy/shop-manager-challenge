@@ -16,6 +16,12 @@ class ItemRepository
     return @items
   end
 
+  def create(name, unit_price, stock_quantity)
+    sql = "INSERT INTO items (name, unit_price, stock_quantity) VALUES ($1, $2, $3);"
+    params = [name, unit_price, stock_quantity]
+    DatabaseConnection.exec_params(sql, params)
+  end
+
   private
 
   def single_item(record)
