@@ -233,13 +233,22 @@ item.unit_price # => 20
 item.quantity # => 3
 
 # 4
-# Subtracts one from quantity of item
+# Subtracts n from quantity of item
 repo = ItemRepository.new
-repo.decrease_quantity(1)
+repo.decrease_quantity(1, 1)
 updated_item = repo.find(1)
 
 updated_item.name # => 'Hoover'
 updated_item.quantity # => 19
+
+# 5
+# Subtracts n from quantity of item
+repo = ItemRepository.new
+repo.decrease_quantity(1, 5)
+updated_item = repo.find(1)
+
+updated_item.name # => 'Hoover'
+updated_item.quantity # => 15
 
 ## ORDERS
 # 1
@@ -264,6 +273,7 @@ orders[1].item # => 'Hoover'
 
 # 2
 # Creates a new order and adds it to database
+# and updates quantity of that order
 
 repo = OrderRepository.new
 order = Order.new
@@ -282,15 +292,19 @@ new_order.date_placed # => '2023-04-28'
 new_order.item_id # => 2
 
 
-# Get a single student
+## INTEGRATION between ItemRepo and OrderRepo
+# 1
+# Updates the quantity of an item when an order has been created containing that item
+item_repo = ItemRepository.new
+order_repo = OrderRepository.new
+order = Order.new
+order.customer_name = 'Francesca'
+order.date_placed = '2023-04-28'
+order.item_id = 2
+repo.create(order)
 
-repo = StudentRepository.new
-
-student = repo.find(1)
-
-student.id # =>  1
-student.name # =>  'David'
-student.cohort_name # =>  'April 2022'
+item = item_repo.find(order.item_id)
+item.quantity # => 1
 
 # Add more examples for each method
 Encode this example as a test.

@@ -1,5 +1,6 @@
 require_relative 'order'
 require_relative 'database_connection'
+require_relative 'item_repository'
 
 class OrderRepository
   def all
@@ -22,6 +23,9 @@ class OrderRepository
               order.date_placed,
               order.item_id]
 
+    item_repo = ItemRepository.new
+    item_repo.decrease_quantity(order.item_id, 1)
+    
     DatabaseConnection.exec_params(sql, params)
     return nil
   end

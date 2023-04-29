@@ -54,12 +54,43 @@ RSpec.describe ItemRepository do
     )
   end
 
-  it 'subtracts one from quantity of item with id 1' do
-    repo = ItemRepository.new
-    repo.decrease_quantity(1)
-    updated_item = repo.find(1)
-    
-    expect(updated_item.name).to eq 'Hoover'
-    expect(updated_item.quantity).to eq 19
+  describe '#decrease_quantity' do
+    it 'subtracts one from quantity of item with id 1' do
+      repo = ItemRepository.new
+      repo.decrease_quantity(1, 1)
+      updated_item = repo.find(1)
+      
+      expect(updated_item.name).to eq 'Hoover'
+      expect(updated_item.quantity).to eq 19
+    end
+
+    it 'subtracts five from quantity of item with id 1' do
+      repo = ItemRepository.new
+      repo.decrease_quantity(1, 5)
+      updated_item = repo.find(1)
+      
+      expect(updated_item.name).to eq 'Hoover'
+      expect(updated_item.quantity).to eq 15
+    end
+
+    it 'decreases quantity to zero when given an n value greater than current quantity' do
+      repo = ItemRepository.new
+      repo.decrease_quantity(1, 25)
+      updated_item = repo.find(1)
+      
+      expect(updated_item.name).to eq 'Hoover'
+      expect(updated_item.quantity).to eq 0
+    end
+
+    it 'throws error if quantity already zero' do
+      repo = ItemRepository.new
+      repo.decrease_quantity(1, 20)
+      updated_item = repo.find(1)
+      
+      expect { repo.decrease_quantity(1, 5) }.to raise_error "Quantity is already zero."
+    end
+  end
+
+  describe '#decrease_quantity' do
   end
 end
