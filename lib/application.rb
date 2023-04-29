@@ -25,10 +25,27 @@ class Application
       get_new_item_from_user
     when "3"
       print_all_orders
+    when "4"
+      get_new_order_from_user
     end
   end
   
   private
+
+  def get_new_order_from_user
+    @io.print "What's the customer name of the new order: "
+    customer = @io.gets.chomp
+    @io.print "What's the date this order was placed: "
+    date = @io.gets.chomp
+    add_order_to_database(customer, date)
+  end
+
+  def add_order_to_database(customer, date)
+    order = Order.new
+    order.customer_name = customer
+    order.date_placed = date
+    @order_repository.create(order)
+  end
   
   def get_new_item_from_user
     @io.print "What's the name of the new item: "

@@ -150,7 +150,7 @@ RSpec.describe Application do
     end
     
     context "when user chooses option 4" do
-      xit "creates a new order" do
+      it "creates a new order" do
         fake_io = double :fake_io
         expect(fake_io).to receive(:puts).with("Welcome to the shop management program!\n")
         expect(fake_io).to receive(:puts).with("What do you want to do?")
@@ -159,17 +159,29 @@ RSpec.describe Application do
         expect(fake_io).to receive(:puts).with("  3 = list all orders")
         expect(fake_io).to receive(:puts).with("  4 = create a new order")
         expect(fake_io).to receive(:puts).with("")
+        expect(fake_io).to receive(:gets).and_return("4\n")
+        expect(fake_io).to receive(:print).with("What's the customer name of the new order: ")
+        expect(fake_io).to receive(:gets).and_return("customer1\n")
+        expect(fake_io).to receive(:print).with("What's the date this order was placed: ")
+        expect(fake_io).to receive(:gets).and_return("2022-01-02")
+        
         fake_item_repo = double :fake_item_repo
         fake_order_repo = double :fake_order_repo
-        allow(fake_io).to receive(:gets).and_return("4\n")
         
+        expect(fake_order_repo).to receive(:create).with(
+          have_attributes(
+            customer_name: "customer1",
+            date_placed: "2022-01-02"
+          )
+        )
+
         app = Application.new(
           database = "shop_manager_test",
           io = fake_io,
           fake_item_repo,
           fake_order_repo
         )
-        app.run        
+        app.run      
       end
     end
   end
