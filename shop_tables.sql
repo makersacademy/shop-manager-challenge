@@ -1,3 +1,5 @@
+DROP TABLE IF EXISTS items, orders;
+
 CREATE TABLE items (
   id SERIAL PRIMARY KEY,
   name text,

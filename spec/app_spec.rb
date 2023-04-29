@@ -93,4 +93,37 @@ RSpec.describe Application do
     )
     app.run
   end
+
+  it 'creates a new order' do
+    order_repo = double(:order_repository)
+    item_repo = double(:item_repository)
+    order = double(:order)
+    expect(order).to receive(:customer_name=).with("Jane")
+    expect(order).to receive(:date_placed=).with('2023-04-30')
+    expect(order).to receive(:item_id=).with(1)
+
+    item_class = double(:item_class)
+    order_class = double(:order_class, new: order)
+
+    io = double(:io)
+    test_introduction(io)
+
+    expect(io).to receive(:gets).and_return "4"
+    expect(io).to receive(:puts).with ""
+    expect(io).to receive(:puts).with "Customer's name:"
+    expect(io).to receive(:gets).and_return "Jane"
+    expect(io).to receive(:puts).with "Date placed (YYYY-MM-DD):"
+    expect(io).to receive(:gets).and_return '2023-04-30'
+    expect(io).to receive(:puts).with "Item id:"
+    expect(io).to receive(:gets).and_return "1"
+
+    expect(order_repo).to receive(:create).with(order)
+
+    app = Application.new(
+      'shop_manager_test', io, 
+      item_repo, order_repo, 
+      item_class, order_class
+    )
+    app.run
+  end
 end
