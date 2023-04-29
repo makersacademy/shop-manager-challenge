@@ -32,4 +32,11 @@ RSpec.describe ItemRepository do
     expect(item.unit_price).to eq 2
     expect(item.quantity).to eq 234
   end
+
+  it 'checks if id exists' do
+    repo = ItemRepository.new
+    expect(repo.check_if_valid_id(1)).to eq true
+    expect(repo.check_if_valid_id(-1)).to eq false
+    expect(repo.check_if_valid_id('potato')).to eq false
+  end
 end

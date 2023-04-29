@@ -194,6 +194,44 @@ RSpec.describe Application do
       app.run
     end
 
+    it 'refuses invalid entries for order id' do
+      io = double :Kernel
+      app = Application.new(io)
+      expect(io).to receive(:puts).with(app.menu_string)
+      expect(io).to receive(:gets).and_return('5')
+      expect(io).to receive(:puts).with("Please enter the order id:")
+      expect(io).to receive(:gets).and_return('potato')
+      expect(io).to receive(:puts).with("This order id is invalid. Please try again")
+      expect(io).to receive(:puts).with("Please enter the order id:")
+      expect(io).to receive(:gets).and_return('1')
+      expect(io).to receive(:puts).with("Please enter the item id:")
+      expect(io).to receive(:gets).and_return('1')
+      expect(io).to receive(:puts).with("pens have been added to Mike's order")
+      expect(io).to receive(:puts).with(app.menu_string)
+      expect(io).to receive(:gets).and_return('quit')
+
+      app.run
+    end
+
+    it 'refuses invalid entries for item id' do
+      io = double :Kernel
+      app = Application.new(io)
+      expect(io).to receive(:puts).with(app.menu_string)
+      expect(io).to receive(:gets).and_return('5')
+      expect(io).to receive(:puts).with("Please enter the order id:")
+      expect(io).to receive(:gets).and_return('1')
+      expect(io).to receive(:puts).with("Please enter the item id:")
+      expect(io).to receive(:gets).and_return('potato')
+      expect(io).to receive(:puts).with("This item id is invalid. Please try again")
+      expect(io).to receive(:puts).with("Please enter the item id:")
+      expect(io).to receive(:gets).and_return('1')
+      expect(io).to receive(:puts).with("pens have been added to Mike's order")
+      expect(io).to receive(:puts).with(app.menu_string)
+      expect(io).to receive(:gets).and_return('quit')
+
+      app.run
+    end
+
   end
 
 end

@@ -69,10 +69,8 @@ class Application
   end
 
   def add_item_to_order
-    @io.puts "Please enter the order id:"
-    order_id = @io.gets.chomp.to_i
-    @io.puts "Please enter the item id:"
-    item_id = @io.gets.chomp.to_i
+    order_id = obtain_order_id
+    item_id = obtain_item_id
 
     order_repo = OrderRepository.new
     item_repo = ItemRepository.new
@@ -124,6 +122,36 @@ class Application
     return quantity.to_i if quantity.match?(/^\d+$/) && quantity.to_i >= 0
     @io.puts "Please enter a valid quantity for an item"
     obtain_quantity
+  end
+
+  def obtain_order_id
+    @io.puts "Please enter the order id:"
+    order_id = @io.gets.chomp
+
+    if !order_id.match?(/^\d+$/)
+      @io.puts "This order id is invalid. Please try again"
+      obtain_order_id
+    elsif OrderRepository.new.check_if_valid_id(order_id.to_i)
+      return order_id.to_i
+    else
+      @io.puts "This order id is invalid. Please try again"
+      obtain_order_id
+    end
+  end
+
+  def obtain_item_id
+    @io.puts "Please enter the item id:"
+    item_id = @io.gets.chomp
+
+    if !item_id.match?(/^\d+$/)
+      @io.puts "This item id is invalid. Please try again"
+      obtain_item_id
+    elsif ItemRepository.new.check_if_valid_id(item_id.to_i)
+      return item_id.to_i
+    else
+      @io.puts "This item id is invalid. Please try again"
+      obtain_item_id
+    end
   end
 end
 

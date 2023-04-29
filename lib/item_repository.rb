@@ -29,6 +29,14 @@ class ItemRepository
     return item
   end
 
+  def check_if_valid_id(id)
+    return false unless id.to_s.match?(/^\d+$/)
+    query = 'SELECT id FROM items WHERE id = $1;'
+    params = [id]
+    entries = DatabaseConnection.exec_params(query, params).to_a
+    return entries.size == 1
+  end
+
   private
 
   def extract_items(entries)

@@ -46,4 +46,11 @@ RSpec.describe OrderRepository do
     expect(order.customer_name).to eq "Mike"
     expect(order.date).to eq '2023-04-28'
   end
+
+  it 'checks if id exists' do
+    repo = OrderRepository.new
+    expect(repo.check_if_valid_id(1)).to eq true
+    expect(repo.check_if_valid_id(-1)).to eq false
+    expect(repo.check_if_valid_id('potato')).to eq false
+  end
 end

@@ -52,4 +52,12 @@ class OrderRepository
     order.id = entry["id"].to_i
     return order
   end
+
+  def check_if_valid_id(id)
+    return false unless id.to_s.match?(/^\d+$/)
+    query = 'SELECT id FROM orders WHERE id = $1;'
+    params = [id]
+    entries = DatabaseConnection.exec_params(query, params).to_a
+    return entries.size == 1
+  end
 end
