@@ -40,9 +40,10 @@ class ItemRepository
 
 # finds all the items on a given order
   def find_by_order(order_id) 
+    items = []
     sql = '
     SELECT
-      items.id AS item_id,
+      items.id,
       name,
       price,
       quantity,
@@ -56,7 +57,13 @@ class ItemRepository
 
     result_set = DatabaseConnection.exec_params(sql, [order_id]) 
     
-    
+    result_set.each do |record|
+      item = Item.new
+      set_attributes(item, record)
+      items << item
+    end
+
+    items
   end
 
 
