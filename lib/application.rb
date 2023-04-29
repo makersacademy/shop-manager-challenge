@@ -18,22 +18,42 @@ class Application
   def run
     print_welcome_options
     choice = @io.gets.chomp
-    if choice == "1"
-      items = @item_repository.all
-      @io.puts("Here's a list of all shop items:\n")
-      items.each_with_index { |item, i| print_item(item, i + 1) }
-    end
-
-    if choice == "2"
+    case choice
+    when "1"
+      print_all_items
+    when "2"
+      get_new_item_from_user
     end
   end
   
   private
   
-  def print_item(item, list_number)
-    price = item.unit_price.to_i
-    formatted_price = "£#{price / 100}.#{price % 100}"
-    @io.puts "##{list_number} #{item.name} - Unit price: #{formatted_price} - Quantity: #{item.quantity}"
+  def get_new_item_from_user
+    @io.print "What's the name of the new item: "
+    name = @io.gets.chomp
+    @io.print "What's the unit price of the new item: "
+    price = @io.gets.chomp
+    @io.print "What's the quantity of the new item: "
+    quantity = @io.gets.chomp
+    add_item_to_database(name, price, quantity)
+  end
+  
+  def add_item_to_database(name, price, quantity)
+    item = Item.new
+    item.name = name
+    item.unit_price = price
+    item.quantity = quantity
+    @item_repository.create(item)
+  end
+  
+  def print_all_items
+    items = @item_repository.all
+    @io.puts("Here's a list of all shop items:\n")
+    items.each_with_index do |item, i|
+       price = item.unit_price.to_i
+       formatted_price = "£#{price / 100}.#{price % 100}"
+       @io.puts "##{i + 1} #{item.name} - Unit price: #{formatted_price} - Quantity: #{item.quantity}"
+    end
   end
   
   def print_welcome_options
