@@ -24,7 +24,7 @@ class Application
     when 1
       list_all_items
     when 2
-      create_new_item
+      item_to_create
     when 3
       list_all_orders
     when 4
@@ -42,12 +42,29 @@ class Application
     end
   end
 
-  def create_new_item
-    return 1
+  def create_new_item(name, unit_price, stock_quantity)
+    @item_repository.create(name, unit_price, stock_quantity)
+    p "Item #{name} has been created!"
+  end
+
+  def item_to_create
+    puts "What is the name of the item?"
+    name = @io.gets.chomp
+    puts "What is the unit price of the item?"
+    unit_price = @io.gets.to_f
+    puts "What is the stock quantity of the item?"
+    stock_quantity = @io.gets.to_i
+    create_new_item(name, unit_price, stock_quantity)
   end
 
   def list_all_orders
-
+    all_orders = @order_repository.all
+    puts ""
+    puts "Here's a list of all shop orders:"
+    puts ""
+    all_orders.each do |order|
+    p "##{order.id} - Customer's name: #{order.customer_name} - Date: #{order.date} - Ordered Item: #{order.item_id}"
+    end
   end
 
   def create_new_order
@@ -58,7 +75,7 @@ end
 #this runs the application
 if __FILE__ == $0
   app = Application.new(
-    'shop_manager',
+    'shop_manager_test',
     Kernel,
     ItemRepository.new,
     OrderRepository.new
