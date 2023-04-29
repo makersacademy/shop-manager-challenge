@@ -44,7 +44,7 @@ class Application
 
   def create_new_item(name, unit_price, stock_quantity)
     @item_repository.create(name, unit_price, stock_quantity)
-    p "Item #{name} has been created!"
+    p "The item #{name} has been created!"
   end
 
   def item_to_create
@@ -69,7 +69,7 @@ class Application
 
   def create_new_order(customer_name, date, item_id)
     @order_repository.create(customer_name, date, item_id)
-    p "A new order of the item #{item_id} has been created!"
+    p "A new orderrs of the item #{item_id} has been created!"
 
   end
 
