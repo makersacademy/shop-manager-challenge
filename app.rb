@@ -1,4 +1,4 @@
 require_relative 'lib/database_connection'
+require_relative 'lib/application.rb'
 
-# We need to give the database name to the method `connect`.
-# DatabaseConnection.connect('music_library')
+DatabaseConnection.connect('shop_manager')

@@ -87,6 +87,8 @@ describe ItemRepository do
 
       expect(repo.find_by_order(2)).to eq nil   
     end
+
+    # fails if order doesn't exist?
   end
 
 
