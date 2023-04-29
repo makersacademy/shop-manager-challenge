@@ -2,7 +2,7 @@ require 'item_repository'
 
 
 def reset_items_table
-  seed_sql = File.read('spec/seeds_items.sql')
+  seed_sql = File.read('spec/seeds_orders.sql')
   connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
   connection.exec(seed_sql)
 end
@@ -63,6 +63,24 @@ describe ItemRepository do
       expect(item.price).to eq 3
       expect(item.quantity).to eq 3 
     end
+
     # fails if id doesn't exist?
   end 
+
+  describe '#find_by_order' do
+    it 'returns a list of items assigned to an order' do
+      repo = ItemRepository.new
+
+      items_on_order = repo.find_by_order(1)
+
+      expect(items_on_order.length).to eq 2
+
+      first_item = items_on_order.first
+      last_item = items_on_order.last
+      
+      expect(first_item.id).to eq 1
+      expect(last_item.id).to eq 5
+    end
+  end
+
 end

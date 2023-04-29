@@ -40,8 +40,23 @@ class ItemRepository
 
 # finds all the items on a given order
   def find_by_order(order_id) 
-    # sql query:
-    # ...
+    sql = '
+    SELECT
+      items.id AS item_id,
+      name,
+      price,
+      quantity,
+      orders.id AS order_id
+    FROM
+      items
+      JOIN items_orders ON items_orders.item_id = items.id
+      JOIN orders ON orders.id = items_orders.order_id 
+    WHERE
+      orders.id = $1;'
+
+    result_set = DatabaseConnection.exec_params(sql, [order_id]) 
+    
+    
   end
 
 
