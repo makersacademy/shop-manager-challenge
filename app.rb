@@ -38,14 +38,9 @@ class Application
   end
 
   def create_an_item
-    name = obtain_name
-    price = obtain_price
-    quantity = obtain_quantity
-
-    item = Item.new(name, price, quantity)
+    item = Item.new(obtain_name, obtain_price, obtain_quantity)
 
     id = ItemRepository.new.create(item)
-    item.id = id
 
     @io.puts "Item id: #{id} - Item: #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity} added"
   end
@@ -126,32 +121,22 @@ class Application
 
   def obtain_order_id
     @io.puts "Please enter the order id:"
-    order_id = @io.gets.chomp
+    id = @io.gets.chomp
 
-    if !order_id.match?(/^\d+$/)
-      @io.puts "This order id is invalid. Please try again"
-      obtain_order_id
-    elsif OrderRepository.new.check_if_valid_id(order_id.to_i)
-      return order_id.to_i
-    else
-      @io.puts "This order id is invalid. Please try again"
-      obtain_order_id
-    end
+    return id.to_i if id.match?(/^\d+$/) && OrderRepository.new.check_if_valid_id(id.to_i)
+      
+    @io.puts "This order id is invalid. Please try again"
+    obtain_order_id
   end
 
   def obtain_item_id
     @io.puts "Please enter the item id:"
-    item_id = @io.gets.chomp
+    id = @io.gets.chomp
 
-    if !item_id.match?(/^\d+$/)
-      @io.puts "This item id is invalid. Please try again"
-      obtain_item_id
-    elsif ItemRepository.new.check_if_valid_id(item_id.to_i)
-      return item_id.to_i
-    else
-      @io.puts "This item id is invalid. Please try again"
-      obtain_item_id
-    end
+    return id.to_i if id.match?(/^\d+$/) && ItemRepository.new.check_if_valid_id(id.to_i)
+    
+    @io.puts "This item id is invalid. Please try again"
+    obtain_item_id
   end
 end
 
