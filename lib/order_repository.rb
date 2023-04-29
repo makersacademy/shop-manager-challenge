@@ -17,9 +17,12 @@ class OrderRepository
     return orders
   end
 
-  def assign_item(order, item)
+  def assign_item(order_id, item_id)
     # query = 'INSERT INTO orders_items (order_id, item_id) VALUES ($1, $2);'
     # params = [order.id, item.id]
+    query = 'INSERT INTO orders_items (order_id, item_id) VALUES ($1, $2);'
+    params = [order_id, item_id]
+    DatabaseConnection.exec_params(query, params)
   end
 
   def create(order)
@@ -32,4 +35,15 @@ class OrderRepository
     id = DatabaseConnection.exec_params(query2, []).to_a.first["max"]
     return id
   end
+
+  def return_all_assigned_items
+    query = 'SELECT order_id, item_id FROM orders_items'
+    entries = DatabaseConnection.exec_params(query, [])
+    relationships = []
+    for entry in entries do
+      relationships << { :order_id => entry["order_id"].to_i, :item_id => entry["item_id"].to_i }
+    end
+    return relationships
+  end
+    
 end

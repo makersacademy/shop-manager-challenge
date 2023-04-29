@@ -1,8 +1,8 @@
 require_relative 'item'
+require_relative 'database_connection'
 
 class ItemRepository
   def list
-    # query = 'SELECT id, name, unit_price, quantity FROM items;'
     # returns an array of Item objects
     query = 'SELECT id, name, unit_price, quantity FROM items;'
     results = DatabaseConnection.exec_params(query, [])
@@ -10,16 +10,23 @@ class ItemRepository
   end
 
   def create(item)
-    # query_1 = 'INSERT INTO items (name, unit_price, quantity) VALUES ($1, $2, $3);'
-    # params = [item.name, item.unit_price, item.quantity]
     # returns the id of the created object
-    query_1 = 'INSERT INTO items (name, unit_price, quantity) VALUES ($1, $2, $3);'
+    query1 = 'INSERT INTO items (name, unit_price, quantity) VALUES ($1, $2, $3);'
     params = [item.name, item.unit_price, item.quantity]
-    DatabaseConnection.exec_params(query_1, params)
+    DatabaseConnection.exec_params(query1, params)
 
-    query_2 = 'SELECT max(id) FROM items'
-    id = DatabaseConnection.exec_params(query_2, []).to_a.first["max"]
+    query2 = 'SELECT max(id) FROM items'
+    id = DatabaseConnection.exec_params(query2, []).to_a.first["max"]
     return id
+  end
+
+  def find_by_id(id)
+    query = 'SELECT id, name, unit_price, quantity FROM items WHERE id = $1'
+    params = [id]
+    entry = DatabaseConnection.exec_params(query, params).first
+    item = Item.new(entry["name"], entry["unit_price"].to_i, entry["quantity"].to_i)
+    item.id = entry["id"].to_i
+    return item
   end
 
   private
@@ -27,14 +34,10 @@ class ItemRepository
   def extract_items(entries)
     items = []
     for entry in entries do
-      item = Item.new
+      item = Item.new(entry["name"], entry["unit_price"].to_i, entry["quantity"].to_i)
       item.id = entry["id"].to_i
-      item.name = entry["name"]
-      item.unit_price = entry["unit_price"].to_i
-      item.quantity = entry["quantity"].to_i
       items << item
     end
     return items
   end
-  
 end

@@ -25,4 +25,11 @@ RSpec.describe ItemRepository do
     expect(items.last.quantity).to eq item.quantity
   end
 
+  it 'finds item by id' do
+    repo = ItemRepository.new
+    item = repo.find_by_id(1)
+    expect(item.name).to eq 'pens'
+    expect(item.unit_price).to eq 2
+    expect(item.quantity).to eq 234
+  end
 end
