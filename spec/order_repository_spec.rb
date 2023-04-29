@@ -47,7 +47,7 @@ describe OrderRepository do
       
       expect(latest_order.id).to eq 5  
       expect(latest_order.customer_name).to eq 'Barry'
-      expect(latest_order.starting_date).to eq '2024-02-16'
+      expect(latest_order.order_date).to eq '2024-02-16'
            
     end
   end
