@@ -56,8 +56,8 @@ class ItemRepository
       orders.id = $1;'
 
     result_set = DatabaseConnection.exec_params(sql, [order_id]) 
-    
-    
+    return nil if result_set.to_a.empty?
+
     result_set.each do |record|
       item = Item.new
       set_attributes(item, record)
