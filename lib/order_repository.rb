@@ -8,10 +8,8 @@ class OrderRepository
     entries = DatabaseConnection.exec_params(query, [])
     orders = []
     for entry in entries do
-      order = Order.new
+      order = Order.new(entry["customer_name"], entry["date"])
       order.id = entry["id"]
-      order.customer_name = entry["customer_name"]
-      order.date = entry["date"]
       orders << order
     end
     return orders
@@ -45,5 +43,13 @@ class OrderRepository
     end
     return relationships
   end
-    
+
+  def find_by_id(id)
+    query = 'SELECT id, customer_name, date FROM orders WHERE id = $1'
+    params = [id]
+    entry = DatabaseConnection.exec_params(query, params).first
+    order = Order.new(entry["customer_name"], entry["date"])
+    order.id = entry["id"].to_i
+    return order
+  end
 end

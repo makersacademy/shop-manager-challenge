@@ -67,9 +67,7 @@ class Application
     name = @io.gets.chomp
     date = @date_class.today.to_s
 
-    order = Order.new
-    order.customer_name = name
-    order.date = date
+    order = Order.new(name, date)
 
     id = OrderRepository.new.create(order)
     @io.puts "Order id: #{id} - Customer name: #{name} - Order date: #{date} added"
@@ -85,7 +83,10 @@ class Application
     item_repo = ItemRepository.new
 
     order_repo.assign_item(order_id, item_id)
-    @io.puts "#{item_repo.find_by_id(item_id).name} have been added to #{order_repo.find_by_id(order_id).customer_name}'s order"
+
+    item = ItemRepository.new.find_by_id(item_id)
+    order = OrderRepository.new.find_by_id(item_id)
+    @io.puts "#{item.name} have been added to #{order.customer_name}'s order"
   end
 
   private 

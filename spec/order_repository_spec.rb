@@ -39,4 +39,11 @@ RSpec.describe OrderRepository do
     expect(relationships.last[:order_id]).to eq 1
     expect(relationships.last[:item_id]).to eq 1
   end
+
+  it 'finds an order by id' do
+    repo = OrderRepository.new
+    order = repo.find_by_id(1)
+    expect(order.customer_name).to eq "Mike"
+    expect(order.date).to eq '2023-04-28'
+  end
 end
