@@ -53,5 +53,20 @@ RSpec.describe Application do
         app.run
       end
     end
+
+    context "when user chooses option 2" do
+      xit "creates a new item" do
+      end
+    end
+
+    context "when user chooses option 3" do
+      xit "lists all orders" do
+      end
+    end
+
+    context "when user chooses option 4" do
+      xit "creates a new item" do
+      end
+    end
   end
 end
