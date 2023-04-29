@@ -30,12 +30,13 @@ RSpec.describe ItemRepository do
       expect(items[2].unit_price).to eq '34'
       expect(items[2].stock_quantity).to eq '205'
     end
+
+    it "creates a new item" do
+     
+      repo = ItemRepository.new
+      repo.create('Table', '147', '21')
+      items = repo.all
+      expect(items.length).to eq 4
+    end
   end
 end
-  # # 2
-  # # Add a new item
-  
-  # repo = ItemRepository.new
-  # repo.create('Table', '147', '21')
-  # items = repo.all
-  # items.length # =>  4
