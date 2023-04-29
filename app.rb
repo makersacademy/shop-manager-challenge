@@ -25,11 +25,9 @@ class Application
   end
 
   def user_input
-    @io.puts @menu_string
-    
-    method = @io.gets.chomp 
-    return 'quit' if method == 'quit' || method == 'close'
-    @methods[method.to_i - 1].call
+    input = obtain_user_input
+    return 'quit' if input == 'quit'
+    @methods[input - 1].call
   end
 
   def list_all_shop_items
@@ -40,12 +38,9 @@ class Application
   end
 
   def create_an_item
-    @io.puts "Please enter the name of the item to add:"
-    name = @io.gets.chomp
-    @io.puts "Please enter the price of the item:"
-    price = @io.gets.chomp
-    @io.puts "Please enter the quantity of the item:"
-    quantity = @io.gets.chomp
+    name = obtain_name
+    price = obtain_price
+    quantity = obtain_quantity
 
     item = Item.new(name, price, quantity)
 
@@ -98,6 +93,37 @@ class Application
     string << "\t3 -> List all orders\n"
     string << "\t4 -> Create a new order \n"
     string << "\t5 -> Add items to order"
+  end
+
+  def obtain_user_input
+    @io.puts @menu_string
+    input = @io.gets.chomp
+    return input.downcase if input.downcase == 'quit'
+    return input.to_i if input.match?(/^\d+$/) && input.to_i.between?(1,@methods.size)
+    @io.puts "Please choose one of the valid options or type 'quit' to close the application"
+    obtain_user_input
+  end
+
+  def obtain_name
+    @io.puts "Please enter the name of the item to add:"
+    name = @io.gets.chomp
+    return name
+  end
+
+  def obtain_price
+    @io.puts "Please enter the price of the item:"
+    price = @io.gets.chomp
+    return price.to_i if price.match?(/^\d+$/)
+    @io.puts "Please enter a valid price for an item"
+    obtain_price
+  end
+
+  def obtain_quantity
+    @io.puts "Please enter the quantity of the item:"
+    quantity = @io.gets.chomp
+    return quantity.to_i if quantity.match?(/^\d+$/) && quantity.to_i >= 0
+    @io.puts "Please enter a valid quantity for an item"
+    obtain_quantity
   end
 end
 
