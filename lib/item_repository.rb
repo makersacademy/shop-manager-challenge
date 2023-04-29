@@ -29,7 +29,13 @@ class ItemRepository
 
   # returns an item object with matching id
   def find_by_id(id)
-
+    item = Item.new
+    sql = 'SELECT * FROM items WHERE id = $1'
+    result = DatabaseConnection.exec_params(sql, [id])
+    
+    set_attributes(item, result.first)
+   
+    item
   end
 
 # finds all the items on a given order
