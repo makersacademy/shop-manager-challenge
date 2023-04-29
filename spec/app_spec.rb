@@ -69,4 +69,21 @@ RSpec.describe Application do
 
     app.run
   end
+
+  it 'creates a new order' do
+    io = double :Kernel
+    date = double :Date, today: '2023-04-29'
+    app = Application.new(io, date)
+    expect(io).to receive(:puts).with(
+      "What would you like to do?\n\t1 -> List all shop items\n\t2 -> Create a new item\n\t3 -> List all orders\n\t4 -> Create a new order \n\t5 -> Add items to order"
+    )
+    expect(io).to receive(:gets).and_return('4')
+    expect(io).to receive(:puts).with("Please enter the customer name:")
+    expect(io).to receive(:gets).and_return("Barney")
+    expect(io).to receive(:puts).with(
+      "Order id: 3 - Customer name: Barney - Order date: 2023-04-29 added"
+    )
+
+    app.run
+  end
 end

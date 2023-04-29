@@ -2,8 +2,9 @@ require_relative './lib/item_repository'
 require_relative './lib/order_repository'
 
 class Application
-  def initialize(io = Kernel.new)
+  def initialize(io = Kernel.new, date_class = Date)
     @io = io
+    @date_class = date_class
     @methods = [method(:list_all_shop_items),
                 method(:create_an_item),
                 method(:list_all_orders),
@@ -48,14 +49,25 @@ class Application
   end
 
   def list_all_orders
+    # TODO order repo spec to be done
     p "listed orders"
     orders = OrderRepository.new.list
     for order in orders do
-      @io.puts "Order id: #{order.id} - Customer name: #{customer_name} - Order date: #{order.date}"
+      @io.puts "Order id: #{order.id} - Customer name: #{order.customer_name} - Order date: #{order.date}"
     end
   end
 
   def create_an_order
+    @io.puts "Please enter the customer name:"
+    name = @io.gets.chomp
+    date = @date_class.today.to_s
+
+    order = Order.new
+    order.customer_name = name
+    order.date = date
+
+    id = OrderRepository.new.create(order)
+    @io.puts "Order id: #{id} - Customer name: #{name} - Order date: #{date} added"
   end
 
   def add_item_to_order

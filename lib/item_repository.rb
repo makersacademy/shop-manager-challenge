@@ -6,16 +6,7 @@ class ItemRepository
     # returns an array of Item objects
     query = 'SELECT id, name, unit_price, quantity FROM items;'
     results = DatabaseConnection.exec_params(query, [])
-    items = []
-    for entry in results do
-      item = Item.new
-      item.id = entry["id"].to_i
-      item.name = entry["name"]
-      item.unit_price = entry["unit_price"].to_i
-      item.quantity = entry["quantity"].to_i
-      items << item
-    end
-    return items
+    return extract_items(results)
   end
 
   def create(item)
@@ -27,9 +18,23 @@ class ItemRepository
     DatabaseConnection.exec_params(query_1, params)
 
     query_2 = 'SELECT max(id) FROM items'
-    result = DatabaseConnection.exec_params(query_2, [])
-    return result.to_a.first["max"]
+    id = DatabaseConnection.exec_params(query_2, []).to_a.first["max"]
+    return id
   end
 
+  private
+
+  def extract_items(entries)
+    items = []
+    for entry in entries do
+      item = Item.new
+      item.id = entry["id"].to_i
+      item.name = entry["name"]
+      item.unit_price = entry["unit_price"].to_i
+      item.quantity = entry["quantity"].to_i
+      items << item
+    end
+    return items
+  end
   
 end
