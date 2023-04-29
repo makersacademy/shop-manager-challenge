@@ -29,7 +29,9 @@ describe ItemRepository do
       expect(items.last.quantity).to eq 5
 
     end
+  end
 
+  describe '#create' do  
     it 'creates a new item object and adds it to the items table' do
       repo = ItemRepository.new
       new_item = Item.new
@@ -49,4 +51,18 @@ describe ItemRepository do
       expect(inventory.last.quantity).to eq 6
     end
   end
+
+  describe '#find_by_id' do
+    it 'returns an time with matching id' do
+      repo = ItemRepository.new
+
+      item = repo.find_by_id(3)
+
+      expect(item.id).to eq 3
+      expect(item.name).to eq 'item_three' 
+      expect(item.price).to eq 3
+      expect(item.quantity).to eq 3 
+    end
+    # fails if id doesn't exist?
+  end 
 end

@@ -191,7 +191,7 @@ latest_order.id # => 5
 latest_order.customer_name # => 'Barry'
 latest_order.starting_date # => '2024-02-16'
 
-
+##### Move to application class
 # 3 
 # Assigns an existing item to an order with one item already
 
