@@ -276,7 +276,7 @@ def reset_items_and_orders_tables
   connection.exec(seed_sql)
 end
 
-describe StudentRepository do
+describe ItemRepository do
   before(:each) do 
     reset_items_and_orders_tables
   end
