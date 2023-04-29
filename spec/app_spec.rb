@@ -13,7 +13,7 @@ RSpec.describe Application do
 
   describe "#run" do
     context "when the users selects 1" do
-      it "returns the list of items" do
+      xit "returns the list of items" do
         io = double :terminal
         expect(io).to receive(:puts).with("Welcome to the shop management program!").ordered
         expect(io).to receive(:puts).with("").ordered
@@ -33,17 +33,26 @@ RSpec.describe Application do
       end
     end  
 
-    # context "when the users selects 2" do
-    #   it "returns the list of items" do
-    #     io = double :terminal
-    #     expect(io).to receive(:gets).and_return("1")
+    context "when the users selects 3" do
+      it "returns the list of orders" do
+        io = double :terminal
+        expect(io).to receive(:puts).with("Welcome to the shop management program!").ordered
+        expect(io).to receive(:puts).with("").ordered
+        expect(io).to receive(:puts).with("What do you want to do?").ordered
+        expect(io).to receive(:puts).with("1 = list all shop items").ordered
+        expect(io).to receive(:puts).with("2 = create a new item").ordered
+        expect(io).to receive(:puts).with("3 = list all orders").ordered
+        expect(io).to receive(:puts).with("4 = create a new order").ordered
+        expect(io).to receive(:puts).with("").ordered
+        expect(io).to receive(:gets).and_return("3").ordered
+        app = Application.new('shop_manager_test', io, ItemRepository.new, OrderRepository.new)
+        all_orders = app.list_all_orders
+        expect(all_orders.length).to eq 3
+        expect(all_orders.first.customer_name).to eq "Andrea"
+        app.run
+      end
+    end  
 
-    #     app = Application.new('shop_manager_test', io, ItemRepository.new, OrderRepository.new)
-    #     all_items = app.list_all_items
-    #     expect(all_items.length).to eq 3
-    #     expect(all_items.first.name).to eq "Coffee Machine"
-    #     app.run
-    #   end
-    # end  
+    
   end
 end

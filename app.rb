@@ -43,7 +43,7 @@ class Application
   end
 
   def create_new_item
-
+    return 1
   end
 
   def list_all_orders
