@@ -18,21 +18,28 @@ class Application
   def run
     print_welcome_options
     choice = @io.gets.chomp
+    process_user_input(choice)
+  end
+  
+  private
+  
+  def process_user_input(choice)
     case choice
     when "1"
       print_all_items
     when "2"
-      name, price, quantity = new_item_from_user
-      add_item_to_database(name, price, quantity)
+      add_new_item
     when "3"
       print_all_orders
     when "4"
-      customer, date = new_order_from_user
-      add_order_to_database(customer, date)
+      add_new_order
     end
   end
-  
-  private
+    
+  def add_new_order
+    customer, date = new_order_from_user
+    add_order_to_database(customer, date)
+  end
 
   def new_order_from_user
     @io.print "What's the customer name of the new order: "
@@ -47,6 +54,11 @@ class Application
     order.customer_name = customer
     order.date_placed = date
     @order_repository.create(order)
+  end
+
+  def add_new_item
+    name, price, quantity = new_item_from_user
+    add_item_to_database(name, price, quantity)
   end
   
   def new_item_from_user
