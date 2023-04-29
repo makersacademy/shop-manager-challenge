@@ -18,3 +18,9 @@ RSpec.configure do |config|
     puts "\e[33mTry it now! Just run: rubocop\e[0m"
   end
 end
+
+def reset_tables
+  sql_seeds = File.read "spec/spec_seeds.sql"
+  connection = PG.connect({ host: "127.0.0.1", dbname: "shop_manager_test" })
+  connection.exec(sql_seeds)
+end
