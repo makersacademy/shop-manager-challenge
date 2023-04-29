@@ -32,6 +32,16 @@ class ItemRepository
     return nil
   end
 
+  def decrease_quantity(id)
+    sql = 'UPDATE items 
+            SET quantity = quantity - 1
+              WHERE id = $1;'
+    params = [id]
+
+    DatabaseConnection.exec_params(sql, params)
+    return nil
+  end
+
   private
 
   def record_to_item(record)

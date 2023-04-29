@@ -53,4 +53,13 @@ RSpec.describe ItemRepository do
       )
     )
   end
+
+  it 'subtracts one from quantity of item with id 1' do
+    repo = ItemRepository.new
+    repo.decrease_quantity(1)
+    updated_item = repo.find(1)
+    
+    expect(updated_item.name).to eq 'Hoover'
+    expect(updated_item.quantity).to eq 19
+  end
 end

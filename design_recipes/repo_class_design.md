@@ -139,6 +139,17 @@ class ItemRepository
     # with parameters: [id]
     # returns the item object
   end
+
+  # Removes 1 from the item quantity with item.id = id
+  # if quantity already 0, throws error with "quantity is already zero"
+  def decrease_quantity(id)
+    # Executes SQL query:
+    # 'UPDATE items
+    #     SET quantity = quantity - 1
+    #     WHERE id = $1;'
+    # with parameters [id]
+    # returns nothing
+  end
 end
 
 # Table name: orders
@@ -221,6 +232,14 @@ item.name # => 'Bike pump'
 item.unit_price # => 20
 item.quantity # => 3
 
+# 4
+# Subtracts one from quantity of item
+repo = ItemRepository.new
+repo.decrease_quantity(1)
+updated_item = repo.find(1)
+
+updated_item.name # => 'Hoover'
+updated_item.quantity # => 19
 
 ## ORDERS
 # 1
