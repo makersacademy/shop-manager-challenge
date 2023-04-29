@@ -10,6 +10,7 @@ class Application
   end
 
   def run
+    
     @io.puts "Welcome to the shop management program!"
     @io.puts "What do you want to do?"
     @io.puts "  1 = list all shop items"
@@ -20,7 +21,6 @@ class Application
     choice = @io.gets.chomp
 
     execute(choice)
-    
   end
 
   def execute(choice)
@@ -33,7 +33,7 @@ class Application
         @io.puts "##{record.id} #{record.customer_name} - Date: #{record.date} - Item: #{@item_repository.find(record.item_id).name}"
       end
     else
-      
+      return
     end
   end
 

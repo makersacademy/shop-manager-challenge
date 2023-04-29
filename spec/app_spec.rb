@@ -33,7 +33,7 @@ describe Application do
     app.run
   end
 
-  xit "Creates a new item" do
+  it "2 - Creates a new item" do
     io = double :io
     item_repository = ItemRepository.new
     order_repository = OrderRepository.new
@@ -46,8 +46,13 @@ describe Application do
     expect(io).to receive(:puts).with("  4 = create a new order").ordered
 
     expect(io).to receive(:gets).and_return("2").ordered
-    expect(io).to receive(:puts).with("#1 David - Date: 2023-03-22 - Item: Correction tape").ordered
-    expect(io).to receive(:puts).with("#2 Anna - Date: 2023-04-25 - Item: Cute eraser").ordered
+    expect(io).to receive(:puts).with("Please enter the item's name").ordered
+    expect(io).to receive(:gets).and_return("Rainbow sharpie").ordered
+    expect(io).to receive(:puts).with("Please enter the item's unit price").ordered
+    expect(io).to receive(:gets).and_return("13.99").ordered
+    expect(io).to receive(:puts).with("Please enter the item's quantity").ordered
+    expect(io).to receive(:gets).and_return("50").ordered
+    expect(io).to receive(:puts).with("Item successfully added to the stop!").ordered
 
     app = Application.new('shop_manager_test', io, item_repository, order_repository)
     app.run
