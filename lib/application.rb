@@ -23,6 +23,8 @@ class Application
       print_all_items
     when "2"
       get_new_item_from_user
+    when "3"
+      print_all_orders
     end
   end
   
@@ -50,9 +52,17 @@ class Application
     items = @item_repository.all
     @io.puts("Here's a list of all shop items:\n")
     items.each_with_index do |item, i|
-       price = item.unit_price.to_i
-       formatted_price = "£#{price / 100}.#{price % 100}"
-       @io.puts "##{i + 1} #{item.name} - Unit price: #{formatted_price} - Quantity: #{item.quantity}"
+      price = item.unit_price.to_i
+      formatted_price = "£#{price / 100}.#{price % 100}"
+      @io.puts "##{i + 1} #{item.name} - Unit price: #{formatted_price} - Quantity: #{item.quantity}"
+    end
+  end
+
+  def print_all_orders
+    orders = @order_repository.all
+    @io.puts "Here's a list of all orders:\n"
+    orders.each_with_index do |order, i|
+      @io.puts "##{i + 1} Customer: #{order.customer_name} - Date placed: #{order.date_placed}"
     end
   end
   

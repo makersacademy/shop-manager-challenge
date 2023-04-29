@@ -94,7 +94,7 @@ RSpec.describe Application do
     end
     
     context "when user chooses option 3" do
-      xit "lists all orders" do
+      it "lists all orders" do
         fake_io = double :fake_io
         expect(fake_io).to receive(:puts).with("Welcome to the shop management program!\n")
         expect(fake_io).to receive(:puts).with("What do you want to do?")
@@ -106,6 +106,46 @@ RSpec.describe Application do
         fake_item_repo = double :fake_item_repo
         fake_order_repo = double :fake_order_repo
         allow(fake_io).to receive(:gets).and_return("3\n")
+
+        fake_order1 = double(
+          :fake_order1,
+          id: "1",
+          customer_name: "customer1",
+          date_placed: "2023-04-29"
+        )
+
+        fake_order2 = double(
+          :fake_order2,
+          id: "4",
+          customer_name: "customer2",
+          date_placed: "2023-03-20"
+        )
+
+        
+        orders = [fake_order1, fake_order2]
+        allow(fake_order_repo).to receive(:all).and_return(orders)
+        
+        allow(fake_io).to receive(:gets).and_return("3\n")
+        
+        expect(fake_io).to receive(:puts).with("Here's a list of all orders:\n")
+
+
+
+        expect(fake_io).to receive(:puts).with(
+          "#1 Customer: customer1 - Date placed: 2023-04-29"
+        )
+        expect(fake_io).to receive(:puts).with(
+          "#2 Customer: customer2 - Date placed: 2023-03-20"
+        )
+
+
+        app = Application.new(
+          database = "shop_manager_test",
+          io = fake_io,
+          fake_item_repo,
+          fake_order_repo
+        )
+        app.run        
       end
     end
     
@@ -122,6 +162,14 @@ RSpec.describe Application do
         fake_item_repo = double :fake_item_repo
         fake_order_repo = double :fake_order_repo
         allow(fake_io).to receive(:gets).and_return("4\n")
+        
+        app = Application.new(
+          database = "shop_manager_test",
+          io = fake_io,
+          fake_item_repo,
+          fake_order_repo
+        )
+        app.run        
       end
     end
   end
