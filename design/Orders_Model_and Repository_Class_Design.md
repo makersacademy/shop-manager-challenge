@@ -70,17 +70,16 @@ psql -h 127.0.0.1 your_database_name < seeds_{table_name}.sql
 Usually, the Model class name will be the capitalised table name (single instead of plural). The same name is then suffixed by `Repository` for the Repository class name.
 
 ```ruby
-# EXAMPLE
-# Table name: students
+# Table name: orders
 
 # Model class
-# (in lib/student.rb)
-class Student
+# (in lib/order.rb)
+class Order
 end
 
 # Repository class
-# (in lib/student_repository.rb)
-class StudentRepository
+# (in lib/order_repository.rb)
+class OrderRepository
 end
 ```
 
@@ -89,25 +88,17 @@ end
 Define the attributes of your Model class. You can usually map the table columns to the attributes of the class, including primary and foreign keys.
 
 ```ruby
-# EXAMPLE
-# Table name: students
+# Table name: orders
 
 # Model class
-# (in lib/student.rb)
+# (in lib/order.rb)
 
-class Student
+class Order
 
   # Replace the attributes by your own columns.
-  attr_accessor :id, :name, :cohort_name
+  attr_accessor :id, :customer_name, :order_date
 end
 
-# The keyword attr_accessor is a special Ruby feature
-# which allows us to set and get attributes on an object,
-# here's an example:
-#
-# student = Student.new
-# student.name = 'Jo'
-# student.name
 ```
 
 *You may choose to test-drive this class, but unless it contains any more logic than the example above, it is probably not needed.*
