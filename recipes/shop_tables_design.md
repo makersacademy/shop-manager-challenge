@@ -31,13 +31,13 @@ I want to know on which date an order was placed. (done)
 
 As a shop manager
 So I can manage orders
-I want to be able to create a new order.
+I want to be able to create a new order. (done)
 ```
 
 ```
 Nouns:
 
-items, list of shop items, item name, item unit price, item quantity, 
+items, item name, item unit price, item quantity, 
 orders, customer name, order date,
 ```
 
@@ -45,18 +45,18 @@ orders, customer name, order date,
 
 Put the different nouns in this table. Replace the example with your own nouns.
 
-| Record                | Properties          |
-| --------------------- | ------------------  |
-| album                 | title, release year
-| artist                | name
+| Record                | Properties                      |
+| --------------------- | --------------------------------|
+| items                 | name, unit_price, stock_quantity
+| orders                | customer_name, date, item_id
 
-1. Name of the first table (always plural): `albums` 
+1. Name of the first table (always plural): `items` 
 
-    Column names: `title`, `release_year`
+    Column names: `name`, `unit_price`, `stock_quantity`
 
-2. Name of the second table (always plural): `artists` 
+2. Name of the second table (always plural): `orders` 
 
-    Column names: `name`
+    Column names: `customer_name`, `date`, `item_id`
 
 ## 3. Decide the column types.
 
@@ -67,16 +67,19 @@ Most of the time, you'll need either `text`, `int`, `bigint`, `numeric`, or `boo
 Remember to **always** have the primary key `id` as a first column. Its type will always be `SERIAL`.
 
 ```
-# EXAMPLE:
 
-Table: albums
-id: SERIAL
-title: text
-release_year: int
 
-Table: artists
+Table: items
 id: SERIAL
 name: text
+unit_price: numeric
+stock_quantity: int
+
+Table: orders
+id: SERIAL
+customer_name: text
+date: date
+item_id: int (foreign key)
 ```
 
 ## 4. Decide on The Tables Relationship
@@ -85,8 +88,8 @@ Most of the time, you'll be using a **one-to-many** relationship, and will need 
 
 To decide on which one, answer these two questions:
 
-1. Can one [TABLE ONE] have many [TABLE TWO]? (Yes/No)
-2. Can one [TABLE TWO] have many [TABLE ONE]? (Yes/No)
+1. Can one [item] have many [order]? (Yes)
+2. Can one [order] have many [itens]? (No)
 
 You'll then be able to say that:
 
@@ -99,14 +102,14 @@ Replace the relevant bits in this example with your own:
 ```
 # EXAMPLE
 
-1. Can one artist have many albums? YES
-2. Can one album have many artists? NO
+1. Can one item have many orders? YES
+2. Can one order have many items? NO
 
 -> Therefore,
--> An artist HAS MANY albums
--> An album BELONGS TO an artist
+-> An item HAS MANY orders
+-> An order BELONGS TO an items
 
--> Therefore, the foreign key is on the albums table.
+-> Therefore, the foreign key is on the orders table.
 ```
 
 *If you can answer YES to the two questions, you'll probably have to implement a Many-to-Many relationship, which is more complex and needs a third table (called a join table).*
@@ -120,20 +123,22 @@ Replace the relevant bits in this example with your own:
 -- Replace the table name, columm names and types.
 
 -- Create the table without the foreign key first.
-CREATE TABLE artists (
+CREATE TABLE items (
   id SERIAL PRIMARY KEY,
   name text,
+  unit_price numeric,
+  stock_quantity int
 );
 
 -- Then the table with the foreign key first.
-CREATE TABLE albums (
+CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
-  title text,
-  release_year int,
+  customer_name text,
+  date date,
 -- The foreign key name is always {other_table_singular}_id
-  artist_id int,
-  constraint fk_artist foreign key(artist_id)
-    references artists(id)
+  item_id int,
+  constraint fk_item foreign key(item_id)
+    references items(id)
     on delete cascade
 );
 
@@ -142,7 +147,7 @@ CREATE TABLE albums (
 ## 5. Create the tables.
 
 ```bash
-psql -h 127.0.0.1 database_name < albums_table.sql
+psql -h 127.0.0.1 database_name < shop.sql
 ```
 
 <!-- BEGIN GENERATED SECTION DO NOT EDIT -->
