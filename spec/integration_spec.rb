@@ -27,6 +27,25 @@ def reset_test_tables
   connection.exec(seed_sql)
 end
 
+def welcome_screen_expects(io_dbl)
+  expect(io_dbl).to receive(:puts)
+  .with('Welcome to the shop management program!').ordered
+  expect(io_dbl).to receive(:puts)
+    .with("\nWhat do you want to do?").ordered
+  expect(io_dbl).to receive(:puts)
+    .with('1 = list all shop items').ordered
+  expect(io_dbl).to receive(:puts)
+    .with('2 = create a new item').ordered
+  expect(io_dbl).to receive(:puts)
+    .with('3 = list all order').ordered
+  expect(io_dbl).to receive(:puts)
+    .with('4 = create a new order').ordered
+  expect(io_dbl).to receive(:puts)
+    .with('5 = assign an item to an order').ordered
+  expect(io_dbl).to receive(:puts)
+    .with('6 = exit').ordered
+end
+
 RSpec.describe 'shop manager integration' do
   before(:each) do 
     reset_test_tables
@@ -36,33 +55,28 @@ RSpec.describe 'shop manager integration' do
     it ' displays a menu of choices and prompts an input' do
       io_dbl = double :io
       app = Application.new('shop_manager_test', io_dbl)
-      app.run
-      
-      expect(io_dbl).to receive(:puts)
-        .with('Welcome to the shop management program!').ordered
-      expect(io_dbl).to receive(:puts)
-        .with('\nWhat do you want to do?').ordered
-      expect(io_dbl).to receive(:puts)
-        .with('1 = list all shop items').ordered
-      expect(io_dbl).to receive(:puts)
-        .with('2 = create a new item').ordered
-      expect(io_dbl).to receive(:puts)
-        .with('3 = list all order').ordered
-      expect(io_dbl).to receive(:puts)
-        .with('4 = create a new order').ordered
-      expect(io_dbl).to receive(:puts)
-        .with('5 = assign an item to an order').ordered
-      expect(io_dbl).to receive(:puts)
-        .with('6 = exit').ordered
+
+      welcome_screen_expects(io_dbl)
       expect(io_dbl).to receive(:gets)
-        .with('choice').ordered
+        .and_return('choice').ordered
+
+        app.run
     end
   end
 
   describe 'interactive behaviour' do
     context "when a user inputs 1" do
       it 'lists all shop items' do
-        # ..
+        io_dbl = double :io
+        app = Application.new('shop_manager_test', io_dbl)
+
+        welcome_screen_expects(io_dbl)
+        expect(io_dbl).to receive(:gets)
+        .and_return("1\n").ordered
+        expect(io_dbl).to receive(:puts)
+        .with( "#1 item_one - Unit price: 1 Quantity: 1\n#2 item_two - Unit price: 2 Quantity: 2\n#3 item_three - Unit price: 3 Quantity: 3\n#4 item_four - Unit price: 4 Quantity: 4\n#5 item_five - Unit price: 5 Quantity: 5")
+
+        app.run
       end
     end  
 
@@ -95,6 +109,6 @@ RSpec.describe 'shop manager integration' do
         # ..
       end
     end
-    
+
   end
 end
