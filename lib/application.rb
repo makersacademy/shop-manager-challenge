@@ -4,12 +4,12 @@ require_relative "./database_connection"
 
 class Application
   def initialize(
-    database = "shop_manager",
+    database_name,
     io = Kernel,
     item_repository = ItemRepository.new,
     order_repository = OrderRepository.new
   )
-    DatabaseConnection.connect(database)
+    DatabaseConnection.connect(database_name)
     @io = io
     @item_repository = item_repository
     @order_repository = order_repository
@@ -22,22 +22,24 @@ class Application
     when "1"
       print_all_items
     when "2"
-      get_new_item_from_user
+      name, price, quantity = new_item_from_user
+      add_item_to_database(name, price, quantity)
     when "3"
       print_all_orders
     when "4"
-      get_new_order_from_user
+      customer, date = new_order_from_user
+      add_order_to_database(customer, date)
     end
   end
   
   private
 
-  def get_new_order_from_user
+  def new_order_from_user
     @io.print "What's the customer name of the new order: "
     customer = @io.gets.chomp
     @io.print "What's the date this order was placed: "
     date = @io.gets.chomp
-    add_order_to_database(customer, date)
+    [customer, date]
   end
 
   def add_order_to_database(customer, date)
@@ -47,14 +49,14 @@ class Application
     @order_repository.create(order)
   end
   
-  def get_new_item_from_user
+  def new_item_from_user
     @io.print "What's the name of the new item: "
     name = @io.gets.chomp
     @io.print "What's the unit price of the new item: "
     price = @io.gets.chomp
     @io.print "What's the quantity of the new item: "
     quantity = @io.gets.chomp
-    add_item_to_database(name, price, quantity)
+    [name, price, quantity]
   end
   
   def add_item_to_database(name, price, quantity)
@@ -71,7 +73,10 @@ class Application
     items.each_with_index do |item, i|
       price = item.unit_price.to_i
       formatted_price = "£#{price / 100}.#{price % 100}"
-      @io.puts "##{i + 1} #{item.name} - Unit price: #{formatted_price} - Quantity: #{item.quantity}"
+      formatted_item = "##{i + 1} #{item.name} - " +
+        "Unit price: #{formatted_price} - " +
+        "Quantity: #{item.quantity}"
+      @io.puts formatted_item
     end
   end
 

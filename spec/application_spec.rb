@@ -14,28 +14,7 @@ RSpec.describe Application do
         expect(fake_io).to receive(:puts).with("")
         fake_item_repo = double :fake_item_repo
         fake_order_repo = double :fake_order_repo
-        
-        fake_item1 = double(
-          :fake_item1,
-          id: "3",
-          name: "name1",
-          unit_price: "340",
-          quantity: "3"
-        ) 
-        
-        fake_item2 = double(
-          :fake_item2,
-          id: "4",
-          name: "name2",
-          unit_price: "55",
-          quantity: "101"
-        )
-        
-        items = [fake_item1, fake_item2]
-        allow(fake_item_repo).to receive(:all).and_return(items)
-        
         allow(fake_io).to receive(:gets).and_return("1\n")
-        
         expect(fake_io).to receive(:puts).with("Here's a list of all shop items:\n")
         expect(fake_io).to receive(:puts).with(
           "#1 name1 - Unit price: £3.40 - Quantity: 3"
@@ -44,6 +23,24 @@ RSpec.describe Application do
           "#2 name2 - Unit price: £0.55 - Quantity: 101"
         )
         
+        fake_item1 = double(
+          :fake_item1,
+          id: "3",
+          name: "name1",
+          unit_price: "340",
+          quantity: "3"
+        ) 
+        fake_item2 = double(
+          :fake_item2,
+          id: "4",
+          name: "name2",
+          unit_price: "55",
+          quantity: "101"
+        )
+        allow(fake_item_repo).to receive(:all).and_return(
+          [fake_item1, fake_item2]
+        )
+      
         app = Application.new(
           database = "shop_manager_test",
           io = fake_io,
@@ -106,31 +103,8 @@ RSpec.describe Application do
         fake_item_repo = double :fake_item_repo
         fake_order_repo = double :fake_order_repo
         allow(fake_io).to receive(:gets).and_return("3\n")
-
-        fake_order1 = double(
-          :fake_order1,
-          id: "1",
-          customer_name: "customer1",
-          date_placed: "2023-04-29"
-        )
-
-        fake_order2 = double(
-          :fake_order2,
-          id: "4",
-          customer_name: "customer2",
-          date_placed: "2023-03-20"
-        )
-
-        
-        orders = [fake_order1, fake_order2]
-        allow(fake_order_repo).to receive(:all).and_return(orders)
-        
         allow(fake_io).to receive(:gets).and_return("3\n")
-        
         expect(fake_io).to receive(:puts).with("Here's a list of all orders:\n")
-
-
-
         expect(fake_io).to receive(:puts).with(
           "#1 Customer: customer1 - Date placed: 2023-04-29"
         )
@@ -138,7 +112,22 @@ RSpec.describe Application do
           "#2 Customer: customer2 - Date placed: 2023-03-20"
         )
 
-
+        fake_order1 = double(
+          :fake_order1,
+          id: "1",
+          customer_name: "customer1",
+          date_placed: "2023-04-29"
+        )
+        fake_order2 = double(
+          :fake_order2,
+          id: "4",
+          customer_name: "customer2",
+          date_placed: "2023-03-20"
+        )
+        allow(fake_order_repo).to receive(:all).and_return(
+          [fake_order1, fake_order2]
+        )
+       
         app = Application.new(
           database = "shop_manager_test",
           io = fake_io,
