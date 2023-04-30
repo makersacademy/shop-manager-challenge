@@ -18,25 +18,6 @@ class Application
     process(@io.gets.chomp)
   end
 
-  private 
-
-  def print_welcome
-    @io.puts 'Welcome to the shop management program!'
-  end
-
-  def print_ask_for_input
-    @io.puts "\nWhat do you want to do?"
-  end
-
-  def print_menu
-    @io.puts '1 = list all shop items'
-    @io.puts '2 = create a new item'
-    @io.puts '3 = list all order'
-    @io.puts '4 = create a new order'
-    @io.puts '5 = assign an item to an order'
-    @io.puts '6 = exit'
-  end
-
   def process(input)
     case input
     when '1'
@@ -66,6 +47,32 @@ class Application
   def create_item
     new_item = Item.new
 
+    new_item.name, new_item.price, new_item.quantity = get_item_attribute_inputs 
+    
+    @item_repository.create(new_item)
+  end
+
+  private 
+
+  def print_welcome
+    @io.puts 'Welcome to the shop management program!'
+  end
+
+  def print_ask_for_input
+    @io.puts "\nWhat do you want to do?"
+  end
+
+  def print_menu
+    @io.puts '1 = list all shop items'
+    @io.puts '2 = create a new item'
+    @io.puts '3 = list all order'
+    @io.puts '4 = create a new order'
+    @io.puts '5 = assign an item to an order'
+    @io.puts '6 = exit'
+  end
+
+  
+  def get_item_attribute_inputs
     @io.print "\nPlease type the item's name?: "
     name = @io.gets.chomp
     @io.print "\nPlease type the item's price?: "
@@ -73,12 +80,9 @@ class Application
     @io.print "\nPlease type the item's quantity?: "
     quantity = @io.gets.chomp.to_i
 
-    new_item.name = name
-    new_item.price = price
-    new_item.quantity = quantity
-    
-    @item_repository.create(new_item)
+    return name, price, quantity
   end
+  
 
 
 end
