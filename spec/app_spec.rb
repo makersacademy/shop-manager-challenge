@@ -19,9 +19,9 @@ RSpec.describe Application do
         expect(io).to receive(:puts).with("What do you want to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n").ordered
         expect(io).to receive(:gets).and_return('1').ordered
         expect(io).to receive(:puts).with("\nHere's a list of all shop items:\n").ordered
-        expect(io).to receive(:puts).with("#1 Coffee Machine - Unit price: 99£ - Quantity: 7").ordered
-        expect(io).to receive(:puts).with("#2 Vacuum Cleaner - Unit price: 125£ - Quantity: 42").ordered
-        expect(io).to receive(:puts).with("#3 Curtain - Unit price: 34£ - Quantity: 205").ordered
+        expect(io).to receive(:puts).with("#1 Coffee Machine - Unit price: 99.99£ - Quantity: 7").ordered
+        expect(io).to receive(:puts).with("#2 Vacuum Cleaner - Unit price: 125.0£ - Quantity: 42").ordered
+        expect(io).to receive(:puts).with("#3 Curtain - Unit price: 34.0£ - Quantity: 205").ordered
         
         app = Application.new('shop_manager_test', io, ItemRepository.new, OrderRepository.new)
         app.run
@@ -54,9 +54,9 @@ RSpec.describe Application do
         expect(io).to receive(:puts).with("What do you want to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n").ordered
         expect(io).to receive(:gets).and_return("3").ordered
         expect(io).to receive(:puts).with("\nHere's a list of all shop orders:\n").ordered
-        expect(io).to receive(:puts).with("#1 - Customer's name: Andrea - Date: 2023-01-18 - Ordered Item: 1").ordered
-        expect(io).to receive(:puts).with("#2 - Customer's name: Céline - Date: 2023-03-14 - Ordered Item: 2").ordered
-        expect(io).to receive(:puts).with("#3 - Customer's name: Chiara - Date: 2023-04-19 - Ordered Item: 3").ordered
+        expect(io).to receive(:puts).with("#1 - Customer's name: Andrea - Date: 2023-01-18 - Ordered Item: Coffee Machine").ordered
+        expect(io).to receive(:puts).with("#2 - Customer's name: Céline - Date: 2023-03-14 - Ordered Item: Vacuum Cleaner").ordered
+        expect(io).to receive(:puts).with("#3 - Customer's name: Chiara - Date: 2023-04-19 - Ordered Item: Curtain").ordered
 
         app = Application.new('shop_manager_test', io, ItemRepository.new, OrderRepository.new)
         app.run
@@ -73,7 +73,11 @@ RSpec.describe Application do
         expect(io).to receive(:gets).and_return("Barbara").ordered
         expect(io).to receive(:puts).with("When has the order been placed? (AAAA-MM-DD)")
         expect(io).to receive(:gets).and_return("2023-04-30").ordered
-        expect(io).to receive(:puts).with("What is the item's ID?")
+        expect(io).to receive(:puts).with("What is the item's ID?\nPlease, select:").ordered
+        expect(io).to receive(:puts).with("1 for Coffee Machine").ordered
+        expect(io).to receive(:puts).with("2 for Vacuum Cleaner").ordered
+        expect(io).to receive(:puts).with("3 for Curtain").ordered
+
         expect(io).to receive(:gets).and_return("1").ordered
         expect(io).to receive(:puts).with("A new order for the item 1 has been created!")
 
