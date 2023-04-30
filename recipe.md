@@ -164,33 +164,14 @@ class ItemRepository
   def all
     # Executes the SQL query:
     # SELECT * FROM items;
-    # Returns all records as an array of user objects. - to be used by other methods.
-  end
-
-  # Gets a single record from the DB by its ID
-  # One argument: the id (number)
-  def find(id)
-    # Executes the SQL query:
-    # SELECT * FROM items WHERE id = $1;
-    # params = [id]
-
-    # Returns a single item object.
+    # Returns all records as an array of user objects. - to be used by other methods in app.rb.
   end
 
   # Adds a user to the users table in DB
-  def create(user_obj)
+  def create(item_obj)
     # adds a user object to the database
-    # 'INSERT INTO users(email_address, username) VALUES($1, $2);'
-    # params = [user_obj.email_address, user_obj.username]
-    # No return
-  end
-
- # Removes an object/row from the users table in DB 
- # SHOULD also remove corresponding objects from posts DB due to setup.
-  def delete(id)
-    # takes an id as arg and removes a row from the database with that arg id
-    # 'DELETE FROM items WHERE id = $1;'
-    # params = [id]
+    # 'INSERT INTO items(item_name, unit_price, quantity) VALUES($1, $2, $3);'
+    # params = [item_obj.item_name, item_obj.unit_price, item_obj.quantity]
     # No return
   end
 end
@@ -203,28 +184,16 @@ class OrderRepository
   def all 
     # Returns an array of all 
     # Method can be called by other methods later
+    # Executes the SQL query:
+    # SELECT * FROM orders;
   end
 
   def create(order_obj)
     # Adds a postobj to the posts table if post corresponds to existing user 
-    # 'INSERT INTO posts(title, content, views, user_id) VALUES($1, $2, $3, $4);'
+    # 'INSERT INTO orders(title, content, views, user_id) VALUES($1, $2, $3, $4);'
     # params = [post_obj.title, post_obj.content, post_obj.views, post_obj.user_id]
     # No return
   end
-
- # Should only remove an object/row from the posts table in DB
-  def delete(id)
-    # takes an id as arg and removes a row from the database with that arg id
-    # 'DELETE FROM posts WHERE id = $1;'
-    # params = [id]
-  end
-
-  def update(post)
-    # Takes a user object and updates that user row in DB
-    # 'UPDATE posts SET title = $1, content = $2, views = $3, user_id = $4 WHERE id = $1;'
-    # params = [post.title, post.content, post.views, post.user_id]
-  end
-
 end
 ```
 
@@ -235,51 +204,48 @@ These examples will later be encoded as RSpec tests.
 
 # EXAMPLES
 
-# 1. Get all users
-
+# 1. Get all items
 repo = ItemRepository.new
+repo.all.length => # returns correct integer dependent on how many rows are in DB
+repo.all.first.id => #always will return 1
+repo.all.last.id => #should return the same int as first test line 
+repo[2].item_name => #returns the item name of object at index 2 (assuming there are 3 objs in array)
+
+# Get all orders:
 repo = OrderRepository.new
 repo.all.length => # returns correct integer dependent on how many rows are in DB
 repo.all.first.id => #always will return 1
 repo.all.last.id => #should return the same int as first test line 
-repo[2]. => #returns the username of object at index 2 (assuming there are 3 objs in array)
+repo[2].customer_name => #returns the customer name of object at index 2 (assuming there are 3 objs in array)
 
 # if database is empty should return => []
 
-# 2. find selected
-repo = ItemRepository.new 
-repo = OrderRepository.new
-user = repo.find(2)
-expect(user.username).to eq # 'selected/expected username'
 
-# 3. Add a user obj to database
+# 2. Add an item obj to database
 repo = ItemRepository.new
-repo = OrderRepository.new
-user_1 = User.new
-user_1.email_address = 'mattymoomilk@tiscali.net'
-user_1.username = 'MattyMooMilk'
-repo.create(user_1)
-expect(repo.all.last.email_address).to eq 'mattymoomilk@tiscali.net'
-expect(repo.all.last.username).to eq 'MattyMooMilk'
+item_1 = Item.new # => can be a double => double :item, item_name: 'name', unit_price: '1.29', quantity: 1
+item_1.item_name = 'Big Skeng'
+item_1.unit_price = 3.99
+item_1.quantity = 5
+repo.create(item_1)
+expect(repo.all.last.item_name).to eq 'Big Skeng'
+expect(repo.all.last.unit_price).to eq '3.99'
 expect(repo.all.length) # => an integer 1 greater than our current length
 expect(repo.all.last.id).to eq # => ^ same integer as previous expect line ^
 
-# 4. Delete a user object 
-repo = UserRepository.new
-repo.delete(1)
-expect(repo.all.length)to eq # integer one less than current repo.length 
+# Add order obj to database 
+repo = OrderRepository.new
+order_1 = Item.new # => can be a double
+order_1.customer_name = 'Sean Paul'
+order_1.date_placed = '12/12/2023'
+order_1.item_id = 1
+repo.create(order_1)
+expect(repo.all.last.customer_name).to eq 'Sean Paul'
+expect(repo.all.last.date_placed).to eq '12/12/2023'
+expect(repo.all.length) # => an integer 1 greater than our current length
+expect(repo.all.last.id).to eq # => ^ same integer as previous expect line ^
 
-# from app.rb line can run from test DB .all to check - also repo.all[int] returns error out of scope
-
-# 5. Update a user object
-repo = UserRepository.new
-user_1 = repo.find(1)
-user_1.email_address = 'updatedemailaddress@gmail.com'
-user_1.username = 'updatedusername'
-repo.update(user_1)
-updated = repo.find(1)
-expect(updated.email_address).to eq 'updatedemailaddress@gmail.com'
-expect(updated.username).to eq 'updatedusername'
+# from command line can run app.rb from using test DB .all to check - also repo.all[int] returns error out of scope
 
 ```
 
@@ -287,31 +253,30 @@ expect(updated.username).to eq 'updatedusername'
 Running the SQL code present in the seed file will empty the table and re-insert the seed data.
 
 ```ruby
-# EXAMPLE
 
-# file: spec/user_repository_spec.rb
+# file: spec/item_repository_spec.rb
 
- def reset_   _table
-    seed_sql = File.read('spec/user_seeds.sql')
-    connection = PG.connect({ host: '127.0.0.1', dbname: 'social_network_test' })
+ def reset_items_table
+    seed_sql = File.read('spec/item_seeds.sql')
+    connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
     connection.exec(seed_sql)
   end
 
   before(:each) do
-    reset_users_table
+    reset_items_table
   end
 end
 
-# file: spec/post_repository_spec.rb
+# file: spec/order_repository_spec.rb
 
- def reset_   _table
-    seed_sql = File.read('spec/post_seeds.sql')
-    connection = PG.connect({ host: '127.0.0.1', dbname: 'social_network_test' })
+ def reset_orders_table
+    seed_sql = File.read('spec/order_seeds.sql')
+    connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
     connection.exec(seed_sql)
   end
 
   before(:each) do
-    reset_post_table
+    reset_orders_table
   end
 end
 ```
