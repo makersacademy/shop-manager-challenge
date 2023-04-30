@@ -7,7 +7,7 @@ class ItemRepository
   end
 
   def all
-    sql = "SELECT id, name, unit_price, stock_quantity FROM items;"
+    sql = "SELECT id, name, unit_price, stock_quantity FROM items ORDER BY id ASC;"
     result_set = DatabaseConnection.exec_params(sql, [])
     
     result_set.each do |record|
