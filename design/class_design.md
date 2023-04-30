@@ -43,3 +43,15 @@ class OrderRepository
   end
 end
 ```
+
+## Design changes post-implementation
+```plain
+find_by_id(id) methods have been implemented in both ItemRepository and OrderRepository classes. 
+This is currently only used to support add_items_to_order method in Application class.
+
+check_if_valid_id(id) methods have been implemented in both ItemRepository and OrderRepository classes
+to assis with handling invalid inputs
+
+return_all_assigned_items method in OrderRepository has been created to assist with RSpec tests
+that check for item assignment.
+```

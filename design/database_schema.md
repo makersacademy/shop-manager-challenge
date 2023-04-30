@@ -64,6 +64,7 @@ Join table for tables: items and orders
 Join table name: items_orders
 Columns: item_id, order_id
 ```
+![image](stock_control_database_schema.png)
 ## Write the SQL.
 ```sql
 -- Create the first table.
