@@ -1,6 +1,5 @@
 require_relative "./item_repository"
 require_relative "./order_repository"
-require_relative "./database_connection"
 
 class Application
   def initialize(
@@ -37,8 +36,7 @@ class Application
   end
     
   def add_new_order
-    customer, date = new_order_from_user
-    add_order_to_database(customer, date)
+    add_order_to_database(*new_order_from_user)
   end
 
   def new_order_from_user
@@ -83,20 +81,17 @@ class Application
     items = @item_repository.all
     @io.puts("Here's a list of all shop items:\n")
     items.each_with_index do |item, i|
-      formatted_price = format_price(item.unit_price)
-      formatted_item = "##{i + 1} #{item.name} - " +
-        "Unit price: #{formatted_price} - " +
+      @io.puts "##{i + 1} #{item.name} - " +
+        "Unit price: #{format_price(item.unit_price)} - " +
         "Quantity: #{item.quantity}"
-      @io.puts formatted_item
     end
   end
     
   def format_price(price)
-    price = price.to_i
-    pounds = (price / 100).to_s
-    pence = (price % 100).to_s
+    pounds = (price.to_i / 100).to_s
+    pence = (price.to_i % 100).to_s
     pence = "0" + pence if pence.length == 1
-    "£#{pounds}.#{pence % 100}"
+    "£#{pounds}.#{pence}"
   end
 
   def print_all_orders

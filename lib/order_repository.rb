@@ -4,7 +4,7 @@ class OrderRepository
   def all
     sql = "SELECT * FROM orders;"
     records = DatabaseConnection.exec_params(sql, [])
-    records.map { |record| convert_record_to_order(record) }
+    records.map { |record| record_to_order(record) }
   end
 
   def all_with_items
@@ -22,7 +22,7 @@ class OrderRepository
   def find(id)
     sql = "SELECT * FROM orders WHERE id = $1;"
     records = DatabaseConnection.exec_params(sql, [id])
-    convert_record_to_order(records.first)
+    record_to_order(records.first)
   end
 
   def find_with_items(id)
@@ -33,16 +33,9 @@ class OrderRepository
           WHERE orders.id = $1;"
 
     records = DatabaseConnection.exec_params(sql, [id])
-    return find(id) if records.ntuples == 0
-    order = convert_record_to_order(records.first)
-    records.each do |record|
-      item = Item.new
-      item.id = record["items_id"]
-      item.name = record["name"]
-      item.unit_price = record["unit_price"]
-      item.quantity = record["quantity"]
-      order.items << item
-    end
+    return find(id) if records.ntuples.zero?
+    order = record_to_order(records.first)
+    records.each { |record| order.items << record_to_item(record) }
     order
   end
   
@@ -55,11 +48,20 @@ class OrderRepository
   
   private
   
-  def convert_record_to_order(record)
+  def record_to_order(record)
     order = Order.new
     order.id = record["id"]
     order.customer_name = record["customer_name"]
     order.date_placed = record["date_placed"]
     order
+  end
+  
+  def record_to_item(record)
+    item = Item.new
+    item.id = record["items_id"]
+    item.name = record["name"]
+    item.unit_price = record["unit_price"]
+    item.quantity = record["quantity"]
+    item
   end
 end
