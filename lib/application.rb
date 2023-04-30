@@ -75,7 +75,11 @@ class Application
     order_id = @io.gets.chomp.to_i
     @io.print "\nWhich item would you like to add? [Input item #]: "
     item_id = @io.gets.chomp.to_i
+    
+    sql = 'INSERT INTO items_orders VALUES ($1, $2)'
 
+    params = [item_id, order_id]
+    DatabaseConnection.exec_params(sql, params)
   end
 
   private 
