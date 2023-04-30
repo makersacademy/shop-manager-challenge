@@ -9,11 +9,8 @@ class Application
   def initialize(io = Kernel, date_class = Date)
     @io = io
     @date_class = date_class
-    @methods = [method(:list_all_shop_items),
-                method(:create_an_item),
-                method(:list_all_orders),
-                method(:create_an_order),
-                method(:add_item_to_order)]
+    @methods = [method(:list_all_shop_items), method(:create_an_item), method(:list_all_orders),
+                method(:create_an_order), method(:add_item_to_order)]
     @menu_string = build_menu_string
   end
 
@@ -26,14 +23,13 @@ class Application
 
   def user_input
     input = obtain_user_input
-    return 'quit' if input == 'quit'
-    @methods[input - 1].call
+    return input == 'quit' ? 'quit' : @methods[input - 1].call
   end
 
   def list_all_shop_items
     items = ItemRepository.new.list
     for item in items do
-      @io.puts "Item id: #{item.id} - Item: #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
+      @io.puts "Id: #{item.id} - Item: #{item.name} - £#{item.unit_price} - Qty: #{item.quantity}"
     end
   end
 
@@ -42,13 +38,13 @@ class Application
 
     id = ItemRepository.new.create(item)
 
-    @io.puts "Item id: #{id} - Item: #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity} added"
+    @io.puts "Id: #{id} - Item: #{item.name} - £#{item.unit_price} - Qty: #{item.quantity} added"
   end
 
   def list_all_orders
     orders = OrderRepository.new.list
     for order in orders do
-      @io.puts "Order id: #{order.id} - Customer name: #{order.customer_name} - Order date: #{order.date}"
+      @io.puts "Id: #{order.id} - Customer: #{order.customer_name} - Order date: #{order.date}"
     end
   end
 
@@ -60,7 +56,7 @@ class Application
     order = Order.new(name, date)
 
     id = OrderRepository.new.create(order)
-    @io.puts "Order id: #{id} - Customer name: #{name} - Order date: #{date} added"
+    @io.puts "Id: #{id} - Customer: #{name} - Order date: #{date} added"
   end
 
   def add_item_to_order
@@ -72,20 +68,16 @@ class Application
 
     order_repo.assign_item(order_id, item_id)
 
-    item = ItemRepository.new.find_by_id(item_id)
-    order = OrderRepository.new.find_by_id(item_id)
+    item = item_repo.find_by_id(item_id)
+    order = order_repo.find_by_id(item_id)
     @io.puts "#{item.name} have been added to #{order.customer_name}'s order"
   end
 
   private 
   
   def build_menu_string
-    string = "What would you like to do?\n"
-    string << "\t1 -> List all shop items\n"
-    string << "\t2 -> Create a new item\n"
-    string << "\t3 -> List all orders\n"
-    string << "\t4 -> Create a new order \n"
-    string << "\t5 -> Add items to order"
+    string = "What would you like to do?\n\t1 -> List all shop items\n\t2 -> Create a new item\n"
+    string << "\t3 -> List all orders\n\t4 -> Create a new order \n\t5 -> Add items to order"
   end
 
   def obtain_user_input

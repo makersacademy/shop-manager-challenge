@@ -19,10 +19,10 @@ RSpec.describe Application do
     app = Application.new(io)
     expect(io).to receive(:puts).with(app.menu_string)
     expect(io).to receive(:gets).and_return('1')
-    expect(io).to receive(:puts).with("Item id: 1 - Item: pens - Unit price: 2 - Quantity: 234")
-    expect(io).to receive(:puts).with("Item id: 2 - Item: pencils - Unit price: 1 - Quantity: 998")
-    expect(io).to receive(:puts).with("Item id: 3 - Item: paper - Unit price: 5 - Quantity: 123")
-    expect(io).to receive(:puts).with("Item id: 4 - Item: brush - Unit price: 4 - Quantity: 927")
+    expect(io).to receive(:puts).with("Id: 1 - Item: pens - £2 - Qty: 234")
+    expect(io).to receive(:puts).with("Id: 2 - Item: pencils - £1 - Qty: 998")
+    expect(io).to receive(:puts).with("Id: 3 - Item: paper - £5 - Qty: 123")
+    expect(io).to receive(:puts).with("Id: 4 - Item: brush - £4 - Qty: 927")
     expect(io).to receive(:puts).with(
       app.menu_string
     )
@@ -49,7 +49,7 @@ RSpec.describe Application do
     )
     expect(io).to receive(:gets).and_return('777')
     expect(io).to receive(:puts).with(
-      "Item id: 5 - Item: eraser - Unit price: 1 - Quantity: 777 added"
+      "Id: 5 - Item: eraser - £1 - Qty: 777 added"
     )
     expect(io).to receive(:puts).with(app.menu_string)
     expect(io).to receive(:gets).and_return('quit')
@@ -62,8 +62,8 @@ RSpec.describe Application do
     app = Application.new(io)
     expect(io).to receive(:puts).with(app.menu_string)
     expect(io).to receive(:gets).and_return('3')
-    expect(io).to receive(:puts).with("Order id: 1 - Customer name: Mike - Order date: 2023-04-28")
-    expect(io).to receive(:puts).with("Order id: 2 - Customer name: Steve - Order date: 2023-04-27")
+    expect(io).to receive(:puts).with("Id: 1 - Customer: Mike - Order date: 2023-04-28")
+    expect(io).to receive(:puts).with("Id: 2 - Customer: Steve - Order date: 2023-04-27")
     expect(io).to receive(:puts).with(
       app.menu_string
     )
@@ -81,7 +81,7 @@ RSpec.describe Application do
     expect(io).to receive(:puts).with("Please enter the customer name:")
     expect(io).to receive(:gets).and_return("Barney")
     expect(io).to receive(:puts).with(
-      "Order id: 3 - Customer name: Barney - Order date: 2023-04-29 added"
+      "Id: 3 - Customer: Barney - Order date: 2023-04-29 added"
     )
     expect(io).to receive(:puts).with(
       app.menu_string
@@ -151,7 +151,7 @@ RSpec.describe Application do
       )
       expect(io).to receive(:gets).and_return('777')
       expect(io).to receive(:puts).with(
-        "Item id: 5 - Item: eraser - Unit price: 1 - Quantity: 777 added"
+        "Id: 5 - Item: eraser - £1 - Qty: 777 added"
       )
       expect(io).to receive(:puts).with(app.menu_string)
       expect(io).to receive(:gets).and_return('quit')
@@ -186,7 +186,7 @@ RSpec.describe Application do
 
       expect(io).to receive(:gets).and_return('777')
       expect(io).to receive(:puts).with(
-        "Item id: 5 - Item: eraser - Unit price: 1 - Quantity: 777 added"
+        "Id: 5 - Item: eraser - £1 - Qty: 777 added"
       )
       expect(io).to receive(:puts).with(app.menu_string)
       expect(io).to receive(:gets).and_return('quit')
