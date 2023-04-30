@@ -74,7 +74,7 @@ class Application
     customer_name = @io.gets.chomp
     @io.puts "When has the order been placed? (AAAA-MM-DD)"
     date = @io.gets
-    @io.puts "What is the item's ID?\nPlease, select:"
+    @io.puts "What is the item's ID?\n \nPlease, select:"
     list_items_with_name_and_id
     item_id = @io.gets.to_i
     create_new_order(customer_name, date, item_id)

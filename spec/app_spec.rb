@@ -73,7 +73,7 @@ RSpec.describe Application do
         expect(io).to receive(:gets).and_return("Barbara").ordered
         expect(io).to receive(:puts).with("When has the order been placed? (AAAA-MM-DD)")
         expect(io).to receive(:gets).and_return("2023-04-30").ordered
-        expect(io).to receive(:puts).with("What is the item's ID?\nPlease, select:").ordered
+        expect(io).to receive(:puts).with("What is the item's ID?\n \nPlease, select:").ordered
         expect(io).to receive(:puts).with("1 for Coffee Machine").ordered
         expect(io).to receive(:puts).with("2 for Vacuum Cleaner").ordered
         expect(io).to receive(:puts).with("3 for Curtain").ordered
