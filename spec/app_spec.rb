@@ -13,7 +13,7 @@ describe Application do
     reset_shop_manager
   end
 
-  it "Asks user what they want to do, and returns 1 - list of all shop items" do
+  it "1 - Lists of all shop items" do
     io = double :io
     item_repository = ItemRepository.new
     order_repository = OrderRepository.new
@@ -58,7 +58,7 @@ describe Application do
     app.run
   end
 
-  it "Returns 3 - lists all orders" do
+  it "3 - lists all orders" do
     io = double :io
     item_repository = ItemRepository.new
     order_repository = OrderRepository.new

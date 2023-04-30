@@ -1,4 +1,6 @@
 require_relative 'lib/database_connection'
+require_relative 'lib/item_repository'
+require_relative 'lib/order_repository'
 
 class Application
 
@@ -28,10 +30,36 @@ class Application
       @item_repository.all.each do |record|
         @io.puts "##{record.id} #{record.name} - Unit price: £#{record.unit_price} - Quantity: #{record.quantity}"
       end
+    elsif choice == "2"
+      new_item = Item.new
+
+      @io.puts "Please enter the item's name"
+      new_item.name = @io.gets.chomp
+      @io.puts "Please enter the item's unit price"
+      new_item.unit_price = @io.gets.chomp
+      @io.puts "Please enter the item's quantity"
+      new_item.quantity = @io.gets.chomp
+
+      @item_repository.create(new_item)
+
+      @io.puts "Item successfully added to the stop!" 
     elsif choice == "3"
       @order_repository.all.each do |record|
         @io.puts "##{record.id} #{record.customer_name} - Date: #{record.date} - Item: #{@item_repository.find(record.item_id).name}"
       end
+    # elsif choice == "2"
+    #   new_item = Item.new
+
+    #   @io.puts "Please enter the item's name"
+    #   new_item.name = @io.gets.chomp
+    #   @io.puts "Please enter the item's unit price"
+    #   new_item.unit_price = @io.gets.chomp
+    #   @io.puts "Please enter the item's quantity"
+    #   new_item.quantity = @io.gets.chomp
+
+    #   @item_repository.create(new_item)
+
+    #   @io.puts "Item successfully added to the stop!" 
     else
       return
     end
@@ -39,18 +67,8 @@ class Application
 
 end
 
-# Welcome to the shop management program!
-
-# What do you want to do?
-#   1 = list all shop items
-#   2 = create a new item
-#   3 = list all orders
-#   4 = create a new order
-
-# 1 [enter]
-
-# Here's a list of all shop items:
-
-#  #1 Super Shark Vacuum Cleaner - Unit price: 99 - Quantity: 30
-#  #2 Makerspresso Coffee Machine - Unit price: 69 - Quantity: 15
-#  (...)
+# item_repository = ItemRepository.new
+# order_repository = OrderRepository.new
+# io = Kernel
+# app = Application.new('shop_manager', io, item_repository, order_repository)
+# app.run
