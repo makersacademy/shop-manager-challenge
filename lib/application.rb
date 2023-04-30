@@ -27,7 +27,7 @@ class Application
     when '3'
       # 4th do this (see if you can show the order contents too)
     when '4'
-      # 3rd do this
+      create_order
     when '5'
       # last do this
     when '6'
@@ -50,6 +50,10 @@ class Application
     new_item.name, new_item.price, new_item.quantity = get_item_attribute_inputs 
     
     @item_repository.create(new_item)
+  end
+
+  def create_order
+    
   end
 
   private 
