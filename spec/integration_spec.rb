@@ -46,6 +46,7 @@ def welcome_screen_expects(io_dbl)
     .with('6 = exit').ordered
 end
 
+
 RSpec.describe 'shop manager integration' do
   before(:each) do 
     reset_test_tables
@@ -61,6 +62,7 @@ RSpec.describe 'shop manager integration' do
         .and_return('choice').ordered
 
         app.run
+        # will need to an an expect.to recieve(:get).and return ('6') once the loop starts
     end
   end
 
@@ -75,37 +77,77 @@ RSpec.describe 'shop manager integration' do
         .and_return("1\n").ordered
         expect(io_dbl).to receive(:puts)
         .with( "1 item_one - Unit price: 1 - Quantity: 1\n2 item_two - Unit price: 2 - Quantity: 2\n3 item_three - Unit price: 3 - Quantity: 3\n4 item_four - Unit price: 4 - Quantity: 4\n5 item_five - Unit price: 5 - Quantity: 5\n").ordered
+        # will need to an an expect.to recieve(:get).and return ('6') once the loop starts
         app.run
+
+
       end
     end  
 
     context "when a user inputs 2" do
       it 'creates a new item' do
-        # ..
+        io_dbl = double :io
+        app = Application.new('shop_manager_test', io_dbl)
+
+        welcome_screen_expects(io_dbl)
+
+        expect(io_dbl).to receive(:gets)
+          .and_return("2\n").ordered
+          
+        expect(io_dbl).to receive(:print)
+          .with("\nPlease type the item's name?: ").ordered
+        expect(io_dbl).to receive(:gets)
+          .and_return("item_six").ordered
+        expect(io_dbl).to receive(:print)
+          .with("\nPlease type the item's price?: ").ordered
+        expect(io_dbl).to receive(:gets)
+          .and_return("6\n").ordered
+        expect(io_dbl).to receive(:print)
+          .with("\nPlease type the item's quantity?: ").ordered
+        expect(io_dbl).to receive(:gets)
+          .and_return("6\n").ordered
+          
+        app.run
+  
+        repo = app.instance_variable_get(:@item_repository)
+        items = repo.all 
+
+        expect(items.length).to eq 6
+        expect(items.last.name).to eq "item_six"
+
       end
     end  
 
     context "when a user inputs 3" do
-      it 'lists all orders' do
+      xit 'lists all orders' do
+        welcome_screen_expects(io_dbl)
         # ..
       end
     end
 
     context "when a user inputs 4" do
-      it 'creates a new order' do
+      xit 'creates a new order' do
+        welcome_screen_expects(io_dbl)
         # ..
       end
     end
 
     context "when a user inputs 5" do
-      it 'assigns an item to an order' do
+      xit 'assigns an item to an order' do
+        welcome_screen_expects(io_dbl)
         # ..
       end
     end
 
     context "when a user inputs 6" do
       it 'exits the program' do
-        # ..
+        io_dbl = double :io
+        app = Application.new('shop_manager_test', io_dbl)
+
+        welcome_screen_expects(io_dbl)
+        expect(io_dbl).to receive(:gets)
+        .and_return("6\n").ordered 
+        expect { app.run }.to raise_error(SystemExit)
       end
     end
 

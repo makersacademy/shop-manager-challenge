@@ -13,7 +13,7 @@ class Application
 
   def run
     print_welcome
-    ask_for_input
+    print_ask_for_input
     print_menu
     process(@io.gets.chomp)
   end
@@ -24,7 +24,7 @@ class Application
     @io.puts 'Welcome to the shop management program!'
   end
 
-  def ask_for_input
+  def print_ask_for_input
     @io.puts "\nWhat do you want to do?"
   end
 
@@ -42,16 +42,16 @@ class Application
     when '1'
       puts_formatted_item_list
     when '2'
-      #...
+      create_item
     when '3'
-      #...
+      # 4th do this (see if you can show the order contents too)
     when '4'
-      #...
+      # 3rd do this
     when '5'
-      #...
+      # last do this
     when '6'
-      #...
-    end
+      exit
+    end 
   end
 
   def puts_formatted_item_list
@@ -61,6 +61,23 @@ class Application
       formatted_string << item_string
     end
     @io.puts formatted_string
+  end
+
+  def create_item
+    new_item = Item.new
+
+    @io.print "\nPlease type the item's name?: "
+    name = @io.gets.chomp
+    @io.print "\nPlease type the item's price?: "
+    price = @io.gets.chomp.to_i
+    @io.print "\nPlease type the item's quantity?: "
+    quantity = @io.gets.chomp.to_i
+
+    new_item.name = name
+    new_item.price = price
+    new_item.quantity = quantity
+    
+    @item_repository.create(new_item)
   end
 
 
