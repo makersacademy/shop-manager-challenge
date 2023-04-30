@@ -29,7 +29,7 @@ end
 
 def welcome_screen_expects(io_dbl)
   expect(io_dbl).to receive(:puts)
-  .with('Welcome to the shop management program!').ordered
+    .with('Welcome to the shop management program!').ordered
   expect(io_dbl).to receive(:puts)
     .with("\nWhat do you want to do?").ordered
   expect(io_dbl).to receive(:puts)
@@ -74,9 +74,9 @@ RSpec.describe 'shop manager integration' do
 
         welcome_screen_expects(io_dbl)
         expect(io_dbl).to receive(:gets)
-        .and_return("1\n").ordered
+          .and_return("1\n").ordered
         expect(io_dbl).to receive(:puts)
-        .with( "1 item_one - Unit price: 1 - Quantity: 1\n2 item_two - Unit price: 2 - Quantity: 2\n3 item_three - Unit price: 3 - Quantity: 3\n4 item_four - Unit price: 4 - Quantity: 4\n5 item_five - Unit price: 5 - Quantity: 5\n").ordered
+          .with( "1 item_one - Unit price: 1 - Quantity: 1\n2 item_two - Unit price: 2 - Quantity: 2\n3 item_three - Unit price: 3 - Quantity: 3\n4 item_four - Unit price: 4 - Quantity: 4\n5 item_five - Unit price: 5 - Quantity: 5\n").ordered
         # will need a loop break once loop is implemented
         app.run
 
@@ -128,9 +128,9 @@ RSpec.describe 'shop manager integration' do
         welcome_screen_expects(io_dbl)
 
         expect(io_dbl).to receive(:gets)
-        .and_return("3\n").ordered
+          .and_return("3\n").ordered
         expect(io_dbl).to receive(:puts)
-        .with( "1 - Customer name: Jeff  - Order date: 2023-10-16 Items: item_one, item_five \n2 - Customer name: John  - Order date: 2023-11-16 Items: \n3 - Customer name: Jerry  - Order date: 2023-12-16 Items: item_three, item_four \n4 - Customer name: George  - Order date: 2024-01-16 Items: item_two \n").ordered
+          .with( "1 - Customer name: Jeff  - Order date: 2023-10-16 Items: item_one, item_five \n2 - Customer name: John  - Order date: 2023-11-16 Items: \n3 - Customer name: Jerry  - Order date: 2023-12-16 Items: item_three, item_four \n4 - Customer name: George  - Order date: 2024-01-16 Items: item_two \n").ordered
         # will need a loop break once loop is implemented
         
         app.run
@@ -145,7 +145,7 @@ RSpec.describe 'shop manager integration' do
         welcome_screen_expects(io_dbl)
 
         expect(io_dbl).to receive(:gets)
-        .and_return("4\n").ordered
+          .and_return("4\n").ordered
         
         expect(io_dbl).to receive(:print)
           .with("\nPlease type the customer's name?: ").ordered
@@ -172,10 +172,45 @@ RSpec.describe 'shop manager integration' do
     end
 
     context "when a user inputs 5" do
-      xit 'assigns an item to an order' do
+      it 'assigns an item to an order' do
+        io_dbl = double :io
+        # creating a new, unassigned item to add to an existing empty order
+        new_item = Item.new
+        new_item.name = "new_item"
+        new_item.price = 6
+        new_item.quantity = 6
+
+        repo = ItemRepository.new
+        repo.create(new_item)
+
+        app = Application.new('shop_manager_test', io_dbl)
+
         welcome_screen_expects(io_dbl)
-        # ..
+
+        expect(io_dbl).to receive(:gets)
+          .and_return("5\n").ordered 
+
+        expect(io_dbl).to receive(:print)
+          .with("\nWhich order would you like to add to? [Input order #]: ").ordered     
+        expect(io_dbl).to receive(:gets)
+          .and_return("2\n").ordered     
+        expect(io_dbl).to receive(:print)
+          .with("\nWhich item would you like to add? [Input item #]: ").ordered     
+        expect(io_dbl).to receive(:gets)
+          .and_return("6\n").ordered     
+    
+        app.run
+
+        app_item_repo = app.instance_variable_get(:@item_repository)
+
+        items_on_order_two = app_item_repo.find_by_order(2)
+
+        expect(items_on_order_two.length).to eq 1
+        expect(items_on_order_two.first.name).to eq 'new_item'
+        # will need a loop break once loop is implemented
       end
+
+      # re-prompt if empty input? re-prompt if item already on order? re-prompt if item/order non-existent?
     end
 
     context "when a user inputs 6" do
@@ -185,7 +220,7 @@ RSpec.describe 'shop manager integration' do
 
         welcome_screen_expects(io_dbl)
         expect(io_dbl).to receive(:gets)
-        .and_return("6\n").ordered 
+          .and_return("6\n").ordered 
         expect { app.run }.to raise_error(SystemExit)
       end
     end

@@ -29,7 +29,7 @@ class Application
     when '4'
       create_order
     when '5'
-      # last do this
+      assign_item_to_order
     when '6'
       exit
     end 
@@ -68,6 +68,14 @@ class Application
     new_order.customer_name, new_order.order_date = get_order_attribute_inputs
 
     @order_repository.create(new_order)
+  end
+
+  def assign_item_to_order
+    @io.print "\nWhich order would you like to add to? [Input order #]: "
+    order_id = @io.gets.chomp.to_i
+    @io.print "\nWhich item would you like to add? [Input item #]: "
+    item_id = @io.gets.chomp.to_i
+
   end
 
   private 
