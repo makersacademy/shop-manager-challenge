@@ -53,7 +53,16 @@ class Application
   end
 
   def create_order
-    
+    new_order = Order.new
+
+    @io.print "\nPlease type the customer's name?: "
+    customer_name = @io.gets.chomp
+    @io.print "\nPlease type the order date [format: YYYY-MM-DD]?: "
+    order_date = @io.gets.chomp
+
+    new_order.customer_name, new_order.order_date = customer_name, order_date
+
+    @order_repository.create(new_order)
   end
 
   private 

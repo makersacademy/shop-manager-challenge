@@ -154,7 +154,7 @@ RSpec.describe 'shop manager integration' do
 
         expect(orders.length).to eq 5
         expect(orders.last.customer_name).to eq "Billy-Bob"
- 
+         # will need a loop break once loop is implemented
       end
 
        # re-prompts if date format is wrong? re-prompts with empty input?
