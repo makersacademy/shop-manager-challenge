@@ -79,7 +79,7 @@ end
 # item_repository = ItemRepository.new
 # order_repository = OrderRepository.new
 # io = Kernel
-# app = Application.new('shop_manager_test', io, item_repository, order_repository)
+# app = Application.new('shop_manager', io, item_repository, order_repository)
 # app.run
 
-# uncomment all comments to run the Application class with a loop
+# uncomment all comments to run the Application class with a loop and using shop_manager production database
