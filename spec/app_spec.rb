@@ -94,36 +94,74 @@ RSpec.describe Application do
     app.run
   end
 
-  it 'creates a new order' do
-    order_repo = double(:order_repository)
-    item_repo = double(:item_repository)
-    order_class = double(:order_class)
-    item_class = double(:item_class)
+  context 'when adding orders' do
+    it 'creates a new order' do
+      order_repo = double(:order_repository)
+      item_repo = double(:item_repository)
+      order_class = double(:order_class)
+      item_class = double(:item_class, out_of_stock: false)
 
-    expect(order_class).to receive(:customer_name=).with("Jane")
-    expect(order_class).to receive(:date_placed=).with('2023-04-30')
-    expect(order_class).to receive(:item_id=).with(1)
+      expect(order_class).to receive(:customer_name=).with("Jane")
+      expect(order_class).to receive(:date_placed=).with('2023-04-30')
+      expect(order_class).to receive(:item_id=).with(1)
+      expect(order_class).to receive(:item_id).and_return(1)
+      expect(item_repo).to receive(:find).with(1).and_return(item_class)
 
-    io = double(:io)
-    test_introduction(io)
+      io = double(:io)
+      test_introduction(io)
 
-    expect(io).to receive(:gets).and_return "4"
-    expect(io).to receive(:puts).with ""
-    expect(io).to receive(:puts).with "Customer's name:"
-    expect(io).to receive(:gets).and_return "Jane"
-    expect(io).to receive(:puts).with "Date placed (YYYY-MM-DD):"
-    expect(io).to receive(:gets).and_return '2023-04-30'
-    expect(io).to receive(:puts).with "Item id:"
-    expect(io).to receive(:gets).and_return "1"
+      expect(io).to receive(:gets).and_return "4"
+      expect(io).to receive(:puts).with ""
+      expect(io).to receive(:puts).with "Customer's name:"
+      expect(io).to receive(:gets).and_return "Jane"
+      expect(io).to receive(:puts).with "Date placed (YYYY-MM-DD):"
+      expect(io).to receive(:gets).and_return '2023-04-30'
+      expect(io).to receive(:puts).with "Item id:"
+      expect(io).to receive(:gets).and_return "1"
 
-    expect(order_repo).to receive(:create).with(order_class)
-    expect(io).to receive(:puts).with "Order successfully added"
+      expect(order_repo).to receive(:create).with(order_class)
+      expect(io).to receive(:puts).with "Order successfully added"
 
-    app = Application.new(
-      'shop_manager_test', io, 
-      item_repo, order_repo, 
-      item_class, order_class
-    )
-    app.run
+      app = Application.new(
+        'shop_manager_test', io, 
+        item_repo, order_repo, 
+        item_class, order_class
+      )
+      app.run
+    end
+
+    it 'fails when creating an order for out of stock item' do
+      order_repo = double(:order_repository)
+      item_repo = double(:item_repository)
+      order_class = double(:order_class)
+      item_class = double(:item_class, out_of_stock: true)
+
+      expect(order_class).to receive(:customer_name=).with("Jane")
+      expect(order_class).to receive(:date_placed=).with('2023-04-30')
+      expect(order_class).to receive(:item_id=).with(1)
+      expect(order_class).to receive(:item_id).and_return(1)
+
+      expect(item_repo).to receive(:find).with(1).and_return(item_class)
+
+      io = double(:io)
+      test_introduction(io)
+
+      expect(io).to receive(:gets).and_return "4"
+      expect(io).to receive(:puts).with ""
+      expect(io).to receive(:puts).with "Customer's name:"
+      expect(io).to receive(:gets).and_return "Jane"
+      expect(io).to receive(:puts).with "Date placed (YYYY-MM-DD):"
+      expect(io).to receive(:gets).and_return '2023-04-30'
+      expect(io).to receive(:puts).with "Item id:"
+      expect(io).to receive(:gets).and_return "1"
+
+      app = Application.new(
+        'shop_manager_test', io, 
+        item_repo, order_repo, 
+        item_class, order_class
+      )
+
+      expect{ app.run }.to raise_error "Sorry, none in stock!"
+    end
   end
 end

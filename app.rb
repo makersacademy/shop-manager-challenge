@@ -24,13 +24,9 @@ class Application
     when "3"
       display_orders
     when "4"
-      begin
-        create_order
-      rescue RuntimeError
-        @io.puts "Unable to place order, not enough stock."
-      else
-        @io.puts "Order successfully added"
-      end
+      get_order_input
+      check_item_stock
+      create_order
     end
   end
 
@@ -78,14 +74,23 @@ class Application
     end
   end
 
-  def create_order
+  def get_order_input
     @io.puts "Customer's name:"
     @order.customer_name = @io.gets.chomp
     @io.puts "Date placed (YYYY-MM-DD):"
     @order.date_placed = @io.gets.chomp
     @io.puts "Item id:"
     @order.item_id = @io.gets.chomp.to_i
+  end
+
+  def check_item_stock
+    order_item = @item_repository.find(@order.item_id)
+    fail "Sorry, none in stock!" if order_item.out_of_stock
+  end
+
+  def create_order
     @order_repository.create(@order)
+    @io.puts "Order successfully added"
   end
 end
 
