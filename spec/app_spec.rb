@@ -13,67 +13,52 @@ RSpec.describe Application do
 
   describe "#run" do
     context "when the users selects 1" do
-      xit "returns the list of items" do
+      it "returns the list of items" do
         io = double :terminal
-        expect(io).to receive(:puts).with("Welcome to the shop management program!").ordered
-        expect(io).to receive(:puts).with("").ordered
-        expect(io).to receive(:puts).with("What do you want to do?").ordered
-        expect(io).to receive(:puts).with("1 = list all shop items").ordered
-        expect(io).to receive(:puts).with("2 = create a new item").ordered
-        expect(io).to receive(:puts).with("3 = list all orders").ordered
-        expect(io).to receive(:puts).with("4 = create a new order").ordered
-        expect(io).to receive(:puts).with("").ordered
-        expect(io).to receive(:gets).and_return("1").ordered
-
+        expect(io).to receive(:puts).with("Welcome to the shop management program!\n \n").ordered
+        expect(io).to receive(:puts).with("What do you want to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n").ordered
+        expect(io).to receive(:gets).and_return('1').ordered
+        expect(io).to receive(:puts).with("\nHere's a list of all shop items:\n").ordered
+        expect(io).to receive(:puts).with("#1 Coffee Machine - Unit price: 99 - Quantity: 7").ordered
+        expect(io).to receive(:puts).with("#2 Vacuum Cleaner - Unit price: 125 - Quantity: 42").ordered
+        expect(io).to receive(:puts).with("#3 Curtain - Unit price: 34 - Quantity: 205").ordered
+        
         app = Application.new('shop_manager_test', io, ItemRepository.new, OrderRepository.new)
-        all_items = app.list_all_items
-        expect(all_items.length).to eq 3
-        expect(all_items.first.name).to eq "Coffee Machine"
         app.run
       end
     end  
- 
+    
     context "when the users selects 2" do
-      xit "creates a new item" do
+      it "creates a new item" do
         io = double :terminal
-        expect(io).to receive(:puts).with("Welcome to the shop management program!").ordered
-        expect(io).to receive(:puts).with("").ordered
-        expect(io).to receive(:puts).with("What do you want to do?").ordered
-        expect(io).to receive(:puts).with("1 = list all shop items").ordered
-        expect(io).to receive(:puts).with("2 = create a new item").ordered
-        expect(io).to receive(:puts).with("3 = list all orders").ordered
-        expect(io).to receive(:puts).with("4 = create a new order").ordered
-        expect(io).to receive(:puts).with("").ordered
-        expect(io).to receive(:gets).and_return("3").ordered
+        expect(io).to receive(:puts).with("Welcome to the shop management program!\n \n").ordered
+        expect(io).to receive(:puts).with("What do you want to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n").ordered
+        expect(io).to receive(:gets).and_return("2").ordered
+        expect(io).to receive(:puts).with("What is the name of the item?").ordered
+        expect(io).to receive(:gets).and_return("Projector").ordered
+        expect(io).to receive(:puts).with("What is the unit price of the item?").ordered
+        expect(io).to receive(:gets).and_return("34").ordered
+        expect(io).to receive(:puts).with("What is the stock quantity of the item?").ordered
+        expect(io).to receive(:gets).and_return("20").ordered
+        expect(io).to receive(:puts).with("The item Projector has been created!").ordered
+
         app = Application.new('shop_manager_test', io, ItemRepository.new, OrderRepository.new)
         app.run
-        app.create_new_item("Projector", "37.40", "44")
-        all_items = app.list_all_items
-        expect(all_items.length).to eq 4
-        expect(all_items.last.name).to eq "Projector"
-        expect(all_items.last.unit_price).to eq '37.40'
-        expect(all_items.last.stock_quantity).to eq "44"
-        expect(all_items.last.id).to eq '4'
       end
     end  
     
     context "when the users selects 3" do
-      xit "returns the list of orders" do
+      it "returns the list of orders" do
         io = double :terminal
-        expect(io).to receive(:puts).with("Welcome to the shop management program!").ordered
-        expect(io).to receive(:puts).with("").ordered
-        expect(io).to receive(:puts).with("What do you want to do?").ordered
-        expect(io).to receive(:puts).with("1 = list all shop items").ordered
-        expect(io).to receive(:puts).with("2 = create a new item").ordered
-        expect(io).to receive(:puts).with("3 = list all orders").ordered
-        expect(io).to receive(:puts).with("4 = create a new order").ordered
-        expect(io).to receive(:puts).with("").ordered
-        expect(io).to receive(:gets).and_return("1").ordered
+        expect(io).to receive(:puts).with("Welcome to the shop management program!\n \n").ordered
+        expect(io).to receive(:puts).with("What do you want to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n").ordered
+        expect(io).to receive(:gets).and_return("3").ordered
+        expect(io).to receive(:puts).with("\nHere's a list of all shop orders:\n").ordered
+        expect(io).to receive(:puts).with("#1 - Customer's name: Andrea - Date: 2023-01-18 - Ordered Item: 1").ordered
+        expect(io).to receive(:puts).with("#2 - Customer's name: Céline - Date: 2023-03-14 - Ordered Item: 2").ordered
+        expect(io).to receive(:puts).with("#3 - Customer's name: Chiara - Date: 2023-04-19 - Ordered Item: 3").ordered
+
         app = Application.new('shop_manager_test', io, ItemRepository.new, OrderRepository.new)
-        all_orders = app.list_all_orders
-        expect(all_orders.length).to eq 3
-        expect(all_orders.first.customer_name).to eq "Andrea"
-        expect(all_orders[2].date).to eq '2023-04-19'
         app.run
       end
     end     
@@ -81,23 +66,19 @@ RSpec.describe Application do
     context "when the users selects 4" do
       it "creates a new order" do
         io = double :terminal
-        expect(io).to receive(:puts).with("Welcome to the shop management program!").ordered
-        expect(io).to receive(:puts).with("").ordered
-        expect(io).to receive(:puts).with("What do you want to do?").ordered
-        expect(io).to receive(:puts).with("1 = list all shop items").ordered
-        expect(io).to receive(:puts).with("2 = create a new item").ordered
-        expect(io).to receive(:puts).with("3 = list all orders").ordered
-        expect(io).to receive(:puts).with("4 = create a new order").ordered
-        expect(io).to receive(:puts).with("").ordered
+        expect(io).to receive(:puts).with("Welcome to the shop management program!\n \n").ordered
+        expect(io).to receive(:puts).with("What do you want to do?\n1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order\n").ordered
         expect(io).to receive(:gets).and_return("4").ordered
+        expect(io).to receive(:puts).with("What is the customer's name of the new order?")
+        expect(io).to receive(:gets).and_return("Barbara").ordered
+        expect(io).to receive(:puts).with("When has the order been placed? (AAAA-MM-DD)")
+        expect(io).to receive(:gets).and_return("2023-04-30").ordered
+        expect(io).to receive(:puts).with("What is the item's ID?")
+        expect(io).to receive(:gets).and_return("1").ordered
+        expect(io).to receive(:puts).with("A new order for the item 1 has been created!")
+
         app = Application.new('shop_manager_test', io, ItemRepository.new, OrderRepository.new)
         app.run
-        app.create_new_order("Ilaria", '2023-04-29', "1")
-        all_orders = app.list_all_orders
-        expect(all_orders.length).to eq 4
-        expect(all_orders.last.customer_name).to eq "Ilaria"
-        expect(all_orders.last.date).to eq '2023-04-29'
-        expect(all_orders.last.item_id).to eq "1"
       end
     end  
   end
