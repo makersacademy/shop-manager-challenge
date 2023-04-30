@@ -65,12 +65,7 @@ class Application
   def create_order
     new_order = Order.new
 
-    @io.print "\nPlease type the customer's name?: "
-    customer_name = @io.gets.chomp
-    @io.print "\nPlease type the order date [format: YYYY-MM-DD]?: "
-    order_date = @io.gets.chomp
-
-    new_order.customer_name, new_order.order_date = customer_name, order_date
+    new_order.customer_name, new_order.order_date = get_order_attribute_inputs
 
     @order_repository.create(new_order)
   end
@@ -104,6 +99,15 @@ class Application
     quantity = @io.gets.chomp.to_i
 
     return name, price, quantity
+  end
+
+  def get_order_attribute_inputs
+    @io.print "\nPlease type the customer's name?: "
+    customer_name = @io.gets.chomp
+    @io.print "\nPlease type the order date [format: YYYY-MM-DD]?: "
+    order_date = @io.gets.chomp
+
+    return customer_name, order_date
   end
   
   def list_items_in_order(order)
