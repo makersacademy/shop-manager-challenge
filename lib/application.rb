@@ -25,7 +25,7 @@ class Application
     when '2'
       create_item
     when '3'
-      # 4th do this (see if you can show the order contents too)
+      puts_formatted_order_list
     when '4'
       create_order
     when '5'
@@ -50,6 +50,16 @@ class Application
     new_item.name, new_item.price, new_item.quantity = get_item_attribute_inputs 
     
     @item_repository.create(new_item)
+  end
+
+  def puts_formatted_order_list
+    formatted_string = ""
+    @order_repository.all.each_with_index do |order, i|
+      order_string = "#{i+1} - Customer name: #{order.customer_name}  - Order date: #{order.order_date} Items:#{list_items_in_order(order)} \n"
+      formatted_string << order_string
+    end
+
+    @io.puts formatted_string
   end
 
   def create_order
@@ -96,6 +106,15 @@ class Application
     return name, price, quantity
   end
   
+  def list_items_in_order(order)
+    return "" if @item_repository.find_by_order(order.id).nil?
+    string = []
+    @item_repository.find_by_order(order.id).each do |item|
+      item_name = " #{item.name}"
+      string << item_name
+    end
 
+    string.join(",")
+  end
 
 end
