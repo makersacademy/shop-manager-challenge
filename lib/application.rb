@@ -104,8 +104,8 @@ class Application
     @io.puts "Here's a list of all orders:\n"
     orders.each_with_index do |order, i|
       @io.puts "##{i + 1} Customer: #{order.customer_name} - Date placed: #{order.date_placed}"
-      order.items.each_with_index do |item, i|
-        @io.puts "    ##{i + 1} #{item.name} - Unit price: #{format_price(item.unit_price)}"
+      order.items.each do |item|
+        @io.puts "    #{item.name} - Unit price: #{format_price(item.unit_price)}"
       end
       @io.puts ""
     end
