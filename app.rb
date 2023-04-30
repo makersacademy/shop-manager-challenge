@@ -10,20 +10,23 @@ class Application
     @io = io
     @item_repository = item_repository
     @order_repository = order_repository
+    @break = false
   end
 
   def run
     
-    @io.puts "Welcome to the shop management program!"
-    @io.puts "What do you want to do?"
-    @io.puts "  1 = list all shop items"
-    @io.puts "  2 = create a new item"
-    @io.puts "  3 = list all orders"
-    @io.puts "  4 = create a new order"
+    # until @break == true do
+      @io.puts "Welcome to the shop management program!"
+      @io.puts "What do you want to do?"
+      @io.puts "  1 = list all shop items"
+      @io.puts "  2 = create a new item"
+      @io.puts "  3 = list all orders"
+      @io.puts "  4 = create a new order"
 
-    choice = @io.gets.chomp
+      choice = @io.gets.chomp
 
-    execute(choice)
+      execute(choice)
+    # end
   end
 
   def execute(choice)
@@ -67,7 +70,7 @@ class Application
 
       @io.puts "Order successfully created for #{new_order.customer_name} today!"
     else
-      return
+      # @break = true
     end
   end
 
@@ -76,5 +79,7 @@ end
 # item_repository = ItemRepository.new
 # order_repository = OrderRepository.new
 # io = Kernel
-# app = Application.new('shop_manager', io, item_repository, order_repository)
+# app = Application.new('shop_manager_test', io, item_repository, order_repository)
 # app.run
+
+# uncomment all comments to run the Application class with a loop
