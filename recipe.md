@@ -52,7 +52,7 @@ quantity: int
 
 id: SERIAL
 customer_name: text
-date: timestamp
+date: timestamp -> changed to date to avoid having to input time/timezone.
 item_id: int
 
 
@@ -69,7 +69,7 @@ CREATE TABLE items (
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
   customer_name text,
-  date_placed timestamp,
+  date_placed date,
   item_id int,
   constraint fk_item foreign key (item_id)
     references items(id)
@@ -152,7 +152,7 @@ end
 ## 5. Define the Repository Class' interface
 
 ```ruby
-# EXAMPLE
+
 # Table name: items
 
 # Repository class
@@ -167,14 +167,14 @@ class ItemRepository
     # Returns all records as an array of user objects. - to be used by other methods.
   end
 
-  # Gets a single record by its ID
+  # Gets a single record from the DB by its ID
   # One argument: the id (number)
   def find(id)
     # Executes the SQL query:
-    # SELECT email_address, username FROM users WHERE id = $1;
+    # SELECT * FROM items WHERE id = $1;
     # params = [id]
 
-    # Returns a single user object.
+    # Returns a single item object.
   end
 
   # Adds a user to the users table in DB
@@ -189,13 +189,15 @@ class ItemRepository
  # SHOULD also remove corresponding objects from posts DB due to setup.
   def delete(id)
     # takes an id as arg and removes a row from the database with that arg id
-    # 'DELETE FROM users WHERE id = $1;'
+    # 'DELETE FROM items WHERE id = $1;'
     # params = [id]
     # No return
   end
 end
 
-#This repository class acts on post objects 
+#Table name: orders
+#This repository class acts on order objects 
+# (in lib/order_repository.rb)
 class OrderRepository
 
   def all 
@@ -235,22 +237,24 @@ These examples will later be encoded as RSpec tests.
 
 # 1. Get all users
 
-repo = UserRepository.new
+repo = ItemRepository.new
+repo = OrderRepository.new
 repo.all.length => # returns correct integer dependent on how many rows are in DB
 repo.all.first.id => #always will return 1
 repo.all.last.id => #should return the same int as first test line 
-repo[2].username => #returns the username of object at index 2 (assuming there are 3 objs in array)
+repo[2]. => #returns the username of object at index 2 (assuming there are 3 objs in array)
 
 # if database is empty should return => []
 
 # 2. find selected
-repo = UserRepository.new 
+repo = ItemRepository.new 
+repo = OrderRepository.new
 user = repo.find(2)
 expect(user.username).to eq # 'selected/expected username'
 
 # 3. Add a user obj to database
-# Is this an integartion test now?
-repo = UserRepository.new
+repo = ItemRepository.new
+repo = OrderRepository.new
 user_1 = User.new
 user_1.email_address = 'mattymoomilk@tiscali.net'
 user_1.username = 'MattyMooMilk'

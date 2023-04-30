@@ -1,6 +1,6 @@
 CREATE TABLE items (
   id SERIAL PRIMARY KEY,
-  name text,
+  item_name text,
   unit_price float,
   quantity int
 );
@@ -8,7 +8,7 @@ CREATE TABLE items (
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
   customer_name text,
-  date timestamp,
+  date_placed date,
   item_id int,
   constraint fk_item foreign key (item_id)
     references items(id)
