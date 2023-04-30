@@ -19,6 +19,12 @@ class OrderRepository
     orders
   end
 
+  def find(id)
+    sql = "SELECT * FROM orders WHERE id = $1;"
+    records = DatabaseConnection.exec_params(sql, [id])
+    convert_record_to_order(records.first)
+  end
+
   def find_with_items(id)
     sql = "SELECT orders.id AS id, customer_name, date_placed,
             items.id AS items_id, name, unit_price, quantity
@@ -27,6 +33,7 @@ class OrderRepository
           WHERE orders.id = $1;"
 
     records = DatabaseConnection.exec_params(sql, [id])
+    return find(id) if records.ntuples == 0
     order = convert_record_to_order(records.first)
     records.each do |record|
       item = Item.new

@@ -1,4 +1,5 @@
 require "order_repository"
+require "item"
 
 RSpec.describe OrderRepository do
   before(:each) do
@@ -59,16 +60,26 @@ RSpec.describe OrderRepository do
       )
     end
   end
-
+  
+  describe "#find" do
+    it "returns an order by id" do
+      repo = OrderRepository.new
+      order = repo.find(1)
+      expect(order.id).to eq "1"
+      expect(order.customer_name).to eq "Alice"
+      expect(order.date_placed).to eq "2021-02-05"
+    end
+  end
+  
   describe "#find_with_items" do
     it "returns a list of orders with items" do
       repo = OrderRepository.new
       order = repo.find_with_items(4)
-
+      
       expect(order.id).to eq "4"
       expect(order.customer_name).to eq "Dom"
       expect(order.date_placed).to eq "2023-10-16"
-
+      
       expect(order.items.length).to eq 3
       expect(order.items).to include(
         have_attributes(
@@ -95,12 +106,25 @@ RSpec.describe OrderRepository do
         )
       )
     end
+
+    context "when an order has no associated items" do
+      it "returns the order without items " do
+        repo = OrderRepository.new
+        order = Order.new
+        order.customer_name = "new_customer"
+        order.date_placed = "2020-12-12"
+        repo.create(order)
+        recent_order = repo.find_with_items(5)
+        expect(recent_order.customer_name).to eq "new_customer"
+        expect(recent_order.date_placed).to eq "2020-12-12"
+      end
+    end
   end
   
   describe "#create" do
     it "creates a new order" do
       repo = OrderRepository.new
-
+      
       new_order = Order.new
       new_order.customer_name = "Z"
       new_order.date_placed = "2023-04-28"
@@ -110,6 +134,8 @@ RSpec.describe OrderRepository do
       expect(repo.all).to include(
         have_attributes(id: "5", customer_name: "Z", date_placed: "2023-04-28")
       )
+
+      # reset_tables
     end
   end
 end
