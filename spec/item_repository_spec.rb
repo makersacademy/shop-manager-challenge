@@ -23,6 +23,24 @@ RSpec.describe ItemRepository do
             expect(items.first.name).to eq 'Eggs'
         end
 
+        it 'returns a single item' do
+            repo = ItemRepository.new
+
+            item = repo.find(1)
+            expect(item.name).to eq 'Eggs'
+            expect(item.price).to eq '2.99'
+        end
+
+        it 'returns another item' do
+            repo = ItemRepository.new
+
+            item = repo.find(2)
+            expect(item.name).to eq 'Coffee'
+            expect(item.price).to eq '5.99'
+        end
+
+        
+
     end
 
 end

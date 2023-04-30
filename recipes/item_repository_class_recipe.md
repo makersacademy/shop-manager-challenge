@@ -108,6 +108,18 @@ Using comments, define the method signatures (arguments and return value) and wh
 class ItemRepository
     def all
         # shows all items
+        sql = 'SELECT id, name, price, quantity FROM items;'
+        result = DatabaseConnection.exec_params(sql, [])
+
+        items = []
+
+        result.each do |record|
+            item = Item.new
+            item.id = record['id']
+            item.name = record['name']
+            item.price = record['price']
+            item.quantity = record['quantity']
+        end
     end
 
     def find(id)
@@ -126,44 +138,9 @@ end
 
 # Repository class
 # (in lib/recipe_repository.rb)
-    def all
-
-        sql = 'SELECT id, title, release_year, artist_id FROM albums;'
-    
-        result_set = DatabaseConnection.exec_params(sql, [])
-
-        # Returns an array of Album objects.
-
-        albums = []
-
-        result_set.each do |record|
-            album = Album.new
-            album.id = record['id']
-            album.title = record['title']
-            album.release_year = record['release_year']
-            album.artist_id = record['artist_id']
-
-            albums << album
-        end
-
-        return albums
-    end
 
     def find(id)
-        sql = 'SELECT id, title, release_year, artist_id FROM albums WHERE id = $1;'
-        sql_params = [id]
-
-        result_set = DatabaseConnection.exec_params(sql, sql_params)
-
-        record = result_set[0]
-
-        album = Album.new
-        album.id = record['id']
-        album.title = record['title']
-        album.release_year = record['release_year']
-        album.artist_id = record['artist_id']
-
-        return album
+    # SELECT id, name, price, quantity FROM items WHERE id = $1;
     end
 
     def create(album)
@@ -195,57 +172,66 @@ Write Ruby code that defines the expected behaviour of the Repository class, fol
 These examples will later be encoded as RSpec tests.
 
 ```ruby
-xit 'shows all albums' do
-            repo = AlbumRepository.new
 
-            albums = repo.all
-            expect(albums.length).to eq 9
-            expect(albums.first.id).to eq '1'
-            expect(albums.first.title).to eq 'Waterloo'
+  # 1
+        it 'shows all items' do
+            repo = ItemRepository.new
+
+            items = repo.all
+            expect(items.length).to eq 4
+            expect(items.first.id).to eq '1'
+            expect(items.first.name).to eq 'Eggs'
+        end
+  # 2
+        it 'returns a single item' do
+            repo = ItemRepository.new
+
+            item = repo.find(1)
+            expect(item.name).to eq 'Eggs'
+            expect(item.price).to eq '2.99'
+        end
+  # 3
+        it 'returns another item' do
+            repo = ItemRepository.new
+
+            item = repo.find(2)
+            expect(item.name).to eq 'Coffee'
+            expect(item.price).to eq '5.99'
         end
 
-        it 'get a single album' do
-            repo = AlbumRepository.new
+        # it "create a new album record" do
+        #   repo = AlbumRepository.new
 
-            album = repo.find(1)
-            expect(album.title).to eq 'Waterloo'
-            expect(album.release_year).to eq '1974'
-            expect(album.artist_id).to eq '2'
-        end
-
-        it "create a new album record" do
-          repo = AlbumRepository.new
-
-          new_album = Album.new
-          new_album.title = 'Trompe le Monde'
-          new_album.release_year = 1991
-          new_album.artist_id = 1
+        #   new_album = Album.new
+        #   new_album.title = 'Trompe le Monde'
+        #   new_album.release_year = 1991
+        #   new_album.artist_id = 1
           
-          repo.create(new_album)
-          all_albums = repo.all
+        #   repo.create(new_album)
+        #   all_albums = repo.all
 
-          expect(all_albums).to include(
-            have_attributes(
-              title: new_album.title,
-              release_year: '1991'
-            )
-          )   
-          last_album = all_albums.last
-          expect(last_album.title).to eq 'Trompe le Monde'
-          expect(last_album.release_year).to eq '1991'
+        #   expect(all_albums).to include(
+        #     have_attributes(
+        #       title: new_album.title,
+        #       release_year: '1991'
+        #     )
+        #   )   
+        #   last_album = all_albums.last
+        #   expect(last_album.title).to eq 'Trompe le Monde'
+        #   expect(last_album.release_year).to eq '1991'
 
-        end
+        # end
 
-        it 'deletes an existing account' do
-            repo = AccountRepository.new
-            id_to_delete = 1
-            repo.delete(id_to_delete)
+        # it 'deletes an existing account' do
+        #     repo = AccountRepository.new
+        #     id_to_delete = 1
+        #     repo.delete(id_to_delete)
 
-            all_accounts = repo.all
-            expect(all_accounts.length).to eq 1
-            expect(all_accounts.first.id).to eq '2'
+        #     all_accounts = repo.all
+        #     expect(all_accounts.length).to eq 1
+        #     expect(all_accounts.first.id).to eq '2'
 
-        end
+        # end
 
 
 Encode this example as a test.
