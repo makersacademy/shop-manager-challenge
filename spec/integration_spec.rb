@@ -121,9 +121,19 @@ RSpec.describe 'shop manager integration' do
     end  
 
     context "when a user inputs 3" do
-      xit 'lists all orders' do
+      it 'lists all orders' do
+        io_dbl = double :io
+        app = Application.new('shop_manager_test', io_dbl)
+
         welcome_screen_expects(io_dbl)
-          # ..
+
+        expect(io_dbl).to receive(:gets)
+        .and_return("3\n").ordered
+        expect(io_dbl).to receive(:puts)
+        .with( "1 - Customer name: Jeff  - Order date: 2023-10-16 Items: item_one\n2 - Customer name: John  - Order date: 2023-11-16 Items: item_four\n3 - Customer name: Jerry  - Order date: 2023-12-16 Items: item_three, item_four\n4 - Customer name: George  - Order date: 2024-01-16 Items: item_five\n").ordered
+        # will need a loop break once loop is implemented
+        
+        app.run
       end
     end
 
