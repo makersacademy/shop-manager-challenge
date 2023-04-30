@@ -36,5 +36,13 @@ RSpec.describe OrderRepository do
             expect(repo.all.length).to eq 5
         end
 
+        it 'deletes an order' do
+            repo = OrderRepository.new
+            id_to_delete = 1
+            repo.delete(id_to_delete)
+
+            expect(repo.all.length).to eq 3 
+        end
+
     end
 end
