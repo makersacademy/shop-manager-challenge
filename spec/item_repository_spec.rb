@@ -1,6 +1,5 @@
 require 'item_repository'
 
-
 def reset_items_table
   seed_sql = File.read('spec/seeds_orders.sql')
   connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
@@ -91,6 +90,4 @@ describe ItemRepository do
     # fails if order doesn't exist?
   end
 
-
-  
 end

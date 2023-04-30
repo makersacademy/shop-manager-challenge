@@ -1,25 +1,6 @@
 require 'application'
-require 'item_repository.rb'
-require 'order_repository.rb'
-
-# Here's an example of the terminal output your program should generate:
-# Welcome to the shop management program!
-
-# What do you want to do?
-#   1 = list all shop items
-#   2 = create a new item
-#   3 = list all orders
-#   4 = create a new order
-#   5 = assign an item to an order
-#   6 = exit
-
-# 1 [enter]
-
-# Here's a list of all shop items:
-
-#  #1 Super Shark Vacuum Cleaner - Unit price: 99 - Quantity: 30
-#  #2 Makerspresso Coffee Machine - Unit price: 69 - Quantity: 15
-#  (...)
+require 'item_repository'
+require 'order_repository'
 
 def reset_test_tables
   seed_sql = File.read('spec/seeds_orders.sql')
@@ -46,7 +27,6 @@ def welcome_screen_expects(io_dbl)
     .with('6 = exit').ordered
 end
 
-
 RSpec.describe 'shop manager integration' do
   before(:each) do 
     reset_test_tables
@@ -61,9 +41,9 @@ RSpec.describe 'shop manager integration' do
       expect(io_dbl).to receive(:gets)
         .and_return('choice').ordered
 
-        app.run
+      app.run
         # will need a loop break once loop is implemented
-      end
+    end
   end
 
   describe 'interactive behaviour' do
@@ -76,11 +56,9 @@ RSpec.describe 'shop manager integration' do
         expect(io_dbl).to receive(:gets)
           .and_return("1\n").ordered
         expect(io_dbl).to receive(:puts)
-          .with( "1 item_one - Unit price: 1 - Quantity: 1\n2 item_two - Unit price: 2 - Quantity: 2\n3 item_three - Unit price: 3 - Quantity: 3\n4 item_four - Unit price: 4 - Quantity: 4\n5 item_five - Unit price: 5 - Quantity: 5\n").ordered
+          .with("1 item_one - Unit price: 1 - Quantity: 1\n2 item_two - Unit price: 2 - Quantity: 2\n3 item_three - Unit price: 3 - Quantity: 3\n4 item_four - Unit price: 4 - Quantity: 4\n5 item_five - Unit price: 5 - Quantity: 5\n").ordered
         # will need a loop break once loop is implemented
         app.run
-
-
       end
     end  
 
@@ -130,7 +108,7 @@ RSpec.describe 'shop manager integration' do
         expect(io_dbl).to receive(:gets)
           .and_return("3\n").ordered
         expect(io_dbl).to receive(:puts)
-          .with( "1 - Customer name: Jeff  - Order date: 2023-10-16 Items: item_one, item_five \n2 - Customer name: John  - Order date: 2023-11-16 Items: \n3 - Customer name: Jerry  - Order date: 2023-12-16 Items: item_three, item_four \n4 - Customer name: George  - Order date: 2024-01-16 Items: item_two \n").ordered
+          .with("1 - Customer name: Jeff  - Order date: 2023-10-16 Items: item_one, item_five \n2 - Customer name: John  - Order date: 2023-11-16 Items: \n3 - Customer name: Jerry  - Order date: 2023-12-16 Items: item_three, item_four \n4 - Customer name: George  - Order date: 2024-01-16 Items: item_two \n").ordered
         # will need a loop break once loop is implemented
         
         app.run
@@ -221,6 +199,7 @@ RSpec.describe 'shop manager integration' do
         welcome_screen_expects(io_dbl)
         expect(io_dbl).to receive(:gets)
           .and_return("6\n").ordered 
+
         expect { app.run }.to raise_error(SystemExit)
       end
     end

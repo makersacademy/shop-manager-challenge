@@ -21,10 +21,10 @@ class ItemRepository
 
 # Creating a new item
   def create(new_item) # item is an instance of the Item class
-   sql = 'INSERT INTO items (name, price, quantity) VALUES ($1, $2, $3);'  
-   params = [new_item.name, new_item.price, new_item.quantity]
-   DatabaseConnection.exec_params(sql, params)
-   return nil
+    sql = 'INSERT INTO items (name, price, quantity) VALUES ($1, $2, $3);'  
+    params = [new_item.name, new_item.price, new_item.quantity]
+    DatabaseConnection.exec_params(sql, params)
+    return nil
   end
 
   # returns an item object with matching id
@@ -66,7 +66,6 @@ class ItemRepository
 
     items
   end
-
 
   private
 

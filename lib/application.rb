@@ -2,6 +2,8 @@ require_relative 'item_repository'
 require_relative 'order_repository'
 require_relative 'database_connection'
 
+#  to allow the input to loop, uncomment the two commented lines in #run!
+
 class Application
 
   def initialize(database_name = 'shop_manager', io = Kernel, item_repository = ItemRepository.new, order_repository = OrderRepository.new)
@@ -13,9 +15,11 @@ class Application
 
   def run
     print_welcome
+    # while true do
     print_ask_for_input
     print_menu
     process(@io.gets.chomp)
+    # end
   end
 
   def process(input)
@@ -32,13 +36,13 @@ class Application
       assign_item_to_order
     when '6'
       exit
-    end 
+    end   
   end
 
   def puts_formatted_item_list
     formatted_string = ""
     @item_repository.all.each_with_index do |item, i|
-      item_string = "#{i+1} #{item.name} - Unit price: #{item.price} - Quantity: #{item.quantity}\n"
+      item_string = "#{i + 1} #{item.name} - Unit price: #{item.price} - Quantity: #{item.quantity}\n"
       formatted_string << item_string
     end
     @io.puts formatted_string
@@ -47,7 +51,7 @@ class Application
   def create_item
     new_item = Item.new
 
-    new_item.name, new_item.price, new_item.quantity = get_item_attribute_inputs 
+    new_item.name, new_item.price, new_item.quantity = return_item_attribute_inputs 
     
     @item_repository.create(new_item)
   end
@@ -55,7 +59,7 @@ class Application
   def puts_formatted_order_list
     formatted_string = ""
     @order_repository.all.each_with_index do |order, i|
-      order_string = "#{i+1} - Customer name: #{order.customer_name}  - Order date: #{order.order_date} Items:#{list_items_in_order(order)} \n"
+      order_string = "#{i + 1} - Customer name: #{order.customer_name}  - Order date: #{order.order_date} Items:#{list_items_in_order(order)} \n"
       formatted_string << order_string
     end
 
@@ -65,14 +69,14 @@ class Application
   def create_order
     new_order = Order.new
 
-    new_order.customer_name, new_order.order_date = get_order_attribute_inputs
+    new_order.customer_name, new_order.order_date = return_order_attribute_inputs
 
     @order_repository.create(new_order)
   end
 
   def assign_item_to_order
     sql = 'INSERT INTO items_orders VALUES ($1, $2)'
-    params = get_item_and_order_id_input
+    params = return_item_and_order_id_input
     DatabaseConnection.exec_params(sql, params)
   end
 
@@ -95,7 +99,7 @@ class Application
     @io.puts '6 = exit'
   end
   
-  def get_item_attribute_inputs
+  def return_item_attribute_inputs
     @io.print "\nPlease type the item's name?: "
     name = @io.gets.chomp
     @io.print "\nPlease type the item's price?: "
@@ -106,8 +110,7 @@ class Application
     return name, price, quantity
   end
 
-
-  def get_order_attribute_inputs
+  def return_order_attribute_inputs
     @io.print "\nPlease type the customer's name?: "
     customer_name = @io.gets.chomp
     @io.print "\nPlease type the order date [format: YYYY-MM-DD]?: "
@@ -127,7 +130,7 @@ class Application
     string.join(",")
   end
 
-  def get_item_and_order_id_input
+  def return_item_and_order_id_input
     @io.print "\nWhich order would you like to add to? [Input order #]: "
     order_id = @io.gets.chomp.to_i
     @io.print "\nWhich item would you like to add? [Input item #]: "
