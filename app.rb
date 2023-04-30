@@ -52,14 +52,21 @@ class Application
     all_orders = @order_repository.all
     @io.puts "\nHere's a list of all shop orders:\n"
     all_orders.each do |order|
-    @io.puts "##{order.id} - Customer's name: #{order.customer_name} - Date: #{order.date} - Ordered Item: #{order.item_id}"
+      item_name = item_name_finder(order.item_id)
+      @io.puts "##{order.id} - Customer's name: #{order.customer_name} - Date: #{order.date} - Ordered Item: #{item_name}"
+    end
   end
+
+  def item_name_finder(item_id)
+    sql = "SELECT name FROM items WHERE id = $1"
+    params = [item_id]
+    result_set = DatabaseConnection.exec_params(sql, params)
+    return result_set.first['name']
   end
 
   def create_new_order(customer_name, date, item_id)
     @order_repository.create(customer_name, date, item_id)
     @io.puts "A new order for the item #{item_id} has been created!"
-
   end
 
   def order_to_create
@@ -67,16 +74,24 @@ class Application
     customer_name = @io.gets.chomp
     @io.puts "When has the order been placed? (AAAA-MM-DD)"
     date = @io.gets
-    @io.puts "What is the item's ID?"
+    @io.puts "What is the item's ID?\nPlease, select:"
+    list_items_with_name_and_id
     item_id = @io.gets.to_i
     create_new_order(customer_name, date, item_id)
+  end
+
+  def list_items_with_name_and_id
+    all_items = @item_repository.all
+    all_items.each do |item|
+      @io.puts "#{item.id} for #{item.name}"
+    end
   end
 end
 
 #this runs the application
 if __FILE__ == $0
   app = Application.new(
-    'shop_manager_test',
+    'shop_manager',
     Kernel,
     ItemRepository.new,
     OrderRepository.new
