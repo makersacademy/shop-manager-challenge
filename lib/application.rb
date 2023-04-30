@@ -71,14 +71,8 @@ class Application
   end
 
   def assign_item_to_order
-    @io.print "\nWhich order would you like to add to? [Input order #]: "
-    order_id = @io.gets.chomp.to_i
-    @io.print "\nWhich item would you like to add? [Input item #]: "
-    item_id = @io.gets.chomp.to_i
-    
     sql = 'INSERT INTO items_orders VALUES ($1, $2)'
-
-    params = [item_id, order_id]
+    params = get_item_and_order_id_input
     DatabaseConnection.exec_params(sql, params)
   end
 
@@ -100,7 +94,6 @@ class Application
     @io.puts '5 = assign an item to an order'
     @io.puts '6 = exit'
   end
-
   
   def get_item_attribute_inputs
     @io.print "\nPlease type the item's name?: "
@@ -112,6 +105,7 @@ class Application
 
     return name, price, quantity
   end
+
 
   def get_order_attribute_inputs
     @io.print "\nPlease type the customer's name?: "
@@ -133,4 +127,12 @@ class Application
     string.join(",")
   end
 
+  def get_item_and_order_id_input
+    @io.print "\nWhich order would you like to add to? [Input order #]: "
+    order_id = @io.gets.chomp.to_i
+    @io.print "\nWhich item would you like to add? [Input item #]: "
+    item_id = @io.gets.chomp.to_i
+
+    return item_id, order_id
+  end
 end

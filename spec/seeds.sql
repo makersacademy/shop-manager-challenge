@@ -16,4 +16,5 @@ CREATE TABLE items_orders (
   order_id int,
   constraint fk_item_id foreign key(item_id) references items(id) on delete cascade,
   constraint fk_order_id foreign key(order_id) references orders(id) on delete cascade,
-  PRIMARY KEYS(item_id, order_id)
+  PRIMARY KEY(item_id, order_id)
+);
