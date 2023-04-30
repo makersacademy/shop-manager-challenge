@@ -40,13 +40,12 @@ RSpec.describe Application do
   it 'creates a new item' do
     order_repo = double(:order_repository)
     item_repo = double(:item_repository)
-    item = double(:item)
-    expect(item).to receive(:name=).with("Chocolate")
-    expect(item).to receive(:unit_price=).with(1.99)
-    expect(item).to receive(:quantity=).with(3)
-
-    item_class = double(:item_class, new: item)
+    item_class = double(:item_class)
     order_class = double(:order_class)
+
+    expect(item_class).to receive(:name=).with("Chocolate")
+    expect(item_class).to receive(:unit_price=).with(1.99)
+    expect(item_class).to receive(:quantity=).with(3)
 
     io = double(:io)
     test_introduction(io)
@@ -60,7 +59,7 @@ RSpec.describe Application do
     expect(io).to receive(:puts).with "Item quantity:"
     expect(io).to receive(:gets).and_return "3"
 
-    expect(item_repo).to receive(:create).with(item)
+    expect(item_repo).to receive(:create).with(item_class)
 
     app = Application.new(
       'shop_manager_test', io, 
@@ -97,13 +96,12 @@ RSpec.describe Application do
   it 'creates a new order' do
     order_repo = double(:order_repository)
     item_repo = double(:item_repository)
-    order = double(:order)
-    expect(order).to receive(:customer_name=).with("Jane")
-    expect(order).to receive(:date_placed=).with('2023-04-30')
-    expect(order).to receive(:item_id=).with(1)
-
+    order_class = double(:order_class)
     item_class = double(:item_class)
-    order_class = double(:order_class, new: order)
+
+    expect(order_class).to receive(:customer_name=).with("Jane")
+    expect(order_class).to receive(:date_placed=).with('2023-04-30')
+    expect(order_class).to receive(:item_id=).with(1)
 
     io = double(:io)
     test_introduction(io)
@@ -117,7 +115,7 @@ RSpec.describe Application do
     expect(io).to receive(:puts).with "Item id:"
     expect(io).to receive(:gets).and_return "1"
 
-    expect(order_repo).to receive(:create).with(order)
+    expect(order_repo).to receive(:create).with(order_class)
 
     app = Application.new(
       'shop_manager_test', io, 

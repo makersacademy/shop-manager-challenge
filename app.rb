@@ -8,8 +8,8 @@ class Application
     @io = io
     @item_repository = item_repository
     @order_repository = order_repository
-    @item_class = item_class
-    @order_class = order_class
+    @item = item_class
+    @order = order_class
   end
 
   def run
@@ -54,14 +54,13 @@ class Application
   end
 
   def create_item
-    item = @item_class.new
     @io.puts "Item name:"
-    item.name = @io.gets.chomp
+    @item.name = @io.gets.chomp
     @io.puts "Item price:"
-    item.unit_price = @io.gets.chomp.to_f
+    @item.unit_price = @io.gets.chomp.to_f
     @io.puts "Item quantity:"
-    item.quantity = @io.gets.chomp.to_i
-    @item_repository.create(item)
+    @item.quantity = @io.gets.chomp.to_i
+    @item_repository.create(@item)
   end
 
   def display_orders
@@ -73,14 +72,13 @@ class Application
   end
 
   def create_order
-    order = @order_class.new
     @io.puts "Customer's name:"
-    order.customer_name = @io.gets.chomp
+    @order.customer_name = @io.gets.chomp
     @io.puts "Date placed (YYYY-MM-DD):"
-    order.date_placed = @io.gets.chomp
+    @order.date_placed = @io.gets.chomp
     @io.puts "Item id:"
-    order.item_id = @io.gets.chomp.to_i
-    @order_repository.create(order)
+    @order.item_id = @io.gets.chomp.to_i
+    @order_repository.create(@order)
   end
 end
 

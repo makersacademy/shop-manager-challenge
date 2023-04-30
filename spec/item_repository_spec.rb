@@ -90,7 +90,7 @@ RSpec.describe ItemRepository do
       expect { repo.decrease_quantity(1, 5) }.to raise_error "Quantity is already zero."
     end
   end
-
-  describe '#decrease_quantity' do
-  end
+  
+  # describe '#increase_quantity' do
+  # end
 end
