@@ -52,7 +52,7 @@ describe Application do
     expect(io).to receive(:gets).and_return("13.99").ordered
     expect(io).to receive(:puts).with("Please enter the item's quantity").ordered
     expect(io).to receive(:gets).and_return("50").ordered
-    expect(io).to receive(:puts).with("Item successfully added to the stop!").ordered
+    expect(io).to receive(:puts).with("Item Rainbow sharpie successfully added to the shop!").ordered
 
     app = Application.new('shop_manager_test', io, item_repository, order_repository)
     app.run
@@ -73,6 +73,29 @@ describe Application do
     expect(io).to receive(:gets).and_return("3").ordered
     expect(io).to receive(:puts).with("#1 David - Date: 2023-03-22 - Item: Correction tape").ordered
     expect(io).to receive(:puts).with("#2 Anna - Date: 2023-04-25 - Item: Cute eraser").ordered
+
+    app = Application.new('shop_manager_test', io, item_repository, order_repository)
+    app.run
+  end
+
+  it "4 - Creates a new order" do
+    io = double :io
+    item_repository = ItemRepository.new
+    order_repository = OrderRepository.new
+
+    expect(io).to receive(:puts).with("Welcome to the shop management program!").ordered
+    expect(io).to receive(:puts).with("What do you want to do?").ordered
+    expect(io).to receive(:puts).with("  1 = list all shop items").ordered
+    expect(io).to receive(:puts).with("  2 = create a new item").ordered
+    expect(io).to receive(:puts).with("  3 = list all orders").ordered
+    expect(io).to receive(:puts).with("  4 = create a new order").ordered
+
+    expect(io).to receive(:gets).and_return("4").ordered
+    expect(io).to receive(:puts).with("Please enter the customer's name").ordered
+    expect(io).to receive(:gets).and_return("Mohammed").ordered
+    expect(io).to receive(:puts).with("Please enter the item they'd like to order").ordered
+    expect(io).to receive(:gets).and_return("Cute eraser").ordered
+    expect(io).to receive(:puts).with("Order successfully created for Mohammed today!").ordered
 
     app = Application.new('shop_manager_test', io, item_repository, order_repository)
     app.run
