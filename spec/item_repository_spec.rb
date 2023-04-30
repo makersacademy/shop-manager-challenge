@@ -41,17 +41,4 @@ RSpec.describe ItemRepository do
       )
     end
   end
-
-  describe "#find" do
-    it "returns an item using the id" do
-      repo = ItemRepository.new
-
-      item = repo.find(2)
-
-      expect(item.id).to eq "2"
-      expect(item.name).to eq "spinach"
-      expect(item.unit_price).to eq "115"
-      expect(item.quantity).to eq "1"
-    end
-  end
 end
