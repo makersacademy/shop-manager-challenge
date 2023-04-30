@@ -108,13 +108,13 @@ RSpec.describe Application do
         expect(fake_io).to receive(:puts).with(
           "#1 Customer: customer1 - Date placed: 2023-04-29"
         )
-        expect(fake_io).to receive(:puts).with("    #1 item1 - Unit price: £2.45")
-        expect(fake_io).to receive(:puts).with("    #2 item2 - Unit price: £1.09")
+        expect(fake_io).to receive(:puts).with("    item1 - Unit price: £2.45")
+        expect(fake_io).to receive(:puts).with("    item2 - Unit price: £1.09")
         expect(fake_io).to receive(:puts).with("")
         expect(fake_io).to receive(:puts).with(
           "#2 Customer: customer2 - Date placed: 2023-03-20"
         )
-        expect(fake_io).to receive(:puts).with("    #1 item1 - Unit price: £2.45")
+        expect(fake_io).to receive(:puts).with("    item1 - Unit price: £2.45")
         expect(fake_io).to receive(:puts).with("")
 
         fake_item1 = double(
