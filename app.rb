@@ -20,10 +20,17 @@ class Application
       display_items
     when "2"
       create_item
+      @io.puts "Item successfully added"
     when "3"
       display_orders
     when "4"
-      create_order
+      begin
+        create_order
+      rescue RuntimeError
+        @io.puts "Unable to place order, not enough stock."
+      else
+        @io.puts "Order successfully added"
+      end
     end
   end
 
@@ -88,8 +95,8 @@ if __FILE__ == $0
     Kernel,
     ItemRepository.new,
     OrderRepository.new,
-    Item,
-    Order
+    Item.new,
+    Order.new
   )
   app.run
 end

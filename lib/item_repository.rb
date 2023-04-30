@@ -32,15 +32,14 @@ class ItemRepository
     return nil
   end
 
-  def decrease_quantity(id, n)
+  def update_quantity(id, n)
     current_quantity = find(id).quantity
-    fail "Quantity is already zero." if current_quantity == 0
-    if n > current_quantity
-      n = current_quantity
+    if -n > current_quantity
+      n = -current_quantity
     end
 
     sql = 'UPDATE items 
-            SET quantity = quantity - $1
+            SET quantity = quantity + $1
               WHERE id = $2;'
     params = [n, id]
 

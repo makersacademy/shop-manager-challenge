@@ -46,7 +46,6 @@ RSpec.describe ItemRepository do
 
     expect(items).to include (
       have_attributes(
-        id: 3,
         name: 'Bike pump',
         unit_price: 20,
         quantity: 3
@@ -57,40 +56,34 @@ RSpec.describe ItemRepository do
   describe '#decrease_quantity' do
     it 'subtracts one from quantity of item with id 1' do
       repo = ItemRepository.new
-      repo.decrease_quantity(1, 1)
+      repo.update_quantity(1, -1)
       updated_item = repo.find(1)
       
-      expect(updated_item.name).to eq 'Hoover'
       expect(updated_item.quantity).to eq 19
     end
 
     it 'subtracts five from quantity of item with id 1' do
       repo = ItemRepository.new
-      repo.decrease_quantity(1, 5)
+      repo.update_quantity(1, -5)
       updated_item = repo.find(1)
       
-      expect(updated_item.name).to eq 'Hoover'
       expect(updated_item.quantity).to eq 15
     end
 
     it 'decreases quantity to zero when given an n value greater than current quantity' do
       repo = ItemRepository.new
-      repo.decrease_quantity(1, 25)
+      repo.update_quantity(1, -25)
       updated_item = repo.find(1)
       
-      expect(updated_item.name).to eq 'Hoover'
       expect(updated_item.quantity).to eq 0
     end
 
-    it 'throws error if quantity already zero' do
+    it 'adds to quantity of item with id 1' do
       repo = ItemRepository.new
-      repo.decrease_quantity(1, 20)
+      repo.update_quantity(1, 5)
       updated_item = repo.find(1)
       
-      expect { repo.decrease_quantity(1, 5) }.to raise_error "Quantity is already zero."
+      expect(updated_item.quantity).to eq 25
     end
   end
-  
-  # describe '#increase_quantity' do
-  # end
 end

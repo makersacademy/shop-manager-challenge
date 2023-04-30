@@ -24,7 +24,7 @@ class OrderRepository
               order.item_id]
 
     item_repo = ItemRepository.new
-    item_repo.decrease_quantity(order.item_id, 1)
+    item_repo.update_quantity(order.item_id, -1)
     
     DatabaseConnection.exec_params(sql, params)
     return nil

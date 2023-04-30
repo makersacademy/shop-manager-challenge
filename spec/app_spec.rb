@@ -60,6 +60,7 @@ RSpec.describe Application do
     expect(io).to receive(:gets).and_return "3"
 
     expect(item_repo).to receive(:create).with(item_class)
+    expect(io).to receive(:puts).with "Item successfully added"
 
     app = Application.new(
       'shop_manager_test', io, 
@@ -116,6 +117,7 @@ RSpec.describe Application do
     expect(io).to receive(:gets).and_return "1"
 
     expect(order_repo).to receive(:create).with(order_class)
+    expect(io).to receive(:puts).with "Order successfully added"
 
     app = Application.new(
       'shop_manager_test', io, 
