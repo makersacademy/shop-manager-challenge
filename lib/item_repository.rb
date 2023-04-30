@@ -21,6 +21,7 @@ class ItemRepository
   end
 
   def find_by_id(id)
+    # returns an item object with given id
     query = 'SELECT id, name, unit_price, quantity FROM items WHERE id = $1'
     params = [id]
     entry = DatabaseConnection.exec_params(query, params).first
@@ -30,6 +31,7 @@ class ItemRepository
   end
 
   def check_if_valid_id(id)
+    # returns true or false based on if item has been found with a matching id
     return false unless id.to_s.match?(/^\d+$/)
     query = 'SELECT id FROM items WHERE id = $1;'
     params = [id]
@@ -40,6 +42,7 @@ class ItemRepository
   private
 
   def extract_items(entries)
+    # extracts an array of item objects from a DatabaseConnection results object
     items = []
     for entry in entries do
       item = Item.new(entry["name"], entry["unit_price"].to_i, entry["quantity"].to_i)

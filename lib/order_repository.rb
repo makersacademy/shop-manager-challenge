@@ -2,7 +2,6 @@ require_relative 'order'
 
 class OrderRepository
   def list
-    # query = 'SELECT id, customer_name, date FROM orders;'
     # returns an array of Order objects
     query = 'SELECT id, customer_name, date FROM orders;'
     entries = DatabaseConnection.exec_params(query, [])
@@ -16,16 +15,16 @@ class OrderRepository
   end
 
   def assign_item(order_id, item_id)
-    # query = 'INSERT INTO orders_items (order_id, item_id) VALUES ($1, $2);'
-    # params = [order.id, item.id]
+    # assigns an item to order using the orders_items table
+    # returns nothing
     query = 'INSERT INTO orders_items (order_id, item_id) VALUES ($1, $2);'
     params = [order_id, item_id]
     DatabaseConnection.exec_params(query, params)
   end
 
   def create(order)
-    # query = 'INSERT INTO orders (customer_name, date) VALUES ($1, $2);'
-    # params = [order.customer_name, order.date]
+    # creates an entry in the orders table for a given order object
+    # returns the id of the created object
     query1 = 'INSERT INTO orders (customer_name, date) VALUES ($1, $2);'
     params = [order.customer_name, order.date]
     DatabaseConnection.exec_params(query1, params)
@@ -35,6 +34,7 @@ class OrderRepository
   end
 
   def return_all_assigned_items
+    # returns an array of all entries from the orders_items table
     query = 'SELECT order_id, item_id FROM orders_items'
     entries = DatabaseConnection.exec_params(query, [])
     relationships = []
@@ -45,6 +45,7 @@ class OrderRepository
   end
 
   def find_by_id(id)
+    # returns an order item if found in the database
     query = 'SELECT id, customer_name, date FROM orders WHERE id = $1'
     params = [id]
     entry = DatabaseConnection.exec_params(query, params).first
@@ -54,6 +55,7 @@ class OrderRepository
   end
 
   def check_if_valid_id(id)
+    # returns true or false based on if id has been found in orders database
     return false unless id.to_s.match?(/^\d+$/)
     query = 'SELECT id FROM orders WHERE id = $1;'
     params = [id]

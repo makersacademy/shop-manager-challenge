@@ -15,6 +15,8 @@ class Application
   end
 
   def run
+    # Will loop through the main menu after every completed command
+    # until user_input returns 'quit' for main menu input
     result = nil
     while result != 'quit'
       result = user_input
@@ -22,11 +24,14 @@ class Application
   end
 
   def user_input
+    # Calls a relevant method from @methods based on user input,
+    # or returns 'quit' if user entered quit
     input = obtain_user_input
     return input == 'quit' ? 'quit' : @methods[input - 1].call
   end
 
   def list_all_shop_items
+    # Lists all items in the database
     items = ItemRepository.new.list
     for item in items do
       @io.puts "Id: #{item.id} - Item: #{item.name} - £#{item.unit_price} - Qty: #{item.quantity}"
@@ -34,6 +39,8 @@ class Application
   end
 
   def create_an_item
+    # adds an item to the database with provided name, price and quantity
+    # displays the item that has been added to the table
     item = Item.new(obtain_name, obtain_price, obtain_quantity)
 
     id = ItemRepository.new.create(item)
@@ -42,6 +49,7 @@ class Application
   end
 
   def list_all_orders
+    # lists all orders in the orders table
     orders = OrderRepository.new.list
     for order in orders do
       @io.puts "Id: #{order.id} - Customer: #{order.customer_name} - Order date: #{order.date}"
@@ -49,6 +57,8 @@ class Application
   end
 
   def create_an_order
+    # adds an order with the customers name and todays date to the table
+    # displays the created order
     @io.puts "Please enter the customer name:"
     name = @io.gets.chomp
     date = @date_class.today.to_s
@@ -60,6 +70,8 @@ class Application
   end
 
   def add_item_to_order
+    # assings an item to a given order based on provided item and order ids
+    # displays a confirmation of both
     order_id = obtain_order_id
     item_id = obtain_item_id
 
@@ -81,6 +93,8 @@ class Application
   end
 
   def obtain_user_input
+    # method will recursively loop until user enters either 'quit'
+    # or an integer between 1 and highest menu item, upon which it will return those values
     @io.puts @menu_string
     input = @io.gets.chomp
     return input.downcase if input.downcase == 'quit'
@@ -90,12 +104,14 @@ class Application
   end
 
   def obtain_name
+    # returns given string, no invalid input checks
     @io.puts "Please enter the name of the item to add:"
     name = @io.gets.chomp
     return name
   end
 
   def obtain_price
+    # will recursively loop until an integer value is given and then returned
     @io.puts "Please enter the price of the item:"
     price = @io.gets.chomp
     return price.to_i if price.match?(/^\d+$/)
@@ -104,6 +120,7 @@ class Application
   end
 
   def obtain_quantity
+    # will recursively loop until an integer value is given and then returned
     @io.puts "Please enter the quantity of the item:"
     quantity = @io.gets.chomp
     return quantity.to_i if quantity.match?(/^\d+$/) && quantity.to_i >= 0
@@ -112,6 +129,8 @@ class Application
   end
 
   def obtain_order_id
+    # will recursively loop until an integer id that is present in orders table is given
+    # returns an integer
     @io.puts "Please enter the order id:"
     id = @io.gets.chomp
 
@@ -122,6 +141,8 @@ class Application
   end
 
   def obtain_item_id
+    # will recursively loop until an integer id that is present in items table is given
+    # returns an integer
     @io.puts "Please enter the item id:"
     id = @io.gets.chomp
 
