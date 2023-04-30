@@ -29,7 +29,6 @@ class ItemRepository
         record = result[0]
 
         item = Item.new
-        item = Item.new
         item.id = record['id']
         item.name = record['name']
         item.price = record['price']

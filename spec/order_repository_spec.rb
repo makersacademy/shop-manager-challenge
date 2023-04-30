@@ -17,5 +17,12 @@ RSpec.describe OrderRepository do
             expect(repo.all.length).to eq 4
         end
 
+        it 'returns a single order' do
+            repo = OrderRepository.new
+            first_order = repo.find(1)
+            expect(first_order.customer_name).to eq 'John Key'
+            expect(first_order.date).to eq '2023-01-08'
+        end
+
     end
 end
