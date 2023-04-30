@@ -24,5 +24,17 @@ RSpec.describe OrderRepository do
             expect(first_order.date).to eq '2023-01-08'
         end
 
+        it 'creates a new order' do
+            repo = OrderRepository.new
+
+            order = Order.new
+            order.customer_name = 'Jo Blogs'
+            order.date = '2023-01-11'
+            
+            repo.create(order)
+
+            expect(repo.all.length).to eq 5
+        end
+
     end
 end
