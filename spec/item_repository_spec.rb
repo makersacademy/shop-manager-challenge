@@ -39,6 +39,26 @@ RSpec.describe ItemRepository do
             expect(item.price).to eq '5.99'
         end
 
+        it 'creates a new item' do
+            repo = ItemRepository.new
+
+            item = Item.new
+            item.name = 'Bananas'
+            item.price = '1.99'
+            item.quantity = '10'
+            repo.create(item)
+
+            expect(repo.all.length).to eq 5
+        end
+
+        it 'deletes an item' do
+            repo = ItemRepository.new
+            id_to_delete = 1
+            repo.delete(id_to_delete)
+
+            expect(repo.all.length).to eq 3 
+        end
+
         
 
     end

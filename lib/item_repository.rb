@@ -40,9 +40,24 @@ class ItemRepository
     end
 
     def create(item)
+        sql = 'INSERT INTO items
+                    (name, price, quantity)
+                    VALUES($1, $2, $3);'
+        sql_params = [item.name, item.price, item.quantity]
+
+        DatabaseConnection.exec_params(sql, sql_params)
+
+        return nil
     end
 
-    def delete(item)
+    def delete(id)
+        sql = 'DELETE FROM items
+                    WHERE id = $1;'
+        sql_params = [id]
+
+        DatabaseConnection.exec_params(sql, sql_params)
+
+        return nil
     end
 
 

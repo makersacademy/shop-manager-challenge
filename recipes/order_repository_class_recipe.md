@@ -1,4 +1,4 @@
-# Item Model and Repository Classes Design Recipe
+# Order Model and Repository Classes Design Recipe
 
 _Copy this recipe template to design and implement Model and Repository classes for a database table._
 
@@ -30,6 +30,7 @@ If seed data is provided (or you already created it), you can skip this step.
 -- (file: spec/seeds_{table_name}.sql)
 
 -- Write your SQL seed here. 
+
 DROP TABLE IF EXISTS items CASCADE;
 
 CREATE TABLE items (
@@ -99,16 +100,16 @@ Usually, the Model class name will be the capitalised table name (single instead
 
 ```ruby
 # EXAMPLE
-# Table name: items
+# Table name: orders
 
 # Model class
-# (in lib/item.rb)
-class Item
+# (in lib/order.rb)
+class Order
 end
 
 # Repository class
-# (in lib/item_repository.rb)
-class ItemRepository
+# (in lib/order_repository.rb)
+class OrderRepository
 end
 ```
 
@@ -118,14 +119,14 @@ Define the attributes of your Model class. You can usually map the table columns
 
 ```ruby
 # EXAMPLE
-# Table name: items
+# Table name: iorder
 
 # Model class
-# (in lib/item.rb)
+# (in lib/order.rb)
 
-class Item
+class Order
     
-    attr_accessor :id, :name, :price, :quantity
+    attr_accessor :id, :customer_name, :date
 end
 
 ```
