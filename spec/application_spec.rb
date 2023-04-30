@@ -108,23 +108,44 @@ RSpec.describe Application do
         expect(fake_io).to receive(:puts).with(
           "#1 Customer: customer1 - Date placed: 2023-04-29"
         )
+        expect(fake_io).to receive(:puts).with("    #1 item1 - Unit price: £2.45")
+        expect(fake_io).to receive(:puts).with("    #2 item2 - Unit price: £1.09")
+        expect(fake_io).to receive(:puts).with("")
         expect(fake_io).to receive(:puts).with(
           "#2 Customer: customer2 - Date placed: 2023-03-20"
         )
+        expect(fake_io).to receive(:puts).with("    #1 item1 - Unit price: £2.45")
+        expect(fake_io).to receive(:puts).with("")
 
+        fake_item1 = double(
+          :fake_item1,
+          id: "1",
+          name: "item1",
+          unit_price: "245",
+          quantity: "3"
+        )
+        fake_item2 = double(
+          :fake_item2,
+          id: "2",
+          name: "item2",
+          unit_price: "109",
+          quantity: "5"
+        )
         fake_order1 = double(
           :fake_order1,
           id: "1",
           customer_name: "customer1",
-          date_placed: "2023-04-29"
+          date_placed: "2023-04-29",
+          items: [fake_item1, fake_item2]
         )
         fake_order2 = double(
           :fake_order2,
           id: "4",
           customer_name: "customer2",
-          date_placed: "2023-03-20"
+          date_placed: "2023-03-20",
+          items: [fake_item1]
         )
-        allow(fake_order_repo).to receive(:all).and_return(
+        allow(fake_order_repo).to receive(:all_with_items).and_return(
           [fake_order1, fake_order2]
         )
        

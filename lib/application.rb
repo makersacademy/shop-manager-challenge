@@ -83,20 +83,31 @@ class Application
     items = @item_repository.all
     @io.puts("Here's a list of all shop items:\n")
     items.each_with_index do |item, i|
-      price = item.unit_price.to_i
-      formatted_price = "£#{price / 100}.#{price % 100}"
+      formatted_price = format_price(item.unit_price)
       formatted_item = "##{i + 1} #{item.name} - " +
         "Unit price: #{formatted_price} - " +
         "Quantity: #{item.quantity}"
       @io.puts formatted_item
     end
   end
+    
+  def format_price(price)
+    price = price.to_i
+    pounds = (price / 100).to_s
+    pence = (price % 100).to_s
+    pence = "0" + pence if pence.length == 1
+    "£#{pounds}.#{pence % 100}"
+  end
 
   def print_all_orders
-    orders = @order_repository.all
+    orders = @order_repository.all_with_items
     @io.puts "Here's a list of all orders:\n"
     orders.each_with_index do |order, i|
       @io.puts "##{i + 1} Customer: #{order.customer_name} - Date placed: #{order.date_placed}"
+      order.items.each_with_index do |item, i|
+        @io.puts "    ##{i + 1} #{item.name} - Unit price: #{format_price(item.unit_price)}"
+      end
+      @io.puts ""
     end
   end
   
