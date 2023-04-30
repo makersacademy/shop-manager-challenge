@@ -14,6 +14,12 @@ class ItemRepository
     params = [item.name, item.unit_price, item.quantity]
     DatabaseConnection.exec_params(sql, params)
   end
+
+  def find(id)
+    sql = "SELECT * FROM items WHERE id = $1;"
+    records = DatabaseConnection.exec_params(sql, [id])
+    convert_record_to_item(records[0])
+  end
   
   private
   
