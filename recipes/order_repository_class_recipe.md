@@ -141,25 +141,26 @@ Using comments, define the method signatures (arguments and return value) and wh
 
 ```ruby
 
-# Table name: items
+# Table name: orders
 
 # Repository class
-# (in lib/item_repository.rb)
+# (in lib/order_repository.rb)
 
-class ItemRepository
+class orderRepository
     def all
-        # shows all items
-        sql = 'SELECT id, name, price, quantity FROM items;'
+        # shows all orders
+        sql = 'SELECT id, customer_name, date FROM orders;'
         result = DatabaseConnection.exec_params(sql, [])
 
-        items = []
+        orders = []
 
         result.each do |record|
-            item = Item.new
-            item.id = record['id']
-            item.name = record['name']
-            item.price = record['price']
-            item.quantity = record['quantity']
+            order = Order.new
+            order.id = record['id']
+            order.customer_name = record['customer_name']
+            order.date = record['date']
+
+            orders << order
         end
     end
 
@@ -179,40 +180,12 @@ class ItemRepository
     end
 
     def delete(item)
+    # 'DELETE FROM items
+    #                 WHERE id = $1;'
     end
 
 end
 
-# EXAMPLE
-# Table name: recipe
-
-# Repository class
-# (in lib/recipe_repository.rb)
-
-    def find(id)
-    # SELECT id, name, price, quantity FROM items WHERE id = $1;
-    end
-
-    def create(album)
-        sql = 'INSERT INTO albums
-                    (title, release_year, artist_id)
-                    VALUES($1, $2, $3);'
-        sql_params = [album.title, album.release_year, album.artist_id]
-
-        DatabaseConnection.exec_params(sql, sql_params)
-
-        return nil
-    end
-
-      
-    def delete(id)
-      sql = 'DELETE FROM accounts WHERE id = $1;'
-      sql_params = [id]
-
-      DatabaseConnection.exec_params(sql, sql_params)
-
-      return nil
-    end
 ```
 
 ## 6. Write Test Examples
