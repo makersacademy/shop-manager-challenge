@@ -3,75 +3,104 @@
 ## 1. Design and Create the table
 
 User Stories/specification:
-> As a 
 
+> As a shop manager
+> So I can know which items I have in stock
+> I want to keep a list of my shop items with their name and unit price.
 
+> As a shop manager
+> So I can know which items I have in stock
+> I want to know which quantity (a number) I have for each item.
 
-Nouns: 
+> As a shop manager
+> So I can manage items
+> I want to be able to create a new item.
+
+> As a shop manager
+> So I can know which orders were made
+> I want to keep a list of orders with their customer name.
+
+> As a shop manager
+> So I can know which orders were made
+> I want to assign each order to their corresponding item.
+
+> As a shop manager
+> So I can know which orders were made
+> I want to know on which date an order was placed. 
+
+> As a shop manager
+> So I can manage orders
+> I want to be able to create a new order.
+
 
 #### relationship:
 
-1. Can one  have many ? YES
-2. Can one   have many  ? NO
+1. Can one Item have many Orders ? YES
 
--> A user HAS MANY posts
--> A post BELONGS TO a user
--> Therefore, the foreign key is on the posts table.
+-> An Item HAS MANY Orders
+-> An Order BELONGS TO an Item
+-> Therefore, the foreign key is on the Orders table.
 
 Table design:
-Users: id | email_address | username (could include a fullname, DOB etc.)
-Posts: title | content | views | users_id
+Items: id | name | unit_price | quantity
+Orders: id | customer_name | date | item_id
  
 id: SERIAL 
 name: text
-average_cooking_time: text (number followed by 'minutes' as a string)
-rating: int
+unit_price: int/float
+quantity: int 
+
+id: SERIAL
+customer_name: text
+date: timestamp
+item_id: int
+
 
 #### Creating the tables:
 
 ```sql 
-CREATE TABLE users (
+CREATE TABLE items (
   id SERIAL PRIMARY KEY,
-  email_address text,
-  username text
+  item_name text,
+  unit_price float,
+  quantity int
 );
 
-CREATE TABLE posts (
+CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
-  title text,
-  content text,
-  views int,
-  user_id int,
-  constraint fk_user foreign key (user_id)
-    references users(id)
+  customer_name text,
+  date_placed timestamp,
+  item_id int,
+  constraint fk_item foreign key (item_id)
+    references items(id)
     on delete cascade
 );
 ```
 
 Create table:
-psql -h 127.0.0.1 social_network < social_network_tables_setup.sql
+psql -h 127.0.0.1 shop_manager < DB_table_setup.sql
 
 
 ## 2. Create the SQL seeds
 ```sql
 -- file: spec/social_network_seeds.sql)
 
-TRUNCATE TABLE users RESTART IDENTITY;
-TRUNCATE TABLE posts RESTART IDENTITY;
+TRUNCATE TABLE items RESTART IDENTITY CASCADE;
+TRUNCATE TABLE orders RESTART IDENTITY CASCADE;
 
-INSERT INTO users (email_address, username) VALUES('obsidian_fire_mage69@gmail.com', 'GreatBallsOfFire');
-INSERT INTO users (email_address, username) VALUES('pitbul420@gmail.com', 'Mr.Wolrdwide');
-INSERT INTO users (email_address, username) VALUES('gengenpressed_to_perfection@tisacli.net', 'BigKlopp');
-INSERT INTO users (email_address, username) VALUES('test_email@gmail.com', 'TestUsername');
+INSERT INTO items(item_name, unit_price, quantity) VALUES("Candlestick", 1.99, 10);
+INSERT INTO items(item_name, unit_price, quantity) VALUES("Lead-Pipe", 4.45, 3);
+INSERT INTO items(item_name, unit_price, quantity) VALUES("Gun", 12.95, 1);
 
-INSERT INTO posts (title, content, views, user_id) VALUES('Had a really bad day', 'I ran out of mana so no more fire balls', 100, 1);
-INSERT INTO posts (title, content, views, user_id) VALUES('Had another bad day', 'Took a bath - water extinguishes fire. What was I thinking?', 4, 1);
-INSERT INTO posts (title, content, views, user_id) VALUES('We back', 'I am the god of hellfire and i bring you!', 15, 1);
-INSERT INTO posts (title, content, views, user_id) VALUES('At the barbers', 'Fresh trim', 3000, 2);
-INSERT INTO posts (title, content, views, user_id) VALUES('Checking in', 'Hey, its me, the normal one', 14, 3);
-INSERT INTO posts (title, content, views, user_id) VALUES('We got again', 'Its been a bad season lets be honest', 25, 3);
-INSERT INTO posts (title, content, views, user_id) VALUES('Recording a new banger', 'Mr.Worldwide is back', 10, 2);
-INSERT INTO posts (title, content, views, user_id) VALUES('Test', 'Test number 4', 4, 4);
+INSERT INTO orders(customer_name, date_placed, item_id) VALUES("Professor Plum", 12/12/2023, 1);
+INSERT INTO orders(customer_name, date_placed, item_id) VALUES("Colonel Mustard", 14/04/2023, 1);
+INSERT INTO orders(customer_name, date_placed, item_id) VALUES("Miss Scarlet", 03/01/2023, 3);
+INSERT INTO orders(customer_name, date_placed, item_id) VALUES("Reverend Green", 24/05/2023, 1);
+INSERT INTO orders(customer_name, date_placed, item_id) VALUES("Mrs Peacock", 21/05/2023, 2);
+INSERT INTO orders(customer_name, date_placed, item_id) VALUES("Chef White", 10/10/2023, 1);
+INSERT INTO orders(customer_name, date_placed, item_id) VALUES("Miss Peach", 10/04/2023, 2);
+INSERT INTO orders(customer_name, date_placed, item_id) VALUES("Madame Rose", 07/11/2023, 3);
+INSERT INTO orders(customer_name, date_placed, item_id) VALUES("Lady Lavender", 08/12/2023, 1);
 
 ```
 
@@ -79,28 +108,24 @@ psql -h 127.0.0.1 your_database_name < seeds_{table_name}.sql
 
 ## 3. Define the class names
 
-Usually, the Model class name will be the capitalised table name (single instead of plural). The same name is then suffixed by Repository for the Repository class name.
-
-# Table name: recipes
-
 ```ruby
 # Model class'
-# (in lib/user.rb)
+# (in lib/item.rb)
 
-class User
+class Item
 end
 
-# (in lib/post.rb)
-class Post
+# (in lib/order.rb)
+class Order
 end
 
 # Repository class'
-# (in lib/user_repository.rb)
-class UserRepository
+# (in lib/item_repository.rb)
+class ItemRepository
 end
 
-# (in lib/post_repository.rb)
-class PostRepository
+# (in lib/user_repository.rb)
+class UserRepository
 end
 ```
 
@@ -109,17 +134,17 @@ end
 ``` ruby
 
 # Model class
-# (in lib/user.rb)
+# (in lib/item.rb)
 
-class User
-  attr_accessor :id, :email_address, :username
+class Item
+  attr_accessor :id, :item_name, :unit_price, :quantity
 end
 
 # Model class 2
-# (in lib/post.rb)
+# (in lib/order.rb)
 
-class Post
-  attr_accessor :id, :title, :content, :views, :user_id
+class Order
+  attr_accessor :id, :customer_name, :date_placed, :item_id
 end
 
 ```
@@ -128,20 +153,18 @@ end
 
 ```ruby
 # EXAMPLE
-# Table name: users
+# Table name: items
 
 # Repository class
-# (in lib/user_repository.rb)
+# (in lib/item_repository.rb)
 
-class UserRepository
+class ItemRepository
 
   # Selecting all records
-  # No arguments
   def all
     # Executes the SQL query:
-    # SELECT * FROM users;
-
-    # Returns an array of user objects.
+    # SELECT * FROM items;
+    # Returns all records as an array of user objects. - to be used by other methods.
   end
 
   # Gets a single record by its ID
@@ -173,13 +196,14 @@ class UserRepository
 end
 
 #This repository class acts on post objects 
-class PostRepository
+class OrderRepository
 
   def all 
-    
+    # Returns an array of all 
+    # Method can be called by other methods later
   end
 
-  def create(post_obj)
+  def create(order_obj)
     # Adds a postobj to the posts table if post corresponds to existing user 
     # 'INSERT INTO posts(title, content, views, user_id) VALUES($1, $2, $3, $4);'
     # params = [post_obj.title, post_obj.content, post_obj.views, post_obj.user_id]
