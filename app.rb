@@ -29,7 +29,7 @@ class Application
     all_items = @item_repository.all
     @io.puts "\nHere's a list of all shop items:\n"
     all_items.each do |item|
-    @io.puts "##{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.stock_quantity}"
+    @io.puts "##{item.id} #{item.name} - Unit price: #{item.unit_price}£ - Quantity: #{item.stock_quantity}"
     end
   end
 
