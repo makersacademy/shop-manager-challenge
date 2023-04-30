@@ -7,7 +7,14 @@ class OrderRepository
   end
 
   def all
-    sql = "SELECT id, customer_name, date, item_id FROM orders;"
+    sql = "SELECT orders.id AS id,
+    orders.customer_name AS customer_name,
+    orders.date AS date,
+    orders.item_id AS item_id,
+    items.name AS item_name
+    FROM orders
+    JOIN items
+    ON items.id = orders.item_id;"
     result_set = DatabaseConnection.exec_params(sql, [])
     
     result_set.each do |record|
@@ -29,8 +36,7 @@ class OrderRepository
     order.id = record["id"]
     order.customer_name = record["customer_name"]
     order.date = record["date"]
-    order.item_id = record['item_id']
+    order.item_id = record['item_id']    
     return order
   end
-
 end
