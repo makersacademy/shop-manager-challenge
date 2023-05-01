@@ -10,5 +10,10 @@ class Application
   def run
     @io.puts "What do you want to do?"
     @io.puts "1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order"
+    selection = @io.gets.chomp
   end
 end
+
+io = Kernel
+app = Application.new(io)
+app.run
