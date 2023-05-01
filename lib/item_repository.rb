@@ -9,14 +9,9 @@ class ItemRepository
         items = []
 
         result.each do |record|
-            item = Item.new
-            item.id = record['id']
-            item.name = record['name']
-            item.price = record['price']
-            item.quantity = record['quantity']
-
-            items << item
+            items << record_to_item(record)
         end
+        
         return items
     end
 
@@ -25,16 +20,9 @@ class ItemRepository
         sql_params = [id]
 
         result = DatabaseConnection.exec_params(sql, sql_params)
-
         record = result[0]
 
-        item = Item.new
-        item.id = record['id']
-        item.name = record['name']
-        item.price = record['price']
-        item.quantity = record['quantity']
-
-        return item
+        return record_to_item(record)
 
     end
 
@@ -57,6 +45,18 @@ class ItemRepository
         DatabaseConnection.exec_params(sql, sql_params)
 
         return nil
+    end
+
+    private
+
+    def record_to_item(record)
+        item = Item.new
+        item.id = record['id']
+        item.name = record['name']
+        item.price = record['price']
+        item.quantity = record['quantity']
+
+        return item
     end
 
 

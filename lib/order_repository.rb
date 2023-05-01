@@ -6,13 +6,15 @@ class OrderRepository
         result = DatabaseConnection.exec_params(sql, [])
 
         orders = []
+        
         result.each do |record|
-            order = Order.new
-            order.id = record['id']
-            order.customer_name = record['customer_name']
-            order.date = record['date']
+            
+            # order = Order.new
+            # order.id = record['id']
+            # order.customer_name = record['customer_name']
+            # order.date = record['date']
 
-            orders << order
+            orders << record_to_order(record)
         end
 
         return orders
@@ -25,12 +27,7 @@ class OrderRepository
         result = DatabaseConnection.exec_params(sql, sql_params)
         record = result[0]
 
-        order = Order.new
-        order.id = record['id']
-        order.customer_name = record['customer_name']
-        order.date = record['date']
-
-        return order
+        return record_to_order(record)
 
     end
 
@@ -56,12 +53,6 @@ class OrderRepository
     end
 
     def find_with_items(id)
-    #     # sql = 'SELECT orders.id, orders.customer_name
-    #     # FROM orders
-    #     # JOIN items_orders ON items_orders.order_id = orders.id
-    #     # JOIN items ON items_orders.item_id = items.id
-    #     # WHERE items.id = $1;'
-
         sql = 'SELECT items.id, items.name, items.price
         FROM items
         JOIN items_orders ON items_orders.item_id = items.id
@@ -69,6 +60,16 @@ class OrderRepository
         WHERE orders.id = $1;'
         sql_params = [id]
         result = DatabaseConnection.exec_params(sql, sql_params)
-
     end
+
+    private
+    def record_to_order(record)
+        order = Order.new
+        order.id = record['id']
+        order.customer_name = record['customer_name']
+        order.date = record['date']
+        return order
+    end
+
+
 end
