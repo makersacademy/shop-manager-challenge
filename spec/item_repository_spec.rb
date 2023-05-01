@@ -1,5 +1,4 @@
 require 'item_repository'
-require 'database_connection'
 
 def reset_items_table
   seed_sql = File.read('spec/seeds_items.sql')
@@ -33,7 +32,7 @@ RSpec.describe ItemRepository do
   end
 
   context '#find' do
-    xit 'returns the first item' do
+    it 'returns the first item' do
       repo = ItemRepository.new
 
       item = repo.find(1)
@@ -44,7 +43,7 @@ RSpec.describe ItemRepository do
       expect(item.quantity).to eq '10'
     end
 
-    xit 'returns the second item' do
+    it 'returns the second item' do
       repo = ItemRepository.new
 
       item = repo.find(2)
@@ -57,7 +56,7 @@ RSpec.describe ItemRepository do
   end
 
   context '#create' do
-    xit 'creates a new item' do
+    it 'creates a new item' do
       repo = ItemRepository.new
 
       item = Item.new
