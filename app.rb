@@ -67,8 +67,6 @@ class Application
       @item_repository.create(item)
 
       @io.puts "New item created!"
-
-
     when "3"
       @io.puts "\nHere's a list of all orders:\n\n"
 
@@ -78,7 +76,24 @@ class Application
         @io.puts "  #{order.id}. Customer name: #{order.customer_name} - Date: #{order.date} - Item ID: #{order.item_id}" 
       end
     when "4"
+      @io.puts "Enter the customer name for the new order:"
+      order_customer_name = @io.gets.chomp
 
+      @io.puts "Enter the date for the new order (YYYY-MM-DD):"
+      order_date = @io.gets.chomp
+
+      @io.puts "Enter the new order's item ID:"
+      order_item_id = @io.gets.chomp.to_i
+
+      order = Order.new
+
+      order.customer_name = order_customer_name
+      order.date = order_date
+      order.item_id = order_item_id
+
+      @order_repository.create(order)
+
+      @io.puts "New order created!"
     when "9"
       exit
     else

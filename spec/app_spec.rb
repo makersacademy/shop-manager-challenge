@@ -118,6 +118,49 @@ RSpec.describe Application do
     end
   end
 
+  context 'when user selects 4' do
+    it 'creates a new item' do
+      io = double :io
+
+      expect(io).to receive(:puts).with("Welcome to the shop management program!\n\n").ordered
+      expect(io).to receive(:puts).with(
+          "What do you want to do?\n" \
+          "  1 = list all shop items\n" \
+          "  2 = create a new item\n" \
+          "  3 = list all orders\n" \
+          "  4 = create a new order\n" \
+          "  9 = exit\n\n"
+        ).ordered
+      expect(io).to receive(:gets).and_return('4').ordered
+      expect(io).to receive(:puts).with("Enter the customer name for the new order:").ordered
+      expect(io).to receive(:gets).and_return('Anna').ordered
+      expect(io).to receive(:puts).with("Enter the date for the new order (YYYY-MM-DD):").ordered
+      expect(io).to receive(:gets).and_return('2023-04-29').ordered
+      expect(io).to receive(:puts).with("Enter the new order's item ID:").ordered
+      expect(io).to receive(:gets).and_return('2').ordered
+      expect(io).to receive(:puts).with("New order created!").ordered
+      
+      app = Application.new(
+        'shop_manager_test',
+        io,
+        ItemRepository.new,
+        OrderRepository.new
+      )
+      app.run
+
+      repo = OrderRepository.new
+
+      orders = repo.all
+
+      last_order = orders.last
+
+      expect(last_order.id).to eq '4'
+      expect(last_order.customer_name).to eq 'Anna'
+      expect(last_order.date).to eq '2023-04-29'
+      expect(last_order.item_id).to eq '2'
+    end
+  end
+
   context 'when user selects 9' do
     it 'exits' do
       io = double :io
