@@ -6,7 +6,7 @@ require_relative 'lib/database_connection'
 class Application
 
   def initialize(database_name, io, item_repository, order_repository)
-    DatabaseConnection.connect('shop_manager')
+    DatabaseConnection.connect(database_name)
     @io = io
     @item_repository = item_repository
     @order_repository = order_repository
