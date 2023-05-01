@@ -107,7 +107,6 @@ class Application
     @io.puts ""
     @io.puts "Enter the quantity added (or minus for removed):"
     quant = @io.gets.chomp.to_i
-    @io.puts ""
     @item_repository.update_quantity(id, quant)
     @io.puts ""
     @io.puts "Stock updated successfully"

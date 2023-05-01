@@ -184,7 +184,6 @@ RSpec.describe Application do
       expect(io).to receive(:gets).and_return "1"
       expect(io).to receive(:puts).with ""
       expect(io).to receive(:puts).with "Enter the quantity added (or minus for removed):"
-      expect(io).to receive(:puts).with ""
       expect(io).to receive(:gets).and_return "20"
 
       expect(item_repo).to receive(:update_quantity).with(1, 20)
