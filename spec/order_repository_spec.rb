@@ -1,15 +1,15 @@
 require 'order_repository'
 
 RSpec.describe OrderRepository do
-    def reset_items_table
+    def reset_orders_table
         seed_sql = File.read('spec/items_orders.sql')
         connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
         connection.exec(seed_sql)
     end
       
-    describe ItemRepository do
+    describe OrderRepository do
         before(:each) do 
-            reset_items_table
+            reset_orders_table
         end
 
         it 'returns a list of orders' do
@@ -42,6 +42,22 @@ RSpec.describe OrderRepository do
             repo.delete(id_to_delete)
 
             expect(repo.all.length).to eq 3 
+        end
+
+        it 'returns order 1 alongside related items' do
+            repo = OrderRepository.new
+            order = repo.find_with_items(1)
+            item = double :item, name: 'Eggs'
+
+            expect(item.name).to eq 'Eggs'
+        end
+
+        it 'returns order 2 alongside related items' do
+            repo = OrderRepository.new
+            order = repo.find_with_items(2)
+            item = double :item, name: ['Eggs' 'Coffee']
+            
+            expect(item.name).to eq ['Eggs' 'Coffee']
         end
 
     end

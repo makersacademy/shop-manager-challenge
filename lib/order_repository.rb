@@ -55,5 +55,20 @@ class OrderRepository
         return nil
     end
 
+    def find_with_items(id)
+    #     # sql = 'SELECT orders.id, orders.customer_name
+    #     # FROM orders
+    #     # JOIN items_orders ON items_orders.order_id = orders.id
+    #     # JOIN items ON items_orders.item_id = items.id
+    #     # WHERE items.id = $1;'
 
+        sql = 'SELECT items.id, items.name, items.price
+        FROM items
+        JOIN items_orders ON items_orders.item_id = items.id
+        JOIN orders ON items_orders.order_id = orders.id
+        WHERE orders.id = $1;'
+        sql_params = [id]
+        result = DatabaseConnection.exec_params(sql, sql_params)
+
+    end
 end

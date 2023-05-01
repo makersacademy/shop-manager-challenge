@@ -59,8 +59,5 @@ RSpec.describe ItemRepository do
             expect(repo.all.length).to eq 3 
         end
 
-        
-
     end
-
 end
