@@ -1,5 +1,4 @@
-require 'item_repository'
-require 'order_repository'
+require_relative '../app'
 
 def reset_items_table
   seed_sql = File.read('spec/seeds_items.sql')
@@ -19,7 +18,27 @@ RSpec.describe Application do
     reset_orders_table
   end
 
-  context '' do
-    
+  context '#run' do
+    it 'outputs the welcome interface' do
+      io = double :io
+
+      expect(io).to receive(:puts).with("Welcome to the shop management program!\n\n").ordered
+      expect(io).to receive(:puts).with(
+        "What do you want to do?\n" \
+        "  1 = list all shop items\n" \
+        "  2 = create a new item\n" \
+        "  3 = list all orders\n" \
+        "  4 = create a new order"
+      ).ordered
+
+
+      app = Application.new(
+        'shop_manager_test',
+        io,
+        ItemRepository.new,
+        OrderRepository.new
+      )
+      app.run
+    end
   end
 end

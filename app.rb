@@ -25,6 +25,17 @@ class Application
 
     # Use `@io.puts` or `@io.gets` to
     # write output and ask for user input.
+
+    welcome = "Welcome to the shop management program!\n\n"
+    menu =    "What do you want to do?\n" \
+              "  1 = list all shop items\n" \
+              "  2 = create a new item\n" \
+              "  3 = list all orders\n" \
+              "  4 = create a new order"
+    
+    @io.puts welcome
+    @io.puts menu
+
   end
 end
 
