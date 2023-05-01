@@ -11,7 +11,7 @@ describe ItemRepository do
     reset_items_table
   end
 
-  it 'Should return all rows as an array when the all method is called' do
+  it 'Should return all rows as an array of item objects when the all method is called' do
     repo = ItemRepository.new
     result = repo.all
     expect(result.length).to eq 3

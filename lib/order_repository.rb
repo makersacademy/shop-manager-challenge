@@ -11,7 +11,7 @@ class OrderRepository
       order.customer_name = row['customer_name']
       order.date_placed = row['date_placed']
       order.item_id = row['item_id']
-      orders << order
+      orders << order 
     end
     orders
   end
