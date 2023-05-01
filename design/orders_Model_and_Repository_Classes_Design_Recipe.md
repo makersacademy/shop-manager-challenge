@@ -128,7 +128,7 @@ class OrderRepository
   # one argument: an Order object
   def create(order)
     # Executes the SQL query
-    # INSERT INTO artists (customer_name, date, item_id) VALUES ($1, $2, $3);
+    # INSERT INTO orders (customer_name, date, item_id) VALUES ($1, $2, $3);
     
     # returns nothing
   end
@@ -213,7 +213,7 @@ orders = repo.all
 
 last_order = orders.last
 
-last_item.id # => '4'
+last_order.id # => '4'
 last_order.customer_name # => 'Will'
 last_order.date # => '2023-05-01'
 last_order.item_id # => '1'

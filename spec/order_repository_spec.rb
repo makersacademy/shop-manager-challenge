@@ -12,7 +12,7 @@ RSpec.describe OrderRepository do
   end
 
   context '#all' do
-    xit 'returns all orders' do
+    it 'returns all orders' do
       repo = OrderRepository.new
 
       orders = repo.all
@@ -37,7 +37,7 @@ RSpec.describe OrderRepository do
   end
 
   context '#find' do
-    xit 'returns the first order' do
+    it 'returns the first order' do
       repo = OrderRepository.new
 
       order = repo.find(1)
@@ -48,7 +48,7 @@ RSpec.describe OrderRepository do
       expect(order.item_id).to eq '1'
     end
 
-    xit 'returns the second order' do
+    it 'returns the second order' do
       repo = OrderRepository.new
 
       order = repo.find(2)
@@ -61,7 +61,7 @@ RSpec.describe OrderRepository do
   end
 
   context '#create' do
-    xit 'creates a new order' do
+    it 'creates a new order' do
       repo = OrderRepository.new
 
       order = Order.new
@@ -76,7 +76,7 @@ RSpec.describe OrderRepository do
 
       last_order = orders.last
 
-      expect(last_item.id).to eq '4'
+      expect(last_order.id).to eq '4'
       expect(last_order.customer_name).to eq 'Will'
       expect(last_order.date).to eq '2023-05-01'
       expect(last_order.item_id).to eq '1'
