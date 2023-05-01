@@ -27,14 +27,44 @@ class Application
     # write output and ask for user input.
 
     welcome = "Welcome to the shop management program!\n\n"
-    menu =    "What do you want to do?\n" \
-              "  1 = list all shop items\n" \
-              "  2 = create a new item\n" \
-              "  3 = list all orders\n" \
-              "  4 = create a new order"
+
+    menu =  "What do you want to do?\n" \
+            "  1 = list all shop items\n" \
+            "  2 = create a new item\n" \
+            "  3 = list all orders\n" \
+            "  4 = create a new order\n" \
+            "  9 = exit\n\n"
     
     @io.puts welcome
     @io.puts menu
+    user_input = @io.gets.chomp
+
+    case user_input
+    when "1"
+      @io.puts "\nHere's a list of all shop items:\n\n"
+
+      items = @item_repository.all
+
+      items.each do |item|
+        @io.puts "  #{item.id}. #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}" 
+      end
+    when "2"
+      
+    when "3"
+      @io.puts "\nHere's a list of all orders:\n\n"
+
+      orders = @order_repository.all
+
+      orders.each do |order|
+        @io.puts "  #{order.id}. Customer name: #{order.customer_name} - Date: #{order.date} - Item ID: #{order.item_id}" 
+      end
+    when "4"
+
+    when "9"
+      exit
+    else
+      @io.puts "Please input 1, 2, 3, 4 or 9"
+    end
 
   end
 end

@@ -18,19 +18,133 @@ RSpec.describe Application do
     reset_orders_table
   end
 
-  context '#run' do
-    it 'outputs the welcome interface' do
+  context 'when user selects 1' do
+    it 'returns list of items' do
       io = double :io
 
       expect(io).to receive(:puts).with("Welcome to the shop management program!\n\n").ordered
       expect(io).to receive(:puts).with(
-        "What do you want to do?\n" \
-        "  1 = list all shop items\n" \
-        "  2 = create a new item\n" \
-        "  3 = list all orders\n" \
-        "  4 = create a new order"
-      ).ordered
+          "What do you want to do?\n" \
+          "  1 = list all shop items\n" \
+          "  2 = create a new item\n" \
+          "  3 = list all orders\n" \
+          "  4 = create a new order\n" \
+          "  9 = exit\n\n"
+        ).ordered
+      expect(io).to receive(:gets).and_return('1').ordered
+      expect(io).to receive(:puts).with("\nHere's a list of all shop items:\n\n").ordered
+      expect(io).to receive(:puts).with("  1. Flake - Unit price: 99 - Quantity: 10").ordered
+      expect(io).to receive(:puts).with("  2. Twix - Unit price: 110 - Quantity: 5").ordered
 
+      app = Application.new(
+        'shop_manager_test',
+        io,
+        ItemRepository.new,
+        OrderRepository.new
+      )
+      app.run
+    end
+  end
+
+  context 'when user selects 2' do
+    it 'creates a new item' do
+      io = double :io
+
+      expect(io).to receive(:puts).with("Welcome to the shop management program!\n\n").ordered
+      expect(io).to receive(:puts).with(
+          "What do you want to do?\n" \
+          "  1 = list all shop items\n" \
+          "  2 = create a new item\n" \
+          "  3 = list all orders\n" \
+          "  4 = create a new order\n" \
+          "  9 = exit\n\n"
+        ).ordered
+      expect(io).to receive(:gets).and_return('1').ordered
+      expect(io).to receive(:puts).with("\nHere's a list of all orders:\n\n").ordered
+      expect(io).to receive(:puts).with("  1. Customer name: David - Date: 2023-03-03 - Item ID: 1").ordered
+      expect(io).to receive(:puts).with("  2. Customer name: David - Date: 2023-05-01 - Item ID: 1").ordered
+      expect(io).to receive(:puts).with("  3. Customer name: Anna - Date: 2023-05-01 - Item ID: 2").ordered
+      
+      app = Application.new(
+        'shop_manager_test',
+        io,
+        ItemRepository.new,
+        OrderRepository.new
+      )
+      app.run
+    end
+  end
+
+  context 'when user selects 3' do
+    it 'returns list of orders' do
+      io = double :io
+
+      expect(io).to receive(:puts).with("Welcome to the shop management program!\n\n").ordered
+      expect(io).to receive(:puts).with(
+          "What do you want to do?\n" \
+          "  1 = list all shop items\n" \
+          "  2 = create a new item\n" \
+          "  3 = list all orders\n" \
+          "  4 = create a new order\n" \
+          "  9 = exit\n\n"
+        ).ordered
+      expect(io).to receive(:gets).and_return('3').ordered
+      expect(io).to receive(:puts).with("\nHere's a list of all orders:\n\n").ordered
+      expect(io).to receive(:puts).with("  1. Customer name: David - Date: 2023-03-03 - Item ID: 1").ordered
+      expect(io).to receive(:puts).with("  2. Customer name: David - Date: 2023-05-01 - Item ID: 1").ordered
+      expect(io).to receive(:puts).with("  3. Customer name: Anna - Date: 2023-05-01 - Item ID: 2").ordered
+      
+      app = Application.new(
+        'shop_manager_test',
+        io,
+        ItemRepository.new,
+        OrderRepository.new
+      )
+      app.run
+    end
+  end
+
+  context 'when user selects 9' do
+    it 'exits' do
+      io = double :io
+
+      expect(io).to receive(:puts).with("Welcome to the shop management program!\n\n").ordered
+      expect(io).to receive(:puts).with(
+          "What do you want to do?\n" \
+          "  1 = list all shop items\n" \
+          "  2 = create a new item\n" \
+          "  3 = list all orders\n" \
+          "  4 = create a new order\n" \
+          "  9 = exit\n\n"
+        ).ordered
+      expect(io).to receive(:gets).and_return('9').ordered
+      expect(Kernel).to receive(:exit).with(0).ordered
+
+      app = Application.new(
+        'shop_manager_test',
+        io,
+        ItemRepository.new,
+        OrderRepository.new
+      )
+      app.run
+    end
+  end
+
+  context "when user doesn't enter a valid input" do
+    it 'asks for a valid input' do
+      io = double :io
+
+      expect(io).to receive(:puts).with("Welcome to the shop management program!\n\n").ordered
+      expect(io).to receive(:puts).with(
+          "What do you want to do?\n" \
+          "  1 = list all shop items\n" \
+          "  2 = create a new item\n" \
+          "  3 = list all orders\n" \
+          "  4 = create a new order\n" \
+          "  9 = exit\n\n"
+        ).ordered
+      expect(io).to receive(:gets).and_return('5').ordered
+      expect(io).to receive(:puts).with("Please input 1, 2, 3, 4 or 9").ordered
 
       app = Application.new(
         'shop_manager_test',
