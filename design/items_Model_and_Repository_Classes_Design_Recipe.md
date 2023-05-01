@@ -180,7 +180,7 @@ item.name # =>  'Flake'
 item.unit_price # =>  '99'
 item.quantity # =>  '10'
 
-# 2
+# 3
 # Get the second item
 
 repo = ItemRepository.new
@@ -192,7 +192,7 @@ item.name # =>  'Twix'
 item.unit_price # =>  '110'
 item.quantity # =>  '5'
 
-# 3 
+# 4 
 # creates a new item
 
 repo = ItemRepository.new
