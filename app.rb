@@ -37,19 +37,37 @@ class Application
     
     @io.puts welcome
     @io.puts menu
+    
     user_input = @io.gets.chomp
 
     case user_input
     when "1"
-      @io.puts "\nHere's a list of all shop items:\n\n"
+      list_items
+    when "2"
+      create_item
+    when "3"
+      list_orders
+    when "4"
+      create_order
+    when "9"
+      exit
+    else
+      @io.puts "Please input 1, 2, 3, 4 or 9"
+    end
+  end
+
+  def list_items
+    @io.puts "\nHere's a list of all shop items:\n\n"
 
       items = @item_repository.all
 
       items.each do |item|
         @io.puts "  #{item.id}. #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}" 
       end
-    when "2"
-      @io.puts "Enter the name of the new item:"
+  end
+
+  def create_item
+    @io.puts "Enter the name of the new item:"
       item_name = @io.gets.chomp
 
       @io.puts "Enter the unit price of the new item:"
@@ -67,59 +85,39 @@ class Application
       @item_repository.create(item)
 
       @io.puts "New item created!"
-    when "3"
-      @io.puts "\nHere's a list of all orders:\n\n"
+  end
+
+  def list_orders
+    @io.puts "\nHere's a list of all orders:\n\n"
 
       orders = @order_repository.all
 
       orders.each do |order|
         @io.puts "  #{order.id}. Customer name: #{order.customer_name} - Date: #{order.date} - Item ID: #{order.item_id}" 
       end
-    when "4"
-      @io.puts "Enter the customer name for the new order:"
-      order_customer_name = @io.gets.chomp
+  end
+  
+  def create_order
+    @io.puts "Enter the customer name for the new order:"
+    order_customer_name = @io.gets.chomp
 
-      @io.puts "Enter the date for the new order (YYYY-MM-DD):"
-      order_date = @io.gets.chomp
+    @io.puts "Enter the date for the new order (YYYY-MM-DD):"
+    order_date = @io.gets.chomp
 
-      @io.puts "Enter the new order's item ID:"
-      order_item_id = @io.gets.chomp.to_i
+    @io.puts "Enter the new order's item ID:"
+    order_item_id = @io.gets.chomp.to_i
 
-      order = Order.new
+    order = Order.new
 
-      order.customer_name = order_customer_name
-      order.date = order_date
-      order.item_id = order_item_id
+    order.customer_name = order_customer_name
+    order.date = order_date
+    order.item_id = order_item_id
 
-      @order_repository.create(order)
+    @order_repository.create(order)
 
-      @io.puts "New order created!"
-    when "9"
-      exit
-    else
-      @io.puts "Please input 1, 2, 3, 4 or 9"
-    end
-
+    @io.puts "New order created!"
   end
 end
-
-# example behaviour:
-#
-# Welcome to the shop management program!
-#
-# What do you want to do?
-#   1 = list all shop items
-#   2 = create a new item
-#   3 = list all orders
-#   4 = create a new order
-#
-# 1 [enter]
-#
-# Here's a list of all shop items:
-#
-#  #1 Super Shark Vacuum Cleaner - Unit price: 99 - Quantity: 30
-#  #2 Makerspresso Coffee Machine - Unit price: 69 - Quantity: 15
-#  (...)
 
 # Don't worry too much about this if statement. It is basically saying "only
 # run the following code if this is the main file being run, instead of having
