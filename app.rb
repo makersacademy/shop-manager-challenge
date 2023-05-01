@@ -87,7 +87,7 @@ class Application
 
   def check_item_stock
     order_item = @item_repository.find(@order.item_id)
-    fail "Sorry, none in stock!" if order_item.out_of_stock
+    fail "Sorry, none in stock!" if order_item.quantity == 0
   end
 
   def create_order

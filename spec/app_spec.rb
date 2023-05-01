@@ -99,7 +99,7 @@ RSpec.describe Application do
       order_repo = double(:order_repository)
       item_repo = double(:item_repository)
       order_class = double(:order_class)
-      item_class = double(:item_class, out_of_stock: false)
+      item_class = double(:item_class, quantity: 20)
 
       expect(order_class).to receive(:customer_name=).with("Jane")
       expect(order_class).to receive(:date_placed=).with('2023-04-30')
@@ -134,7 +134,7 @@ RSpec.describe Application do
       order_repo = double(:order_repository)
       item_repo = double(:item_repository)
       order_class = double(:order_class)
-      item_class = double(:item_class, out_of_stock: true)
+      item_class = double(:item_class, quantity: 0)
 
       expect(order_class).to receive(:customer_name=).with("Jane")
       expect(order_class).to receive(:date_placed=).with('2023-04-30')
