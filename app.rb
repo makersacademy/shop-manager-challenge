@@ -3,7 +3,9 @@ require_relative 'lib/item_repository'
 require_relative 'lib/order_repository'
 
 class Application
-  def initialize(database_name, io, item_repository, order_repository, item_class, order_class)
+  def initialize(database_name, io, 
+        item_repository, order_repository, 
+        item_class, order_class)
     DatabaseConnection.connect(database_name)
     @io = io
     @item_repository = item_repository
@@ -14,7 +16,7 @@ class Application
 
   def run
     greet_user
-    choice = get_user_choice
+    choice = user_choice
     case choice
     when "1"
       display_items
@@ -37,7 +39,7 @@ class Application
     @io.puts ""
   end
 
-  def get_user_choice
+  def user_choice
     @io.puts "What do you want to do?"
     @io.puts "  1 = list all shop items"
     @io.puts "  2 = create a new item"
@@ -52,7 +54,7 @@ class Application
     @io.puts "Here's a list of all shop items:"
     @io.puts ""
     @item_repository.all.each do |item|
-      @io.puts " ##{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
+      @io.puts str = " ##{item.id} #{item.name} - UP: #{item.unit_price} - Q: #{item.quantity}"
     end
   end
 
@@ -70,7 +72,7 @@ class Application
     @io.puts "Here's a list of all the orders:"
     @io.puts ""
     @order_repository.all.each do |order|
-      @io.puts " ##{order.id} #{order.customer_name} placed an order on #{order.date_placed} for a #{order.item_name}"
+      @io.puts " ##{order.id} #{order.customer_name} - Date: #{order.date_placed} - Item: #{order.item_name}"
     end
   end
 

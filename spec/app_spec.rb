@@ -26,8 +26,8 @@ RSpec.describe Application do
     expect(io).to receive(:puts).with ""
     expect(io).to receive(:puts).with "Here's a list of all shop items:"
     expect(io).to receive(:puts).with ""
-    expect(io).to receive(:puts).with " #1 Balloon - Unit price: 2.99 - Quantity: 5"
-    expect(io).to receive(:puts).with " #2 Animal - Unit price: 3 - Quantity: 1"
+    expect(io).to receive(:puts).with " #1 Balloon - UP: 2.99 - Q: 5"
+    expect(io).to receive(:puts).with " #2 Animal - UP: 3 - Q: 1"
     
     app = Application.new(
       'shop_manager_test', io, 
@@ -84,7 +84,7 @@ RSpec.describe Application do
     expect(io).to receive(:puts).with ""
     expect(io).to receive(:puts).with "Here's a list of all the orders:"
     expect(io).to receive(:puts).with ""
-    expect(io).to receive(:puts).with " #1 Lucy placed an order on 2023-01-01 for a Bicycle"
+    expect(io).to receive(:puts).with " #1 Lucy - Date: 2023-01-01 - Item: Bicycle"
 
     app = Application.new(
       'shop_manager_test', io, 
@@ -161,7 +161,7 @@ RSpec.describe Application do
         item_class, order_class
       )
 
-      expect{ app.run }.to raise_error "Sorry, none in stock!"
+      expect { app.run }.to raise_error "Sorry, none in stock!"
     end
   end
 end
