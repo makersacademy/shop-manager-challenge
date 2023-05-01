@@ -22,13 +22,11 @@ describe ItemRepository do
 
   it 'Should take an item object and add a new row to the database' do
     repo = ItemRepository.new
-    item = Item.new
-    item.item_name = 'Big Skeng'
-    item.unit_price = 3.99
-    item.quantity = 5
+    item = double :item, item_name: 'Big Skeng', unit_price: 3.99, quantity: 5
     repo.create(item)
     expect(repo.all.last.item_name).to eq 'Big Skeng'
     expect(repo.all.last.unit_price).to eq '3.99'
+    expect(repo.all.last.quantity).to eq '5'
     expect(repo.all.length).to eq 4
     expect(repo.all.last.id).to eq '4'
   end
