@@ -59,11 +59,14 @@ RSpec.describe Application do
           "  4 = create a new order\n" \
           "  9 = exit\n\n"
         ).ordered
-      expect(io).to receive(:gets).and_return('1').ordered
-      expect(io).to receive(:puts).with("\nHere's a list of all orders:\n\n").ordered
-      expect(io).to receive(:puts).with("  1. Customer name: David - Date: 2023-03-03 - Item ID: 1").ordered
-      expect(io).to receive(:puts).with("  2. Customer name: David - Date: 2023-05-01 - Item ID: 1").ordered
-      expect(io).to receive(:puts).with("  3. Customer name: Anna - Date: 2023-05-01 - Item ID: 2").ordered
+      expect(io).to receive(:gets).and_return('2').ordered
+      expect(io).to receive(:puts).with("Enter the name of the new item:").ordered
+      expect(io).to receive(:gets).and_return('Wispa').ordered
+      expect(io).to receive(:puts).with("Enter the unit price of the new item:").ordered
+      expect(io).to receive(:gets).and_return('99').ordered
+      expect(io).to receive(:puts).with("Enter the quantity of the new item:").ordered
+      expect(io).to receive(:gets).and_return('15').ordered
+      expect(io).to receive(:puts).with("New item created!").ordered
       
       app = Application.new(
         'shop_manager_test',
@@ -72,6 +75,17 @@ RSpec.describe Application do
         OrderRepository.new
       )
       app.run
+
+      repo = ItemRepository.new
+
+      items = repo.all
+
+      last_item = items.last
+
+      expect(last_item.id).to eq '3'
+      expect(last_item.name).to eq 'Wispa'
+      expect(last_item.unit_price).to eq '99'
+      expect(last_item.quantity).to eq '15'
     end
   end
 

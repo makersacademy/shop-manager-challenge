@@ -49,7 +49,26 @@ class Application
         @io.puts "  #{item.id}. #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}" 
       end
     when "2"
-      
+      @io.puts "Enter the name of the new item:"
+      item_name = @io.gets.chomp
+
+      @io.puts "Enter the unit price of the new item:"
+      item_unit_price = @io.gets.chomp.to_i
+
+      @io.puts "Enter the quantity of the new item:"
+      item_quantity = @io.gets.chomp.to_i
+
+      item = Item.new
+
+      item.name = item_name
+      item.unit_price = item_unit_price
+      item.quantity = item_quantity
+
+      @item_repository.create(item)
+
+      @io.puts "New item created!"
+
+
     when "3"
       @io.puts "\nHere's a list of all orders:\n\n"
 
