@@ -66,4 +66,50 @@ describe Application do
     app = Application.new('shop_manager_test', io, item_repo, order_repo)
     app.run
   end
+
+  context 'fail/error testing' do
+    it 'Should return an error if the user input is anything other than selectable options.' do
+      io = double :io
+      order_repo = double :order
+      item_repo = double :item
+      expect(io).to receive(:puts).with("What do you want to do?").ordered
+      expect(io).to receive(:puts).with("1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order").ordered
+      expect(io).to receive(:gets).and_return("5").ordered
+      app = Application.new('shop_manager_test', io, item_repo, order_repo)
+      expect { app.run }.to raise_error "This is not a valid selection"
+    end
+
+    it 'Should return an error if the user input is anything other than selectable options.' do
+      io = double :io
+      order_repo = double :order
+      item_repo = double :item
+      expect(io).to receive(:puts).with("What do you want to do?").ordered
+      expect(io).to receive(:puts).with("1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order").ordered
+      expect(io).to receive(:gets).and_return("String").ordered
+      app = Application.new('shop_manager_test', io, item_repo, order_repo)
+      expect { app.run }.to raise_error "This is not a valid selection"
+    end
+
+    it 'Should return an error if the user input is anything other than selectable options.' do
+      io = double :io
+      order_repo = double :order
+      item_repo = double :item
+      expect(io).to receive(:puts).with("What do you want to do?").ordered
+      expect(io).to receive(:puts).with("1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order").ordered
+      expect(io).to receive(:gets).and_return("-1").ordered
+      app = Application.new('shop_manager_test', io, item_repo, order_repo)
+      expect { app.run }.to raise_error "This is not a valid selection"
+    end
+
+    it 'Should return an error if the user input is anything other than selectable options.' do
+      io = double :io
+      order_repo = double :order
+      item_repo = double :item
+      expect(io).to receive(:puts).with("What do you want to do?").ordered
+      expect(io).to receive(:puts).with("1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order").ordered
+      expect(io).to receive(:gets).and_return(")()):xcqqQ").ordered
+      app = Application.new('shop_manager_test', io, item_repo, order_repo)
+      expect { app.run }.to raise_error "This is not a valid selection"
+    end
+  end
 end

@@ -32,7 +32,7 @@ class Application
     elsif selection == "4"
       nil
     else
-      nil
+      fail "This is not a valid selection"
     end
   end
 end
