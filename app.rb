@@ -63,3 +63,17 @@ if __FILE__ == $0
   )
   app.run
 end
+
+# I would like to add further fail/error tests for this program specifically around the user input stages
+
+# For item:
+# Ensure the name is always an acceptable string (Acceptable would need to be defined as a regex)
+# Ensure that the unit price is always seperated by a dot - regex => ".match?(/\d+.\d+/) else fail"
+
+# For order:
+# Throw a fail if the date is not formatted correctly 
+# Throw a fail if the item id is < 1 || > repo.all.length 
+
+# Code also needs to be reactored where possible to meet rubocop params.
+
+# (This will be added/amended at a later date)
