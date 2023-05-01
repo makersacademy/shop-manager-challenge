@@ -1,4 +1,4 @@
-# {{TABLE NAME}} Model and Repository Classes Design Recipe
+# {orders} Model and Repository Classes Design Recipe
 
 _Copy this recipe template to design and implement Model and Repository classes for a database table._
 
@@ -8,15 +8,12 @@ If the table is already created in the database, you can skip this step.
 
 Otherwise, [follow this recipe to design and create the SQL schema for your table](./single_table_design_recipe_template.md).
 
-*In this template, we'll use an example table `students`*
-
 ```
-# EXAMPLE
 
-Table: students
+Table: orders
 
 Columns:
-id | name | cohort_name
+id | customer_name | date | item_id
 ```
 
 ## 2. Create Test SQL seeds
@@ -26,8 +23,7 @@ Your tests will depend on data stored in PostgreSQL to run.
 If seed data is provided (or you already created it), you can skip this step.
 
 ```sql
--- EXAMPLE
--- (file: spec/seeds_{table_name}.sql)
+-- (file: spec/seeds_orders.sql)
 
 -- Write your SQL seed here. 
 
@@ -35,13 +31,14 @@ If seed data is provided (or you already created it), you can skip this step.
 -- so we can start with a fresh state.
 -- (RESTART IDENTITY resets the primary key)
 
-TRUNCATE TABLE students RESTART IDENTITY; -- replace with your own table name.
+TRUNCATE TABLE orders RESTART IDENTITY; -- replace with your own table name.
 
 -- Below this line there should only be `INSERT` statements.
 -- Replace these statements with your own seed data.
 
-INSERT INTO students (name, cohort_name) VALUES ('David', 'April 2022');
-INSERT INTO students (name, cohort_name) VALUES ('Anna', 'May 2022');
+INSERT INTO orders (customer_name, date, item_id) VALUES ('David', '03/03/2023', 1);
+INSERT INTO orders (customer_name, date, item_id) VALUES ('David', '01/05/2023', 1);
+INSERT INTO orders (customer_name, date, item_id) VALUES ('Anna', '01/05/2023', 2);
 ```
 
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
@@ -55,17 +52,16 @@ psql -h 127.0.0.1 your_database_name < seeds_{table_name}.sql
 Usually, the Model class name will be the capitalised table name (single instead of plural). The same name is then suffixed by `Repository` for the Repository class name.
 
 ```ruby
-# EXAMPLE
-# Table name: students
+# Table name: orders
 
 # Model class
-# (in lib/student.rb)
-class Student
+# (in lib/order.rb)
+class Order
 end
 
 # Repository class
-# (in lib/student_repository.rb)
-class StudentRepository
+# (in lib/order_repository.rb)
+class OrderRepository
 end
 ```
 
@@ -74,25 +70,24 @@ end
 Define the attributes of your Model class. You can usually map the table columns to the attributes of the class, including primary and foreign keys.
 
 ```ruby
-# EXAMPLE
-# Table name: students
+# Table name: orders
 
 # Model class
-# (in lib/student.rb)
+# (in lib/order.rb)
 
-class Student
+class Order
 
   # Replace the attributes by your own columns.
-  attr_accessor :id, :name, :cohort_name
+  attr_accessor :id, :customer_name, :date, :item_id
 end
 
 # The keyword attr_accessor is a special Ruby feature
 # which allows us to set and get attributes on an object,
 # here's an example:
 #
-# student = Student.new
-# student.name = 'Jo'
-# student.name
+# order = Order.new
+# order.name = 'Jo'
+# order.name
 ```
 
 *You may choose to test-drive this class, but unless it contains any more logic than the example above, it is probably not needed.*
@@ -104,41 +99,44 @@ Your Repository class will need to implement methods for each "read" or "write" 
 Using comments, define the method signatures (arguments and return value) and what they do - write up the SQL queries that will be used by each method.
 
 ```ruby
-# EXAMPLE
-# Table name: students
+# Table name: orders
 
 # Repository class
-# (in lib/student_repository.rb)
+# (in lib/order_repository.rb)
 
-class StudentRepository
+class OrderRepository
 
   # Selecting all records
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students;
+    # SELECT id, customer_name, date, item_id FROM orders;
 
-    # Returns an array of Student objects.
+    # Returns an array of Order objects.
   end
 
   # Gets a single record by its ID
   # One argument: the id (number)
   def find(id)
     # Executes the SQL query:
-    # SELECT id, name, cohort_name FROM students WHERE id = $1;
+    # SELECT id, customer_name, date, item_id FROM orders WHERE id = $1;
 
-    # Returns a single Student object.
+    # Returns a single Order object.
   end
 
-  # Add more methods below for each operation you'd like to implement.
+  # creates a new record
+  # one argument: an Order object
+  def create(order)
+    # Executes the SQL query
+    # INSERT INTO artists (customer_name, date, item_id) VALUES ($1, $2, $3);
+    
+    # returns nothing
+  end
 
-  # def create(student)
+  # def update(order)
   # end
 
-  # def update(student)
-  # end
-
-  # def delete(student)
+  # def delete(order)
   # end
 end
 ```
@@ -150,37 +148,75 @@ Write Ruby code that defines the expected behaviour of the Repository class, fol
 These examples will later be encoded as RSpec tests.
 
 ```ruby
-# EXAMPLES
-
 # 1
-# Get all students
+# Get all orders
 
-repo = StudentRepository.new
+repo = OrderRepository.new
 
-students = repo.all
+orders = repo.all
 
-students.length # =>  2
+orders.length # =>  3
 
-students[0].id # =>  1
-students[0].name # =>  'David'
-students[0].cohort_name # =>  'April 2022'
+orders[0].id # =>  '1'
+orders[0].customer_name # =>  'David'
+orders[0].date # =>  '2023-03-03'
+orders[0].item_id # =>  '1'
 
-students[1].id # =>  2
-students[1].name # =>  'Anna'
-students[1].cohort_name # =>  'May 2022'
+orders[1].id # =>  '2'
+orders[1].customer_name # =>  'David'
+orders[1].date # =>  '2023-05-01'
+orders[1].item_id # =>  '1'
+
+orders[2].id # =>  '3'
+orders[2].customer_name # =>  'Anna'
+orders[2].date # =>  '2023-05-01'
+orders[2].item_id # =>  '2'
 
 # 2
-# Get a single student
+# Get the first order
 
-repo = StudentRepository.new
+repo = OrderRepository.new
 
-student = repo.find(1)
+order = repo.find(1)
 
-student.id # =>  1
-student.name # =>  'David'
-student.cohort_name # =>  'April 2022'
+order.id # =>  '1'
+order.customer_name # =>  'David'
+order.date # =>  '2023-03-03'
+order.item_id # =>  '1'
 
-# Add more examples for each method
+# 3
+# Get the second order
+
+repo = OrderRepository.new
+
+order = repo.find(2)
+
+order.id # =>  '2'
+order.customer_name # =>  'David'
+order.date # =>  '2023-05-01'
+order.item_id # =>  '1'
+
+# 4
+# creates a new order
+
+repo = OrderRepository.new
+
+order = Order.new
+
+order.customer_name = 'Will'
+order.date = '2023-05-01'
+order.item_id = 1
+
+repo.create(order) # => nil
+
+orders = repo.all
+
+last_order = orders.last
+
+last_item.id # => '4'
+last_order.customer_name # => 'Will'
+last_order.date # => '2023-05-01'
+last_order.item_id # => '1'
 ```
 
 Encode this example as a test.
@@ -194,17 +230,17 @@ This is so you get a fresh table contents every time you run the test suite.
 ```ruby
 # EXAMPLE
 
-# file: spec/student_repository_spec.rb
+# file: spec/order_repository_spec.rb
 
-def reset_students_table
-  seed_sql = File.read('spec/seeds_students.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'students' })
+def reset_orders_table
+  seed_sql = File.read('spec/seeds_orders.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'orders' })
   connection.exec(seed_sql)
 end
 
-describe StudentRepository do
+describe OrderRepository do
   before(:each) do 
-    reset_students_table
+    reset_orders_table
   end
 
   # (your tests will go here).
