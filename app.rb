@@ -18,7 +18,15 @@ class Application
     if selection == "1"
       @item_repository.all.each { |item| @io.puts "##{item.id} - #{item.item_name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}" }
     elsif selection == "2"
-      nil
+      item = Item.new
+      @io.puts "Enter the items name:"
+      item.item_name = @io.gets.chomp
+      @io.puts "Enter the items unit price:"
+      item.unit_price = @io.gets.chomp
+      @io.puts "Enter the items quantity:"
+      item.quantity = @io.gets.chomp
+      @item_repository.create(item)
+      @io.puts "#{item.item_name} has been added to your inventory"
     elsif selection == "3"
       @order_repository.all.each { |order| @io.puts "##{order.id} - Customer name: #{order.customer_name} - Date placed: #{order.date_placed}" }
     elsif selection == "4"
@@ -26,11 +34,6 @@ class Application
     else
       nil
     end
-  end
-
-  private 
-
-  def formatter
   end
 end
 

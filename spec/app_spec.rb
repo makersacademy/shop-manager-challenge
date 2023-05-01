@@ -26,6 +26,27 @@ describe Application do
     app.run
   end
 
+  it 'Should create a new item and add it to the DB when 2 is selected' do
+    io = double :io
+    order_repo = double :order
+    item_repo = ItemRepository.new
+    expect(io).to receive(:puts).with("What do you want to do?").ordered
+    expect(io).to receive(:puts).with("1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order").ordered
+    expect(io).to receive(:gets).and_return("2").ordered
+    expect(io).to receive(:puts).with("Enter the items name:").ordered
+    expect(io).to receive(:gets).and_return("Dagger").ordered
+    expect(io).to receive(:puts).with("Enter the items unit price:").ordered
+    expect(io).to receive(:gets).and_return("14.99").ordered
+    expect(io).to receive(:puts).with("Enter the items quantity:").ordered
+    expect(io).to receive(:gets).and_return("3").ordered
+    expect(io).to receive(:puts).with("Dagger has been added to your inventory").ordered
+    app = Application.new('shop_manager_test', io, item_repo, order_repo)
+    app.run
+    expect(item_repo.all.length).to eq 4
+    expect(item_repo.all.last.item_name).to eq 'Dagger'
+    expect(item_repo.all.last.unit_price).to eq '14.99'
+  end
+
   it 'Should return all shop orders in a list when 3 is selected by user' do
     io = double :io
     order_repo = OrderRepository.new
