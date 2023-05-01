@@ -17,8 +17,20 @@ class Application
     selection = @io.gets.chomp
     if selection == "1"
       @item_repository.all.each { |item| @io.puts "##{item.id} - #{item.item_name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}" }
-    else nil
+    elsif selection == "2"
+      nil
+    elsif selection == "3"
+      @order_repository.all.each { |order| @io.puts "##{order.id} - Customer name: #{order.customer_name} - Date placed: #{order.date_placed}" }
+    elsif selection == "4"
+      nil
+    else
+      nil
     end
+  end
+
+  private 
+
+  def formatter
   end
 end
 
