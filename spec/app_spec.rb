@@ -17,7 +17,8 @@ describe Application do
     order_repo = double :order
     item_repo = ItemRepository.new
     expect(io).to receive(:puts).with("What do you want to do?").ordered
-    expect(io).to receive(:puts).with("1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order").ordered
+    expect(io).to receive(:puts).with("1 = list all shop items\n2 = create a new item\n3 = list all orders").ordered
+    expect(io).to receive(:puts).with("4 = create a new order\n5 = close program").ordered
     expect(io).to receive(:gets).and_return("1").ordered
     expect(io).to receive(:puts).with("#1 - Candlestick - Unit price: 1.99 - Quantity: 10").ordered
     expect(io).to receive(:puts).with("#2 - Lead-Pipe - Unit price: 4.45 - Quantity: 3").ordered
@@ -31,7 +32,8 @@ describe Application do
     order_repo = double :order
     item_repo = ItemRepository.new
     expect(io).to receive(:puts).with("What do you want to do?").ordered
-    expect(io).to receive(:puts).with("1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order").ordered
+    expect(io).to receive(:puts).with("1 = list all shop items\n2 = create a new item\n3 = list all orders").ordered
+    expect(io).to receive(:puts).with("4 = create a new order\n5 = close program").ordered
     expect(io).to receive(:gets).and_return("2").ordered
     expect(io).to receive(:puts).with("Enter the items name:").ordered
     expect(io).to receive(:gets).and_return("Dagger").ordered
@@ -52,7 +54,8 @@ describe Application do
     order_repo = OrderRepository.new
     item_repo = double :item
     expect(io).to receive(:puts).with("What do you want to do?").ordered
-    expect(io).to receive(:puts).with("1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order").ordered
+    expect(io).to receive(:puts).with("1 = list all shop items\n2 = create a new item\n3 = list all orders").ordered
+    expect(io).to receive(:puts).with("4 = create a new order\n5 = close program").ordered
     expect(io).to receive(:gets).and_return("3").ordered
     expect(io).to receive(:puts).with("#1 - Customer name: Professor Plum - Date placed: 2023-12-12").ordered
     expect(io).to receive(:puts).with("#2 - Customer name: Colonel Mustard - Date placed: 2023-12-12").ordered
@@ -72,7 +75,8 @@ describe Application do
     order_repo = OrderRepository.new
     item_repo = double :item
     expect(io).to receive(:puts).with("What do you want to do?").ordered
-    expect(io).to receive(:puts).with("1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order").ordered
+    expect(io).to receive(:puts).with("1 = list all shop items\n2 = create a new item\n3 = list all orders").ordered
+    expect(io).to receive(:puts).with("4 = create a new order\n5 = close program").ordered
     expect(io).to receive(:gets).and_return("4").ordered
     expect(io).to receive(:puts).with("Enter the customer name for this order:").ordered
     expect(io).to receive(:gets).and_return("Lord Gray").ordered
@@ -95,8 +99,9 @@ describe Application do
       order_repo = double :order
       item_repo = double :item
       expect(io).to receive(:puts).with("What do you want to do?").ordered
-      expect(io).to receive(:puts).with("1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order").ordered
-      expect(io).to receive(:gets).and_return("5").ordered
+      expect(io).to receive(:puts).with("1 = list all shop items\n2 = create a new item\n3 = list all orders").ordered
+      expect(io).to receive(:puts).with("4 = create a new order\n5 = close program").ordered
+      expect(io).to receive(:gets).and_return("6").ordered
       app = Application.new('shop_manager_test', io, item_repo, order_repo)
       expect { app.run }.to raise_error "This is not a valid selection"
     end
@@ -106,7 +111,8 @@ describe Application do
       order_repo = double :order
       item_repo = double :item
       expect(io).to receive(:puts).with("What do you want to do?").ordered
-      expect(io).to receive(:puts).with("1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order").ordered
+      expect(io).to receive(:puts).with("1 = list all shop items\n2 = create a new item\n3 = list all orders").ordered
+      expect(io).to receive(:puts).with("4 = create a new order\n5 = close program").ordered
       expect(io).to receive(:gets).and_return("String").ordered
       app = Application.new('shop_manager_test', io, item_repo, order_repo)
       expect { app.run }.to raise_error "This is not a valid selection"
@@ -117,7 +123,8 @@ describe Application do
       order_repo = double :order
       item_repo = double :item
       expect(io).to receive(:puts).with("What do you want to do?").ordered
-      expect(io).to receive(:puts).with("1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order").ordered
+      expect(io).to receive(:puts).with("1 = list all shop items\n2 = create a new item\n3 = list all orders").ordered
+      expect(io).to receive(:puts).with("4 = create a new order\n5 = close program").ordered
       expect(io).to receive(:gets).and_return("-1").ordered
       app = Application.new('shop_manager_test', io, item_repo, order_repo)
       expect { app.run }.to raise_error "This is not a valid selection"
@@ -128,7 +135,8 @@ describe Application do
       order_repo = double :order
       item_repo = double :item
       expect(io).to receive(:puts).with("What do you want to do?").ordered
-      expect(io).to receive(:puts).with("1 = list all shop items\n2 = create a new item\n3 = list all orders\n4 = create a new order").ordered
+      expect(io).to receive(:puts).with("1 = list all shop items\n2 = create a new item\n3 = list all orders").ordered
+      expect(io).to receive(:puts).with("4 = create a new order\n5 = close program").ordered
       expect(io).to receive(:gets).and_return(")()):xcqqQ").ordered
       app = Application.new('shop_manager_test', io, item_repo, order_repo)
       expect { app.run }.to raise_error "This is not a valid selection"
