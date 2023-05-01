@@ -8,6 +8,7 @@ def test_introduction(io)
   expect(io).to receive(:puts).with "  2 = create a new item"
   expect(io).to receive(:puts).with "  3 = list all orders"
   expect(io).to receive(:puts).with "  4 = create a new order"
+  expect(io).to receive(:puts).with "  5 = update stock of an item"
 end
 
 RSpec.describe Application do
@@ -162,6 +163,40 @@ RSpec.describe Application do
       )
 
       expect { app.run }.to raise_error "Sorry, none in stock!"
+    end
+  end
+
+  context 'when updating the stock of an item' do
+    it 'runs update_quantity' do
+      item1 = double(:item, id: 1, name: "Balloon", quantity: 5)
+      order_repo = double(:order_repository)
+      item_repo = double(:item_repository, all: [item1])
+      order_class = double(:order_class)
+      item_class = double(:item_class)
+
+      io = double(:io)
+      test_introduction(io)
+
+      expect(io).to receive(:gets).and_return "5"
+      expect(io).to receive(:puts).with ""
+      expect(io).to receive(:puts).with "Enter the item ID:"
+      expect(io).to receive(:puts).with " #1: Balloon, 5"
+      expect(io).to receive(:gets).and_return "1"
+      expect(io).to receive(:puts).with ""
+      expect(io).to receive(:puts).with "Enter the quantity added (or minus for removed):"
+      expect(io).to receive(:puts).with ""
+      expect(io).to receive(:gets).and_return "20"
+
+      expect(item_repo).to receive(:update_quantity).with(1, 20)
+      expect(io).to receive(:puts).with ""
+      expect(io).to receive(:puts).with "Stock updated successfully"
+
+      app = Application.new(
+        'shop_manager_test', io, 
+        item_repo, order_repo, 
+        item_class, order_class
+      )
+      app.run
     end
   end
 end

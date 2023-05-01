@@ -22,13 +22,14 @@ class Application
       display_items
     when "2"
       create_item
-      @io.puts "Item successfully added"
     when "3"
       display_orders
     when "4"
       get_order_input
       check_item_stock
       create_order
+    when "5"
+      update_stock
     end
   end
 
@@ -45,6 +46,7 @@ class Application
     @io.puts "  2 = create a new item"
     @io.puts "  3 = list all orders"
     @io.puts "  4 = create a new order"
+    @io.puts "  5 = update stock of an item"
     choice = @io.gets.chomp
     @io.puts ""
     return choice
@@ -66,6 +68,7 @@ class Application
     @io.puts "Item quantity:"
     @item.quantity = @io.gets.chomp.to_i
     @item_repository.create(@item)
+    @io.puts "Item successfully added"
   end
 
   def display_orders
@@ -87,12 +90,27 @@ class Application
 
   def check_item_stock
     order_item = @item_repository.find(@order.item_id)
-    fail "Sorry, none in stock!" if order_item.quantity == 0
+    fail "Sorry, none in stock!" if order_item.quantity.zero?
   end
 
   def create_order
     @order_repository.create(@order)
     @io.puts "Order successfully added"
+  end
+
+  def update_stock
+    @io.puts "Enter the item ID:"
+    @item_repository.all.each do |item|
+      @io.puts " ##{item.id}: #{item.name}, #{item.quantity}"
+    end
+    id = @io.gets.chomp.to_i
+    @io.puts ""
+    @io.puts "Enter the quantity added (or minus for removed):"
+    quant = @io.gets.chomp.to_i
+    @io.puts ""
+    @item_repository.update_quantity(id, quant)
+    @io.puts ""
+    @io.puts "Stock updated successfully"
   end
 end
 
