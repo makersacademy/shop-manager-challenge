@@ -228,17 +228,15 @@ Running the SQL code present in the seed file will empty the table and re-insert
 This is so you get a fresh table contents every time you run the test suite.
 
 ```ruby
-# EXAMPLE
-
 # file: spec/order_repository_spec.rb
 
 def reset_orders_table
   seed_sql = File.read('spec/seeds_orders.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'orders' })
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
   connection.exec(seed_sql)
 end
 
-describe OrderRepository do
+RSpec.describe OrderRepository do
   before(:each) do 
     reset_orders_table
   end
