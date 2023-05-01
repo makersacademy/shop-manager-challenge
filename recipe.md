@@ -235,7 +235,7 @@ expect(repo.all.last.id).to eq # => ^ same integer as previous expect line ^
 
 # Add order obj to database 
 repo = OrderRepository.new
-order_1 = Item.new # => can be a double
+order_1 = Order.new # => can be a double
 order_1.customer_name = 'Sean Paul'
 order_1.date_placed = '12/12/2023'
 order_1.item_id = 1

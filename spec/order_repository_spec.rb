@@ -20,6 +20,16 @@ describe OrderRepository do
     expect(result[4].customer_name).to eq 'Mrs Peacock'
     expect(result[5].item_id).to eq '1'
   end
+
+  it 'Should add a new order object to a row in the database' do
+    repo = OrderRepository.new
+    order = double :order, customer_name: 'Sean Paul', date_placed: '12/12/2023', item_id: 1
+    repo.create(order)
+    expect(repo.all.last.customer_name).to eq 'Sean Paul'
+    expect(repo.all.last.date_placed).to eq '2023-12-12'
+    expect(repo.all.length).to eq 10
+    expect(repo.all.last.id).to eq '10'
+  end
 end
 
 describe OrderRepository do
