@@ -1,5 +1,12 @@
 require 'simplecov'
 require 'simplecov-console'
+require 'database_connection'
+
+def reset_tables
+  seeds = File.read('spec/seeds.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager' })
+  connection.exec(seeds)
+end
 
 SimpleCov.formatter = SimpleCov::Formatter::MultiFormatter.new([
   SimpleCov::Formatter::Console,
@@ -15,3 +22,7 @@ RSpec.configure do |config|
     puts "\e[33mTry it now! Just run: rubocop\e[0m"
   end
 end
+
+# Make sure this connects to your test database
+# (its name should end with '_test')
+DatabaseConnection.connect('shop_manager')
