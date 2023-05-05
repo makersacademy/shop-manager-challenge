@@ -22,12 +22,12 @@ RSpec.describe ItemRepository do
       expect(items.length).to eq 3
       expect(items[0].id).to eq '1'
       expect(items[0].name).to eq 'Coffee Machine'
-      expect(items[0].unit_price).to eq '99'
+      expect(items[0].unit_price).to eq '99.99'
       expect(items[0].stock_quantity).to eq '7'
 
       expect(items[2].id).to eq '3'
       expect(items[2].name).to eq 'Curtain'
-      expect(items[2].unit_price).to eq '34'
+      expect(items[2].unit_price).to eq '34.0'
       expect(items[2].stock_quantity).to eq '205'
     end
 
