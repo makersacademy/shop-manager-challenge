@@ -1,17 +1,7 @@
 require_relative './lib/item_repository'
 require_relative './lib/order_repository'
-require 'sinatra'
-require "sinatra/reloader"
 
-class Application < Sinatra::Base
-  configure :development do
-    register Sinatra::Reloader
-  end
-
-  get "/" do
-    return erb(:index)
-  end
-  
+class Application
   def initialize(database_name, io, item_repository, order_repository)
     DatabaseConnection.connect(database_name)
     @io = io
