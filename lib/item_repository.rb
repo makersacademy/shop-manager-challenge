@@ -53,4 +53,23 @@ class ItemRepository
     return nil
 
   end
+
+  def delete(id)
+    sql = 'DELETE FROM items WHERE id = $1;'
+    sql_params = [id]
+
+    DatabaseConnection.exec_params(sql, sql_params)
+
+    return nil
+  end
+
+  def update(item)
+    # Executes the SQL;
+    sql = 'UPDATE items SET name = $1, unit_price = $2, quantity = $3 WHERE id = $4;'
+    params = [item.name, item.unit_price, item.quantity, item.id]
+
+    DatabaseConnection.exec_params(sql, params)
+
+    return nil
+  end
 end

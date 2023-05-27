@@ -48,4 +48,36 @@ RSpec.describe ItemRepository do
     expect(all_items.last.unit_price).to eq('59.99')
     expect(all_items.last.quantity).to eq('8')
   end
+
+  it "deletes an instance by its id" do
+    repo = ItemRepository.new
+
+    id_to_delete = 1
+    
+    repo.delete(id_to_delete)
+    
+    all_items = repo.all
+    expect(all_items.length).to eq 1 # => 1
+    expect(all_items.first.id).to eq '2' # => '2'
+    expect(all_items.first.name).to eq 'GPU'
+  end
+
+  it "updates an instance by its id" do
+    repo = ItemRepository.new
+
+    item = repo.find(1)
+
+    item.name = 'INTEL CORE 2 DUO'
+    item.unit_price = '35.75'
+    item.quantity = '27'
+    item.id = 1
+
+
+    repo.update(item)
+
+    updated_item = repo.find(1)
+    expect(updated_item.name).to eq 'INTEL CORE 2 DUO'
+    expect(updated_item.unit_price).to eq '35.75'
+    expect(updated_item.quantity).to eq '27'
+  end
 end
