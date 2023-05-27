@@ -13,31 +13,25 @@ Your tests will depend on data stored in PostgreSQL to run.
 If seed data is provided (or you already created it), you can skip this step.
 
 ```sql
--- EXAMPLE
--- (file: spec/seeds_shop_manager.sql)
+-- Combined SQL seeds for orders, items, and order_items tables
 
--- Write your SQL seed here.
+TRUNCATE TABLE items, orders, order_items RESTART IDENTITY;
 
--- First, you'd need to truncate the table - this is so our table is emptied between each test run,
--- so we can start with a fresh state.
--- (RESTART IDENTITY resets the primary key)
+-- Insert sample data into the items table
+INSERT INTO items (name, unit_price, quantity) VALUES
+  ('CPU', 199.99, 10),
+  ('GPU', 499.99, 5);
 
-TRUNCATE TABLE products, orders RESTART IDENTITY;
+-- Insert sample data into the orders table
+INSERT INTO orders (customer_name, order_date) VALUES
+  ('Joe Hannis', '2023-05-25'),
+  ('Sean Peters', '2023-05-26');
 
--- Below this line, there should only be `INSERT` statements.
--- Replace these statements with your own seed data.
-
-INSERT INTO products (name, price) VALUES ('Product 1', 10.99);
-INSERT INTO products (name, price) VALUES ('Product 2', 15.99);
-
-TRUNCATE TABLE orders RESTART IDENTITY;
-
--- Below this line, there should only be `INSERT` statements.
--- Replace these statements with your own seed data.
-
-INSERT INTO orders (customer_name, product_id) VALUES ('Customer 1', 1);
-INSERT INTO orders (customer_name, product_id) VALUES ('Customer 2', 2);
-
+-- Insert sample data into the order_items table
+INSERT INTO order_items (order_id, item_id) VALUES
+  (1, 1),
+  (1, 2),
+  (2, 1);
 ```
 
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
@@ -51,31 +45,46 @@ psql -h 127.0.0.1 your_database_name < seeds_shop_manager.sql
 Usually, the Model class name will be the capitalised table name (single instead of plural). The same name is then suffixed by `Repository` for the Repository class name.
 
 ```ruby
-# EXAMPLE
-# Table name: accounts
+
+#--------------------------------------------
+# Table name: items
 
 # Model class
-# (in lib/account.rb)
-class Account
+# (in lib/item.rb)
+class Item
 end
 
 # Repository class
-# (in lib/account_repository.rb)
-class AccountRepository
+# (in lib/item_repository.rb)
+class ItemRepository
 end
 
-# EXAMPLE
-# Table name: posts
+#-----------------------------------------
+# Table name: orders
 
 # Model class
-# (in lib/post.rb)
-class Post
+# (in lib/order.rb)
+class Order
 end
 
 # Repository class
-# (in lib/post_repository.rb)
-class PostRepository
+# (in lib/order_repository.rb)
+class OrderRepository
 end
+
+#--------------------------------------------
+# Table name: order_items
+
+# Model class
+# (in lib/order_item.rb)
+class OrderItem
+end
+
+# Repository class
+# (in lib/order_item_repository.rb)
+class OrderItemRepository
+end
+
 ```
 
 ## 4. Implement the Model class
@@ -83,36 +92,30 @@ end
 Define the attributes of your Model class. You can usually map the table columns to the attributes of the class, including primary and foreign keys.
 
 ```ruby
-# EXAMPLE
-# Table name: accounts
+# Table name: items
 
 # Model class
-# (in lib/account.rb)
-
-class Account
-
-  # Replace the attributes by your own columns.
-  attr_accessor :id, :email, :username
+# (in lib/item.rb)
+class Item
+  attr_accessor :id, :name, :unit_price, quantity
 end
 
-# Table name: posts
+# Table name: orders
 
 # Model class
-# (in lib/post.rb)
-
-class Post
-
-  # Replace the attributes by your own columns.
-  attr_accessor :id, :title, :contents, :views, :account_id
+# (in lib/order.rb)
+class Order
+  attr_accessor :id, :customer_name, :order_date
 end
 
-# The keyword attr_accessor is a special Ruby feature
-# which allows us to set and get attributes on an object,
-# here's an example:
-#
-# student = Student.new
-# student.name = 'Jo'
-# student.name
+# Table name: order_items
+
+# Model class
+# (in lib/order_item.rb)
+class OrderItem
+  attr_accessor :id, :order_id, :item_id
+end
+
 ```
 
 *You may choose to test-drive this class, but unless it contains any more logic than the example above, it is probably not needed.*
@@ -124,99 +127,79 @@ Your Repository class will need to implement methods for each "read" or "write" 
 Using comments, define the method signatures (arguments and return value) and what they do - write up the SQL queries that will be used by each method.
 
 ```ruby
-# EXAMPLE
-# Table name: accounts
+# Table name: items
 
 # Repository class
-# (in lib/account_repository.rb)
+# (in lib/item_repository.rb)
 
-class AccountRepository
+class ItemRepository
 
-  # Selecting all records
+  # Selecting all items
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, email, username FROM accounts;
-
-    # Returns an array of Account objects.
+    # SELECT id, name, unit_price, quantity FROM items;
+    # Returns an array of Item objects.
   end
 
   def find(id)
-    # id is an integer representing the number of id to search for
-    # SELECT email, username FROM accounts WHERE id = $1;'
-    # returns an instance of Account object
+    # id is an integer representing the item ID to search for
+    # SELECT name, unit_price, quantity FROM items WHERE id = $1;
+    # Returns an instance of Item object
   end
-
-  def create(account)
-    # Executes the SQL query;
-    # INSERT INTO accounts (email, username) VALUES ($1, $2);
-
-    # Doesn't nned to return anything 
-  end
-
-  def delete(id)
-    # Executes the SQl;
-    # DELETE FROM accounts WHERE id = $1;
-
-    # Returns nothing (only deletes the record)
-  end
-
-  def update(account)
-    # Executes the SQL;
-    # UPDATE accounts SET email = $1, username = $2 WHERE id = $3;
-
-    # Returns nothing(only updates)
-  end
-
 
 end
 
-
-
-
-# Table name: posts
-
 # Repository class
-# (in lib/post_repository.rb)
+# (in lib/order_repository.rb)
 
-class PostRepository
+class OrderRepository
 
-  # Selecting all records
+  # Selecting all orders
   # No arguments
   def all
     # Executes the SQL query:
-    # SELECT id, title, contents, views, accout_id FROM posts;
-
-    # Returns an array of Post objects.
+    # SELECT id, customer_name, order_date FROM orders;
+    # Returns an array of Order objects.
   end
 
   def find(id)
-    # id is an integer representing the number of id to search for
-    # SELECT title, contents, views, accout_id FROM posts WHERE id = $1;'
-    # returns an instance of Post object
+    # id is an integer representing the order ID to search for
+    # SELECT customer_name, order_date FROM orders WHERE id = $1;
+    # Returns an instance of Order object
   end
 
-  def create(post)
+  def create(order)
     # Executes the SQL query;
-    # INSERT INTO posts (title, contents, views, accout_id) VALUES ($1, $2, $3, $4);
-
-    # Doesn't nned to return anything 
+    # INSERT INTO orders (customer_name, order_date) VALUES ($1, $2);
+    # Doesn't need to return anything
   end
 
-  def delete(id)
-    # Executes the SQl;
-    # DELETE FROM posts WHERE id = $1;
+end
 
+class OrderItemRepository
+
+  def find(order_id, item_id)
+    # order_id and item_id are integers representing the order and item IDs to search for
+    # SELECT order_id, item_id FROM order_items WHERE order_id = $1 AND item_id = $2;
+    # Returns an instance of OrderItem object
+  end
+
+  def update(item_id, item)
+    # Executes the SQL query;
+    # UPDATE items SET name = $1, unit_price = $2, quantity = $3 WHERE id = $4;
+
+    # The values $1, $2, $3, and $4 are placeholders for the actual values to be updated in the query.
+    # The values are typically obtained from the `item` object, such as `item.name`, `item.unit_price`, `item.quantity`.
+
+    # Returns nothing (only updates the record)
+  end
+
+  def delete(order_id, item_id)
+    # Executes the SQL;
+    # DELETE FROM order_items WHERE order_id = $1 AND item_id = $2;
     # Returns nothing (only deletes the record)
   end
-
-  def update(post)
-    # Executes the SQL;
-    # UPDATE posts SET title = $1, contents= $2, views = $3, account_id =$4 WHERE id = $5;
-
-    # Returns nothing(only updates)
-  end
-
 
 end
 ```
@@ -231,71 +214,46 @@ These examples will later be encoded as RSpec tests.
 # EXAMPLES
 
 # 1
-# Get all accounts
+# Get all items
 
-repo = AccountRepository.new
+item_repo = ItemRepository.new
 
-acc = repo.all
-acc.length # => 2
-acc.first.email # => 'email1@gmail.com'
-acc.first.username # => 'user_name_1'
+items = item_repo.all
+items.length # => 2
+items.first.name # => 'CPU'
+items.first.unit_price # => 199.99
+items.first.quantity # => 10
 
 # 2
-# find with id 2
+# Find item with id 2
 
-repo = AccountRepository.new
+item_repo = ItemRepository.new
 
-acc = repo.find(2)
-acc.length # => 1
-acc.first.email # => 'email23@gmail.com'
-acc.first.username # => 'user_name_23'
+item = item_repo.find(2)
+item.name # => 'GPU'
+item.unit_price # => 499.99
+item.quantity # => 5
 
 # 3
-# create new account
+# Create a new item
 
-repo = AccountRepository.new
+item_repo = ItemRepository.new
 
-acc = Account.new
-acc.first.email # => 'email56@gmail.com'
-acc.first.username # => 'email56'
+new_item = Item.new
+new_item.name = 'Keyboard'
+new_item.unit_price = 59.99
+new_item.quantity = 8
 
-repo.create(acc)
+item_repo.create(new_item)
 
-accs = repo.all
-last_acc = accs.last
-last_acc.email # => 'email56@gmail.com'
-last_acc.username # => 'email56'
+all_items = item_repo.all
+last_item = all_items.last
+last_item.name # => 'Keyboard'
+last_item.unit_price # => 59.99
+last_item.quantity # => 8
 
+# OrderRepository and OrderItemRepository examples can be similarly updated based on the planned methods and classes.
 
-
-# 4
-# delete
-
-repo = AccountRepository.new
-
-id_to_delete = 1
-
-repo.delete(id_to_delete)
-
-all_accs = repo.all
-all_accs.length # => 1
-all_accs.first.id # => '2'
-
-#5
-# update
-repo = AccountRepository.new
-
-acc = repo.find(1)
-
-acc.username = 'New_username'
-acc.email = 'new_email'
-
-
-repo.update(acc)
-
-updated_acc = repo.find(1)
-updated_acc.username = 'New_username'
-updated_acc.email = 'new_email'
 ```
 
 Encode this example as a test.
@@ -311,15 +269,15 @@ This is so you get a fresh table contents every time you run the test suite.
 
 # file: spec/account_repository_spec.rb
 
-def reset_accounts_table
-  seed_sql = File.read('spec/seeds_accounts.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'social_network_test' })
+def reset_shop_manager_table
+  seed_sql = File.read('spec/seeds_shop_manager.sql')
+  connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
   connection.exec(seed_sql)
 end
 
 
   before(:each) do 
-    reset_accounts_table
+    reset_shop_manager_table
   end
 
   # (your tests will go here).
