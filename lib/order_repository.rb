@@ -26,18 +26,19 @@ class OrderRepository
   end
 
   def find(id)
-    orders = []
-    sql = 'SELECT customer_name, order_date FROM orders WHERE id = $1;'
+    sql = 'SELECT id, customer_name, order_date FROM orders WHERE id = $1;'
     params = [id]
     result = DatabaseConnection.exec_params(sql, params)
-
-    result.each do |inst|
+  
+    if result.ntuples.zero?
+      return nil
+    else
       order = Order.new
-
-      order.id = inst['id']
-      order.customer_name = inst['customer_name']
-      order.order_date = inst['order_date']
-
+  
+      order.id = result[0]['id']
+      order.customer_name = result[0]['customer_name']
+      order.order_date = result[0]['order_date']
+  
       return order
     end
   end

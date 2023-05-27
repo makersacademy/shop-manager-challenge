@@ -84,4 +84,19 @@ RSpec.describe OrderItemRepository do
       expect(order_items).to be_empty
     end
   end
+
+  context '#create' do
+    it 'creates a new order item record' do
+      order_id = 1
+      item_id = 2
+
+      expect(DatabaseConnection).to receive(:exec_params).with(
+        'INSERT INTO order_items (order_id, item_id) VALUES ($1, $2);',
+        [order_id, item_id]
+      )
+
+      repository.create(order_id, item_id)
+    end
+  end
+
 end

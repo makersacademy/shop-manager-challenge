@@ -33,3 +33,10 @@ INSERT INTO items (name, unit_price, quantity) VALUES
 INSERT INTO orders (customer_name, order_date) VALUES
   ('Joe Hannis', '2023-05-25'),
   ('Sean Peters', '2023-05-26');
+
+INSERT INTO order_items (order_id, item_id) VALUES
+(1, 1),
+(1, 2),
+(1, 3),
+(2, 4),
+(2, 5);

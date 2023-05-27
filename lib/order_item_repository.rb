@@ -68,4 +68,12 @@ class OrderItemRepository
     return order_items
   end
 
+  def create(order_id, item_id)
+    sql = 'INSERT INTO order_items (order_id, item_id) VALUES ($1, $2);'
+    params = [order_id, item_id]
+
+    DatabaseConnection.exec_params(sql, params)
+
+    return nil
+  end
 end

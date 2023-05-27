@@ -26,19 +26,20 @@ class ItemRepository
   end
 
   def find(id)
-    items = []
-    sql = 'SELECT name, unit_price, quantity FROM items WHERE id = $1;'
+    sql = 'SELECT id, name, unit_price, quantity FROM items WHERE id = $1;'
     params = [id]
     result = DatabaseConnection.exec_params(sql, params)
-
-    result.each do |inst|
+  
+    if result.ntuples.zero?
+      return nil
+    else
       item = Item.new
-
-      item.id = inst['id']
-      item.name = inst['name']
-      item.unit_price = inst['unit_price']
-      item.quantity = inst['quantity']
-
+  
+      item.id = result[0]['id']
+      item.name = result[0]['name']
+      item.unit_price = result[0]['unit_price']
+      item.quantity = result[0]['quantity']
+  
       return item
     end
   end
