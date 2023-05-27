@@ -1,18 +1,10 @@
-# {{TABLE NAME}} Model and Repository Classes Design Recipe
+# Shop Manager Model and Repository Classes Design Recipe
 
 _Copy this recipe template to design and implement Model and Repository classes for a database table._
 
 ## 1. Design and create the Table
 
-If the table is already created in the database, you can skip this step.
-
-Otherwise, [follow this recipe to design and create the SQL schema for your table](./single_table_design_recipe_template.md).
-
-*In this template, we'll use an example table `students`*
-
-```
-
-```
+Please refer to the shop_manager_table_design.sql in the recipes directory.
 
 ## 2. Create Test SQL seeds
 
