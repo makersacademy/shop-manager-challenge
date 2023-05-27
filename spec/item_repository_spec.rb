@@ -29,6 +29,7 @@ describe ItemRepository do
       item.quantity = 3
       repo.create(item)
       expect(repo.all.length).to eq 11
+      expect(repo.all.last.name).to eq "Bike"
     end
   end
 end
