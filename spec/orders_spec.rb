@@ -56,4 +56,21 @@ RSpec.describe OrderRepository do
     expect(all_orders.first.id).to eq '2' # => '2'
     expect(all_orders.first.customer_name).to eq 'Sean Peters'
   end
+
+  it "updates an instance by its id" do
+    repo = OrderRepository.new
+
+    order = repo.find(1)
+
+    order.customer_name = 'Pegah'
+    order.order_date = '2023-12-12'
+    order.id = 1
+
+
+    repo.update(order)
+
+    updated_order = repo.find(1)
+    expect(updated_order.customer_name).to eq 'Pegah'
+    expect(updated_order.order_date).to eq '2023-12-12'
+  end
 end

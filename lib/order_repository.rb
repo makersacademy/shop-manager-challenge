@@ -61,4 +61,14 @@ class OrderRepository
 
     return nil
   end
+
+  def update(order)
+    # Executes the SQL;
+    sql = 'UPDATE orders SET customer_name = $1, order_date = $2 WHERE id = $3;'
+    params = [order.customer_name, order.order_date, order.id]
+
+    DatabaseConnection.exec_params(sql, params)
+
+    return nil
+  end
 end
