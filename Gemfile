@@ -9,7 +9,7 @@ group :test do
 end
 
 group :development, :test do
-  gem 'rubocop', '1.20'
+  gem 'rubocop', '1.51'
 end
 
 gem "pg", "~> 1.3"
