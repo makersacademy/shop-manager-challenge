@@ -1,4 +1,5 @@
 require 'item_repository'
+require 'item'
 
 def reset_database
   seed_sql = File.read('spec/seeds.sql')
@@ -12,12 +13,22 @@ describe ItemRepository do
   end
   
   describe "#all" do
-    context "when asking for a list of items" do
-      it "returns all items" do
-        repo = ItemRepository.new
-        items = repo.all
-        expect(items.length).to eq 10
-      end
+    it "returns all items" do
+      repo = ItemRepository.new
+      items = repo.all
+      expect(items.length).to eq 10
+    end
+  end
+  
+  describe "#create" do
+    it "adds a new item to the database" do
+      repo = ItemRepository.new
+      item = Item.new
+      item.name = "Bike"
+      item.price = 475
+      item.quantity = 3
+      repo.create(item)
+      expect(repo.all.length).to eq 11
     end
   end
 end
