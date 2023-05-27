@@ -14,38 +14,36 @@ If seed data is provided (or you already created it), you can skip this step.
 
 ```sql
 -- EXAMPLE
--- (file: spec/seeds_accounts.sql)
+-- (file: spec/seeds_shop_manager.sql)
 
--- Write your SQL seed here. 
+-- Write your SQL seed here.
 
 -- First, you'd need to truncate the table - this is so our table is emptied between each test run,
 -- so we can start with a fresh state.
 -- (RESTART IDENTITY resets the primary key)
 
-TRUNCATE TABLE accounts, posts RESTART IDENTITY;
+TRUNCATE TABLE products, orders RESTART IDENTITY;
 
-
--- Below this line there should only be `INSERT` statements.
+-- Below this line, there should only be `INSERT` statements.
 -- Replace these statements with your own seed data.
 
-INSERT INTO accounts (email, username) VALUES ('email1@gmail.com', 'user_name_1');
-INSERT INTO accounts (email, username) VALUES ('email23@gmail.com', 'user_name_23');
+INSERT INTO products (name, price) VALUES ('Product 1', 10.99);
+INSERT INTO products (name, price) VALUES ('Product 2', 15.99);
 
+TRUNCATE TABLE orders RESTART IDENTITY;
 
-
-TRUNCATE TABLE posts RESTART IDENTITY; -- replace with your own table name.
-
--- Below this line there should only be `INSERT` statements.
+-- Below this line, there should only be `INSERT` statements.
 -- Replace these statements with your own seed data.
 
-INSERT INTO posts (title, contents, views, account_id) VALUES ('title_1', 'con_1', 123, 1);
-INSERT INTO posts (title, contents, views, account_id) VALUES ('title_2', 'con_2', 234, 2);
+INSERT INTO orders (customer_name, product_id) VALUES ('Customer 1', 1);
+INSERT INTO orders (customer_name, product_id) VALUES ('Customer 2', 2);
+
 ```
 
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
 
 ```bash
-psql -h 127.0.0.1 your_database_name < seeds_{table_name}.sql
+psql -h 127.0.0.1 your_database_name < seeds_shop_manager.sql
 ```
 
 ## 3. Define the class names
