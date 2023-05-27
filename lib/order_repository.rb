@@ -43,9 +43,14 @@ class OrderRepository
   end
 
   def create(order)
-    # Executes the SQL query;
-    # INSERT INTO orders (customer_name, order_date) VALUES ($1, $2);
-    # Doesn't need to return anything
+
+    sql = 'INSERT INTO orders (customer_name, order_date) VALUES ($1, $2);'
+    params = [order.customer_name, order.order_date]
+
+    DatabaseConnection.exec_params(sql, params)
+
+    return nil
+
   end
 
 end

@@ -67,8 +67,8 @@ RSpec.describe ItemRepository do
     item = repo.find(1)
 
     item.name = 'INTEL CORE 2 DUO'
-    item.unit_price = '35.75'
-    item.quantity = '27'
+    item.unit_price = 35.75
+    item.quantity = 27
     item.id = 1
 
 

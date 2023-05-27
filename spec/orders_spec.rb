@@ -29,4 +29,18 @@ RSpec.describe OrderRepository do
     expect(order.customer_name).to eq('Sean Peters')
     expect(order.order_date).to eq('2023-05-26')
   end
+
+  it "creates a new instance in the database and returns it" do
+    repo = OrderRepository.new
+
+    new_order = Order.new
+    new_order.customer_name = 'Pegah'
+    new_order.order_date = '2023-08-08'
+    
+    repo.create(new_order)
+    
+    all_orders = repo.all
+    expect(all_orders.last.customer_name).to eq('Pegah') 
+    expect(all_orders.last.order_date).to eq('2023-08-08')
+  end
 end
