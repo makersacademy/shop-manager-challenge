@@ -27,7 +27,6 @@ RSpec.describe ItemRepository do
     repo = ItemRepository.new
     item = repo.find(2)
 
-    #expect(album.first.id).to eq(1)
     expect(item.name).to eq('GPU')
     expect(item.unit_price).to eq('499.99')
     expect(item.quantity).to eq("5")

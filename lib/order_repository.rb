@@ -26,9 +26,20 @@ class OrderRepository
   end
 
   def find(id)
-    # id is an integer representing the order ID to search for
-    # SELECT customer_name, order_date FROM orders WHERE id = $1;
-    # Returns an instance of Order object
+    orders = []
+    sql = 'SELECT customer_name, order_date FROM orders WHERE id = $1;'
+    params = [id]
+    result = DatabaseConnection.exec_params(sql, params)
+
+    result.each do |inst|
+      order = Order.new
+
+      order.id = inst['id']
+      order.customer_name = inst['customer_name']
+      order.order_date = inst['order_date']
+
+      return order
+    end
   end
 
   def create(order)

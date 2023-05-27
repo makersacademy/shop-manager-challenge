@@ -22,4 +22,11 @@ RSpec.describe OrderRepository do
     expect(orders.first.order_date).to eq '2023-05-25' 
   end
 
+  it 'returns the order with the specified ID' do
+    repo = OrderRepository.new
+    order = repo.find(2)
+
+    expect(order.customer_name).to eq('Sean Peters')
+    expect(order.order_date).to eq('2023-05-26')
+  end
 end
