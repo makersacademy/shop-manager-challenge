@@ -36,4 +36,36 @@ class OrderItemRepository
 
     return order_items
   end
+
+  def find(order_id)
+    order_items = []
+
+    query = <<-SQL
+      SELECT items.id AS item_id, items.name, items.unit_price, items.quantity
+      FROM order_items
+      JOIN items ON items.id = order_items.item_id
+      WHERE order_items.order_id = $1
+    SQL
+
+    params = [order_id]
+
+    result_set = DatabaseConnection.exec_params(query, params)
+
+    result_set.each do |row|
+      item = Item.new
+      item.id = row['item_id']
+      item.name = row['name']
+      item.unit_price = BigDecimal(row['unit_price'])
+      item.quantity = row['quantity'].to_i
+
+      order_item = OrderItem.new
+      order_item.order_id = order_id
+      order_item.item = item
+
+      order_items << order_item
+    end
+
+    return order_items
+  end
+
 end
