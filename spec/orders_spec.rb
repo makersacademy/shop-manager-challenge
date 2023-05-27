@@ -43,4 +43,17 @@ RSpec.describe OrderRepository do
     expect(all_orders.last.customer_name).to eq('Pegah') 
     expect(all_orders.last.order_date).to eq('2023-08-08')
   end
+
+  it "deletes an instance by its id" do
+    repo = OrderRepository.new
+
+    id_to_delete = 1
+    
+    repo.delete(id_to_delete)
+    
+    all_orders = repo.all
+    expect(all_orders.length).to eq 1 # => 1
+    expect(all_orders.first.id).to eq '2' # => '2'
+    expect(all_orders.first.customer_name).to eq 'Sean Peters'
+  end
 end
