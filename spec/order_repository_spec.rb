@@ -1,6 +1,5 @@
 require 'order_repository'
 require 'order'
-require 'items_orders'
 
 def reset_database
   seed_sql = File.read('spec/seeds.sql')
@@ -35,7 +34,6 @@ RSpec.describe OrderRepository do
     it "adds a new order to the `orders` table, and updates `items_orders`" do
       repo = OrderRepository.new
       order = Order.new
-      order_items = ItemsOrders.new
       
       order.customer_name = "Sheldon Emmerich"
       order.date = "27 April 2023"
