@@ -14,7 +14,7 @@ class Application
   end
 
   def run
-    puts "----------------------------------------------"
+    @io.puts "----------------------------------------------"
     @io.puts "Welcome to the shop management program!\n\n"
     @io.puts "What do you want to do?"
     @io.puts " 1 = list all shop items"
@@ -52,7 +52,7 @@ class Application
       @io.puts "\nHere's a list of all orders:"
       orders = @order_repository.all
       orders.each do |order|
-        @io.puts " ##{order.id} - Customer Name: #{order.customer_name} - Order Date: #{order.order_date}"
+        @io.puts " ##{order.id} - Customer Name: #{order.customer_name} - Order Date: #{order.order_date}\n"
         # Display other order details as needed
       end
     when 4
@@ -80,6 +80,7 @@ class Application
           @io.puts " ##{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
         end
         order_all = @order_repository.all
+        @io.puts "----------------------------------------------------"
         @io.print "Enter the ID of the item to add: "
         item_id = @io.gets.chomp.to_i
         item = @item_repository.find(item_id)
