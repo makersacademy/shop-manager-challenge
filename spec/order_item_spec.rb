@@ -85,17 +85,48 @@ RSpec.describe OrderItemRepository do
     end
   end
 
-  context '#create' do
+  context 'when the order item is new' do
     it 'creates a new order item record' do
       order_id = 1
       item_id = 2
 
-      expect(DatabaseConnection).to receive(:exec_params).with(
-        'INSERT INTO order_items (order_id, item_id) VALUES ($1, $2);',
-        [order_id, item_id]
-      )
+      expect(repository).to receive(:find).with(order_id).and_return([])
+      expect(repository).to receive(:insert_new_order_item).with(order_id, item_id)
 
       repository.create(order_id, item_id)
+    end
+  end
+
+  context 'when the order item already exists' do
+    it 'updates the quantity of the existing order item' do
+      existing_order_item = OrderItem.new
+      existing_order_item.order_id = 1
+      existing_order_item.item_id = 2
+      existing_order_item.quantity = 1
+    
+      expect(repository).to receive(:find).with(existing_order_item.order_id).and_return([existing_order_item])
+      expect(repository).to receive(:update_quantity).with(existing_order_item)
+    
+      repository.create(existing_order_item.order_id, existing_order_item.item_id)
+    end
+
+    it 'updates the quantity of the order item in the database' do
+      # Create a mock order item
+      order_item = double('OrderItem')
+      allow(order_item).to receive(:quantity).and_return(5)
+      allow(order_item).to receive(:quantity=)
+      allow(order_item).to receive(:order_id).and_return(1)
+      allow(order_item).to receive(:item_id).and_return(2)
+  
+      # Stub the DatabaseConnection.exec_params method to avoid actual database execution
+      allow(DatabaseConnection).to receive(:exec_params)
+
+      # Call the update_quantity method
+      repository.update_quantity(order_item)
+
+      # Verify that the quantity is updated and the DatabaseConnection.exec_params method is called with the expected arguments
+      expect(order_item).to have_received(:quantity=).with(6)
+      expect(DatabaseConnection).to have_received(:exec_params).with('UPDATE order_items SET quantity = $1 WHERE order_id = $2 AND item_id = $3;', [5, 1, 2])
     end
   end
 
