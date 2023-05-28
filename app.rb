@@ -60,20 +60,20 @@ class Application
       @io.print "Enter customer name: "
       customer_name = @io.gets.chomp
       order_date = Date.today
-    
+
       new_order = Order.new
       new_order.customer_name = customer_name
       new_order.order_date = order_date
-    
+
       @order_repository.create(new_order) # Create the order
-    
+
       @io.puts "\nNew order created successfully.\n"
-    
+
       # Prompt to add items to the order
       loop do
         @io.print "Do you want to add an item to this order? (y/n):\n "
         add_item_choice = @io.gets.chomp.downcase
-    
+
         break if add_item_choice != 'y'
         items_show = @item_repository.all
         items_show.each do |item|
@@ -83,7 +83,6 @@ class Application
         @io.print "Enter the ID of the item to add: "
         item_id = @io.gets.chomp.to_i
         item = @item_repository.find(item_id)
-        # No need to check item.nil? if you have confirmed it is not nil
         @order_item_repository.create(order_all.last.id, item.id)# Associate the item with the order
         @io.puts "Item added to the order.\n"
       end
