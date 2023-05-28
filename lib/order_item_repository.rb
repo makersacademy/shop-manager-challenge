@@ -69,8 +69,44 @@ class OrderItemRepository
   end
 
   def create(order_id, item_id)
-    sql = 'INSERT INTO order_items (order_id, item_id) VALUES ($1, $2);'
-    params = [order_id, item_id]
+    @order_items ||= []  # Initialize @order_items if it's nil
+  
+    existing_order_item = @order_items.find { |oi| oi.item_id == item_id }
+  
+    if existing_order_item
+      update_quantity(existing_order_item)
+    else
+      insert_new_order_item(order_id, item_id)
+      order_item = OrderItem.new
+      order_item.order_id = order_id
+      order_item.item_id = item_id
+      order_item.quantity = 1
+      @order_items << order_item
+      existing_order_item = order_item  # Update existing_order_item with the newly added item
+    end
+  
+    return nil
+  end
+
+  def update_quantity(order_item)
+    order_item.quantity += 1
+  
+    sql = 'UPDATE order_items SET quantity = $1 WHERE order_id = $2 AND item_id = $3;'
+    params = [order_item.quantity, order_item.order_id, order_item.item_id]
+  
+    DatabaseConnection.exec_params(sql, params)
+  
+    return nil
+  end
+
+  def insert_new_order_item(order_id, item_id)
+    order_item = OrderItem.new
+    order_item.order_id = order_id
+    order_item.item_id = item_id
+    order_item.quantity = 1
+
+    sql = 'INSERT INTO order_items (order_id, item_id, quantity) VALUES ($1, $2, $3);'
+    params = [order_item.order_id, order_item.item_id, order_item.quantity]
 
     DatabaseConnection.exec_params(sql, params)
 
