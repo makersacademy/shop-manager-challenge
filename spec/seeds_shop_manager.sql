@@ -11,7 +11,7 @@ INSERT INTO orders (customer_name, order_date) VALUES
   ('Sean Peters', '2023-05-26');
 
 -- Insert sample data into the order_items table
-INSERT INTO order_items (order_id, item_id) VALUES
-  (1, 1),
-  (1, 2),
-  (2, 1);
+INSERT INTO order_items (order_id, item_id, quantity) VALUES
+  (1, 1, 1),
+  (1, 2, 1),
+  (2, 1, 1);
