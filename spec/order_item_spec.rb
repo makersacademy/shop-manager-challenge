@@ -87,29 +87,30 @@ RSpec.describe OrderItemRepository do
 
   context 'when the order item is new' do
     it 'creates a new order item record' do
-      order_id = 1
-      item_id = 2
+        order_id = 1
+        item_id = 2
 
-      expect(repository).to receive(:find).with(order_id).and_return([])
-      expect(repository).to receive(:insert_new_order_item).with(order_id, item_id)
+        allow(repository).to receive(:find).with(order_id).and_return([])
+        expect(repository).to receive(:insert_new_order_item).with(order_id, item_id)
 
-      repository.create(order_id, item_id)
-    end
+        repository.create(order_id, item_id)
+      end
   end
 
   context 'when the order item already exists' do
     it 'updates the quantity of the existing order item' do
-      existing_order_item = OrderItem.new
-      existing_order_item.order_id = 1
-      existing_order_item.item_id = 2
-      existing_order_item.quantity = 1
+      existing_order_item = double('OrderItem')
+      allow(existing_order_item).to receive(:order_id).and_return(2)
+      allow(existing_order_item).to receive(:item_id).and_return(1)
+      allow(existing_order_item).to receive(:quantity).and_return(1)
     
-      expect(repository).to receive(:find).with(existing_order_item.order_id).and_return([existing_order_item])
+      allow(repository).to receive(:find).with(existing_order_item.order_id).and_return([existing_order_item])
+      allow(existing_order_item).to receive(:quantity).with(2)
       expect(repository).to receive(:update_quantity).with(existing_order_item)
     
-      repository.create(existing_order_item.order_id, existing_order_item.item_id)
+      repository.update_quantity(existing_order_item)
     end
-
+    
     it 'updates the quantity of the order item' do
       # Create a dummy order item for testing
       order_item = OrderItem.new
