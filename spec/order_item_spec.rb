@@ -110,23 +110,39 @@ RSpec.describe OrderItemRepository do
       repository.create(existing_order_item.order_id, existing_order_item.item_id)
     end
 
-    it 'updates the quantity of the order item in the database' do
-      # Create a mock order item
-      order_item = double('OrderItem')
-      allow(order_item).to receive(:quantity).and_return(5)
-      allow(order_item).to receive(:quantity=)
-      allow(order_item).to receive(:order_id).and_return(1)
-      allow(order_item).to receive(:item_id).and_return(2)
-  
-      # Stub the DatabaseConnection.exec_params method to avoid actual database execution
+    it 'updates the quantity of the order item' do
+      # Create a dummy order item for testing
+      order_item = OrderItem.new
+      order_item.order_id = 1
+      order_item.item_id = 2
+      order_item.quantity = 3
+
+      # Stub the database connection to prevent actual database interaction
       allow(DatabaseConnection).to receive(:exec_params)
 
       # Call the update_quantity method
       repository.update_quantity(order_item)
 
-      # Verify that the quantity is updated and the DatabaseConnection.exec_params method is called with the expected arguments
-      expect(order_item).to have_received(:quantity=).with(6)
-      expect(DatabaseConnection).to have_received(:exec_params).with('UPDATE order_items SET quantity = $1 WHERE order_id = $2 AND item_id = $3;', [5, 1, 2])
+      # Verify that the quantity is incremented and the correct SQL query is executed
+      expect(order_item.quantity).to eq(4)
+      expect(DatabaseConnection).to have_received(:exec_params).with(
+        'UPDATE order_items SET quantity = $1 WHERE order_id = $2 AND item_id = $3;',
+        [4, 1, 2]
+      )
+    end
+
+    it 'inserts a new order item into the database' do
+      # Stub the database connection to prevent actual database interaction
+      allow(DatabaseConnection).to receive(:exec_params)
+
+      # Call the insert_new_order_item method
+      repository.insert_new_order_item(1, 2)
+
+      # Verify that the correct SQL query is executed with the expected parameters
+      expect(DatabaseConnection).to have_received(:exec_params).with(
+        'INSERT INTO order_items (order_id, item_id, quantity) VALUES ($1, $2, $3);',
+        [1, 2, 1]
+      )
     end
   end
 
