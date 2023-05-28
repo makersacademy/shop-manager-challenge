@@ -16,4 +16,15 @@ class OrderRepository
     
     return orders
   end
+  
+  def create(order)
+    sql = 'INSERT INTO orders (customer_name, date) VALUES($1, $2) RETURNING id;'
+    result = DatabaseConnection.exec_params(sql, [order.customer_name, order.date])
+    order_id = result.first['id']
+    
+    order.items.each do |item|
+      sql = 'INSERT INTO items_orders (item_id, order_id) VALUES($1, $2);'
+      result = DatabaseConnection.exec_params(sql, [item, order_id])
+    end
+  end
 end
