@@ -11,3 +11,4 @@ group :development, :test do
 end
 
 gem "pg", "~> 1.5.3"
+gem 'colorize'
