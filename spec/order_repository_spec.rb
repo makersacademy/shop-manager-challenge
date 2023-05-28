@@ -42,8 +42,15 @@ RSpec.describe OrderRepository do
       orders = repo.all
       expect(orders.length).to eq 3
       expect(orders.last.customer_name).to eq order.customer_name
-      
-      
+    end
+  end
+  
+  describe "#find_items_by_order" do
+    it "returns the order's items" do
+      repo = OrderRepository.new
+      items = repo.find_items_by_order(1)
+      expect(items.length).to eq 3
+      expect(items.last.id).to eq '10'
     end
   end
 end
