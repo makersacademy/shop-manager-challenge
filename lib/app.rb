@@ -37,6 +37,8 @@ class Application
       show_all_items
     when "2"
       create_new_item
+    when "3"
+      show_all_orders
     when "5"
       exit # TODO: need to test for exiting
     end
@@ -46,9 +48,8 @@ class Application
     @io.puts @format.header("All items")
     items = @item_repository.all
     items.each do |item|
-      @io.puts "  #{item.id} - #{item.name} – #{@format.currency(item.price)} (#{item.quantity} in stock)"
+      @io.puts "  #{item.id}: #{item.name} – #{@format.currency(item.price)} (#{item.quantity} in stock)"
     end
-    @io.puts "\n"
   end
   
   def create_new_item
@@ -68,6 +69,14 @@ class Application
     @item_repository.create(item)
     
     @io.puts @format.string("#{name} added to the databse", :green, :pad)
+  end
+  
+  def show_all_orders
+    @io.puts @format.header("All orders")
+    orders = @order_repository.all
+    orders.each do |order|
+      @io.puts "  Order ##{order.id}: #{order.date} – #{order.customer_name}"
+    end
   end
   
 end

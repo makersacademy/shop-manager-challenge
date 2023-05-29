@@ -31,14 +31,6 @@ RSpec.describe Application do
     end
   end
   
-  # describe "#process_selection" do
-  #   context "when selecting option 1" do
-  #     it "prints a list of all items" do
-  #       
-  #     end
-  #   end
-  # end
-  
   describe "#show_all_items" do
     it "prints a list of items" do
       expect(io).to receive(:puts).with("\n\e[0;31;49m====== All items ======\e[0m").ordered
@@ -55,6 +47,15 @@ RSpec.describe Application do
       repo = ItemRepository.new
       expect(repo.all.length).to eq 11
       expect(repo.all.last.name).to eq "New test item"
+    end
+  end
+  
+  describe "#show_all_orders" do
+    it "lists all the orders" do
+      expect(io).to receive(:puts).with("\n\e[0;31;49m====== All orders ======\e[0m").ordered
+      expect(io).to receive(:puts).with("  Order #1: 2023-05-03 – Rodney Howell").ordered
+      expect(io).to receive(:puts).ordered
+      app.show_all_orders
     end
   end
 

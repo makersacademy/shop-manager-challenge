@@ -9,6 +9,7 @@ class OrderRepository
     orders = []
     results.each do |result|
       order = Order.new
+      order.id = result['id']
       order.customer_name = result['customer_name']
       order.date = result['date']
       
