@@ -30,7 +30,8 @@ class Application
       @io.puts "\nHere's a list of all shop items:"
       items = @item_repository.all
       items.each do |item|
-        @io.puts " ##{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
+        @io.puts " ##{item.id} #{item.name} - Unit price: #{item.unit_price}" \
+         " - Quantity: #{item.quantity}"
       end
     when 2
       @io.puts "\nCreating a new item..."
@@ -52,8 +53,8 @@ class Application
       @io.puts "\nHere's a list of all orders:"
       orders = @order_repository.all
       orders.each do |order|
-        @io.puts " ##{order.id} - Customer Name: #{order.customer_name} - Order Date: #{order.order_date}\n"
-        # Display other order details as needed
+        @io.puts " ##{order.id} - Customer Name: #{order.customer_name}" \
+         " - Order Date: #{order.order_date}\n"
       end
     when 4
       @io.puts "\nCreating a new order..."
@@ -77,7 +78,8 @@ class Application
         break if add_item_choice != 'y'
         items_show = @item_repository.all
         items_show.each do |item|
-          @io.puts " ##{item.id} #{item.name} - Unit price: #{item.unit_price} - Quantity: #{item.quantity}"
+          @io.puts " ##{item.id} #{item.name} - Unit price: #{item.unit_price}" \
+         " - Quantity: #{item.quantity}"
         end
         order_all = @order_repository.all
         @io.puts "----------------------------------------------------"

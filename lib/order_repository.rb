@@ -24,11 +24,9 @@ class OrderRepository
     params = [id]
     result = DatabaseConnection.exec_params(sql, params)
   
-    if result.ntuples.zero?
-      return nil
-    else
-      return order_result(result[0])
-    end
+    return nil if result.ntuples.zero?
+
+    order_result(result[0])
   end
 
   def create(order)

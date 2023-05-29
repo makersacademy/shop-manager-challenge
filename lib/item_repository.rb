@@ -23,11 +23,9 @@ class ItemRepository
     params = [id]
     result = DatabaseConnection.exec_params(sql, params)
   
-    if result.ntuples.zero?
-      return nil
-    else
-      return item_result(result[0])
-    end
+    return nil if result.ntuples.zero?
+
+    item_result(result[0])
   end
 
   def create(item)
