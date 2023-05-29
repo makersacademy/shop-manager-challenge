@@ -38,6 +38,49 @@ RSpec.describe Application do
       end
     end
 
+    context 'when choice is 2' do
+      let(:new_item_data) { { name: 'New Item', unit_price: 9.99, quantity: 5 } }
+      let(:new_item) { double('Item') }
+    
+      before do
+        allow(io).to receive(:puts)
+        allow(io).to receive(:print)
+        allow(io).to receive(:gets).and_return("2\n", new_item_data[:name], new_item_data[:unit_price].to_s, new_item_data[:quantity].to_s)
+    
+        allow(item_repository).to receive(:create).and_return(true)
+        allow(Item).to receive(:new).and_return(new_item)
+        allow(new_item).to receive(:name=)
+        allow(new_item).to receive(:unit_price=)
+        allow(new_item).to receive(:quantity=)
+      end
+    
+      it 'creates a new item' do
+        expect(io).to receive(:puts).with("----------------------------------------------")
+        expect(io).to receive(:puts).with("Welcome to the shop management program!\n\n")
+        expect(io).to receive(:puts).with("What do you want to do?")
+        expect(io).to receive(:puts).with(" 1 = list all shop items")
+        expect(io).to receive(:puts).with(" 2 = create a new item")
+        expect(io).to receive(:puts).with(" 3 = list all orders")
+        expect(io).to receive(:puts).with(" 4 = create a new order")
+        expect(io).to receive(:print).with("\nEnter your choice: ")
+        expect(io).to receive(:puts).with("\nCreating a new item...")
+        expect(io).to receive(:print).with("Enter item name: ")
+        expect(io).to receive(:print).with("Enter unit price: ")
+        expect(io).to receive(:print).with("Enter quantity: ")
+        expect(io).to receive(:puts).with("\nNew item created successfully.\n")
+    
+        expect(Item).to receive(:new).and_return(new_item)
+        expect(new_item).to receive(:name=).with(new_item_data[:name])
+        expect(new_item).to receive(:unit_price=).with(new_item_data[:unit_price])
+        expect(new_item).to receive(:quantity=).with(new_item_data[:quantity])
+        expect(item_repository).to receive(:create).with(new_item)
+    
+        app.run
+      end
+    end
+    
+    
+
     context 'when choice is 3' do
       let(:orders) { [double('Order', id: 1, customer_name: 'Test_name', order_date: '2023-08-26')] }
 
