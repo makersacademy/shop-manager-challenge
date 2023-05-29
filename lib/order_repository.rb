@@ -3,7 +3,7 @@ require_relative 'item'
 
 class OrderRepository
   def all
-    sql = 'SELECT id, customer_name, date FROM orders;'
+    sql = 'SELECT id, customer_name, date FROM orders ORDER BY id;'
     results = DatabaseConnection.exec_params(sql, [])
     
     orders = []
