@@ -286,53 +286,9 @@ class OrderRepository
   end
 end
 
-
-
 ```
 
-## 6. Write Test Examples
-
-Write Ruby code that defines the expected behaviour of the Repository class, following your design from the table written in step 5.
-
-These examples will later be encoded as RSpec tests.
-
-```ruby
-# EXAMPLES
-
-# 1
-# Get all students
-
-repo = StudentRepository.new
-
-students = repo.all
-
-students.length # =>  2
-
-students[0].id # =>  1
-students[0].name # =>  'David'
-students[0].cohort_name # =>  'April 2022'
-
-students[1].id # =>  2
-students[1].name # =>  'Anna'
-students[1].cohort_name # =>  'May 2022'
-
-# 2
-# Get a single student
-
-repo = StudentRepository.new
-
-student = repo.find(1)
-
-student.id # =>  1
-student.name # =>  'David'
-student.cohort_name # =>  'April 2022'
-
-# Add more examples for each method
-```
-
-Encode this example as a test.
-
-## 7. Reload the SQL seeds before each test run
+## 6. Reload the SQL seeds before each test run
 
 Running the SQL code present in the seed file will empty the table and re-insert the seed data.
 
@@ -358,7 +314,3 @@ describe ItemRepository do
 end
 
 ```
-
-## 8. Test-drive and implement the Repository class behaviour
-
-_After each test you write, follow the test-driving process of red, green, refactor to implement the behaviour._
