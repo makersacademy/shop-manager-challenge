@@ -1,13 +1,11 @@
 require 'order_repository'
 
-
 RSpec.describe OrderRepository do
   def reset_shop_manager_table
     seed_sql = File.read('spec/seeds_shop_manager.sql')
     connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
     connection.exec(seed_sql)
   end
-
 
   before(:each) do 
     reset_shop_manager_table
@@ -66,9 +64,7 @@ RSpec.describe OrderRepository do
     order.order_date = '2023-12-12'
     order.id = 1
 
-
     repo.update(order)
-
     updated_order = repo.find(1)
     expect(updated_order.customer_name).to eq 'Pegah'
     expect(updated_order.order_date).to eq '2023-12-12'

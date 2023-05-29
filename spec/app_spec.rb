@@ -7,7 +7,6 @@ RSpec.describe Application do
   let(:order_repository) { double('OrderRepository') }
   let(:order_item_repository) { double('OrderItemRepository') }
 
-
   subject(:app) { Application.new(database_name, io, item_repository, order_repository, order_item_repository) }
 
   describe '#run' do
@@ -200,8 +199,6 @@ RSpec.describe Application do
           expect(io).to have_received(:puts).with("Item added to the order.\n")
         end
       end
-      
-    end
-       
+    end 
   end
 end

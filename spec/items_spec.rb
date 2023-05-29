@@ -1,13 +1,11 @@
 require 'item_repository'
 
-
 RSpec.describe ItemRepository do
   def reset_shop_manager_table
     seed_sql = File.read('spec/seeds_shop_manager.sql')
     connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
     connection.exec(seed_sql)
   end
-
 
   before(:each) do 
     reset_shop_manager_table
@@ -71,9 +69,7 @@ RSpec.describe ItemRepository do
     item.quantity = 27
     item.id = 1
 
-
     repo.update(item)
-
     updated_item = repo.find(1)
     expect(updated_item.name).to eq 'INTEL CORE 2 DUO'
     expect(updated_item.unit_price).to eq '35.75'

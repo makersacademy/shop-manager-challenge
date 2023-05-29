@@ -6,13 +6,13 @@ class OrderRepository
   # No arguments
   def all
     orders = []
-    #defining sql query string
+    # defining sql query string
     sql = 'SELECT id, customer_name, order_date FROM orders;'
-    #executes sql query and passes sql string and an empty array as an argument
+    # executes sql query and passes sql string and an empty array as an argument
     result_set = DatabaseConnection.exec_params(sql, [])
 
     result_set.each do |inst|
-      #for each instance it creates a new instance and assigns corresponding atributes
+      # for each instance it creates a new instance and assigns corresponding atributes
       order = Order.new
 
       order.id = inst['id']

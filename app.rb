@@ -84,7 +84,7 @@ class Application
         @io.print "Enter the ID of the item to add: "
         item_id = @io.gets.chomp.to_i
         item = @item_repository.find(item_id)
-        @order_item_repository.create(order_all.last.id, item.id)# Associate the item with the order
+        @order_item_repository.create(order_all.last.id, item.id) # Associate the item with the order
         @io.puts "Item added to the order.\n"
       end
     else

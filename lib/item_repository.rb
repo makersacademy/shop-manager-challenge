@@ -5,13 +5,13 @@ class ItemRepository
   # No arguments
   def all
     items = []
-    #defining sql query string
+    # defining sql query string
     sql = 'SELECT id, name, unit_price, quantity FROM items;'
-    #executes sql query and passes sql string and an empty array as an argument
+    # executes sql query and passes sql string and an empty array as an argument
     result_set = DatabaseConnection.exec_params(sql, [])
 
     result_set.each do |inst|
-      #for each instance it creates a new instance and assigns corresponding atributes
+      # for each instance it creates a new instance and assigns corresponding atributes
       item = Item.new
 
       item.id = inst['id']

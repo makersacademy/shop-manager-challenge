@@ -2,7 +2,6 @@ require 'order_item_repository'
 require 'order'
 require 'item'
 
-
 RSpec.describe OrderItemRepository do
   let(:repository) { OrderItemRepository.new }
 
@@ -11,7 +10,6 @@ RSpec.describe OrderItemRepository do
     connection = PG.connect({ host: '127.0.0.1', dbname: 'shop_manager_test' })
     connection.exec(seed_sql)
   end
-
 
   before(:each) do 
     reset_shop_manager_table
@@ -87,14 +85,14 @@ RSpec.describe OrderItemRepository do
 
   context 'when the order item is new' do
     it 'creates a new order item record' do
-        order_id = 1
-        item_id = 2
+      order_id = 1
+      item_id = 2
 
-        allow(repository).to receive(:find).with(order_id).and_return([])
-        expect(repository).to receive(:insert_new_order_item).with(order_id, item_id)
+      allow(repository).to receive(:find).with(order_id).and_return([])
+      expect(repository).to receive(:insert_new_order_item).with(order_id, item_id)
 
-        repository.create(order_id, item_id)
-      end
+      repository.create(order_id, item_id)
+    end
   end
 
   context 'when the order item already exists' do
@@ -146,5 +144,4 @@ RSpec.describe OrderItemRepository do
       )
     end
   end
-
 end
