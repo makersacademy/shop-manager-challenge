@@ -53,7 +53,8 @@ class Application
     @io.puts @format.header("All items") if header == true
     items = @item_repository.all
     items.each do |item|
-      @io.puts "  #{item.id}: #{item.name} – #{@format.currency(item.price)} (#{item.quantity} in stock)"
+      @io.puts "  #{item.id}: #{item.name} – #{@format.currency(item.price)}
+       (#{item.quantity} in stock)"
     end
   end
   
@@ -105,8 +106,9 @@ class Application
       input = @io.gets.chomp
       return items if input == ""
       item = @item_repository.find(input.to_i)
-      if item.quantity.to_i == 0
-        @io.puts @format.string("Sorry, #{item.name} is out of stock. Choose something different.", :red, :pad)
+      if item.quantity.to_i.zero?
+        @io.puts @format.string("Sorry, #{item.name} is out of stock.
+         Choose something different.", :red, :pad)
         next
       end
       @item_repository.update_quantity(input.to_i)
