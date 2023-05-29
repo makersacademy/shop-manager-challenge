@@ -58,5 +58,25 @@ RSpec.describe Application do
       app.show_all_orders
     end
   end
+  
+  describe "#create_new_order" do
+    it "adds a new order to the database" do
+      expect(io).to receive(:puts).at_least(6).times.ordered
+      expect(io).to receive(:gets).exactly(5).times.and_return("Sadie Quitzon", "1", "3", "7", "")
+      app.create_new_order
+      repo = OrderRepository.new
+      expect(repo.all.length).to eq 3
+      expect(repo.all.last.customer_name).to eq "Sadie Quitzon"
+    end
+  end
+  
+  describe "#choose_order_items" do
+    it "shows a menu of items to add to the order" do
+      allow(io).to receive(:puts)
+      expect(io).to receive(:gets).exactly(4).times.and_return("1", "3", "7", "")
+      items = app.choose_order_items
+      expect(items).to eq([1, 3, 7])
+    end
+  end
 
 end
