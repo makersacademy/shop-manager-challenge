@@ -15,7 +15,15 @@ RSpec.describe Format do
   
   describe "#header" do
     it "returns a header string" do
-      expect(formatter.header("TEST HEADER")).to eq "\e[0;31;49m====== TEST HEADER ======\e[0m"
+      expect(formatter.header("TEST HEADER")).to eq "\n\e[0;31;49m====== TEST HEADER ======\e[0m"
     end
   end
+  
+  describe "#string" do
+    it "returns a formatted string" do
+      expect(formatter.string("Test")).to eq "\e[0;39;49mTest\e[0m"
+    end
+  end
+  
+
 end

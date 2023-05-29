@@ -3,9 +3,10 @@ require 'colorize'
 class Format
   def string(text = "", color = :default, spacing = "")
     return if text == ""
-    spacer if spacing == :pad || spacing == :before
-    return text.colorize(color)
-    spacer if spacing == :pad || spacing == :after
+    text = text.colorize(color)
+    text = "\n#{text}" if spacing == :pad || spacing == :before
+    text = "#{text}\n" if spacing == :pad || spacing == :after
+    return text
   end
   
   def currency(price)
@@ -14,9 +15,5 @@ class Format
   
   def header(text)
     return string("====== #{text} ======", :red, :before)
-  end
-  
-  def spacer
-    puts "\n"
   end
 end
