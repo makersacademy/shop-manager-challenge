@@ -29,7 +29,8 @@ class OrderRepository
     end
   end
   
-  def find_items_by_order(order_id)    sql = 'SELECT items.id, items.name, items.price, items.quantity
+  def find_items_by_order(order_id)
+         sql = 'SELECT items.id, items.name, items.price, items.quantity
           FROM items 
           JOIN items_orders ON items_orders.item_id = items.id
           JOIN orders ON items_orders.order_id = orders.id
