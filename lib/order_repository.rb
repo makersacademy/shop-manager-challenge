@@ -13,13 +13,7 @@ class OrderRepository
 
     result_set.each do |inst|
       # for each instance it creates a new instance and assigns corresponding atributes
-      order = Order.new
-
-      order.id = inst['id']
-      order.customer_name = inst['customer_name']
-      order.order_date = inst['order_date']
-
-      orders << order
+      orders << order_result(inst)
     end
 
     return orders
@@ -33,13 +27,7 @@ class OrderRepository
     if result.ntuples.zero?
       return nil
     else
-      order = Order.new
-  
-      order.id = result[0]['id']
-      order.customer_name = result[0]['customer_name']
-      order.order_date = result[0]['order_date']
-  
-      return order
+      return order_result(result[0])
     end
   end
 
@@ -71,5 +59,17 @@ class OrderRepository
     DatabaseConnection.exec_params(sql, params)
 
     return nil
+  end
+
+  private 
+
+  def order_result(inst)
+    order = Order.new
+
+    order.id = inst['id']
+    order.customer_name = inst['customer_name']
+    order.order_date = inst['order_date']
+
+    return order
   end
 end

@@ -12,14 +12,7 @@ class ItemRepository
 
     result_set.each do |inst|
       # for each instance it creates a new instance and assigns corresponding atributes
-      item = Item.new
-
-      item.id = inst['id']
-      item.name = inst['name']
-      item.unit_price = inst['unit_price']
-      item.quantity = inst['quantity']
-
-      items << item
+      items << item_result(inst)
     end
 
     return items
@@ -33,14 +26,7 @@ class ItemRepository
     if result.ntuples.zero?
       return nil
     else
-      item = Item.new
-  
-      item.id = result[0]['id']
-      item.name = result[0]['name']
-      item.unit_price = result[0]['unit_price']
-      item.quantity = result[0]['quantity']
-  
-      return item
+      return item_result(result[0])
     end
   end
 
@@ -72,5 +58,18 @@ class ItemRepository
     DatabaseConnection.exec_params(sql, params)
 
     return nil
+  end
+
+  private
+
+  def item_result(inst)
+    item = Item.new
+
+    item.id = inst['id']
+    item.name = inst['name']
+    item.unit_price = inst['unit_price']
+    item.quantity = inst['quantity']
+
+    return item
   end
 end
