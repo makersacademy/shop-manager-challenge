@@ -1,7 +1,5 @@
 source 'https://rubygems.org'
 
-ruby '3.0.2'
-
 group :test do
   gem 'rspec'
   gem 'simplecov', require: false
@@ -9,7 +7,8 @@ group :test do
 end
 
 group :development, :test do
-  gem 'rubocop', '1.20'
+  gem 'rubocop', '1.51'
 end
 
-gem "pg", "~> 1.3"
+gem "pg", "~> 1.5.3"
+gem 'colorize'
