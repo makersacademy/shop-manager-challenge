@@ -84,10 +84,20 @@ class Application
         order_all = @order_repository.all
         @io.puts "----------------------------------------------------"
         @io.print "Enter the ID of the item to add: "
-        item_id = @io.gets.chomp.to_i
-        item = @item_repository.find(item_id)
-        @order_item_repository.create(order_all.last.id, item.id)
-        @io.puts "Item added to the order.\n"
+        item_id_input = @io.gets.chomp
+        item_id = item_id_input.to_i
+
+        if item_id.to_s == item_id_input && !item_id.zero?
+          item = @item_repository.find(item_id)
+          if item
+            @order_item_repository.create(order_all.last.id, item.id)
+            @io.puts "Item added to the order.\n"
+          else
+            @io.puts "Invalid item ID. Please try again.\n"
+          end
+        else
+          @io.puts "Invalid item ID. Please try again.\n"
+        end
       end
     else
       @io.puts "\nInvalid choice. Please try again."
