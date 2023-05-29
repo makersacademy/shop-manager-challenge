@@ -53,8 +53,7 @@ class Application
     @io.puts @format.header("All items") if header == true
     items = @item_repository.all
     items.each do |item|
-      @io.puts "  #{item.id}: #{item.name} – #{@format.currency(item.price)}
-       (#{item.quantity} in stock)"
+      @io.puts "  #{item.id}: #{item.name} – #{@format.currency(item.price)} (#{item.quantity} in stock)"
     end
   end
   
@@ -97,6 +96,7 @@ class Application
     order.date = Time.now
     order.items = order_items
     @order_repository.create(order)
+    @io.puts @format.string("Order placed", :green, :pad)
   end
   
   def choose_order_items
@@ -107,12 +107,21 @@ class Application
       return items if input == ""
       item = @item_repository.find(input.to_i)
       if item.quantity.to_i.zero?
-        @io.puts @format.string("Sorry, #{item.name} is out of stock.
-         Choose something different.", :red, :pad)
+        @io.puts @format.string("Sorry, #{item.name} is out of stock. Choose something different.", :red, :pad)
         next
       end
       @item_repository.update_quantity(input.to_i)
       items << input.to_i
+    end
+  end
+  
+  def view_order_items
+    @io.puts @format.string("Which order ID do you want to view items for?", :cyan, :pad)
+    input = @io.gets.chomp.to_i
+    items = @order_repository.find_items_by_order(input)
+    @io.puts @format.header("Items in order ##{input}")
+    items.each do |item|
+      @io.puts "#{item.id}: #{item.name} – #{@format.currency(item.price)}"
     end
   end
   

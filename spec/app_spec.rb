@@ -78,5 +78,12 @@ RSpec.describe Application do
       expect(items).to eq([1, 3, 7])
     end
   end
-
+  
+  describe "#view_order_items" do
+    it "shows the items in an order" do
+      allow(io).to receive(:puts).ordered
+      allow(io).to receive(:gets).and_return("1").ordered
+      allow(io).to receive(:puts).at_least(1).time.ordered  
+    end
+  end
 end

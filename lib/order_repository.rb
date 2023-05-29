@@ -31,11 +31,11 @@ class OrderRepository
   end
   
   def find_items_by_order(order_id)
-         sql = 'SELECT items.id, items.name, items.price, items.quantity
-          FROM items 
-          JOIN items_orders ON items_orders.item_id = items.id
-          JOIN orders ON items_orders.order_id = orders.id
-          WHERE orders.id = $1;'
+    sql = 'SELECT items.id, items.name, items.price, items.quantity
+      FROM items 
+      JOIN items_orders ON items_orders.item_id = items.id
+      JOIN orders ON items_orders.order_id = orders.id
+      WHERE orders.id = $1;'
     
     params = [order_id]
     results = DatabaseConnection.exec_params(sql, params)
