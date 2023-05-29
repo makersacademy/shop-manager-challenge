@@ -12,7 +12,7 @@ RSpec.describe OrderRepository do
       reset_orders_table
     end
 
-  it 'returns the list of albums' do
+  it 'returns the list of orders' do
     repo = OrderRepository.new
 
     orders = repo.all
@@ -49,6 +49,7 @@ RSpec.describe OrderRepository do
     #4
     # Creates a new order
   it 'creates a new order' do
+    
     repo = OrderRepository.new
     new_order = repo.create(customer_name: 'Billy', date_of_order: '2023-05-01')
     

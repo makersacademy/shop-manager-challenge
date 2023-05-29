@@ -48,7 +48,7 @@ Run this SQL file on the database to truncate (empty) the table, and insert the 
 
 ```bash
 psql -h 127.0.0.1 your_database_name < seeds_{table_name}.sql
-e.g psql -h 127.0.0.1 database_items < spec/seeds_items.sql
+e.g psql -h 127.0.0.1 database_orders < spec/seeds_items.sql
 ```
 
 ## 3. Define the class names
@@ -123,6 +123,7 @@ class ItemRepository
   end
 
   def create
+  # INSERT INTO items (name, unit_price, quantity, order_id) VALUES ($1, $2, $3, $4) RETURNING id, name, unit_price, quantity, order_id'
   end
 
     # Select a single record

@@ -1,55 +1,68 @@
-def reset_items_table
-  seed_sql = File.read('spec/seeds_items.sql')
-  connection = PG.connect({ host: '127.0.0.1', dbname: 'database_items_test' })
-  connection.exec(seed_sql)
-end
+require_relative '../lib/item_repo.rb'
 
-describe OrderRepository do
-  before(:each) do 
-    reset_items_table
+RSpec.describe ItemRepository do
+
+  def reset_items_table
+    seed_sql = File.read('./spec/seeds_items.sql')
+    connection = PG.connect({ host: '127.0.0.1', dbname: 'database_orders_test' })
+    connection.exec(seed_sql)
   end
 
-  # (your tests will go here).
-end
+    before(:each) do 
+      reset_items_table
+    end
 
-repo = ItemRepository.new
+    it 'returns the list of items' do
+      repo = ItemRepository.new
 
-items = repo.all
-items.length # => 2
-items.first.id # => '1'
-items.first.name # => 'Orange'
-items.first.unit_price # => '0.85'
-items.quantity # => '5'
-items.order_id # => '1'
+      items = repo.all
 
-# 2
-# Get a single order
+      expect(items.length).to eq(2) # => 2
+      expect(items.first.id).to eq('1') # => '1'
+      expect(items.first.name).to eq('Orange') # => 'Orange'
+      expect(items.first.unit_price).to eq('0.85')# => '0.85'
+      expect(items.first.quantity).to eq('5') # => '5'
+      expect(items.first.order_id).to eq('1') # => '1'
+    end 
+    # 2
+    # Get a single order
+    it 'returns item with id number 1' do 
 
-repo = ItemRepository.new
-item = repo.find(1)
-item.id # => '2'
-item.name # => 'Apple' 
-item.unit_price # => '2'
-item.quantity # => => '3'
-item.order_id # => '1'
-#3 
-# Get another single artist 
+      repo = ItemRepository.new
 
-repo = ItemRepository.new
-item = repo.find(0)
-item.id # => '1'
-item.name # => 'Orange'
-item.unit_price #=> '0.85'
-item.quantity #=> '5'
-item.order_id #=> '1'
+      item = repo.find(1)
+      expect(item.id).to eq('1') # => '1'
+      expect(item.name).to eq('Orange') # => 'Orange'
+      expect(item.unit_price).to eq('0.85')# => '0.85'
+      expect(item.quantity).to eq('5') # => '5'
+      expect(item.order_id).to eq('1') # => '1'
+      #3 
+    # Get another single artist 
+    end 
 
-#4
-# Creates a new item
-repo = ItemRepository.new
-new_item = repo.create(name: 'Biscuit', unit_price: '3.50', quantity: '5', order_id: '2')
+    it 'returns item with id number 2' do
+      repo = ItemRepository.new
 
-new_item.id
-new_item.name
-new_item.unit_prce
-new_item.quantity
-new_item.order_id
+      item = repo.find(2)
+
+      expect(item.id).to eq('2') # => '1'
+      expect(item.name).to eq('Apple') # => 'Orange'
+      expect(item.unit_price).to eq('2')# => '0.85'
+      expect(item.quantity).to eq('3') # => '5'
+      expect(item.order_id).to eq('1') # => '1'
+    end 
+    
+    it 'creates a new item called Biscuit' do 
+
+      repo = ItemRepository.new
+
+      new_item = repo.create(name: 'Biscuit', unit_price: '3.50', quantity: '5', order_id: '2')
+      
+      expect(new_item.id).to eq(3)
+      expect(new_item.name).to eq('Biscuit')
+      expect(new_item.unit_price).to eq('3.50')
+      expect(new_item.quantity).to eq('5')
+      expect(new_item.order_id).to eq('2')
+    end 
+  end
+
