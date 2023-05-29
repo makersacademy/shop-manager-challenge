@@ -28,10 +28,10 @@ INSERT INTO orders (customer_name, order_date) VALUES
   ('Sean Peters', '2023-05-26');
 
 -- Insert sample data into the order_items table
-INSERT INTO order_items (order_id, item_id) VALUES
-  (1, 1),
-  (1, 2),
-  (2, 1);
+INSERT INTO order_items (order_id, item_id, quantity) VALUES
+  (1, 1, 1),
+  (1, 2, 1),
+  (2, 1, 1);
 ```
 
 Run this SQL file on the database to truncate (empty) the table, and insert the seed data. Be mindful of the fact any existing records in the table will be deleted.
@@ -113,7 +113,13 @@ end
 # Model class
 # (in lib/order_item.rb)
 class OrderItem
-  attr_accessor :id, :order_id, :item_id
+  attr_accessor :id, :order_id, :item_id, :order, :item, :quantity
+
+  def initialize
+    @order = nil
+    @item = nil
+    @quantity = 0
+  end
 end
 
 ```
@@ -148,6 +154,17 @@ class ItemRepository
     # Returns an instance of Item object
   end
 
+  def create
+    #...
+  end
+
+  def delete
+    #...
+  end
+
+  def update
+    #...
+  end
 end
 
 # Repository class
@@ -175,6 +192,14 @@ class OrderRepository
     # Doesn't need to return anything
   end
 
+  def delete
+    #...
+  end
+
+  def update
+    #...
+  end
+
 end
 
 class OrderItemRepository
@@ -195,12 +220,9 @@ class OrderItemRepository
     # Returns nothing (only updates the record)
   end
 
-  def delete(order_id, item_id)
-    # Executes the SQL;
-    # DELETE FROM order_items WHERE order_id = $1 AND item_id = $2;
-    # Returns nothing (only deletes the record)
+  def create
+    #...
   end
-
 end
 ```
 

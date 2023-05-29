@@ -49,7 +49,7 @@ Put the different nouns in this table. Replace the example with your own nouns.
 | --------------------- | ------------------------          |
 | item                  | name, unit_price, quantity
 | order                 | customer_name, order_date
-| order_item            | order_id, item_id
+| order_item            | order_id, item_id, quantity
 
 1. Name of the first table (always plural): `items` 
 
@@ -61,7 +61,7 @@ Put the different nouns in this table. Replace the example with your own nouns.
 
 3. Name of the third table (always plural): `orders` 
 
-    Column names: `order_id`, `item_id`
+    Column names: `order_id`, `item_id`, `quantity`
 
 ## 3. Decide the column types.
 
@@ -88,6 +88,7 @@ order_date: date
 Table: order_items
 order_id: int
 item_id: int
+quantity: int
 ```
 
 ## 4. Design the Many-to-Many relationship
@@ -136,17 +137,16 @@ CREATE TABLE items (
   quantity INTEGER DEFAULT 0
 );
 
--- Create the orders table
 CREATE TABLE orders (
   id SERIAL PRIMARY KEY,
   customer_name VARCHAR(255),
   order_date DATE
 );
 
--- Create the order_items table
 CREATE TABLE order_items (
   order_id INT,
   item_id INT,
+  quantity INT,
   CONSTRAINT fk_order FOREIGN KEY (order_id) REFERENCES orders (id) ON DELETE CASCADE,
   CONSTRAINT fk_item FOREIGN KEY (item_id) REFERENCES items (id) ON DELETE CASCADE,
   PRIMARY KEY (order_id, item_id)
