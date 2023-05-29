@@ -126,11 +126,12 @@ class OrderRepository
   end
 
     # Select a single record
+    # 'INSERT INTO orders (customer_name, date_of_order) VALUES ($1, $2) RETURNING id, customer_name, date_of_order'
     # Given the id in argument(a number)
 
   def find(id) 
     # Executes the SQL query:
-    # SELECT id, name, date_of_order FROM orders WHERE id = $1
+    # SELECT id, customer_name, date_of_order FROM orders WHERE id = $1
   end 
 end
 ```
@@ -173,11 +174,11 @@ order.customer_name # => 'John'
 order.date_of_order #=> '2023-05-25'
 
 #4
-# Creates a new iteorderm
+# Creates a new order
 repo = OrderRepository.new
-new_order = repo.create(customer_name: 'Billy', date_of_order: '2023-5-01')
+new_order = repo.create(customer_name: 'Billy', date_of_order: '2023-05-01')
 
-new_order.id
+new_order.id 
 new_order.customer_name
 new_order.date_of_order
 
