@@ -24,9 +24,18 @@ RSpec.describe Application do
   
   describe "#show_menu" do
     it "show the user a menu of options" do
-      expect(io).to receive(:puts).with("Welcome to the shop management program!").ordered
-      expect(io).to receive(:puts).at_least(:once)
-      app.show_menu
+      expect(io).to receive(:puts).with("Welcome to the shop management program!\n\n").ordered
+      expect(io).to receive(:puts).at_least(6).times.ordered
+      expect(io).to receive(:gets).and_return("1").ordered
+      app.show_menu(false)
+    end
+  end
+  
+  describe "#process_selection" do
+    context "when selecting option 1" do
+      it "prints a list of all items" do
+        
+      end
     end
   end
 
