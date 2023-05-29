@@ -50,8 +50,11 @@ RSpec.describe Application do
   describe "#create_new_item" do
     it "gets the item details and passes them to ItemRepository#create" do
       expect(io).to receive(:puts).exactly(6).times.ordered
-      expect(io).to receive(:gets).exactly(3).times.and_return("Test item", "4.50", "3")
+      expect(io).to receive(:gets).exactly(3).times.and_return("New test item", "4.50", "3")
       app.create_new_item
+      repo = ItemRepository.new
+      expect(repo.all.length).to eq 11
+      expect(repo.all.last.name).to eq "New test item"
     end
   end
 
