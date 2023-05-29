@@ -11,7 +11,7 @@ class OrderRepository
     # Returns an array of Album objects.
   end
 
-  def create
+  def create(order)
   end
 
     # Select a single record
