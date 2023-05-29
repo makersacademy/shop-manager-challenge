@@ -16,22 +16,7 @@ class OrderItemRepository
     result_set = DatabaseConnection.exec_params(query, [])
 
     result_set.each do |row|
-      order = Order.new
-      order.id = row['order_id'].to_i
-      order.customer_name = row['customer_name']
-      order.order_date = row['order_date']
-
-      item = Item.new
-      item.id = row['item_id'].to_i
-      item.name = row['name']
-      item.unit_price = BigDecimal(row['unit_price'])
-      item.quantity = row['quantity'].to_i
-
-      order_item = OrderItem.new
-      order_item.order = order
-      order_item.item = item
-
-      order_items << order_item
+      order_items << result_order_item(row)
     end
 
     return order_items
@@ -52,17 +37,7 @@ class OrderItemRepository
     result_set = DatabaseConnection.exec_params(query, params)
 
     result_set.each do |row|
-      item = Item.new
-      item.id = row['item_id']
-      item.name = row['name']
-      item.unit_price = BigDecimal(row['unit_price'])
-      item.quantity = row['quantity'].to_i
-
-      order_item = OrderItem.new
-      order_item.order_id = order_id
-      order_item.item = item
-
-      order_items << order_item
+      order_items << result_item_order(row, order_id)
     end
 
     return order_items
@@ -111,5 +86,40 @@ class OrderItemRepository
     DatabaseConnection.exec_params(sql, params)
 
     return nil
+  end
+
+  private
+
+  def result_order_item(row)
+    order = Order.new
+    order.id = row['order_id'].to_i
+    order.customer_name = row['customer_name']
+    order.order_date = row['order_date']
+
+    item = Item.new
+    item.id = row['item_id'].to_i
+    item.name = row['name']
+    item.unit_price = BigDecimal(row['unit_price'])
+    item.quantity = row['quantity'].to_i
+
+    order_item = OrderItem.new
+    order_item.order = order
+    order_item.item = item
+
+    return order_item
+  end
+
+  def result_item_order(row, order_id)
+    item = Item.new
+    item.id = row['item_id']
+    item.name = row['name']
+    item.unit_price = BigDecimal(row['unit_price'])
+    item.quantity = row['quantity'].to_i
+  
+    order_item = OrderItem.new
+    order_item.order_id = order_id
+    order_item.item = item
+  
+    return order_item
   end
 end
