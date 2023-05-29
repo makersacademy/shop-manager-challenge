@@ -32,4 +32,21 @@ RSpec.describe ItemRepository do
       expect(repo.all.last.name).to eq "Bike"
     end
   end
+  
+  describe "#find" do
+    it "returns a single item" do
+      repo = ItemRepository.new
+      item = repo.find(1)
+      expect(item.name).to eq "Bread"
+    end
+  end
+  
+  describe "#update_quantity" do
+    it "reduces the stock level by 1 unit" do
+      repo = ItemRepository.new
+      repo.update_quantity(1)
+      item = repo.find(1)
+      expect(item.quantity).to eq "9"
+    end
+  end
 end
