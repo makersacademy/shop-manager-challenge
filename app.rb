@@ -9,59 +9,78 @@ DatabaseConnection.connect('database_orders')
 order_repository = OrderRepository.new
 item_repository = ItemRepository.new
 
-puts <<-TEXT 
- Welcome to the shop management program!
- What do you want to do?
-    1 = list all shop items
-    2 = create a new item
-    3 = list all orders
-    4 = create a new order
-TEXT
+class Application
+  def initialize(io, order_repository, item_repository)
+    @io = io
+    @order_repository = order_repository
+    @item_repository = item_repository
+  end
 
-user_input = gets.chomp
-
-case user_input
- when '1' 
-    puts "Here is a list of all shop items:"
-    item_repository.all.each do |item|
-      puts <<-TEXT
-      Name: #{item.name}
-      Unit Price: #{item.unit_price}
-      Quantity: #{item.quantity}
-      Order ID: #{item.order_id}
-
+  def run
+    @io.puts <<-TEXT 
+    Welcome to the shop management program!
+    What do you want to do?
+        1 = list all shop items
+        2 = create a new item
+        3 = list all orders
+        4 = create a new order
     TEXT
-  end 
-  
-  when '2'
-    puts "Create a new item"
-    puts "Type name of item:"
-    name = gets.chomp
-    puts "Type unit price of item:"
-    unit_price = gets.chomp
-    puts "Type quantity:"
-    quantity = gets.chomp
 
-    item_repository.create(name, unit_price, quantity)
+    user_input = @io.gets.chomp
 
-  when '3' 
-    puts 'Here is a list of all shop orders:'
-    order_repository.all.each do |order|
-      puts <<-TEXT
-      Customer Name: #{order.customer_name}
-      Date of Order: #{order.date_of_order}
+    case user_input
+    when '1' 
+        @io.puts "Here is a list of all shop items:"
+        @item_repository.all.each do |item|
+          @io.puts <<-TEXT
+          Name: #{item.name}
+          Unit Price: #{item.unit_price}
+          Quantity: #{item.quantity}
+          Order ID: #{item.order_id}
 
-      TEXT
+        TEXT
+      end 
+      
+      when '2'
+        @io.puts "Create a new item"
+        @io.puts "Type name of item:"
+        name = @io.gets.chomp
+        @io.puts "Type unit price of item:"
+        unit_price = @io.gets.chomp
+        @io.puts "Type quantity:"
+        quantity = @io.gets.chomp
+
+        @item_repository.create(name, unit_price, quantity)
+
+      when '3' 
+        @io.puts 'Here is a list of all shop orders:'
+        @order_repository.all.each do |order|
+          @io.puts <<-TEXT
+          Customer Name: #{order.customer_name}
+          Date of Order: #{order.date_of_order}
+
+          TEXT
+        end 
+
+      when '4'
+        @io.puts 'Create a new order'
+        @io.puts "Type customer name:"
+        customer_name = @io.gets.chomp
+        @io.puts "Type date of order"
+        date_of_order = @io.gets.chomp
+
+        @order_repository.create(customer_name, date_of_order)
     end 
+  end 
 
-  when '4'
-    puts 'Create a new order'
-    puts "Type customer name:"
-    customer_name = gets.chomp
-    puts "Type date of order"
-    date_of_order = gets.chomp
-
-    order_repository.create(customer_name, date_of_order)
+  if __FILE__ == $0
+    app = Application.new(
+      Kernel,
+      OrderRepository.new,
+      ItemRepository.new,
+    )
+    app.run
+  end
 end 
 
 # Print out each record from the result set.
@@ -77,3 +96,13 @@ end
 
 order = order_repository.find(1)
 puts order.customer_name
+
+RSpec.describe Application do
+
+  it 'returns a list of all shop items'
+  io = double : io
+  expect(io).to receive(:puts). with("Here is a list of all shop items:")
+  expect(items_repository).to recieve(:gets).and_return()
+end 
+
+=end
